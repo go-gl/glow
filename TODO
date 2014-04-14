@@ -1,0 +1,7 @@
+Work to Consider
+================
+- Fix OpenGL 4 types
+- Fix debug proc
+- Parallelize XML downloads
+- Improve option parsing
+- Refactor?

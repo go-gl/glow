@@ -21,3 +21,9 @@ _testmain.go
 
 *.exe
 *.test
+
+# Temporary directories
+gl
+gldocs
+glspecs
+examples/test

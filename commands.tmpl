@@ -1,0 +1,91 @@
+// Glow automatically generated OpenGL binding: http://github.com/errcw/glow
+//
+// Copyright (c) 2010 Khronos Group.
+// This material may be distributed subject to the terms and conditions
+// set forth in the Open Publication License, v 1.0, 8 June 1999.
+// http://opencontent.org/openpub/.
+// 
+// Copyright (c) 1991-2006 Silicon Graphics, Inc.
+// This document is licensed under the SGI Free Software B License.
+// For details, see http://oss.sgi.com/projects/FreeB.
+
+package gl
+
+{{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
+{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.CName}}{{end}}{{end}}
+{{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
+{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CgoConversion}}({{$p.GoName}}){{end}}{{end}}
+
+// #cgo darwin  LDFLAGS: -framework OpenGL
+// #cgo linux   LDFLAGS: -lGL
+// #cgo windows LDFLAGS: -lopengl32
+//
+// #ifndef APIENTRY
+// #define APIENTRY
+// #endif
+// #ifndef APIENTRYP
+// #define APIENTRYP APIENTRY *
+// #endif
+// #ifndef GLAPI
+// #define GLAPI extern
+// #endif
+//
+// {{range .TypeDefs}}
+// {{if and (ne .Name "khrplatform") (eq .Api "")}}{{replace .CDefinition "\n" "\n// " -1}}{{end}}
+// {{end}}
+//
+// {{range .Functions}}
+// typedef {{.Return.CType}} (APIENTRYP PGL{{toUpper .Name}})({{template "paramsCDecl" .Parameters}});
+// {{end}}
+//
+// {{range .Functions}}
+// {{.Return.CType}} glow{{.Name}}(PGL{{toUpper .Name}} glfptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+//   {{if not .Return.IsVoid}}return {{end}}(*glfptr)({{template "paramsCCall" .Parameters}});
+// }
+// {{end}}
+// 
+import "C"
+import "errors"
+import "github.com/errcw/glow/glt"
+import "github.com/errcw/glow/procaddr"
+import "unsafe"
+
+var (
+  {{range .Functions}}
+  pgl{{.Name}} C.PGL{{toUpper .Name}}
+  {{end}}
+)
+
+// Conversion functions
+func GLBoolean(b C.GLboolean) bool {
+	return b == TRUE
+}
+func GoBoolean(b bool) C.GLboolean {
+	if b { return TRUE }
+	return FALSE
+}
+func cgoPtr1(p *glt.Pointer) *unsafe.Pointer {
+	return (*unsafe.Pointer)(unsafe.Pointer(p))
+}
+func cgoChar2(p **int8) **C.GLchar {
+	return (**C.GLchar)(unsafe.Pointer(p))
+}
+
+{{/* TODO add function docs */}}
+{{define "bridgeCall"}}C.glow{{.Name}}(pgl{{.Name}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
+{{range .Functions}}
+{{if ne .Doc ""}}// {{.Doc}}{{end}}
+func {{.Name}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
+  {{if .Return.IsVoid}}{{template "bridgeCall" .}}
+  {{else}}return {{.Return.GoConversion}}({{template "bridgeCall" .}}){{end}}
+}
+{{end}}
+
+func Init() error {
+  {{range .Functions}}
+  if pgl{{.Name}} = (C.PGL{{toUpper .Name}})(unsafe.Pointer(procaddr.GetProcAddress("gl{{.Name}}"))); pgl{{.Name}} == nil {
+    return errors.New("gl{{.Name}}")
+  }
+  {{end}}
+	return nil
+}
