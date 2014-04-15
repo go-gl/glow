@@ -7,78 +7,49 @@ import (
 	"path/filepath"
 )
 
-func generateGoPackages(specsDir string, f []Feature, doc *Documentation) {
-	ps, err := ParseSpecFile(filepath.Join(specsDir, openGLSpecFile), f)
-	if err != nil {
-		fmt.Println("Error while parsing OpenGL specification:", err)
-	}
-	doc.AnnotatePackages(ps)
-	err = ps.GeneratePackages()
-	if err != nil {
-		fmt.Println("Error while generating OpenGL packages:", err)
-	}
-}
+func downloadSpecs(name string, args []string) {
+	flags := flag.NewFlagSet(name, flag.ExitOnError)
+	specURL := flags.String("url", "khronos", "Source URL or 'khronos'.")
+	specDir := flags.String("d", "glspecs", "Output directory for spec files.")
+	flags.Parse(args)
 
-func downloadSpec(name string, args []string) {
-	fs := flag.NewFlagSet(name, flag.ExitOnError)
-	src := fs.String("src", "khronos", "Source URL or 'khronos'.")
-	odir := fs.String("odir", "glspecs", "Output directory for spec files.")
-	fs.Parse(args)
-	fmt.Println("Downloading specs ...")
-	if *src == "khronos" {
-		*src = khronosRegistryBaseURL
+	if *specURL == "khronos" {
+		*specURL = khronosRegistryBaseURL
 	}
-	err := downloadAllSpecs(*src, *odir)
-	if err != nil {
-		fmt.Println("Error while downloading docs:", err)
-	}
-}
 
-func downloadDoc(name string, args []string) {
-	fs := flag.NewFlagSet(name, flag.ExitOnError)
-	src := fs.String("src", "khronos", "Source URL or 'khronos'.")
-	odir := fs.String("odir", "gldocs", "Output directory for doc files.")
-	ver := fs.Int("ver", -1, "Doc version: 2, 3, 4")
-	fs.Parse(args)
-	if *ver < 2 || *ver > 4 {
-		fmt.Println("Invalid doc version:", *ver)
-		return
-	}
-	fmt.Println("Downloading docs ...")
-	if *src == "khronos" {
-		*src = khronosDocBaseURL
-	}
-	err := DownloadDocs(*src, fmt.Sprintf("man%d", *ver), *odir)
+	err := DownloadAllSpecs(*specURL, *specDir)
 	if err != nil {
 		fmt.Println("Error while downloading docs:", err)
 	}
 }
 
 func generatePackages(name string, args []string) {
-	fs := flag.NewFlagSet(name, flag.ExitOnError)
-	sdir := fs.String("sdir", "glspecs", "OpenGL spec directory.")
-	ddir := fs.String("ddir", "gldocs", "Documentation directory.")
-	feat := fs.String("f", "", "Spec features and version seperated by '|', e.g., -f=gl:2.1|gles1:1.0")
-	fs.Parse(args)
-	df, err := ParseAllDocs(*ddir)
+	flags := flag.NewFlagSet(name, flag.ExitOnError)
+	specDir := flags.String("d", "glspecs", "OpenGL spec file directory.")
+	featuresSpec := flags.String("f", "", "Spec features and version seperated by '|', e.g., -f=gl:2.1|gles1:1.0")
+	flags.Parse(args)
+
+	features, err := ParseFeatureList(*featuresSpec)
 	if err != nil {
-		fmt.Println("Error while parsing docs:", err)
+		fmt.Println("Error parsing feature arguments:", err)
 		return
 	}
-	f, err := ParseFeatureList(*feat)
+
+	spec, err := ParseSpecFile(filepath.Join(*specDir, openGLSpecFile), features)
 	if err != nil {
-		fmt.Println("Error while parsing feature arguments:", err)
-		return
+		fmt.Println("Error parsing OpenGL specification:", err)
 	}
-	fmt.Println("Generate Bindings ...")
-	generateGoPackages(*sdir, f, df)
+
+	err = spec.GeneratePackages()
+	if err != nil {
+		fmt.Println("Error generating Go packages:", err)
+	}
 }
 
 func printUsage(name string) {
 	fmt.Printf("Usage:     %s command [arguments]\n", name)
 	fmt.Println("Commands:")
-	fmt.Println(" pullspec  Download spec files.")
-	fmt.Println(" pulldoc   Download documentation files.")
+	fmt.Println(" pullspecs Download specification files.")
 	fmt.Println(" generate  Generate bindings.")
 	fmt.Printf("Type %s <command> -help for a detailed command description.\n", name)
 }
@@ -95,10 +66,8 @@ func main() {
 	command := args[0]
 
 	switch command {
-	case "pullspec":
-		downloadSpec("pullspec", args[1:])
-	case "pulldoc":
-		downloadDoc("pulldoc", args[1:])
+	case "pullspecs":
+		downloadSpecs("pullspecs", args[1:])
 	case "generate":
 		generatePackages("generate", args[1:])
 	default:
