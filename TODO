@@ -4,4 +4,6 @@ Work to Consider
 - Fix debug proc
 - Parallelize XML downloads
 - Improve option parsing
+- Add doc URL
+- Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
 - Refactor?
