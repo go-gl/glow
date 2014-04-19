@@ -27,3 +27,6 @@ gl
 gldocs
 glspecs
 examples/test
+
+# Vim
+*.swp
