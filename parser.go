@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 )
@@ -111,7 +112,6 @@ func (st *SpecType) Parse() (TypeDef, error) {
 		}
 		switch t := token.(type) {
 		case xml.CharData:
-			//	fmt.Println("- ", (string)(t))
 			typed.CDefinition += (string)(t)
 			if readName {
 				typed.Name = (string)(t)
@@ -133,7 +133,6 @@ func (st *SpecType) Parse() (TypeDef, error) {
 			}
 		}
 	}
-	//fmt.Println("-", typed)
 	return typed, nil
 }
 
@@ -167,7 +166,6 @@ func (si SpecSignature) Parse() (string, Type, error) {
 		switch t := token.(type) {
 		case xml.CharData:
 			s := strings.Trim((string)(t), " ")
-			//fmt.Println(" char", s)
 			if readName {
 				name = TrimGLCmdPrefix(s)
 			} else if readType {
@@ -198,7 +196,6 @@ func (si SpecSignature) Parse() (string, Type, error) {
 				return name, ctype, fmt.Errorf("Unknown %s", s)
 			}
 		case xml.StartElement:
-			//fmt.Println(" se", t.Name.Local)
 			if t.Name.Local == "ptype" {
 				readType = true
 			} else if t.Name.Local == "name" {
@@ -207,7 +204,6 @@ func (si SpecSignature) Parse() (string, Type, error) {
 				return name, ctype, fmt.Errorf("Wrong start element: %s", t.Name.Local)
 			}
 		case xml.EndElement:
-			//fmt.Println(" ee", t.Name.Local)
 			if t.Name.Local == "ptype" {
 				readType = false
 			} else if t.Name.Local == "name" {
@@ -251,7 +247,6 @@ func commandsToFunctions(commands []SpecCommand) Functions {
 					parameters = append(parameters, Parameter{Name: pname, Type: pt})
 				}
 			}
-			//fmt.Println(cname)
 			functions[cname] = &Function{Name: cname, Parameters: parameters, Return: ct}
 		}
 	}
@@ -260,7 +255,6 @@ func commandsToFunctions(commands []SpecCommand) Functions {
 
 func findEnum(enumName string, est []SpecEnumToken) (string, string) {
 	for _, es := range est {
-		//fmt.Println(es.Type)
 		for _, e := range es.Enums {
 			if e.Name == enumName {
 				return e.Value, es.Group
@@ -285,7 +279,6 @@ func addEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef, et 
 			if val == "" {
 				fmt.Println("Not found:", en.Name)
 			}
-			//fmt.Println("adding", en)
 			pc.Enums[en.Name] = &Enum{Name: TrimGLEnumPrefix(en.Name), Value: val, Group: grp}
 		}
 	}
@@ -309,31 +302,26 @@ func removeEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef) 
 	}
 }
 
-func addCommands(ps Packages, api string, ver Version, cmdNames []SpecCommandRef, functions Functions) {
-	//fmt.Println("Adding commands from version", api, ver , "to")
-	for _, pc := range ps {
-		if pc.Api != api {
+func addCommands(pkgs Packages, api string, ver Version, cmdNames []SpecCommandRef, functions Functions) {
+	for _, pkg := range pkgs {
+		if pkg.Api != api {
 			continue
 		}
-		if pc.Version.Compare(ver) < 0 {
+		if pkg.Version.Compare(ver) < 0 {
 			continue
 		}
-		//fmt.Println(" package", pc.Api, pc.Version)
-		for _, cn := range cmdNames {
-			fname := TrimGLCmdPrefix(cn.Name)
-			f, ok := functions[fname]
+		for _, cmd := range cmdNames {
+			fnName := TrimGLCmdPrefix(cmd.Name)
+			fn, ok := functions[fnName]
 			if !ok {
-				fmt.Println("add cmd: Cmd not found:", fname)
-			} else {
-				//fmt.Println("adding", cn)
-				pc.Functions[fname] = f
+				log.Fatal("Function not found", fnName)
 			}
+			pkg.Functions[fnName] = fn
 		}
 	}
 }
 
 func removeCommands(ps Packages, api string, ver Version, cmdNames []SpecCommandRef) {
-	//fmt.Println("Removing commands from version", api, ver, "to")
 	for _, pc := range ps {
 		if pc.Api != api {
 			continue
@@ -341,7 +329,6 @@ func removeCommands(ps Packages, api string, ver Version, cmdNames []SpecCommand
 		if pc.Version.Compare(ver) < 0 {
 			continue
 		}
-		//fmt.Println(" package", pc.Api, pc.Version)
 		for _, cn := range cmdNames {
 			fname := TrimGLCmdPrefix(cn.Name)
 			if _, ok := pc.Functions[fname]; !ok {
@@ -375,7 +362,13 @@ func ParseSpecFile(file string, fs Features) (Packages, error) {
 		}
 		if fs.HasFeature(ft.Api, version) {
 			fmt.Println("Adding", ft.Name, ft.Api, ft.Number)
-			p := &Package{Api: ft.Api, Name: ft.Api, Version: version, TypeDefs: tds, Enums: make(Enums), Functions: make(Functions)}
+			p := &Package{
+				Api:       ft.Api,
+				Name:      ft.Api,
+				Version:   version,
+				TypeDefs:  tds,
+				Enums:     make(Enums),
+				Functions: make(Functions)}
 			pacs = append(pacs, p)
 		}
 	}
