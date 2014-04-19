@@ -71,10 +71,9 @@ func cgoChar2(p **int8) **C.GLchar {
 	return (**C.GLchar)(unsafe.Pointer(p))
 }
 
-{{/* TODO add function docs */}}
 {{define "bridgeCall"}}C.glow{{.Name}}(pgl{{.Name}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
-{{if ne .Doc ""}}// {{.Doc}}{{end}}
+// {{doc .Name}}
 func {{.Name}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
   {{else}}return {{.Return.GoConversion}}({{template "bridgeCall" .}}){{end}}

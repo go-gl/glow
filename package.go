@@ -19,6 +19,15 @@ type Package struct {
 
 type Packages []*Package
 
+const docURLFmt = "https://www.opengl.org/sdk/docs/man%d/html/%s%s.xhtml"
+
+// TODO Map documentation URL by version number
+// TODO Strip suffixes to construct URLs
+
+func (p *Package) doc(fnName string) string {
+	return fmt.Sprintf(docURLFmt, p.Version.Major, p.Api, fnName)
+}
+
 func (p *Package) writeEnums(dir string) error {
 	w, err := os.Create(filepath.Join(dir, "enums.go"))
 	if err != nil {
@@ -38,6 +47,7 @@ func (p *Package) writeCommands(dir string) error {
 	fns := template.FuncMap{
 		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
+		"doc":     p.doc,
 	}
 	tmpl := template.Must(template.New("commands.tmpl").Funcs(fns).ParseFiles("commands.tmpl"))
 	return tmpl.Execute(NewBlankLineStrippingWriter(w), p)
