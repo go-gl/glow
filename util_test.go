@@ -1,20 +1,13 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
-type testEnumPrefix struct {
-	In  string
-	Out string
+type trimGLEnumPrefixTest struct {
+	in       string
+	expected string
 }
 
-type testCamelCase struct {
-	In  string
-	Out string
-}
-
-var allTestsEnumPrefix = []testEnumPrefix{
+var trimGLEnumPrefixTests = []trimGLEnumPrefixTest{
 	{"", ""},
 	{"_", "_"},
 	{"GL_", ""},
@@ -24,32 +17,12 @@ var allTestsEnumPrefix = []testEnumPrefix{
 	{"GL", "GL"},
 }
 
-var allTestsCamelCase = []testCamelCase{
-	{"", ""},
-	{"_", ""},
-	{"ARB_multisample", "ARBMultisample"},
-	{"vertex_array_object", "VertexArrayObject"},
-	{"a_b_c_", "ABC"},
-	{"ABC", "ABC"},
-	{"1_2_", "12"},
-}
-
-func TestCamelCase(t *testing.T) {
-	for i := range allTestsCamelCase {
-		te := &allTestsCamelCase[i]
-		cc := CamelCase(te.In)
-		if cc != te.Out {
-			t.Errorf("CamelCase() failed: %s -> %s (%s != %s)", te.In, te.Out, cc, te.Out)
-		}
-	}
-}
-
 func TestEnumPrefix(t *testing.T) {
-	for i := range allTestsEnumPrefix {
-		te := &allTestsEnumPrefix[i]
-		tr := TrimGLEnumPrefix(te.In)
-		if tr != te.Out {
-			t.Errorf("TrimGLEnumPrefix() failed: %s -> %s (%s != %s)", te.In, te.Out, tr, te.Out)
+	for i := range trimGLEnumPrefixTests {
+		test := &trimGLEnumPrefixTests[i]
+		trimmed := TrimGLEnumPrefix(test.in)
+		if trimmed != test.expected {
+			t.Errorf("TrimGLEnumPrefix(%s) failed: %s != %s", test.in, test.expected, trimmed)
 		}
 	}
 }

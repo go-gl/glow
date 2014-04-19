@@ -4,26 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"strconv"
 	"strings"
 	"unicode"
 )
-
-type ParamLenType int
-
-const (
-	ParamLenTypeUnknown ParamLenType = iota
-	ParamLenTypeParamRef
-	ParamLenTypeValue
-	ParamLenTypeCompSize
-)
-
-type ParamLen struct {
-	Type     ParamLenType
-	ParamRef string
-	Value    int
-	Params   string
-}
 
 func TrimGLCmdPrefix(str string) string {
 	if strings.HasPrefix(str, "gl") {
@@ -57,19 +40,6 @@ func TrimGLEnumPrefix(str string) string {
 	return t
 }
 
-func ParseLenString(lenStr string) ParamLen {
-	if strings.HasPrefix(lenStr, "COMPSIZE") {
-		p := strings.TrimSuffix(strings.TrimPrefix(lenStr, "COMPSIZE("), ")")
-		return ParamLen{Type: ParamLenTypeCompSize, Params: p}
-	}
-	n, err := strconv.ParseInt(lenStr, 10, 32)
-	if err == nil {
-		return ParamLen{Type: ParamLenTypeValue, Value: (int)(n)}
-	}
-	return ParamLen{Type: ParamLenTypeParamRef, ParamRef: lenStr}
-}
-
-// Prevent name clashes.
 func RenameIfReservedCWord(word string) string {
 	switch word {
 	case "near", "far":
@@ -78,32 +48,12 @@ func RenameIfReservedCWord(word string) string {
 	return word
 }
 
-// Prevent name clashes.
 func RenameIfReservedGoWord(word string) string {
 	switch word {
 	case "func", "type", "struct", "range", "map", "string":
 		return fmt.Sprintf("gl%s", word)
 	}
 	return word
-}
-
-// Converts strings with underscores to Go-like names. e.g.: bla_blub_foo -> BlaBlubFoo
-func CamelCase(n string) string {
-	prev := '_'
-	return strings.Map(
-		func(r rune) rune {
-			if r == '_' {
-				prev = r
-				return -1
-			}
-			if prev == '_' {
-				prev = r
-				return unicode.ToTitle(r)
-			}
-			prev = r
-			return r
-		},
-		n)
 }
 
 // Writer that removes whitespace- or comment-only lines delimited by \n
