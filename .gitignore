@@ -22,11 +22,10 @@ _testmain.go
 *.exe
 *.test
 
-# Temporary directories
-gl
-gldocs
-glspecs
+# Temporary/output directories
 examples/test
+gl
+xml
 
 # Vim
 *.swp

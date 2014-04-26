@@ -1,60 +1,84 @@
 package main
 
 import (
-	"fmt"
+	"encoding/xml"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
+	"sync"
 )
 
-const (
-	khronosRegistryBaseURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
-	openGLSpecFile         = "gl.xml"
-	eglSpecFile            = "egl.xml"
-	wglSpecFile            = "wgl.xml"
-	glxSpecFile            = "glx.xml"
-)
-
-func DownloadAllSpecs(baseURL, outDir string) error {
-	if err := downloadFile(baseURL, openGLSpecFile, outDir, openGLSpecFile); err != nil {
-		return err
-	}
-	if err := downloadFile(baseURL, wglSpecFile, outDir, wglSpecFile); err != nil {
-		return err
-	}
-	if err := downloadFile(baseURL, glxSpecFile, outDir, glxSpecFile); err != nil {
-		return err
-	}
-	if err := downloadFile(baseURL, eglSpecFile, outDir, eglSpecFile); err != nil {
-		return err
-	}
-	return nil
+type svnIndex struct {
+	XMLName xml.Name   `xml:"svn"`
+	Entries []svnEntry `xml:"index>file"`
 }
 
-func downloadFile(baseURL, fileName, outDir, outFile string) error {
-	fullURL := fmt.Sprintf("%s/%s", baseURL, fileName)
-	fmt.Printf("Downloading %s...\n", fullURL)
-	r, err := http.Get(fullURL)
+type svnEntry struct {
+	Name string `xml:"href,attr"`
+}
+
+// DownloadSvnDir reads an SVN HTML directory index and downloads all the listed XML files
+func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) error {
+	response, err := http.Get(svnDirUrl)
 	if err != nil {
 		return err
 	}
-	defer r.Body.Close()
-	data, err := ioutil.ReadAll(r.Body)
+	defer response.Body.Close()
+
+	var index svnIndex
+
+	decoder := xml.NewDecoder(response.Body)
+	if err := decoder.Decode(&index); err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(outDir, 0755); err != nil {
+		return err
+	}
+
+	var downloadErr error = nil
+
+	wg := new(sync.WaitGroup)
+	for _, e := range index.Entries {
+		if filter.MatchString(e.Name) {
+			url := svnDirUrl + "/" + e.Name
+			file := filepath.Join(outDir, e.Name)
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				if err := downloadFile(url, file); err != nil {
+          // Choose an arbitrary error to report
+					downloadErr = err
+				}
+			}()
+		}
+	}
+	wg.Wait()
+
+	return downloadErr
+}
+
+func downloadFile(url, file string) error {
+	log.Println("Downloading", url)
+
+	response, err := http.Get(url)
 	if err != nil {
 		return err
 	}
-	absPath, err := filepath.Abs(outDir)
+	defer response.Body.Close()
+
+	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return err
 	}
-	err = os.MkdirAll(absPath, 0755)
+
+	err = ioutil.WriteFile(file, body, 0644)
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(filepath.Join(absPath, outFile), data, 0644)
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
