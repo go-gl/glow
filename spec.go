@@ -10,18 +10,15 @@ import (
 	"strings"
 )
 
-type SpecRegistry struct {
-	XMLName  xml.Name        `xml:"registry"`
-	Comment  string          `xml:"comment"`
-	Types    []SpecType      `xml:"types>type"`
-	Groups   []SpecGroup     `xml:"groups>group"`
-	Enums    []SpecEnumToken `xml:"enums"`
-	Commands []SpecCommand   `xml:"commands>command"`
-	Features []SpecFeature   `xml:"feature"`
-	// TODO: extensions
+type specRegistry struct {
+	XMLName  xml.Name      `xml:"registry"`
+	Types    []specType    `xml:"types>type"`
+	Enums    []specEnumSet `xml:"enums"`
+	Commands []specCommand `xml:"commands>command"`
+	Features []specFeature `xml:"feature"`
 }
 
-type SpecType struct {
+type specType struct {
 	Name     string `xml:"name,attr"`
 	Comment  string `xml:"comment,attr"`
 	Requires string `xml:"requires,attr"`
@@ -29,76 +26,69 @@ type SpecType struct {
 	Inner    []byte `xml:",innerxml"`
 }
 
-type SpecGroup struct {
-	Name    string      `xml:"name,attr"`
-	Comment string      `xml:"comment,attr"`
-	Enums   []SpecGEnum `xml:"enum"`
-}
-
 type SpecGEnum struct {
 	Name string `xml:"name,attr"`
 }
 
-type SpecEnumToken struct {
-	Namespace string      `xml:"namespace,attr"`
-	Group     string      `xml:"group,attr"`
-	Type      string      `xml:"type,attr"`
-	Comment   string      `xml:"comment,attr"`
-	Enums     []SpecTEnum `xml:"enum"`
-	// TODO: vendor, start, end attr
+type specEnumSet struct {
+	Namespace string     `xml:"namespace,attr"`
+	Group     string     `xml:"group,attr"`
+	Type      string     `xml:"type,attr"`
+	Comment   string     `xml:"comment,attr"`
+	Enums     []specEnum `xml:"enum"`
 }
 
-type SpecTEnum struct {
+type specEnum struct {
 	Value string `xml:"value,attr"`
 	Name  string `xml:"name,attr"`
 }
 
-type SpecCommand struct {
-	Proto  SpecProto   `xml:"proto"`
-	Params []SpecParam `xml:"param"`
+type specCommand struct {
+	Proto  specProto   `xml:"proto"`
+	Params []specParam `xml:"param"`
 }
 
-type SpecSignature []byte
+type specSignature []byte
 
-type SpecProto struct {
-	Inner SpecSignature `xml:",innerxml"`
+type specProto struct {
+	Inner specSignature `xml:",innerxml"`
 }
 
-type SpecParam struct {
+type specParam struct {
 	Group string        `xml:"group,attr"`
 	Len   string        `xml:"len,attr"`
-	Inner SpecSignature `xml:",innerxml"`
+	Inner specSignature `xml:",innerxml"`
 }
 
-type SpecFeature struct {
+type specFeature struct {
 	Api      string        `xml:"api,attr"`
 	Name     string        `xml:"name,attr"`
 	Number   string        `xml:"number,attr"`
-	Requires []SpecRequire `xml:"require"`
-	Removes  []SpecRemove  `xml:"remove"`
+	Requires []specRequire `xml:"require"`
+	Removes  []specRemove  `xml:"remove"`
 }
 
-type SpecRequire struct {
+type specRequire struct {
 	Comment  string           `xml:"comment,attr"`
-	Enums    []SpecEnumRef    `xml:"enum"`
-	Commands []SpecCommandRef `xml:"command"`
+	Enums    []specEnumRef    `xml:"enum"`
+	Commands []specCommandRef `xml:"command"`
 }
 
-type SpecRemove struct {
+type specRemove struct {
 	Comment  string           `xml:"comment,attr"`
-	Enums    []SpecEnumRef    `xml:"enum"`
-	Commands []SpecCommandRef `xml:"command"`
+	Enums    []specEnumRef    `xml:"enum"`
+	Commands []specCommandRef `xml:"command"`
 }
 
-type SpecEnumRef struct {
+type specEnumRef struct {
 	Name string `xml:"name,attr"`
 }
 
-type SpecCommandRef struct {
+type specCommandRef struct {
 	Name string `xml:"name,attr"`
 }
 
-func (st *SpecType) Parse() (TypeDef, error) {
+func (st *specType) Parse() (TypeDef, error) {
 	typed := TypeDef{Name: st.Name, Comment: st.Comment, Api: st.Api, CDefinition: ""}
 	readName := false
 	decoder := xml.NewDecoder(bytes.NewBuffer(st.Inner))
@@ -136,7 +126,7 @@ func (st *SpecType) Parse() (TypeDef, error) {
 	return typed, nil
 }
 
-func (r SpecRegistry) ParseTypedefs() ([]TypeDef, error) {
+func (r specRegistry) ParseTypedefs() ([]TypeDef, error) {
 	tdefs := make([]TypeDef, 0, len(r.Types))
 	for _, s := range r.Types {
 		td, err := s.Parse()
@@ -148,7 +138,7 @@ func (r SpecRegistry) ParseTypedefs() ([]TypeDef, error) {
 	return tdefs, nil
 }
 
-func (si SpecSignature) Parse() (string, Type, error) {
+func (si specSignature) Parse() (string, Type, error) {
 	name := ""
 	ctype := Type{}
 	readName := false
@@ -216,8 +206,8 @@ func (si SpecSignature) Parse() (string, Type, error) {
 	return name, ctype, nil
 }
 
-func readSpecFile(file string) (*SpecRegistry, error) {
-	var reg SpecRegistry
+func readSpecFile(file string) (*specRegistry, error) {
+	var reg specRegistry
 	f, err := os.Open(file)
 	if err != nil {
 		return nil, err
@@ -231,7 +221,7 @@ func readSpecFile(file string) (*SpecRegistry, error) {
 	return &reg, nil
 }
 
-func commandsToFunctions(commands []SpecCommand) Functions {
+func commandsToFunctions(commands []specCommand) Functions {
 	functions := make(Functions)
 	for _, c := range commands {
 		cname, ct, err := c.Proto.Inner.Parse()
@@ -253,7 +243,7 @@ func commandsToFunctions(commands []SpecCommand) Functions {
 	return functions
 }
 
-func findEnum(enumName string, est []SpecEnumToken) (string, string) {
+func findEnum(enumName string, est []specEnumSet) (string, string) {
 	for _, es := range est {
 		for _, e := range es.Enums {
 			if e.Name == enumName {
@@ -264,7 +254,7 @@ func findEnum(enumName string, est []SpecEnumToken) (string, string) {
 	return "", ""
 }
 
-func addEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef, et []SpecEnumToken) {
+func addEnums(ps Packages, api string, ver Version, enumNames []specEnumRef, et []specEnumSet) {
 	fmt.Println("Adding enums from version", api, ver, "to")
 	for _, pc := range ps {
 		if pc.Api != api {
@@ -284,7 +274,7 @@ func addEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef, et 
 	}
 }
 
-func removeEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef) {
+func removeEnums(ps Packages, api string, ver Version, enumNames []specEnumRef) {
 	fmt.Println("Removing enums from version", api, ver, "to")
 	for _, pc := range ps {
 		if pc.Api != api {
@@ -302,7 +292,7 @@ func removeEnums(ps Packages, api string, ver Version, enumNames []SpecEnumRef) 
 	}
 }
 
-func addCommands(pkgs Packages, api string, ver Version, cmdNames []SpecCommandRef, functions Functions) {
+func addCommands(pkgs Packages, api string, ver Version, cmdNames []specCommandRef, functions Functions) {
 	for _, pkg := range pkgs {
 		if pkg.Api != api {
 			continue
@@ -321,7 +311,7 @@ func addCommands(pkgs Packages, api string, ver Version, cmdNames []SpecCommandR
 	}
 }
 
-func removeCommands(ps Packages, api string, ver Version, cmdNames []SpecCommandRef) {
+func removeCommands(ps Packages, api string, ver Version, cmdNames []specCommandRef) {
 	for _, pc := range ps {
 		if pc.Api != api {
 			continue
@@ -355,13 +345,11 @@ func ParseSpecFile(file string, fs Features) (Packages, error) {
 	}
 
 	for _, ft := range reg.Features {
-		fmt.Println("Feature:", ft.Name, ft.Api, ft.Number)
 		version, err := ParseVersion(ft.Number)
 		if err != nil {
 			return nil, err
 		}
 		if fs.HasFeature(ft.Api, version) {
-			fmt.Println("Adding", ft.Name, ft.Api, ft.Number)
 			p := &Package{
 				Api:       ft.Api,
 				Name:      ft.Api,

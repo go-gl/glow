@@ -2,8 +2,7 @@ Work to Consider
 ================
 - Fix OpenGL 4 types
 - Fix debug proc
-- Parallelize XML downloads
-- Improve option parsing
 - Add doc URL
 - Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
 - Refactor?
+- Extensions (commands & enums outside core GL features)
