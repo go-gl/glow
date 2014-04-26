@@ -46,7 +46,7 @@ func download(name string, args []string) {
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	specDir := flags.String("d", "xml", "XML directory.")
+	xmlDir := flags.String("d", "xml", "XML directory.")
 	featuresSpec := flags.String("f", "", "Spec features and version seperated by '|', e.g., -f=gl:2.1|gles1:1.0")
 	flags.Parse(args)
 
@@ -57,7 +57,8 @@ func generate(name string, args []string) {
 
 	// Read all spec files up front (parser.go)
 	// Find and emit the requested features
-	spec, err := ParseSpecFile(filepath.Join(*specDir, "gl.xml"), features)
+	glSpecPath := filepath.Join(*xmlDir, "spec", "gl.xml")
+	spec, err := ParseSpecFile(glSpecPath, features)
 	if err != nil {
 		log.Fatal("Error parsing OpenGL specification:", err)
 	}
