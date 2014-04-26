@@ -9,11 +9,6 @@ import (
 	"regexp"
 )
 
-const (
-	specDir = "spec"
-	docDir  = "doc"
-)
-
 var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
 var specRegexp = regexp.MustCompile(`^(gl|glx|egl|wgl)\.xml$`)
 
@@ -28,12 +23,22 @@ func download(name string, args []string) {
 	outDir := flags.String("d", "xml", "Output directory.")
 	flags.Parse(args)
 
-	if err := DownloadSvnDir(specURL, specRegexp, filepath.Join(*outDir, specDir)); err != nil {
+	specDir := filepath.Join(*outDir, "spec")
+	if err := os.MkdirAll(specDir, 0755); err != nil {
+		log.Fatal("Error creating specification output directory:", err)
+	}
+
+	docDir := filepath.Join(*outDir, "doc")
+	if err := os.MkdirAll(docDir, 0755); err != nil {
+		log.Fatal("Error creating documentation output directory:", err)
+	}
+
+	if err := DownloadSvnDir(specURL, specRegexp, specDir); err != nil {
 		log.Fatal("Error downloading specification files:", err)
 	}
 
 	for _, url := range docURLs {
-		if err := DownloadSvnDir(url, docRegexp, filepath.Join(*outDir, docDir)); err != nil {
+		if err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
 			log.Fatal("Error downloading documentation files:", err)
 		}
 	}

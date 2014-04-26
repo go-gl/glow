@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
 	"regexp"
 	"sync"
@@ -20,7 +19,7 @@ type svnEntry struct {
 	Name string `xml:"href,attr"`
 }
 
-// DownloadSvnDir reads an SVN HTML directory index and downloads all the listed XML files
+// DownloadSvnDir reads an SVN XML directory index and downloads all the listed (filtered) files
 func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) error {
 	response, err := http.Get(svnDirUrl)
 	if err != nil {
@@ -29,13 +28,7 @@ func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) erro
 	defer response.Body.Close()
 
 	var index svnIndex
-
-	decoder := xml.NewDecoder(response.Body)
-	if err := decoder.Decode(&index); err != nil {
-		return err
-	}
-
-	if err := os.MkdirAll(outDir, 0755); err != nil {
+	if err := xml.NewDecoder(response.Body).Decode(&index); err != nil {
 		return err
 	}
 
@@ -50,7 +43,7 @@ func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) erro
 			go func() {
 				defer wg.Done()
 				if err := downloadFile(url, file); err != nil {
-          // Choose an arbitrary error to report
+					// Choose an arbitrary error to report
 					downloadErr = err
 				}
 			}()
