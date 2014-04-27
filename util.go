@@ -8,36 +8,36 @@ import (
 	"unicode"
 )
 
-func TrimGLCmdPrefix(str string) string {
-	if strings.HasPrefix(str, "gl") {
-		return strings.TrimPrefix(str, "gl")
+func TrimGLCmdPrefix(cmdName string) string {
+	if strings.HasPrefix(cmdName, "gl") {
+		return strings.TrimPrefix(cmdName, "gl")
 	}
-	if strings.HasPrefix(str, "glx") {
-		return strings.TrimPrefix(str, "glx")
+	if strings.HasPrefix(cmdName, "glx") {
+		return strings.TrimPrefix(cmdName, "glx")
 	}
-	if strings.HasPrefix(str, "wgl") {
-		return strings.TrimPrefix(str, "wgl")
+	if strings.HasPrefix(cmdName, "wgl") {
+		return strings.TrimPrefix(cmdName, "wgl")
 	}
-	return str
+	return cmdName
 }
 
-func TrimGLEnumPrefix(str string) string {
-	t := str
-	p := ""
-	if strings.HasPrefix(str, "GL_") {
-		t = strings.TrimPrefix(t, "GL_")
-		p = "GL_"
-	} else if strings.HasPrefix(str, "GLX_") {
-		t = strings.TrimPrefix(str, "GLX_")
-		p = "GLX_"
-	} else if strings.HasPrefix(str, "WGL_") {
-		t = strings.TrimPrefix(str, "WGL_")
-		p = "WGL_"
+func TrimGLEnumPrefix(enumName string) string {
+	trimmed := enumName
+	prefix := ""
+	if strings.HasPrefix(enumName, "GL_") {
+		trimmed = strings.TrimPrefix(enumName, "GL_")
+		prefix = "GL_"
+	} else if strings.HasPrefix(enumName, "GLX_") {
+		trimmed = strings.TrimPrefix(enumName, "GLX_")
+		prefix = "GLX_"
+	} else if strings.HasPrefix(enumName, "WGL_") {
+		trimmed = strings.TrimPrefix(enumName, "WGL_")
+		prefix = "WGL_"
 	}
 	if strings.IndexAny(t, "0123456789") == 0 {
-		return p + t
+		return prefix + trimmed
 	}
-	return t
+	return trimmed
 }
 
 func RenameIfReservedCWord(word string) string {
