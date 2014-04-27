@@ -12,7 +12,7 @@ type Type struct {
 	Name         string
 }
 
-type TypeDef struct {
+type Typedef struct {
 	Name        string
 	Comment     string
 	Api         string
@@ -134,13 +134,11 @@ func (t Type) CgoConversion() string {
 			return "GoBoolean"
 		}
 	case "void", "GLvoid":
-		if t.PointerLevel > 0 {
+		if t.PointerLevel == 1 {
 			return "unsafe.Pointer"
-		}
-	case "void **":
-		return "cgoPtr1"
-	case "const void *const*":
-		return "cgoPtr1"
+		} else if t.PointerLevel == 2 {
+      return "cgoPtr1"
+    }
 	case "GLchar":
 		if t.PointerLevel == 2 {
 			return "cgoChar2"

@@ -17,6 +17,7 @@ func (p Parameter) GoName() string {
 
 type Function struct {
 	Name       string
+	GoName     string
 	Parameters []Parameter
 	Return     Type
 	Doc        string

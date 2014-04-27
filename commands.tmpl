@@ -30,16 +30,16 @@ package gl
 // #define GLAPI extern
 // #endif
 //
-// {{range .TypeDefs}}
+// {{range .Typedefs}}
 // {{if and (ne .Name "khrplatform") (eq .Api "")}}{{replace .CDefinition "\n" "\n// " -1}}{{end}}
 // {{end}}
 //
 // {{range .Functions}}
-// typedef {{.Return.CType}} (APIENTRYP PGL{{toUpper .Name}})({{template "paramsCDecl" .Parameters}});
+// typedef {{.Return.CType}} (APIENTRYP PGL{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
 // {{end}}
 //
 // {{range .Functions}}
-// {{.Return.CType}} glow{{.Name}}(PGL{{toUpper .Name}} glfptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+// {{.Return.CType}} glow{{.GoName}}(PGL{{toUpper .GoName}} glfptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*glfptr)({{template "paramsCCall" .Parameters}});
 // }
 // {{end}}
@@ -52,7 +52,7 @@ import "unsafe"
 
 var (
   {{range .Functions}}
-  pgl{{.Name}} C.PGL{{toUpper .Name}}
+  pgl{{.GoName}} C.PGL{{toUpper .GoName}}
   {{end}}
 )
 
@@ -71,10 +71,10 @@ func cgoChar2(p **int8) **C.GLchar {
 	return (**C.GLchar)(unsafe.Pointer(p))
 }
 
-{{define "bridgeCall"}}C.glow{{.Name}}(pgl{{.Name}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
+{{define "bridgeCall"}}C.glow{{.GoName}}(pgl{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
-// {{doc .Name}}
-func {{.Name}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
+// {{doc .GoName}}
+func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
   {{else}}return {{.Return.GoConversion}}({{template "bridgeCall" .}}){{end}}
 }
@@ -82,8 +82,8 @@ func {{.Name}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}}
 
 func Init() error {
   {{range .Functions}}
-  if pgl{{.Name}} = (C.PGL{{toUpper .Name}})(unsafe.Pointer(procaddr.GetProcAddress("gl{{.Name}}"))); pgl{{.Name}} == nil {
-    return errors.New("gl{{.Name}}")
+  if pgl{{.GoName}} = (C.PGL{{toUpper .GoName}})(unsafe.Pointer(procaddr.GetProcAddress("gl{{.GoName}}"))); pgl{{.GoName}} == nil {
+    return errors.New("gl{{.GoName}}")
   }
   {{end}}
 	return nil

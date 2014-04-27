@@ -3,9 +3,9 @@ package main
 import "sort"
 
 type Enum struct {
-	Name  string
-	Value string
-	Group string
+	Name   string // Raw specification name
+	GoName string // Go name with the API prefix stripped
+	Value  string // Raw specification value
 }
 
 type Enums map[string]*Enum

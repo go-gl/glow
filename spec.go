@@ -5,7 +5,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"strings"
 )
@@ -19,15 +18,9 @@ type specRegistry struct {
 }
 
 type specType struct {
-	Name     string `xml:"name,attr"`
-	Comment  string `xml:"comment,attr"`
-	Requires string `xml:"requires,attr"`
-	Api      string `xml:"api,attr"`
-	Inner    []byte `xml:",innerxml"`
-}
-
-type SpecGEnum struct {
-	Name string `xml:"name,attr"`
+	Name  string `xml:"name,attr"`
+	Api   string `xml:"api,attr"`
+	Raw []byte `xml:",innerxml"`
 }
 
 type specEnumSet struct {
@@ -44,20 +37,20 @@ type specEnum struct {
 }
 
 type specCommand struct {
-	Proto  specProto   `xml:"proto"`
+	Prototype  specProto   `xml:"proto"`
 	Params []specParam `xml:"param"`
 }
 
 type specSignature []byte
 
 type specProto struct {
-	Inner specSignature `xml:",innerxml"`
+	Raw specSignature `xml:",innerxml"`
 }
 
 type specParam struct {
 	Group string        `xml:"group,attr"`
-	Len   string        `xml:"len,attr"`
-	Inner specSignature `xml:",innerxml"`
+	Length string        `xml:"len,attr"`
+	Raw specSignature `xml:",innerxml"`
 }
 
 type specFeature struct {
@@ -69,13 +62,11 @@ type specFeature struct {
 }
 
 type specRequire struct {
-	Comment  string           `xml:"comment,attr"`
 	Enums    []specEnumRef    `xml:"enum"`
 	Commands []specCommandRef `xml:"command"`
 }
 
 type specRemove struct {
-	Comment  string           `xml:"comment,attr"`
 	Enums    []specEnumRef    `xml:"enum"`
 	Commands []specCommandRef `xml:"command"`
 }
@@ -88,63 +79,78 @@ type specCommandRef struct {
 	Name string `xml:"name,attr"`
 }
 
-func (st *specType) Parse() (TypeDef, error) {
-	typed := TypeDef{Name: st.Name, Comment: st.Comment, Api: st.Api, CDefinition: ""}
-	readName := false
-	decoder := xml.NewDecoder(bytes.NewBuffer(st.Inner))
-	for {
-		token, err := decoder.Token()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return typed, err
-		}
-		switch t := token.(type) {
-		case xml.CharData:
-			typed.CDefinition += (string)(t)
-			if readName {
-				typed.Name = (string)(t)
-			}
-		case xml.StartElement:
-			if t.Name.Local == "name" {
-				readName = true
-			} else if t.Name.Local == "apientry" {
-				typed.CDefinition += "APIENTRY"
-			} else {
-				return typed, fmt.Errorf("Wrong start element: %s", t.Name.Local)
-			}
-		case xml.EndElement:
-			if t.Name.Local == "name" {
-				readName = false
-			} else if t.Name.Local == "apientry" {
-			} else {
-				return typed, fmt.Errorf("Wrong start element: %s", t.Name.Local)
-			}
-		}
-	}
-	return typed, nil
+// Parsed version of the XML specification
+type Specification struct {
+	Functions map[string]*Function
+	Enums     map[string]*Enum
+	Typedefs  []Typedef
+	Features  []SpecificationFeature
 }
 
-func (r specRegistry) ParseTypedefs() ([]TypeDef, error) {
-	tdefs := make([]TypeDef, 0, len(r.Types))
-	for _, s := range r.Types {
-		td, err := s.Parse()
-		if err != nil {
-			return nil, err
-		}
-		tdefs = append(tdefs, td)
-	}
-	return tdefs, nil
+type SpecificationFeature struct {
+	Api     string
+	Version Version
+
+	AddedEnums      []string
+	AddedCommands   []string
+	RemovedEnums    []string
+	RemovedCommands []string
 }
 
-func (si specSignature) Parse() (string, Type, error) {
+func readSpecFile(file string) (*specRegistry, error) {
+	var registry specRegistry
+
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	err = xml.NewDecoder(f).Decode(&registry)
+	if err != nil {
+		return nil, err
+	}
+
+	return &registry, nil
+}
+
+func parseFunctions(commands []specCommand) (Functions, error) {
+	functions := make(Functions)
+	for _, cmd := range commands {
+		cmdName, cmdReturnType, err := parseSignature(cmd.Prototype.Raw)
+		if err != nil {
+			return functions, err
+    }
+
+    parameters := make([]Parameter, 0, len(cmd.Params))
+    for _, param := range cmd.Params {
+      paramName, paramType, err := parseSignature(param.Raw)
+      if err != nil {
+        return functions, err
+      }
+      parameter := Parameter{
+        Name: paramName,
+        Type: paramType}
+      parameters = append(parameters, parameter)
+    }
+
+    functions[cmdName] = &Function{
+      Name:       cmdName,
+      GoName:     TrimGLCmdPrefix(cmdName),
+      Parameters: parameters,
+      Return:     cmdReturnType}
+	}
+	return functions, nil
+}
+
+func parseSignature(signature specSignature) (string, Type, error) {
 	name := ""
 	ctype := Type{}
-	readName := false
-	readType := false
-	first := true
-	decoder := xml.NewDecoder(bytes.NewBuffer(si))
+
+	readingName := false
+	readingType := false
+
+	decoder := xml.NewDecoder(bytes.NewBuffer(signature))
 	for {
 		token, err := decoder.Token()
 		if err == io.EOF {
@@ -155,275 +161,227 @@ func (si specSignature) Parse() (string, Type, error) {
 		}
 		switch t := token.(type) {
 		case xml.CharData:
-			s := strings.Trim((string)(t), " ")
-			if readName {
-				name = TrimGLCmdPrefix(s)
-			} else if readType {
-				ctype.Name = s
-			} else if s == "" {
-				// skip
-			} else if s == "void" {
-				ctype.Name = "void"
-			} else if s == "void *" {
-				ctype.Name = "void"
-				ctype.PointerLevel = 1
-			} else if s == "const void *" {
-				ctype.Name = "void"
-				ctype.IsConst = true
-				ctype.PointerLevel = 1
-			} else if s == "*" {
-				ctype.PointerLevel = 1
-			} else if s == "**" {
-				ctype.PointerLevel = 2
-			} else if s == "*const*" {
-				ctype.PointerLevel = 2
-			} else if s == "const" {
-				ctype.IsConst = true
-			} else if first {
-				ctype.Name = s
-				first = false
+			raw := strings.Trim(string(t), " ")
+			if readingName {
+				name = raw
+			} else if readingType {
+				ctype.Name = raw
 			} else {
-				return name, ctype, fmt.Errorf("Unknown %s", s)
-			}
+        if strings.Contains(raw, "void") {
+          ctype.Name = "void"
+        }
+        if strings.Contains(raw, "const") {
+          ctype.IsConst = true
+        }
+        ctype.PointerLevel += strings.Count(raw, "*")
+      }
 		case xml.StartElement:
 			if t.Name.Local == "ptype" {
-				readType = true
+				readingType = true
 			} else if t.Name.Local == "name" {
-				readName = true
+				readingName = true
 			} else {
-				return name, ctype, fmt.Errorf("Wrong start element: %s", t.Name.Local)
+				return name, ctype, fmt.Errorf("Unexpected signature XML: %s", signature)
 			}
 		case xml.EndElement:
 			if t.Name.Local == "ptype" {
-				readType = false
+				readingType = false
 			} else if t.Name.Local == "name" {
-				readName = false
-			} else {
-				return name, ctype, fmt.Errorf("Wrong end element: %s", t.Name.Local)
+				readingName = false
 			}
 		}
 	}
 	return name, ctype, nil
 }
 
-func readSpecFile(file string) (*specRegistry, error) {
-	var reg specRegistry
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, err
+func parseEnums(enumSets []specEnumSet) (Enums, error) {
+	enums := make(Enums)
+	for _, set := range enumSets {
+		for _, enum := range set.Enums {
+			enums[enum.Name] = &Enum{
+				Name:   enum.Name,
+				GoName: TrimGLEnumPrefix(enum.Name),
+				Value:  enum.Value,
+			}
+		}
 	}
-	defer f.Close()
-	d := xml.NewDecoder(f)
-	err = d.Decode(&reg)
-	if err != nil {
-		return nil, err
-	}
-	return &reg, nil
+	return enums, nil
 }
 
-func commandsToFunctions(commands []specCommand) Functions {
-	functions := make(Functions)
-	for _, c := range commands {
-		cname, ct, err := c.Proto.Inner.Parse()
+func parseTypedefs(specTypes []specType) ([]Typedef, error) {
+	typedefs := make([]Typedef, 0, len(specTypes))
+	for _, specType := range specTypes {
+		typedef, err := parseTypedef(specType)
 		if err != nil {
-			fmt.Printf("Unable to parse proto signature '%s': %s\n", string(c.Proto.Inner), err)
-		} else {
-			parameters := make([]Parameter, 0, 4)
-			for _, p := range c.Params {
-				pname, pt, err := p.Inner.Parse()
-				if err != nil {
-					fmt.Printf("Unable to parse parameter signature '%s' of function '%s': %s\n", (string)(p.Inner), cname, err)
-				} else {
-					parameters = append(parameters, Parameter{Name: pname, Type: pt})
-				}
-			}
-			functions[cname] = &Function{Name: cname, Parameters: parameters, Return: ct}
+			return nil, err
 		}
+		typedefs = append(typedefs, typedef)
 	}
-	return functions
+	return typedefs, nil
 }
 
-func findEnum(enumName string, est []specEnumSet) (string, string) {
-	for _, es := range est {
-		for _, e := range es.Enums {
-			if e.Name == enumName {
-				return e.Value, es.Group
-			}
-		}
-	}
-	return "", ""
-}
+func parseTypedef(specType specType) (Typedef, error) {
+	typedef := Typedef{
+		Name:        specType.Name,
+		Api:         specType.Api,
+		CDefinition: ""}
 
-func addEnums(ps Packages, api string, ver Version, enumNames []specEnumRef, et []specEnumSet) {
-	fmt.Println("Adding enums from version", api, ver, "to")
-	for _, pc := range ps {
-		if pc.Api != api {
-			continue
+	readingName := false
+	decoder := xml.NewDecoder(bytes.NewBuffer(specType.Raw))
+	for {
+		token, err := decoder.Token()
+		if err == io.EOF {
+			break
 		}
-		if pc.Version.Compare(ver) < 0 {
-			continue
+		if err != nil {
+			return typedef, err
 		}
-		fmt.Println(" package", pc.Api, pc.Version)
-		for _, en := range enumNames {
-			val, grp := findEnum(en.Name, et)
-			if val == "" {
-				fmt.Println("Not found:", en.Name)
+		switch t := token.(type) {
+		case xml.CharData:
+			typedef.CDefinition += string(t)
+			if readingName {
+				typedef.Name = (string)(t)
 			}
-			pc.Enums[en.Name] = &Enum{Name: TrimGLEnumPrefix(en.Name), Value: val, Group: grp}
-		}
-	}
-}
-
-func removeEnums(ps Packages, api string, ver Version, enumNames []specEnumRef) {
-	fmt.Println("Removing enums from version", api, ver, "to")
-	for _, pc := range ps {
-		if pc.Api != api {
-			continue
-		}
-		if pc.Version.Compare(ver) < 0 {
-			continue
-		}
-		fmt.Println(" package", pc.Api, pc.Version)
-		for _, en := range enumNames {
-			if _, ok := pc.Enums[en.Name]; ok {
-				delete(pc.Enums, en.Name)
-			}
-		}
-	}
-}
-
-func addCommands(pkgs Packages, api string, ver Version, cmdNames []specCommandRef, functions Functions) {
-	for _, pkg := range pkgs {
-		if pkg.Api != api {
-			continue
-		}
-		if pkg.Version.Compare(ver) < 0 {
-			continue
-		}
-		for _, cmd := range cmdNames {
-			fnName := TrimGLCmdPrefix(cmd.Name)
-			fn, ok := functions[fnName]
-			if !ok {
-				log.Fatal("Function not found", fnName)
-			}
-			pkg.Functions[fnName] = fn
-		}
-	}
-}
-
-func removeCommands(ps Packages, api string, ver Version, cmdNames []specCommandRef) {
-	for _, pc := range ps {
-		if pc.Api != api {
-			continue
-		}
-		if pc.Version.Compare(ver) < 0 {
-			continue
-		}
-		for _, cn := range cmdNames {
-			fname := TrimGLCmdPrefix(cn.Name)
-			if _, ok := pc.Functions[fname]; !ok {
-				fmt.Println("Remove cmd: Cmd not found", fname)
+		case xml.StartElement:
+			if t.Name.Local == "name" {
+				readingName = true
+			} else if t.Name.Local == "apientry" {
+				typedef.CDefinition += "APIENTRY"
 			} else {
-				delete(pc.Functions, fname)
+				return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
 			}
+		case xml.EndElement:
+			if t.Name.Local == "name" {
+				readingName = false
+			}
+		default:
+			return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
 		}
 	}
+
+	return typedef, nil
 }
 
-func ParseSpecFile(file string, fs Features) (Packages, error) {
-	pacs := make(Packages, 0)
+func parseFeatures(features []specFeature) ([]SpecificationFeature, error) {
+	specFeatures := make([]SpecificationFeature, 0, len(features))
+	for _, feature := range features {
+		version, err := ParseVersion(feature.Number)
+		if err != nil {
+			return specFeatures, err
+		}
 
-	reg, err := readSpecFile(file)
+		specFeature := SpecificationFeature{
+			Api:             feature.Api,
+			Version:         version,
+			AddedEnums:      make([]string, 0),
+			AddedCommands:   make([]string, 0),
+			RemovedEnums:    make([]string, 0),
+			RemovedCommands: make([]string, 0),
+		}
+
+		for _, req := range feature.Requires {
+			for _, cmd := range req.Commands {
+				specFeature.AddedCommands = append(specFeature.AddedCommands, cmd.Name)
+			}
+			for _, enum := range req.Enums {
+				specFeature.AddedEnums = append(specFeature.AddedEnums, enum.Name)
+			}
+		}
+
+		for _, rem := range feature.Removes {
+			for _, cmd := range rem.Commands {
+				specFeature.RemovedCommands = append(specFeature.RemovedCommands, cmd.Name)
+			}
+			for _, enum := range rem.Enums {
+				specFeature.RemovedEnums = append(specFeature.RemovedEnums, enum.Name)
+			}
+		}
+
+		specFeatures = append(specFeatures, specFeature)
+	}
+	return specFeatures, nil
+}
+
+// NewSpecification creates a new specification based on an XML file.
+func NewSpecification(file string) (*Specification, error) {
+	registry, err := readSpecFile(file)
 	if err != nil {
 		return nil, err
 	}
 
-	functions := commandsToFunctions(reg.Commands)
-	tds, err := reg.ParseTypedefs()
+	functions, err := parseFunctions(registry.Commands)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ft := range reg.Features {
-		version, err := ParseVersion(ft.Number)
-		if err != nil {
-			return nil, err
-		}
-		if fs.HasFeature(ft.Api, version) {
-			p := &Package{
-				Api:       ft.Api,
-				Name:      ft.Api,
-				Version:   version,
-				TypeDefs:  tds,
-				Enums:     make(Enums),
-				Functions: make(Functions)}
-			pacs = append(pacs, p)
-		}
+	enums, err := parseEnums(registry.Enums)
+	if err != nil {
+		return nil, err
 	}
 
-	for _, f := range reg.Features {
-		version, err := ParseVersion(f.Number)
-		if err != nil {
-			return nil, err
-		}
-		for _, r := range f.Requires {
-			addEnums(pacs, f.Api, version, r.Enums, reg.Enums)
-		}
-		for _, d := range f.Removes {
-			removeEnums(pacs, f.Api, version, d.Enums)
-		}
-		for _, r := range f.Requires {
-			addCommands(pacs, f.Api, version, r.Commands, functions)
-		}
-		for _, d := range f.Removes {
-			removeCommands(pacs, f.Api, version, d.Commands)
-		}
+	typedefs, err := parseTypedefs(registry.Types)
+	if err != nil {
+		return nil, err
 	}
 
-	return pacs, nil
+	features, err := parseFeatures(registry.Features)
+	if err != nil {
+		return nil, err
+	}
+
+	spec := &Specification{
+		Functions: functions,
+		Enums:     enums,
+		Typedefs:  typedefs,
+		Features:  features,
+	}
+	return spec, nil
 }
 
-type Feature struct {
-	Name     string
-	Versions []Version
-}
-
-type Features []Feature
-
-func ParseFeatureList(featureStr string) (Features, error) {
-	if len(featureStr) == 0 {
-		return nil, fmt.Errorf("feature string is empty")
-	}
-	features := make(Features, 0, 8)
-	featureStrs := strings.Split(featureStr, "|")
-	for _, f := range featureStrs {
-		featver := strings.SplitN(f, ":", 2)
-		if len(featver) != 2 {
-			return nil, fmt.Errorf("wrong format or version needed: '%s'", featureStr)
-		}
-		versions := make([]Version, 0, 8)
-		versionStrs := strings.Split(featver[1], ",")
-		for _, v := range versionStrs {
-			version, err := ParseVersion(v)
-			if err != nil {
-				return nil, err
-			}
-			versions = append(versions, version)
-		}
-		features = append(features, Feature{Name: featver[0], Versions: versions})
-	}
-	return features, nil
-}
-
-func (fs Features) HasFeature(name string, ver Version) bool {
-	for _, f := range fs {
-		if f.Name == name {
-			for _, v := range f.Versions {
-				if v.Compare(ver) == 0 {
-					return true
-				}
-			}
+// HasPackage determines whether the specification can generate the specified package.
+func (spec *Specification) HasPackage(pkgSpec PackageSpec) bool {
+	for _, feature := range spec.Features {
+		if pkgSpec.Api == feature.Api && pkgSpec.Version.Compare(feature.Version) == 0 {
+			return true
 		}
 	}
 	return false
+}
+
+// ToPackage generates a package from the specification.
+func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
+	pkg := &Package{
+		Api:       pkgSpec.Api,
+		Name:      pkgSpec.Api,
+		Version:   pkgSpec.Version,
+		Typedefs:  spec.Typedefs,
+		Enums:     make(Enums),
+		Functions: make(Functions)}
+
+	for _, feature := range spec.Features {
+		// Skip features from a different API
+		if pkg.Api != feature.Api {
+			continue
+		}
+		// Skip features from a later version than the package
+		if pkg.Version.Compare(feature.Version) < 0 {
+			continue
+		}
+
+		for _, enum := range feature.AddedEnums {
+			pkg.Enums[enum] = spec.Enums[enum]
+		}
+		for _, cmd := range feature.AddedCommands {
+			pkg.Functions[cmd] = spec.Functions[cmd]
+		}
+
+		for _, enum := range feature.RemovedEnums {
+			delete(pkg.Enums, enum)
+		}
+		for _, cmd := range feature.RemovedCommands {
+			delete(pkg.Functions, cmd)
+		}
+	}
+
+	return pkg
 }
