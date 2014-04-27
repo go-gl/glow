@@ -40,17 +40,17 @@ func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) erro
 	c := make(chan int, maxRequests)
 	for _, e := range index.Entries {
 		if filter.MatchString(e.Name) {
+			c <- 1
+			wg.Add(1)
 			url := svnDirUrl + "/" + e.Name
 			file := filepath.Join(outDir, e.Name)
-			wg.Add(1)
-			go func() {
+			go func(url, file string) {
 				defer wg.Done()
-				c <- 1
 				if err := downloadFile(url, file); err != nil && downloadErr == nil {
 					downloadErr = err
 				}
 				<-c
-			}()
+			}(url, file)
 		}
 	}
 	wg.Wait()
