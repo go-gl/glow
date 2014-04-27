@@ -19,6 +19,8 @@ type svnEntry struct {
 	Name string `xml:"href,attr"`
 }
 
+const maxRequests = 10
+
 // DownloadSvnDir reads an SVN XML directory index and downloads all the listed (filtered) files
 func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) error {
 	response, err := http.Get(svnDirUrl)
@@ -35,6 +37,7 @@ func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) erro
 	var downloadErr error = nil
 
 	wg := new(sync.WaitGroup)
+	c := make(chan int, maxRequests)
 	for _, e := range index.Entries {
 		if filter.MatchString(e.Name) {
 			url := svnDirUrl + "/" + e.Name
@@ -42,10 +45,11 @@ func DownloadSvnDir(svnDirUrl string, filter *regexp.Regexp, outDir string) erro
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
-				if err := downloadFile(url, file); err != nil {
-					// Choose an arbitrary error to report
+				c <- 1
+				if err := downloadFile(url, file); err != nil && downloadErr == nil {
 					downloadErr = err
 				}
+				<-c
 			}()
 		}
 	}
