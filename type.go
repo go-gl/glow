@@ -14,8 +14,8 @@ type Type struct {
 
 type Typedef struct {
 	Name        string
-	Comment     string
 	Api         string
+	Requires    string
 	CDefinition string
 }
 

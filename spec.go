@@ -18,9 +18,10 @@ type specRegistry struct {
 }
 
 type specType struct {
-	Name string `xml:"name,attr"`
-	Api  string `xml:"api,attr"`
-	Raw  []byte `xml:",innerxml"`
+	Name     string `xml:"name,attr"`
+	Api      string `xml:"api,attr"`
+	Requires string `xml:"requires,attr"`
+	Raw      []byte `xml:",innerxml"`
 }
 
 type specEnumSet struct {
@@ -217,6 +218,7 @@ func parseTypedef(specType specType) (Typedef, error) {
 	typedef := Typedef{
 		Name:        specType.Name,
 		Api:         specType.Api,
+		Requires:    specType.Requires,
 		CDefinition: ""}
 
 	readingName := false
@@ -347,9 +349,15 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		Api:       pkgSpec.Api,
 		Name:      pkgSpec.Api,
 		Version:   pkgSpec.Version,
-		Typedefs:  spec.Typedefs,
+		Typedefs:  make([]Typedef, 0),
 		Enums:     make(Enums),
 		Functions: make(Functions)}
+
+	for _, typedef := range spec.Typedefs {
+		if pkg.Api == typedef.Api || typedef.Api == "" {
+			pkg.Typedefs = append(pkg.Typedefs, typedef)
+		}
+	}
 
 	for _, feature := range spec.Features {
 		// Skip features from a different API

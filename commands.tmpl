@@ -31,7 +31,7 @@ package gl
 // #endif
 //
 // {{range .Typedefs}}
-// {{if and (ne .Name "khrplatform") (eq .Api "")}}{{replace .CDefinition "\n" "\n// " -1}}{{end}}
+// {{if ne .Name "khrplatform"}}{{replace .CDefinition "\n" "\n// " -1}}{{end}}
 // {{end}}
 //
 // {{range .Functions}}
