@@ -14,7 +14,7 @@ package gl
 {{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
 {{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.CName}}{{end}}{{end}}
 {{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
-{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CgoConversion}}({{$p.GoName}}){{end}}{{end}}
+{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC}}({{$p.GoName}}){{end}}{{end}}
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
@@ -76,7 +76,7 @@ func cgoChar2(p **int8) **C.GLchar {
 // {{doc .GoName}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
-  {{else}}return {{.Return.GoConversion}}({{template "bridgeCall" .}}){{end}}
+  {{else}}return {{.Return.ConvertCToGo}}({{template "bridgeCall" .}}){{end}}
 }
 {{end}}
 

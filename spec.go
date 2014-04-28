@@ -164,10 +164,10 @@ func parseSignature(signature specSignature) (string, Type, error) {
 				if strings.Contains(raw, "void") {
 					ctype.Name = "void"
 				}
-				if strings.Contains(raw, "const") {
-					ctype.IsConst = true
-				}
 				ctype.PointerLevel += strings.Count(raw, "*")
+			}
+			if !readingName {
+				ctype.CDefinition += string(t)
 			}
 		case xml.StartElement:
 			if t.Name.Local == "ptype" {

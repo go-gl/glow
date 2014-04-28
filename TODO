@@ -4,5 +4,6 @@ Work to Consider
 - Fix debug proc
 - Add doc URL
 - Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
-- Refactor?
 - Extensions (commands & enums outside core GL features)
+- Typedefs? (filter by what types are required for the functions and their dependencies)
+- Refactor?

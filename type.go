@@ -1,39 +1,28 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
 
 type Type struct {
-	IsConst      bool
-	PointerLevel int
-	Name         string
+	Name         string // Name of the type without modifiers
+	PointerLevel int    // Number of levels of declared indirection to the type
+	CDefinition  string // Raw C definition
 }
 
 type Typedef struct {
-	Name        string
-	Api         string
-	Requires    string
-	CDefinition string
+	Name        string // Name of the defined type (or included types)
+	Api         string // API for which this definition is relevant
+	Requires    string // Name of the prerequisite typedef (if any)
+	CDefinition string // Raw C definition
 }
 
 func (t Type) String() string {
-	s := bytes.NewBufferString("")
-	if t.IsConst {
-		fmt.Fprint(s, "const ")
-	}
-	fmt.Fprint(s, t.Name)
-	if t.PointerLevel == 1 {
-		fmt.Fprint(s, " *")
-	} else if t.PointerLevel == 2 {
-		fmt.Fprint(s, " **")
-	}
-	return string(s.Bytes())
+	return fmt.Sprintf("%s%s [%s]", t.Name, t.pointers(), t.CDefinition)
 }
 
-func (t Type) ptrStr() string {
+func (t Type) pointers() string {
 	return strings.Repeat("*", t.PointerLevel)
 }
 
@@ -41,46 +30,43 @@ func (t Type) IsVoid() bool {
 	return (t.Name == "void" || t.Name == "GLvoid") && t.PointerLevel == 0
 }
 
-// Declare a C type.
+// CType returns the C definition of the type.
 func (t Type) CType() string {
-	if t.IsConst {
-		return "const " + t.Name + t.ptrStr()
-	}
-	return t.Name + t.ptrStr()
+	return t.CDefinition
 }
 
-// Declare a Go type.
+// GoType returns the Go definition of the type.
 func (t Type) GoType() string {
 	switch t.Name {
 	case "GLenum":
-		return t.ptrStr() + "glt.Enum"
+		return t.pointers() + "glt.Enum"
 	case "GLbitfield":
-		return t.ptrStr() + "glt.Bitfield"
+		return t.pointers() + "glt.Bitfield"
 	case "GLboolean":
 		if t.PointerLevel == 0 {
 			return "bool"
 		}
-		return t.ptrStr() + "byte"
+		return t.pointers() + "byte"
 	case "GLint":
-		return t.ptrStr() + "int32"
+		return t.pointers() + "int32"
 	case "GLuint":
-		return t.ptrStr() + "uint32"
+		return t.pointers() + "uint32"
 	case "GLint64", "GLint64EXT":
-		return t.ptrStr() + "int64"
+		return t.pointers() + "int64"
 	case "GLuint64", "GLuint64EXT":
-		return t.ptrStr() + "uint64"
+		return t.pointers() + "uint64"
 	case "GLclampf", "GLfloat":
-		return t.ptrStr() + "float32"
+		return t.pointers() + "float32"
 	case "GLclampd", "GLdouble":
-		return t.ptrStr() + "float64"
+		return t.pointers() + "float64"
 	case "GLclampx":
-		return t.ptrStr() + "int32"
+		return t.pointers() + "int32"
 	case "GLsizei":
-		return t.ptrStr() + "int32"
+		return t.pointers() + "int32"
 	case "GLbyte":
-		return t.ptrStr() + "int8"
+		return t.pointers() + "int8"
 	case "GLfixed":
-		return t.ptrStr() + "int32"
+		return t.pointers() + "int32"
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
 			return "glt.Pointer"
@@ -92,30 +78,30 @@ func (t Type) GoType() string {
 		if t.PointerLevel == 0 {
 			return "int"
 		}
-		return t.ptrStr() + "int64"
+		return t.pointers() + "int64"
 	case "GLsizeiptrARB", "GLsizeiptr":
 		if t.PointerLevel == 0 {
 			return "int"
 		}
-		return t.ptrStr() + "int64"
+		return t.pointers() + "int64"
 	case "GLcharARB", "GLchar":
-		return t.ptrStr() + "int8"
+		return t.pointers() + "int8"
 	case "GLubyte":
-		return t.ptrStr() + "uint8"
+		return t.pointers() + "uint8"
 	case "GLshort":
-		return t.ptrStr() + "int16"
+		return t.pointers() + "int16"
 	case "GLushort":
-		return t.ptrStr() + "uint16"
+		return t.pointers() + "uint16"
 	case "GLhandleARB":
-		return t.ptrStr() + "glt.Pointer"
+		return t.pointers() + "glt.Pointer"
 	case "GLhalfNV":
-		return t.ptrStr() + "uint16"
+		return t.pointers() + "uint16"
 	case "GLeglImageOES":
-		return t.ptrStr() + "glt.Pointer"
+		return t.pointers() + "glt.Pointer"
 	case "GLvdpauSurfaceARB":
-		return t.ptrStr() + "glt.Pointer"
+		return t.pointers() + "glt.Pointer"
 	case "GLsync":
-		return t.ptrStr() + "glt.Sync"
+		return t.pointers() + "glt.Sync"
 	case "void **":
 		return "*glt.Pointer"
 	case "const void *const*":
@@ -123,11 +109,11 @@ func (t Type) GoType() string {
 	case "GLDEBUGPROC":
 		return "glt.DebugProc"
 	}
-	return "<unknown type:" + t.Name + ">"
+	return t.pointers() + "C." + t.Name
 }
 
-// Convert from a Go type to a C type.
-func (t Type) CgoConversion() string {
+// ConvertGoToC converts from the Go type to the C type.
+func (t Type) ConvertGoToC() string {
 	switch t.Name {
 	case "GLboolean":
 		if t.PointerLevel == 0 {
@@ -144,11 +130,11 @@ func (t Type) CgoConversion() string {
 			return "cgoChar2"
 		}
 	}
-	return fmt.Sprintf("(%sC.%s)", t.ptrStr(), t.Name)
+	return fmt.Sprintf("(%sC.%s)", t.pointers(), t.Name)
 }
 
-// Convert from a C type to a Go type.
-func (t Type) GoConversion() string {
+// ConvertCToGo converts from the C type to the Go type.
+func (t Type) ConvertCToGo() string {
 	switch t.Name {
 	case "GLboolean":
 		if t.PointerLevel == 0 {
@@ -171,9 +157,9 @@ func (t Type) GoConversion() string {
 			return "glt.Enum"
 		}
 	case "GLubyte":
-		return "(" + t.ptrStr() + "byte)"
+		return "(" + t.pointers() + "byte)"
 	case "GLint":
-		return t.ptrStr() + "int32"
+		return t.pointers() + "int32"
 	case "GLsizeiptrARB", "GLsizeiptr":
 		if t.PointerLevel == 0 {
 			return "int"
@@ -181,5 +167,5 @@ func (t Type) GoConversion() string {
 	case "GLsync":
 		return "glt.Sync"
 	}
-	return fmt.Sprintf("<unknown type:%sC.%s>", t.ptrStr(), t.Name)
+	return fmt.Sprintf("<unknown type:%sC.%s>", t.pointers(), t.Name)
 }
