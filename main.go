@@ -69,6 +69,7 @@ func generate(name string, args []string) {
 		generated := false
 		for _, spec := range specs {
 			if spec.HasPackage(pkgSpec) {
+				log.Println("Generating package", pkgSpec.Api, pkgSpec.Version)
 				if err := spec.ToPackage(pkgSpec).GeneratePackage(); err != nil {
 					log.Fatal("Error generating Go package:", err)
 				}

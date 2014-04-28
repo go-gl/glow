@@ -17,8 +17,6 @@ type Package struct {
 	Functions Functions
 }
 
-type Packages []*Package
-
 const docURLFmt = "https://www.opengl.org/sdk/docs/man%d/html/%s%s.xhtml"
 
 // TODO Map documentation URL by version number
@@ -54,7 +52,6 @@ func (p *Package) writeCommands(dir string) error {
 }
 
 func (p *Package) GeneratePackage() error {
-	fmt.Println("Generating package", p.Name, p.Version)
 	dir := filepath.Join(p.Api, p.Version.String(), p.Name)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
@@ -64,16 +61,6 @@ func (p *Package) GeneratePackage() error {
 	}
 	if err := p.writeCommands(dir); err != nil {
 		return err
-	}
-	return nil
-}
-
-func (ps Packages) GeneratePackages() error {
-	for _, p := range ps {
-		err := p.GeneratePackage()
-		if err != nil {
-			return err
-		}
 	}
 	return nil
 }
