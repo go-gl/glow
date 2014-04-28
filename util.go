@@ -34,7 +34,7 @@ func TrimGLEnumPrefix(enumName string) string {
 		trimmed = strings.TrimPrefix(enumName, "WGL_")
 		prefix = "WGL_"
 	}
-	if strings.IndexAny(t, "0123456789") == 0 {
+	if strings.IndexAny(trimmed, "0123456789") == 0 {
 		return prefix + trimmed
 	}
 	return trimmed
