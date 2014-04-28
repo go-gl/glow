@@ -18,17 +18,13 @@ type specRegistry struct {
 }
 
 type specType struct {
-	Name  string `xml:"name,attr"`
-	Api   string `xml:"api,attr"`
-	Raw []byte `xml:",innerxml"`
+	Name string `xml:"name,attr"`
+	Api  string `xml:"api,attr"`
+	Raw  []byte `xml:",innerxml"`
 }
 
 type specEnumSet struct {
-	Namespace string     `xml:"namespace,attr"`
-	Group     string     `xml:"group,attr"`
-	Type      string     `xml:"type,attr"`
-	Comment   string     `xml:"comment,attr"`
-	Enums     []specEnum `xml:"enum"`
+	Enums []specEnum `xml:"enum"`
 }
 
 type specEnum struct {
@@ -37,8 +33,8 @@ type specEnum struct {
 }
 
 type specCommand struct {
-	Prototype  specProto   `xml:"proto"`
-	Params []specParam `xml:"param"`
+	Prototype specProto   `xml:"proto"`
+	Params    []specParam `xml:"param"`
 }
 
 type specSignature []byte
@@ -48,14 +44,11 @@ type specProto struct {
 }
 
 type specParam struct {
-	Group string        `xml:"group,attr"`
-	Length string        `xml:"len,attr"`
 	Raw specSignature `xml:",innerxml"`
 }
 
 type specFeature struct {
 	Api      string        `xml:"api,attr"`
-	Name     string        `xml:"name,attr"`
 	Number   string        `xml:"number,attr"`
 	Requires []specRequire `xml:"require"`
 	Removes  []specRemove  `xml:"remove"`
@@ -81,8 +74,8 @@ type specCommandRef struct {
 
 // Parsed version of the XML specification
 type Specification struct {
-	Functions map[string]*Function
-	Enums     map[string]*Enum
+	Functions Functions
+	Enums     Enums
 	Typedefs  []Typedef
 	Features  []SpecificationFeature
 }
@@ -120,25 +113,25 @@ func parseFunctions(commands []specCommand) (Functions, error) {
 		cmdName, cmdReturnType, err := parseSignature(cmd.Prototype.Raw)
 		if err != nil {
 			return functions, err
-    }
+		}
 
-    parameters := make([]Parameter, 0, len(cmd.Params))
-    for _, param := range cmd.Params {
-      paramName, paramType, err := parseSignature(param.Raw)
-      if err != nil {
-        return functions, err
-      }
-      parameter := Parameter{
-        Name: paramName,
-        Type: paramType}
-      parameters = append(parameters, parameter)
-    }
+		parameters := make([]Parameter, 0, len(cmd.Params))
+		for _, param := range cmd.Params {
+			paramName, paramType, err := parseSignature(param.Raw)
+			if err != nil {
+				return functions, err
+			}
+			parameter := Parameter{
+				Name: paramName,
+				Type: paramType}
+			parameters = append(parameters, parameter)
+		}
 
-    functions[cmdName] = &Function{
-      Name:       cmdName,
-      GoName:     TrimGLCmdPrefix(cmdName),
-      Parameters: parameters,
-      Return:     cmdReturnType}
+		functions[cmdName] = &Function{
+			Name:       cmdName,
+			GoName:     TrimGLCmdPrefix(cmdName),
+			Parameters: parameters,
+			Return:     cmdReturnType}
 	}
 	return functions, nil
 }
@@ -167,14 +160,14 @@ func parseSignature(signature specSignature) (string, Type, error) {
 			} else if readingType {
 				ctype.Name = raw
 			} else {
-        if strings.Contains(raw, "void") {
-          ctype.Name = "void"
-        }
-        if strings.Contains(raw, "const") {
-          ctype.IsConst = true
-        }
-        ctype.PointerLevel += strings.Count(raw, "*")
-      }
+				if strings.Contains(raw, "void") {
+					ctype.Name = "void"
+				}
+				if strings.Contains(raw, "const") {
+					ctype.IsConst = true
+				}
+				ctype.PointerLevel += strings.Count(raw, "*")
+			}
 		case xml.StartElement:
 			if t.Name.Local == "ptype" {
 				readingType = true

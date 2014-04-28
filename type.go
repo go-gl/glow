@@ -137,8 +137,8 @@ func (t Type) CgoConversion() string {
 		if t.PointerLevel == 1 {
 			return "unsafe.Pointer"
 		} else if t.PointerLevel == 2 {
-      return "cgoPtr1"
-    }
+			return "cgoPtr1"
+		}
 	case "GLchar":
 		if t.PointerLevel == 2 {
 			return "cgoChar2"
