@@ -1,9 +1,19 @@
 Work to Consider
 ================
-- Fix OpenGL 4 types
-- Fix debug proc
-- Add doc URL
-- Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
+- Refactor types 
+  * Ensure OpenGL 4 types work correctly
+  * Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
+- Fix debug proc handling
+- Add doc processing and emit function comments
 - Extensions (commands & enums outside core GL features)
-- Typedefs? (filter by what types are required for the functions and their dependencies)
-- Refactor?
+  * Filter extensions by compatibility with generated API
+  * Include some Go bool indicating which extensions are available?
+- Fix typedefs
+  * Filter by what types are required for the generated functions and their dependencies
+  * Prefer API-specific typedefs over API-agnostic ones
+    ** Same fix is also necessary for enums
+- Read all spec files when processing package specs
+  * Generate all possible packages?
+- Improve procaddr
+  * Take an Init parameter instead of relying on a global variable
+  * When no parameter is provided use procaddr/auto
