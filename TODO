@@ -15,3 +15,7 @@ Work to Consider
 - Improve procaddr
   * Take an Init parameter instead of relying on a global variable
   * When no parameter is provided use procaddr/auto
+- Fix generation of non-GL packages
+  * Incorrect package defintions
+  * Incorrect function prefixes
+  * ...? Certainly more is broken

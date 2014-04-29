@@ -25,7 +25,12 @@ glow
 
 # Temporary/output directories
 examples/test
+egl
 gl
+gles1
+gles2
+glx
+wgl
 xml
 
 # Vim
