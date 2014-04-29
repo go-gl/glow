@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -21,15 +22,15 @@ var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
 
 func download(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	outDir := flags.String("d", "xml", "Output directory")
+	xmlDir := flags.String("d", "xml", "XML directory")
 	flags.Parse(args)
 
-	specDir := filepath.Join(*outDir, "spec")
+	specDir := filepath.Join(*xmlDir, "spec")
 	if err := os.MkdirAll(specDir, 0755); err != nil {
 		log.Fatal("Error creating specification output directory:", err)
 	}
 
-	docDir := filepath.Join(*outDir, "doc")
+	docDir := filepath.Join(*xmlDir, "doc")
 	if err := os.MkdirAll(docDir, 0755); err != nil {
 		log.Fatal("Error creating documentation output directory:", err)
 	}
@@ -48,22 +49,28 @@ func download(name string, args []string) {
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
 	xmlDir := flags.String("d", "xml", "XML directory")
-	pkgs := flags.String("g", "", "Packages to generate in a list of api@version (e.g., gl@4.4)")
+	pkgs := flags.String("g", "", "Packages to generate in a list of 'api@version' (e.g., gl@4.4) or 'all'")
 	flags.Parse(args)
 
-	packageSpecs, err := parsePackageSpecs(*pkgs)
+	specDir := filepath.Join(*xmlDir, "spec")
+	specFiles, err := ioutil.ReadDir(specDir)
+	if err != nil {
+		log.Fatal("Error reading spec file entries:", err)
+	}
+
+	specs := make([]*Specification, 0, len(specFiles))
+	for _, specFile := range specFiles {
+		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
+		if err != nil {
+			log.Fatal("Error parsing specification:", specFile.Name(), err)
+		}
+		specs = append(specs, spec)
+	}
+
+	packageSpecs, err := parsePackageSpecs(*pkgs, specs)
 	if err != nil {
 		log.Fatal("Error parsing generation arguments:", err)
 	}
-
-	glSpecPath := filepath.Join(*xmlDir, "spec", "gl.xml")
-	spec, err := NewSpecification(glSpecPath)
-	if err != nil {
-		log.Fatal("Error parsing OpenGL specification:", err)
-	}
-
-	// TODO Read all specifications
-	specs := []*Specification{spec}
 
 	for _, pkgSpec := range packageSpecs {
 		generated := false
@@ -71,7 +78,7 @@ func generate(name string, args []string) {
 			if spec.HasPackage(pkgSpec) {
 				log.Println("Generating package", pkgSpec.Api, pkgSpec.Version)
 				if err := spec.ToPackage(pkgSpec).GeneratePackage(); err != nil {
-					log.Fatal("Error generating Go package:", err)
+					log.Fatal("Error generating package:", err)
 				}
 				generated = true
 				break
@@ -92,21 +99,29 @@ func (pkgSpec PackageSpec) String() string {
 	return fmt.Sprintf("%s %s", pkgSpec.Api, pkgSpec.Version)
 }
 
-func parsePackageSpecs(specStrs string) ([]PackageSpec, error) {
-	specs := make([]PackageSpec, 0)
-	for _, specStr := range strings.Split(specStrs, ",") {
-		apiVersion := strings.Split(specStr, "@")
-		if len(apiVersion) != 2 {
-			return nil, fmt.Errorf("Error parsing generation specification:", specStr)
+func parsePackageSpecs(specStrs string, specs []*Specification) ([]PackageSpec, error) {
+	pkgSpecs := make([]PackageSpec, 0)
+	if specStrs == "all" {
+		for _, spec := range specs {
+			for _, feature := range spec.Features {
+				pkgSpecs = append(pkgSpecs, PackageSpec{feature.Api, feature.Version})
+			}
 		}
-		api := apiVersion[0]
-		version, err := ParseVersion(apiVersion[1])
-		if err != nil {
-			return nil, err
+	} else {
+		for _, specStr := range strings.Split(specStrs, ",") {
+			apiVersion := strings.Split(specStr, "@")
+			if len(apiVersion) != 2 {
+				return nil, fmt.Errorf("Error parsing generation specification:", specStr)
+			}
+			api := apiVersion[0]
+			version, err := ParseVersion(apiVersion[1])
+			if err != nil {
+				return nil, err
+			}
+			pkgSpecs = append(pkgSpecs, PackageSpec{api, version})
 		}
-		specs = append(specs, PackageSpec{api, version})
 	}
-	return specs, nil
+	return pkgSpecs, nil
 }
 
 func printUsage(name string) {
