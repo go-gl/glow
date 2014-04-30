@@ -10,11 +10,11 @@ import (
 )
 
 type specRegistry struct {
-	XMLName  xml.Name      `xml:"registry"`
-	Types    []specType    `xml:"types>type"`
-	Enums    []specEnumSet `xml:"enums"`
-	Commands []specCommand `xml:"commands>command"`
-	Features []specFeature `xml:"feature"`
+	Types      []specType      `xml:"types>type"`
+	Enums      []specEnumSet   `xml:"enums"`
+	Commands   []specCommand   `xml:"commands>command"`
+	Features   []specFeature   `xml:"feature"`
+	Extensions []specExtension `xml:"extensions>extension"`
 }
 
 type specType struct {
@@ -71,6 +71,12 @@ type specEnumRef struct {
 
 type specCommandRef struct {
 	Name string `xml:"name,attr"`
+}
+
+type specExtension struct {
+	Name      string        `xml:"name,attr"`
+	Supported string        `xml:"supported,attr"`
+	Requires  []specRequire `xml:"require"`
 }
 
 // Parsed version of the XML specification
