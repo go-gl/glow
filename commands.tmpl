@@ -48,6 +48,7 @@ import "C"
 import "errors"
 import "github.com/errcw/glow/glt"
 import "github.com/errcw/glow/procaddr"
+import "github.com/errcw/glow/procaddr/auto"
 import "unsafe"
 
 var (
@@ -81,8 +82,12 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
 {{end}}
 
 func Init() error {
+  return InitWithProcAddrFunc(auto.GetProcAddress)
+}
+
+func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if pgl{{.GoName}} = (C.PGL{{toUpper .GoName}})(unsafe.Pointer(procaddr.GetProcAddress("gl{{.GoName}}"))); pgl{{.GoName}} == nil {
+  if pgl{{.GoName}} = (C.PGL{{toUpper .GoName}})(unsafe.Pointer(getProcAddr("gl{{.GoName}}"))); pgl{{.GoName}} == nil {
     return errors.New("gl{{.GoName}}")
   }
   {{end}}

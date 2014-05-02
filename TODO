@@ -13,9 +13,6 @@ Work to Consider
   * Filter by what types are required for the generated functions and their dependencies
   * Prefer API-specific typedefs over API-agnostic ones
     ** Same fix is also necessary for enums
-- Improve procaddr
-  * Take an Init parameter (InitWithProcaddr) instead of relying on a global variable
-  * When no parameter is provided (Init) use procaddr/auto
 - Fix generation of non-GL packages
   * Incorrect package defintions
   * Incorrect function prefixes
