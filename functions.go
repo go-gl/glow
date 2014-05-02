@@ -2,6 +2,14 @@ package main
 
 import "sort"
 
+type Function struct {
+	Name       string
+	GoName     string
+	Parameters []Parameter
+	Return     Type
+	Doc        string
+}
+
 type Parameter struct {
 	Name string
 	Type Type
@@ -13,14 +21,6 @@ func (p Parameter) CName() string {
 
 func (p Parameter) GoName() string {
 	return RenameIfReservedGoWord(p.Name)
-}
-
-type Function struct {
-	Name       string
-	GoName     string
-	Parameters []Parameter
-	Return     Type
-	Doc        string
 }
 
 type Functions map[string]*Function

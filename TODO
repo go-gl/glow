@@ -9,11 +9,8 @@ Work to Consider
 - Extensions (commands & enums outside core GL features)
   * Filter extensions by compatibility with generated API
   * Include some Go bool indicating which extensions are available? pkg.Has<FunctionName>?
-- Fix typedefs
-  * Filter by what types are required for the generated functions and their dependencies
-  * Prefer API-specific typedefs over API-agnostic ones
-    ** Same fix is also necessary for enums
 - Fix generation of non-GL packages
   * Incorrect package defintions
   * Incorrect function prefixes
   * ...? Certainly more is broken
+- Fix spec struct visibility

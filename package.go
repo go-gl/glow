@@ -12,7 +12,7 @@ type Package struct {
 	Name      string
 	Api       string
 	Version   Version
-	Typedefs  []Typedef
+	Typedefs  []*Typedef
 	Enums     Enums
 	Functions Functions
 }
