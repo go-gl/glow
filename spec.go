@@ -10,75 +10,75 @@ import (
 )
 
 type specRegistry struct {
-	types      []specType      `xml:"types>type"`
-	enums      []specEnumSet   `xml:"enums"`
-	commands   []specCommand   `xml:"commands>command"`
-	features   []specFeature   `xml:"feature"`
-	extensions []specExtension `xml:"extensions>extension"`
+	Types      []specType      `xml:"types>type"`
+	Enums      []specEnumSet   `xml:"enums"`
+	Commands   []specCommand   `xml:"commands>command"`
+	Features   []specFeature   `xml:"feature"`
+	Extensions []specExtension `xml:"extensions>extension"`
 }
 
 type specType struct {
-	name     string `xml:"name,attr"`
-	api      string `xml:"api,attr"`
-	requires string `xml:"requires,attr"`
-	raw      []byte `xml:",innerxml"`
+	Name     string `xml:"name,attr"`
+	Api      string `xml:"api,attr"`
+	Requires string `xml:"requires,attr"`
+	Raw      []byte `xml:",innerxml"`
 }
 
 type specEnumSet struct {
-	enums []specEnum `xml:"enum"`
+	Enums []specEnum `xml:"enum"`
 }
 
 type specEnum struct {
-	name  string `xml:"name,attr"`
-	value string `xml:"value,attr"`
-	api   string `xml:"api,attr"`
+	Name  string `xml:"name,attr"`
+	Value string `xml:"value,attr"`
+	Api   string `xml:"api,attr"`
 }
 
 type specCommand struct {
-	prototype specProto   `xml:"proto"`
-	api       string      `xml:"api"`
-	params    []specParam `xml:"param"`
+	Prototype specProto   `xml:"proto"`
+	Api       string      `xml:"api"`
+	Params    []specParam `xml:"param"`
 }
 
 type specSignature []byte
 
 type specProto struct {
-	raw specSignature `xml:",innerxml"`
+	Raw specSignature `xml:",innerxml"`
 }
 
 type specParam struct {
-	raw specSignature `xml:",innerxml"`
+	Raw specSignature `xml:",innerxml"`
 }
 
 type specFeature struct {
-	api      string        `xml:"api,attr"`
-	number   string        `xml:"number,attr"`
-	requires []specRequire `xml:"require"`
-	removes  []specRemove  `xml:"remove"`
+	Api      string        `xml:"api,attr"`
+	Number   string        `xml:"number,attr"`
+	Requires []specRequire `xml:"require"`
+	Removes  []specRemove  `xml:"remove"`
 }
 
 type specRequire struct {
-	enums    []specEnumRef    `xml:"enum"`
-	commands []specCommandRef `xml:"command"`
+	Enums    []specEnumRef    `xml:"enum"`
+	Commands []specCommandRef `xml:"command"`
 }
 
 type specRemove struct {
-	enums    []specEnumRef    `xml:"enum"`
-	commands []specCommandRef `xml:"command"`
+	Enums    []specEnumRef    `xml:"enum"`
+	Commands []specCommandRef `xml:"command"`
 }
 
 type specEnumRef struct {
-	name string `xml:"name,attr"`
+	Name string `xml:"name,attr"`
 }
 
 type specCommandRef struct {
-	name string `xml:"name,attr"`
+	Name string `xml:"name,attr"`
 }
 
 type specExtension struct {
-	name      string        `xml:"name,attr"`
-	supported string        `xml:"supported,attr"`
-	requires  []specRequire `xml:"require"`
+	Name      string        `xml:"name,attr"`
+	Supported string        `xml:"supported,attr"`
+	Requires  []specRequire `xml:"require"`
 }
 
 type specRef struct {
@@ -87,16 +87,14 @@ type specRef struct {
 }
 
 type specTypedef struct {
-	ref      specRef
 	typedef  *Typedef
-	required bool
+	ordinal  int
+	requires string
 }
 
 type specFunctions map[specRef]*Function
 type specEnums map[specRef]*Enum
-
-// Use an ordered list to preserve the XML declaration ordering which encodes implicit dependencies
-type specTypedefs []specTypedef
+type specTypedefs map[specRef]*specTypedef
 
 // Parsed version of the XML specification
 type Specification struct {
@@ -136,14 +134,14 @@ func readSpecFile(file string) (*specRegistry, error) {
 func parseFunctions(commands []specCommand) (specFunctions, error) {
 	functions := make(specFunctions)
 	for _, cmd := range commands {
-		cmdName, cmdReturnType, err := parseSignature(cmd.prototype.raw)
+		cmdName, cmdReturnType, err := parseSignature(cmd.Prototype.Raw)
 		if err != nil {
 			return functions, err
 		}
 
-		parameters := make([]Parameter, 0, len(cmd.params))
-		for _, param := range cmd.params {
-			paramName, paramType, err := parseSignature(param.raw)
+		parameters := make([]Parameter, 0, len(cmd.Params))
+		for _, param := range cmd.Params {
+			paramName, paramType, err := parseSignature(param.Raw)
 			if err != nil {
 				return functions, err
 			}
@@ -153,7 +151,7 @@ func parseFunctions(commands []specCommand) (specFunctions, error) {
 			parameters = append(parameters, parameter)
 		}
 
-		fnRef := specRef{cmdName, cmd.api}
+		fnRef := specRef{cmdName, cmd.Api}
 		functions[fnRef] = &Function{
 			Name:       cmdName,
 			GoName:     TrimGLCmdPrefix(cmdName),
@@ -217,42 +215,40 @@ func parseSignature(signature specSignature) (string, Type, error) {
 func parseEnums(enumSets []specEnumSet) (specEnums, error) {
 	enums := make(specEnums)
 	for _, set := range enumSets {
-		for _, enum := range set.enums {
-			enumRef := specRef{enum.name, enum.api}
+		for _, enum := range set.Enums {
+			enumRef := specRef{enum.Name, enum.Api}
 			enums[enumRef] = &Enum{
-				Name:   enum.name,
-				GoName: TrimGLEnumPrefix(enum.name),
-				Value:  enum.value}
+				Name:   enum.Name,
+				GoName: TrimGLEnumPrefix(enum.Name),
+				Value:  enum.Value}
 		}
 	}
 	return enums, nil
 }
 
 func parseTypedefs(specTypes []specType) (specTypedefs, error) {
-	typedefs := make(specTypedefs, 0, len(specTypes))
-	for _, specType := range specTypes {
+	typedefs := make(specTypedefs)
+	for i, specType := range specTypes {
 		typedef, err := parseTypedef(specType)
 		if err != nil {
 			return nil, err
 		}
-		specTd := specTypedef{
-			specRef{typedef.Name, specType.api},
-			typedef,
-			false}
-		typedefs = append(typedefs, specTd)
+		typedefRef := specRef{typedef.Name, specType.Api}
+		typedefs[typedefRef] = &specTypedef{
+			typedef:  typedef,
+			ordinal:  i,
+			requires: specType.Requires}
 	}
 	return typedefs, nil
 }
 
 func parseTypedef(specType specType) (*Typedef, error) {
 	typedef := &Typedef{
-		Name:        specType.name,
-		Api:         specType.api,
-		Requires:    specType.requires,
+		Name:        specType.Name,
 		CDefinition: ""}
 
 	readingName := false
-	decoder := xml.NewDecoder(bytes.NewBuffer(specType.raw))
+	decoder := xml.NewDecoder(bytes.NewBuffer(specType.Raw))
 	for {
 		token, err := decoder.Token()
 		if err == io.EOF {
@@ -274,14 +270,14 @@ func parseTypedef(specType specType) (*Typedef, error) {
 			} else if t.Name.Local == "apientry" {
 				typedef.CDefinition += "APIENTRY"
 			} else {
-				return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.raw)
+				return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
 			}
 		case xml.EndElement:
 			if t.Name.Local == "name" {
 				readingName = false
 			}
 		default:
-			return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.raw)
+			return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
 		}
 	}
 
@@ -291,13 +287,13 @@ func parseTypedef(specType specType) (*Typedef, error) {
 func parseFeatures(features []specFeature) ([]SpecificationFeature, error) {
 	specFeatures := make([]SpecificationFeature, 0, len(features))
 	for _, feature := range features {
-		version, err := ParseVersion(feature.number)
+		version, err := ParseVersion(feature.Number)
 		if err != nil {
 			return specFeatures, err
 		}
 
 		specFeature := SpecificationFeature{
-			Api:             feature.api,
+			Api:             feature.Api,
 			Version:         version,
 			AddedEnums:      make([]string, 0),
 			AddedCommands:   make([]string, 0),
@@ -305,21 +301,21 @@ func parseFeatures(features []specFeature) ([]SpecificationFeature, error) {
 			RemovedCommands: make([]string, 0),
 		}
 
-		for _, req := range feature.requires {
-			for _, cmd := range req.commands {
-				specFeature.AddedCommands = append(specFeature.AddedCommands, cmd.name)
+		for _, req := range feature.Requires {
+			for _, cmd := range req.Commands {
+				specFeature.AddedCommands = append(specFeature.AddedCommands, cmd.Name)
 			}
-			for _, enum := range req.enums {
-				specFeature.AddedEnums = append(specFeature.AddedEnums, enum.name)
+			for _, enum := range req.Enums {
+				specFeature.AddedEnums = append(specFeature.AddedEnums, enum.Name)
 			}
 		}
 
-		for _, rem := range feature.removes {
-			for _, cmd := range rem.commands {
-				specFeature.RemovedCommands = append(specFeature.RemovedCommands, cmd.name)
+		for _, rem := range feature.Removes {
+			for _, cmd := range rem.Commands {
+				specFeature.RemovedCommands = append(specFeature.RemovedCommands, cmd.Name)
 			}
-			for _, enum := range rem.enums {
-				specFeature.RemovedEnums = append(specFeature.RemovedEnums, enum.name)
+			for _, enum := range rem.Enums {
+				specFeature.RemovedEnums = append(specFeature.RemovedEnums, enum.Name)
 			}
 		}
 
@@ -344,16 +340,15 @@ func (enums specEnums) get(name, api string) *Enum {
 	return enums[specRef{name, ""}]
 }
 
-func (typedefs specTypedefs) markRequired(name, api string) {
-	for _, considerApi := range []bool{true, false} {
-		for i, typedef := range typedefs {
-			if typedef.ref.name == name && (typedef.ref.api == api || !considerApi) {
-				typedefs[i].required = true
-				if typedef.typedef.Requires != "" {
-					typedefs.markRequired(typedef.typedef.Requires, api)
-				}
-				return
-			}
+func (typedefs specTypedefs) selectRequired(name, api string, requiredTypedefs []*Typedef) {
+	specTypedef, ok := typedefs[specRef{name, api}]
+	if !ok {
+		specTypedef = typedefs[specRef{name, ""}]
+	}
+	if specTypedef != nil {
+		requiredTypedefs[specTypedef.ordinal] = specTypedef.typedef
+		if specTypedef.requires != "" {
+			typedefs.selectRequired(specTypedef.requires, api, requiredTypedefs)
 		}
 	}
 }
@@ -365,22 +360,22 @@ func NewSpecification(file string) (*Specification, error) {
 		return nil, err
 	}
 
-	functions, err := parseFunctions(registry.commands)
+	functions, err := parseFunctions(registry.Commands)
 	if err != nil {
 		return nil, err
 	}
 
-	enums, err := parseEnums(registry.enums)
+	enums, err := parseEnums(registry.Enums)
 	if err != nil {
 		return nil, err
 	}
 
-	typedefs, err := parseTypedefs(registry.types)
+	typedefs, err := parseTypedefs(registry.Types)
 	if err != nil {
 		return nil, err
 	}
 
-	features, err := parseFeatures(registry.features)
+	features, err := parseFeatures(registry.Features)
 	if err != nil {
 		return nil, err
 	}
@@ -410,7 +405,7 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		Api:       pkgSpec.Api,
 		Name:      pkgSpec.Api,
 		Version:   pkgSpec.Version,
-		Typedefs:  make([]*Typedef, 0),
+		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
 		Enums:     make(Enums),
 		Functions: make(Functions)}
 
@@ -441,19 +436,20 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 	}
 
 	// Add the types necessary to declare the functions
-	specTypedefs := make(specTypedefs, len(spec.Typedefs))
-	copy(specTypedefs, spec.Typedefs)
 	for _, fn := range pkg.Functions {
-		specTypedefs.markRequired(fn.Return.Name, pkg.Api)
+		spec.Typedefs.selectRequired(fn.Return.Name, pkg.Api, pkg.Typedefs)
 		for _, param := range fn.Parameters {
-			specTypedefs.markRequired(param.Type.Name, pkg.Api)
+			spec.Typedefs.selectRequired(param.Type.Name, pkg.Api, pkg.Typedefs)
 		}
 	}
-	for _, specTypedef := range specTypedefs {
-		if specTypedef.required {
-			pkg.Typedefs = append(pkg.Typedefs, specTypedef.typedef)
+	typedefCount := 0
+	for _, typedef := range pkg.Typedefs {
+		if typedef != nil {
+			pkg.Typedefs[typedefCount] = typedef
+			typedefCount++
 		}
 	}
+	pkg.Typedefs = pkg.Typedefs[:typedefCount]
 
 	return pkg
 }

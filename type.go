@@ -13,8 +13,6 @@ type Type struct {
 
 type Typedef struct {
 	Name        string // Name of the defined type (or included types)
-	Api         string // API for which this definition is relevant
-	Requires    string // Name of the prerequisite typedef (if any)
 	CDefinition string // Raw C definition
 }
 
