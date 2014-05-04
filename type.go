@@ -165,5 +165,5 @@ func (t Type) ConvertCToGo() string {
 	case "GLsync":
 		return "glt.Sync"
 	}
-	return fmt.Sprintf("<unknown type:%sC.%s>", t.pointers(), t.Name)
+	return fmt.Sprintf("%sC.%s", t.pointers(), t.Name)
 }

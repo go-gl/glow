@@ -34,18 +34,14 @@ package {{.Name}}
 // {{replace .CDefinition "\n" "\n// " -1}}
 // {{end}}
 //
-// {{range .Groups}}{{if .Required}}
-// {{range .Functions}}
+// {{range .Functions}}{{with .Function}}
 // typedef {{.Return.CType}} (APIENTRYP P{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
-// {{end}}
 // {{end}}{{end}}
 //
-// {{range .Groups}}{{if .Required}}
-// {{range .Functions}}
+// {{range .Functions}}{{with .Function}}
 // {{.Return.CType}} glow{{.GoName}}(P{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
-// {{end}}
 // {{end}}{{end}}
 // 
 import "C"
@@ -56,19 +52,15 @@ import "github.com/errcw/glow/procaddr/auto"
 import "unsafe"
 
 var (
-  {{range .Groups}}{{if .Required}}
-  {{range .Functions}}
+  {{range .Functions}}{{with .Function}}
   p{{.GoName}} C.P{{toUpper .GoName}}
-  {{end}}
   {{end}}{{end}}
 )
 
 const (
-  {{range .Groups}}{{if .Required}}
   {{range .Enums}}
   {{.GoName}} = {{.Value}}
   {{end}}
-  {{end}}{{end}}
 )
 
 // Conversion functions
@@ -87,13 +79,11 @@ func cgoChar2(p **int8) **C.GLchar {
 }
 
 {{define "bridgeCall"}}C.glow{{.GoName}}(p{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
-{{range .Groups}}{{if .Required}}
-{{range .Functions}}
+{{range .Functions}}{{with .Function}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
   {{else}}return {{.Return.ConvertCToGo}}({{template "bridgeCall" .}}){{end}}
 }
-{{end}}
 {{end}}{{end}}
 
 func Init() error {
@@ -101,12 +91,12 @@ func Init() error {
 }
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
-  {{range .Groups}}{{if .Required}}
   {{range .Functions}}
+  {{if .Required}}{{with .Function}}
   if p{{.GoName}} = (C.P{{toUpper .GoName}})(unsafe.Pointer(getProcAddr("gl{{.GoName}}"))); p{{.GoName}} == nil {
     return errors.New("gl{{.GoName}}")
   }
-  {{end}}
   {{end}}{{end}}
+  {{end}}
 	return nil
 }

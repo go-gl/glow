@@ -9,19 +9,18 @@ import (
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
-	Name     string
-	Api      string
-	Version  Version
-	Typedefs []*Typedef
-	Groups   []PackageGroup
+	Name      string
+	Api       string
+	Version   Version
+	Typedefs  []*Typedef
+	Enums     map[string]Enum
+	Functions map[string]PackageFunction
 }
 
-// A PackageGroup holds a set of related enums and functions.
-type PackageGroup struct {
-	Name      string
-	Required  bool
-	Enums     map[string]Enum
-	Functions map[string]Function
+type PackageFunction struct {
+	Function   Function
+	Required   bool
+	Extensions []string
 }
 
 // GeneratePackage writes a Go package file.

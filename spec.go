@@ -439,39 +439,15 @@ func (spec *Specification) HasPackage(pkgSpec PackageSpec) bool {
 // ToPackage generates a package from the specification.
 func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 	pkg := &Package{
-		Api:      pkgSpec.Api,
-		Name:     pkgSpec.Api,
-		Version:  pkgSpec.Version,
-		Typedefs: make([]*Typedef, len(spec.Typedefs)),
-		Groups:   make([]PackageGroup, 0),
-	}
-
-	newGroup := func(name string, required bool) PackageGroup {
-		return PackageGroup{
-			Name:      name,
-			Required:  required,
-			Functions: make(map[string]Function),
-			Enums:     make(map[string]Enum),
-		}
-	}
-
-	extendGroup := func(group PackageGroup, addRem specAddRemSet) {
-		for _, cmd := range addRem.addedCommands {
-			group.Functions[cmd] = *spec.Functions.get(cmd, pkg.Api)
-		}
-		for _, enum := range addRem.addedEnums {
-			group.Enums[enum] = *spec.Enums.get(enum, pkg.Api)
-		}
-		for _, cmd := range addRem.removedCommands {
-			delete(group.Functions, cmd)
-		}
-		for _, enum := range addRem.removedEnums {
-			delete(group.Enums, enum)
-		}
+		Api:       pkgSpec.Api,
+		Name:      pkgSpec.Api,
+		Version:   pkgSpec.Version,
+		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
+		Enums:     make(map[string]Enum),
+		Functions: make(map[string]PackageFunction),
 	}
 
 	// Select the commands and enums relevant to the specified API version
-	apiGroup := newGroup(pkg.Name, true)
 	for _, feature := range spec.Features {
 		// Skip features from a different API
 		if pkg.Api != feature.Api {
@@ -481,28 +457,59 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		if pkg.Version.Compare(feature.Version) < 0 {
 			continue
 		}
-		extendGroup(apiGroup, feature.AddRem)
+
+		for _, cmd := range feature.AddRem.addedCommands {
+			pkg.Functions[cmd] = PackageFunction{
+				Function:   *spec.Functions.get(cmd, pkg.Api),
+				Required:   true,
+				Extensions: make([]string, 0),
+			}
+		}
+		for _, enum := range feature.AddRem.addedEnums {
+			pkg.Enums[enum] = *spec.Enums.get(enum, pkg.Api)
+		}
+		for _, cmd := range feature.AddRem.removedCommands {
+			delete(pkg.Functions, cmd)
+		}
+		for _, enum := range feature.AddRem.removedEnums {
+			delete(pkg.Enums, enum)
+		}
+
 	}
-	pkg.Groups = append(pkg.Groups, apiGroup)
 
 	// Select the extensions compatible with the specified API version
 	for _, extension := range spec.Extensions {
+		// Whitelist a test extension while working out typing issues
+		// TODO Lift this restriction
+		if extension.Name != "GL_ARB_compute_shader" {
+			continue
+		}
 		matched, err := regexp.MatchString(extension.ApisRegexp, pkg.Api)
 		if !matched || err != nil {
 			continue
 		}
-		extensionGroup := newGroup(extension.Name, false)
-		extendGroup(extensionGroup, extension.AddRem)
-		pkg.Groups = append(pkg.Groups, extensionGroup)
+		for _, cmd := range extension.AddRem.addedCommands {
+			pkgFunc, ok := pkg.Functions[cmd]
+			if ok {
+				pkgFunc.Extensions = append(pkgFunc.Extensions, extension.Name)
+			} else {
+				pkg.Functions[cmd] = PackageFunction{
+					Function:   *spec.Functions.get(cmd, pkg.Api),
+					Required:   false,
+					Extensions: []string{extension.Name},
+				}
+			}
+		}
+		for _, enum := range extension.AddRem.addedEnums {
+			pkg.Enums[enum] = *spec.Enums.get(enum, pkg.Api)
+		}
 	}
 
 	// Add the types necessary to declare the functions
-	for _, group := range pkg.Groups {
-		for _, fn := range group.Functions {
-			spec.Typedefs.selectRequired(fn.Return.Name, pkg.Api, pkg.Typedefs)
-			for _, param := range fn.Parameters {
-				spec.Typedefs.selectRequired(param.Type.Name, pkg.Api, pkg.Typedefs)
-			}
+	for _, fn := range pkg.Functions {
+		spec.Typedefs.selectRequired(fn.Function.Return.Name, pkg.Api, pkg.Typedefs)
+		for _, param := range fn.Function.Parameters {
+			spec.Typedefs.selectRequired(param.Type.Name, pkg.Api, pkg.Typedefs)
 		}
 	}
 	typedefCount := 0
