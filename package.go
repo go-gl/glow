@@ -1,66 +1,47 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
 )
 
+// A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
+	Name     string
+	Api      string
+	Version  Version
+	Typedefs []*Typedef
+	Groups   []PackageGroup
+}
+
+// A PackageGroup holds a set of related enums and functions.
+type PackageGroup struct {
 	Name      string
-	Api       string
-	Version   Version
-	Typedefs  []*Typedef
-	Enums     Enums
-	Functions Functions
+	Required  bool
+	Enums     map[string]Enum
+	Functions map[string]Function
 }
 
-const docURLFmt = "https://www.opengl.org/sdk/docs/man%d/html/%s%s.xhtml"
-
-// TODO Map documentation URL by version number
-// TODO Strip suffixes to construct URLs
-
-func (p *Package) doc(fnName string) string {
-	return fmt.Sprintf(docURLFmt, p.Version.Major, p.Api, fnName)
-}
-
-func (p *Package) writeEnums(dir string) error {
-	w, err := os.Create(filepath.Join(dir, "enums.go"))
-	if err != nil {
-		return err
-	}
-	defer w.Close()
-	tmpl := template.Must(template.ParseFiles("enums.tmpl"))
-	return tmpl.Execute(NewBlankLineStrippingWriter(w), p.Enums.Sort())
-}
-
-func (p *Package) writeCommands(dir string) error {
-	w, err := os.Create(filepath.Join(dir, "commands.go"))
-	if err != nil {
-		return err
-	}
-	defer w.Close()
-	fns := template.FuncMap{
-		"replace": strings.Replace,
-		"toUpper": strings.ToUpper,
-		"doc":     p.doc,
-	}
-	tmpl := template.Must(template.New("commands.tmpl").Funcs(fns).ParseFiles("commands.tmpl"))
-	return tmpl.Execute(NewBlankLineStrippingWriter(w), p)
-}
-
-func (p *Package) GeneratePackage() error {
-	dir := filepath.Join(p.Api, p.Version.String(), p.Name)
+// GeneratePackage writes a Go package file.
+func (pkg *Package) GeneratePackage() error {
+	dir := filepath.Join(pkg.Api, pkg.Version.String(), pkg.Name)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
 	}
-	if err := p.writeEnums(dir); err != nil {
+
+	out, err := os.Create(filepath.Join(dir, pkg.Name+".go"))
+	if err != nil {
 		return err
 	}
-	if err := p.writeCommands(dir); err != nil {
-		return err
+	defer out.Close()
+
+	fns := template.FuncMap{
+		"replace": strings.Replace,
+		"toUpper": strings.ToUpper,
 	}
-	return nil
+	tmpl := template.Must(template.New("package.tmpl").Funcs(fns).ParseFiles("package.tmpl"))
+
+	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -79,6 +80,7 @@ type specExtension struct {
 	Name      string        `xml:"name,attr"`
 	Supported string        `xml:"supported,attr"`
 	Requires  []specRequire `xml:"require"`
+	Removes   []specRemove  `xml:"remove"`
 }
 
 type specRef struct {
@@ -88,30 +90,40 @@ type specRef struct {
 
 type specTypedef struct {
 	typedef  *Typedef
-	ordinal  int
-	requires string
+	ordinal  int    // Relative declaration order of the typedef
+	requires string // Optional name of the typedef required for this typedef
 }
 
 type specFunctions map[specRef]*Function
 type specEnums map[specRef]*Enum
 type specTypedefs map[specRef]*specTypedef
 
-// Parsed version of the XML specification
+type specAddRemSet struct {
+	addedCommands   []string
+	addedEnums      []string
+	removedCommands []string
+	removedEnums    []string
+}
+
+// A Specification is a parsed version of an XML registry.
 type Specification struct {
-	Functions specFunctions
-	Enums     specEnums
-	Typedefs  specTypedefs
-	Features  []SpecificationFeature
+	Functions  specFunctions
+	Enums      specEnums
+	Typedefs   specTypedefs
+	Features   []SpecificationFeature
+	Extensions []SpecificationExtension
 }
 
 type SpecificationFeature struct {
 	Api     string
 	Version Version
+	AddRem  specAddRemSet
+}
 
-	AddedEnums      []string
-	AddedCommands   []string
-	RemovedEnums    []string
-	RemovedCommands []string
+type SpecificationExtension struct {
+	Name       string
+	ApisRegexp string
+	AddRem     specAddRemSet
 }
 
 func readSpecFile(file string) (*specRegistry, error) {
@@ -284,44 +296,63 @@ func parseTypedef(specType specType) (*Typedef, error) {
 	return typedef, nil
 }
 
-func parseFeatures(features []specFeature) ([]SpecificationFeature, error) {
-	specFeatures := make([]SpecificationFeature, 0, len(features))
-	for _, feature := range features {
-		version, err := ParseVersion(feature.Number)
+func parseFeatures(specFeatures []specFeature) ([]SpecificationFeature, error) {
+	features := make([]SpecificationFeature, 0, len(specFeatures))
+	for _, specFeature := range specFeatures {
+		version, err := ParseVersion(specFeature.Number)
 		if err != nil {
-			return specFeatures, err
+			return features, err
 		}
-
-		specFeature := SpecificationFeature{
-			Api:             feature.Api,
-			Version:         version,
-			AddedEnums:      make([]string, 0),
-			AddedCommands:   make([]string, 0),
-			RemovedEnums:    make([]string, 0),
-			RemovedCommands: make([]string, 0),
+		feature := SpecificationFeature{
+			Api:     specFeature.Api,
+			Version: version,
+			AddRem:  parseAddRem(specFeature.Requires, specFeature.Removes),
 		}
-
-		for _, req := range feature.Requires {
-			for _, cmd := range req.Commands {
-				specFeature.AddedCommands = append(specFeature.AddedCommands, cmd.Name)
-			}
-			for _, enum := range req.Enums {
-				specFeature.AddedEnums = append(specFeature.AddedEnums, enum.Name)
-			}
-		}
-
-		for _, rem := range feature.Removes {
-			for _, cmd := range rem.Commands {
-				specFeature.RemovedCommands = append(specFeature.RemovedCommands, cmd.Name)
-			}
-			for _, enum := range rem.Enums {
-				specFeature.RemovedEnums = append(specFeature.RemovedEnums, enum.Name)
-			}
-		}
-
-		specFeatures = append(specFeatures, specFeature)
+		features = append(features, feature)
 	}
-	return specFeatures, nil
+	return features, nil
+}
+
+func parseAddRem(requires []specRequire, removes []specRemove) specAddRemSet {
+	addRem := specAddRemSet{
+		addedEnums:      make([]string, 0),
+		addedCommands:   make([]string, 0),
+		removedEnums:    make([]string, 0),
+		removedCommands: make([]string, 0),
+	}
+	for _, req := range requires {
+		for _, cmd := range req.Commands {
+			addRem.addedCommands = append(addRem.addedCommands, cmd.Name)
+		}
+		for _, enum := range req.Enums {
+			addRem.addedEnums = append(addRem.addedEnums, enum.Name)
+		}
+	}
+	for _, rem := range removes {
+		for _, cmd := range rem.Commands {
+			addRem.removedCommands = append(addRem.removedCommands, cmd.Name)
+		}
+		for _, enum := range rem.Enums {
+			addRem.removedEnums = append(addRem.removedEnums, enum.Name)
+		}
+	}
+	return addRem
+}
+
+func parseExtensions(specExtensions []specExtension) ([]SpecificationExtension, error) {
+	extensions := make([]SpecificationExtension, 0, len(specExtensions))
+	for _, specExtension := range specExtensions {
+		if len(specExtension.Removes) > 0 {
+			return nil, fmt.Errorf("Unexpected extension with removal requirement: %s", specExtension)
+		}
+		extension := SpecificationExtension{
+			Name:       specExtension.Name,
+			ApisRegexp: specExtension.Supported,
+			AddRem:     parseAddRem(specExtension.Requires, specExtension.Removes),
+		}
+		extensions = append(extensions, extension)
+	}
+	return extensions, nil
 }
 
 func (functions specFunctions) get(name, api string) *Function {
@@ -380,11 +411,17 @@ func NewSpecification(file string) (*Specification, error) {
 		return nil, err
 	}
 
+	extensions, err := parseExtensions(registry.Extensions)
+	if err != nil {
+		return nil, err
+	}
+
 	spec := &Specification{
-		Functions: functions,
-		Enums:     enums,
-		Typedefs:  typedefs,
-		Features:  features,
+		Functions:  functions,
+		Enums:      enums,
+		Typedefs:   typedefs,
+		Features:   features,
+		Extensions: extensions,
 	}
 	return spec, nil
 }
@@ -402,14 +439,39 @@ func (spec *Specification) HasPackage(pkgSpec PackageSpec) bool {
 // ToPackage generates a package from the specification.
 func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 	pkg := &Package{
-		Api:       pkgSpec.Api,
-		Name:      pkgSpec.Api,
-		Version:   pkgSpec.Version,
-		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
-		Enums:     make(Enums),
-		Functions: make(Functions)}
+		Api:      pkgSpec.Api,
+		Name:     pkgSpec.Api,
+		Version:  pkgSpec.Version,
+		Typedefs: make([]*Typedef, len(spec.Typedefs)),
+		Groups:   make([]PackageGroup, 0),
+	}
+
+	newGroup := func(name string, required bool) PackageGroup {
+		return PackageGroup{
+			Name:      name,
+			Required:  required,
+			Functions: make(map[string]Function),
+			Enums:     make(map[string]Enum),
+		}
+	}
+
+	extendGroup := func(group PackageGroup, addRem specAddRemSet) {
+		for _, cmd := range addRem.addedCommands {
+			group.Functions[cmd] = *spec.Functions.get(cmd, pkg.Api)
+		}
+		for _, enum := range addRem.addedEnums {
+			group.Enums[enum] = *spec.Enums.get(enum, pkg.Api)
+		}
+		for _, cmd := range addRem.removedCommands {
+			delete(group.Functions, cmd)
+		}
+		for _, enum := range addRem.removedEnums {
+			delete(group.Enums, enum)
+		}
+	}
 
 	// Select the commands and enums relevant to the specified API version
+	apiGroup := newGroup(pkg.Name, true)
 	for _, feature := range spec.Features {
 		// Skip features from a different API
 		if pkg.Api != feature.Api {
@@ -419,27 +481,28 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		if pkg.Version.Compare(feature.Version) < 0 {
 			continue
 		}
+		extendGroup(apiGroup, feature.AddRem)
+	}
+	pkg.Groups = append(pkg.Groups, apiGroup)
 
-		for _, enum := range feature.AddedEnums {
-			pkg.Enums[enum] = spec.Enums.get(enum, pkg.Api)
+	// Select the extensions compatible with the specified API version
+	for _, extension := range spec.Extensions {
+		matched, err := regexp.MatchString(extension.ApisRegexp, pkg.Api)
+		if !matched || err != nil {
+			continue
 		}
-		for _, cmd := range feature.AddedCommands {
-			pkg.Functions[cmd] = spec.Functions.get(cmd, pkg.Api)
-		}
-
-		for _, enum := range feature.RemovedEnums {
-			delete(pkg.Enums, enum)
-		}
-		for _, cmd := range feature.RemovedCommands {
-			delete(pkg.Functions, cmd)
-		}
+		extensionGroup := newGroup(extension.Name, false)
+		extendGroup(extensionGroup, extension.AddRem)
+		pkg.Groups = append(pkg.Groups, extensionGroup)
 	}
 
 	// Add the types necessary to declare the functions
-	for _, fn := range pkg.Functions {
-		spec.Typedefs.selectRequired(fn.Return.Name, pkg.Api, pkg.Typedefs)
-		for _, param := range fn.Parameters {
-			spec.Typedefs.selectRequired(param.Type.Name, pkg.Api, pkg.Typedefs)
+	for _, group := range pkg.Groups {
+		for _, fn := range group.Functions {
+			spec.Typedefs.selectRequired(fn.Return.Name, pkg.Api, pkg.Typedefs)
+			for _, param := range fn.Parameters {
+				spec.Typedefs.selectRequired(param.Type.Name, pkg.Api, pkg.Typedefs)
+			}
 		}
 	}
 	typedefCount := 0
