@@ -29,18 +29,20 @@ func TrimApiPrefix(name string) string {
 	return trimmed
 }
 
+// RenameIfReservedCWord returns a C-safe version of the given word.
 func RenameIfReservedCWord(word string) string {
 	switch word {
 	case "near", "far":
-		return fmt.Sprintf("%s", word)
+		return fmt.Sprintf("x%s", word)
 	}
 	return word
 }
 
+// RenameIfReservedGoWord returns a Go-safe version of the given word.
 func RenameIfReservedGoWord(word string) string {
 	switch word {
 	case "func", "type", "struct", "range", "map", "string":
-		return fmt.Sprintf("gl%s", word)
+		return fmt.Sprintf("x%s", word)
 	}
 	return word
 }
