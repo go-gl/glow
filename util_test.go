@@ -11,7 +11,7 @@ var trimApiPrefixTests = []trimApiPrefixTest{
 	{"glTest", "Test"},
 	{"wglTest", "Test"},
 	{"eglTest", "Test"},
-	{"glxTest", "Test"},
+	{"glXTest", "Test"},
 	{"GL_TEST", "TEST"},
 	{"WGL_TEST", "TEST"},
 	{"EGL_TEST", "TEST"},

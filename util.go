@@ -11,7 +11,7 @@ import (
 // TrimApiPrefix removes the API-specific prefix from a spec name.
 // e.g., glTest becomes Test; GLX_TEST becomes TEST; egl0Test stays egl0Test
 func TrimApiPrefix(name string) string {
-	prefixes := []string{"glx", "wgl", "egl", "gl", "GLX_", "WGL_", "EGL_", "GL_"}
+	prefixes := []string{"glX", "wgl", "egl", "gl", "GLX_", "WGL_", "EGL_", "GL_"}
 
 	trimmed := name
 	prefix := ""
