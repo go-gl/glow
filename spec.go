@@ -10,77 +10,77 @@ import (
 	"strings"
 )
 
-type specRegistry struct {
-	Types      []specType      `xml:"types>type"`
-	Enums      []specEnumSet   `xml:"enums"`
-	Commands   []specCommand   `xml:"commands>command"`
-	Features   []specFeature   `xml:"feature"`
-	Extensions []specExtension `xml:"extensions>extension"`
+type xmlRegistry struct {
+	Types      []xmlType      `xml:"types>type"`
+	Enums      []xmlEnumSet   `xml:"enums"`
+	Commands   []xmlCommand   `xml:"commands>command"`
+	Features   []xmlFeature   `xml:"feature"`
+	Extensions []xmlExtension `xml:"extensions>extension"`
 }
 
-type specType struct {
+type xmlType struct {
 	Name     string `xml:"name,attr"`
 	Api      string `xml:"api,attr"`
 	Requires string `xml:"requires,attr"`
 	Raw      []byte `xml:",innerxml"`
 }
 
-type specEnumSet struct {
-	Enums []specEnum `xml:"enum"`
+type xmlEnumSet struct {
+	Enums []xmlEnum `xml:"enum"`
 }
 
-type specEnum struct {
+type xmlEnum struct {
 	Name  string `xml:"name,attr"`
 	Value string `xml:"value,attr"`
 	Api   string `xml:"api,attr"`
 }
 
-type specCommand struct {
-	Prototype specProto   `xml:"proto"`
-	Api       string      `xml:"api"`
-	Params    []specParam `xml:"param"`
+type xmlCommand struct {
+	Prototype xmlProto   `xml:"proto"`
+	Api       string     `xml:"api"`
+	Params    []xmlParam `xml:"param"`
 }
 
-type specSignature []byte
+type xmlSignature []byte
 
-type specProto struct {
-	Raw specSignature `xml:",innerxml"`
+type xmlProto struct {
+	Raw xmlSignature `xml:",innerxml"`
 }
 
-type specParam struct {
-	Raw specSignature `xml:",innerxml"`
+type xmlParam struct {
+	Raw xmlSignature `xml:",innerxml"`
 }
 
-type specFeature struct {
-	Api      string        `xml:"api,attr"`
-	Number   string        `xml:"number,attr"`
-	Requires []specRequire `xml:"require"`
-	Removes  []specRemove  `xml:"remove"`
+type xmlFeature struct {
+	Api      string       `xml:"api,attr"`
+	Number   string       `xml:"number,attr"`
+	Requires []xmlRequire `xml:"require"`
+	Removes  []xmlRemove  `xml:"remove"`
 }
 
-type specRequire struct {
-	Enums    []specEnumRef    `xml:"enum"`
-	Commands []specCommandRef `xml:"command"`
+type xmlRequire struct {
+	Enums    []xmlEnumRef    `xml:"enum"`
+	Commands []xmlCommandRef `xml:"command"`
 }
 
-type specRemove struct {
-	Enums    []specEnumRef    `xml:"enum"`
-	Commands []specCommandRef `xml:"command"`
+type xmlRemove struct {
+	Enums    []xmlEnumRef    `xml:"enum"`
+	Commands []xmlCommandRef `xml:"command"`
 }
 
-type specEnumRef struct {
+type xmlEnumRef struct {
 	Name string `xml:"name,attr"`
 }
 
-type specCommandRef struct {
+type xmlCommandRef struct {
 	Name string `xml:"name,attr"`
 }
 
-type specExtension struct {
-	Name      string        `xml:"name,attr"`
-	Supported string        `xml:"supported,attr"`
-	Requires  []specRequire `xml:"require"`
-	Removes   []specRemove  `xml:"remove"`
+type xmlExtension struct {
+	Name      string       `xml:"name,attr"`
+	Supported string       `xml:"supported,attr"`
+	Requires  []xmlRequire `xml:"require"`
+	Removes   []xmlRemove  `xml:"remove"`
 }
 
 type specRef struct {
@@ -126,8 +126,8 @@ type SpecificationExtension struct {
 	AddRem     specAddRemSet
 }
 
-func readSpecFile(file string) (*specRegistry, error) {
-	var registry specRegistry
+func readSpecFile(file string) (*xmlRegistry, error) {
+	var registry xmlRegistry
 
 	f, err := os.Open(file)
 	if err != nil {
@@ -143,7 +143,7 @@ func readSpecFile(file string) (*specRegistry, error) {
 	return &registry, nil
 }
 
-func parseFunctions(commands []specCommand) (specFunctions, error) {
+func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 	functions := make(specFunctions)
 	for _, cmd := range commands {
 		cmdName, cmdReturnType, err := parseSignature(cmd.Prototype.Raw)
@@ -173,7 +173,7 @@ func parseFunctions(commands []specCommand) (specFunctions, error) {
 	return functions, nil
 }
 
-func parseSignature(signature specSignature) (string, Type, error) {
+func parseSignature(signature xmlSignature) (string, Type, error) {
 	name := ""
 	ctype := Type{}
 
@@ -224,7 +224,7 @@ func parseSignature(signature specSignature) (string, Type, error) {
 	return name, ctype, nil
 }
 
-func parseEnums(enumSets []specEnumSet) (specEnums, error) {
+func parseEnums(enumSets []xmlEnumSet) (specEnums, error) {
 	enums := make(specEnums)
 	for _, set := range enumSets {
 		for _, enum := range set.Enums {
@@ -238,29 +238,29 @@ func parseEnums(enumSets []specEnumSet) (specEnums, error) {
 	return enums, nil
 }
 
-func parseTypedefs(specTypes []specType) (specTypedefs, error) {
+func parseTypedefs(types []xmlType) (specTypedefs, error) {
 	typedefs := make(specTypedefs)
-	for i, specType := range specTypes {
-		typedef, err := parseTypedef(specType)
+	for i, xtype := range types {
+		typedef, err := parseTypedef(xtype)
 		if err != nil {
 			return nil, err
 		}
-		typedefRef := specRef{typedef.Name, specType.Api}
+		typedefRef := specRef{typedef.Name, xtype.Api}
 		typedefs[typedefRef] = &specTypedef{
 			typedef:  typedef,
 			ordinal:  i,
-			requires: specType.Requires}
+			requires: xtype.Requires}
 	}
 	return typedefs, nil
 }
 
-func parseTypedef(specType specType) (*Typedef, error) {
+func parseTypedef(xmlType xmlType) (*Typedef, error) {
 	typedef := &Typedef{
-		Name:        specType.Name,
+		Name:        xmlType.Name,
 		CDefinition: ""}
 
 	readingName := false
-	decoder := xml.NewDecoder(bytes.NewBuffer(specType.Raw))
+	decoder := xml.NewDecoder(bytes.NewBuffer(xmlType.Raw))
 	for {
 		token, err := decoder.Token()
 		if err == io.EOF {
@@ -282,38 +282,38 @@ func parseTypedef(specType specType) (*Typedef, error) {
 			} else if t.Name.Local == "apientry" {
 				typedef.CDefinition += "APIENTRY"
 			} else {
-				return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
+				return typedef, fmt.Errorf("Unexpected typedef XML: %s", xmlType.Raw)
 			}
 		case xml.EndElement:
 			if t.Name.Local == "name" {
 				readingName = false
 			}
 		default:
-			return typedef, fmt.Errorf("Unexpected typedef XML: %s", specType.Raw)
+			return typedef, fmt.Errorf("Unexpected typedef XML: %s", xmlType.Raw)
 		}
 	}
 
 	return typedef, nil
 }
 
-func parseFeatures(specFeatures []specFeature) ([]SpecificationFeature, error) {
-	features := make([]SpecificationFeature, 0, len(specFeatures))
-	for _, specFeature := range specFeatures {
-		version, err := ParseVersion(specFeature.Number)
+func parseFeatures(xmlFeatures []xmlFeature) ([]SpecificationFeature, error) {
+	features := make([]SpecificationFeature, 0, len(xmlFeatures))
+	for _, xmlFeature := range xmlFeatures {
+		version, err := ParseVersion(xmlFeature.Number)
 		if err != nil {
 			return features, err
 		}
 		feature := SpecificationFeature{
-			Api:     specFeature.Api,
+			Api:     xmlFeature.Api,
 			Version: version,
-			AddRem:  parseAddRem(specFeature.Requires, specFeature.Removes),
+			AddRem:  parseAddRem(xmlFeature.Requires, xmlFeature.Removes),
 		}
 		features = append(features, feature)
 	}
 	return features, nil
 }
 
-func parseAddRem(requires []specRequire, removes []specRemove) specAddRemSet {
+func parseAddRem(requires []xmlRequire, removes []xmlRemove) specAddRemSet {
 	addRem := specAddRemSet{
 		addedEnums:      make([]string, 0),
 		addedCommands:   make([]string, 0),
@@ -339,16 +339,16 @@ func parseAddRem(requires []specRequire, removes []specRemove) specAddRemSet {
 	return addRem
 }
 
-func parseExtensions(specExtensions []specExtension) ([]SpecificationExtension, error) {
-	extensions := make([]SpecificationExtension, 0, len(specExtensions))
-	for _, specExtension := range specExtensions {
-		if len(specExtension.Removes) > 0 {
-			return nil, fmt.Errorf("Unexpected extension with removal requirement: %s", specExtension)
+func parseExtensions(xmlExtensions []xmlExtension) ([]SpecificationExtension, error) {
+	extensions := make([]SpecificationExtension, 0, len(xmlExtensions))
+	for _, xmlExtension := range xmlExtensions {
+		if len(xmlExtension.Removes) > 0 {
+			return nil, fmt.Errorf("Unexpected extension with removal requirement: %s", xmlExtension)
 		}
 		extension := SpecificationExtension{
-			Name:       specExtension.Name,
-			ApisRegexp: specExtension.Supported,
-			AddRem:     parseAddRem(specExtension.Requires, specExtension.Removes),
+			Name:       xmlExtension.Name,
+			ApisRegexp: xmlExtension.Supported,
+			AddRem:     parseAddRem(xmlExtension.Requires, xmlExtension.Removes),
 		}
 		extensions = append(extensions, extension)
 	}
