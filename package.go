@@ -44,3 +44,18 @@ func (pkg *Package) GeneratePackage() error {
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
+
+// Extensions returns the set of unique extension names exposed by the package.
+func (pkg *Package) Extensions() []string {
+	extensionSet := make(map[string]bool)
+	for _, fn := range pkg.Functions {
+		for _, extension := range fn.Extensions {
+			extensionSet[extension] = true
+		}
+	}
+	extensions := make([]string, 0, len(extensionSet))
+	for extension, _ := range extensionSet {
+		extensions = append(extensions, extension)
+	}
+	return extensions
+}

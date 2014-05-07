@@ -51,15 +51,21 @@ import "github.com/errcw/glow/procaddr"
 import "github.com/errcw/glow/procaddr/auto"
 import "unsafe"
 
+const (
+  {{range .Enums}}
+  {{.GoName}} = {{.Value}}
+  {{end}}
+)
+
 var (
   {{range .Functions}}{{with .Function}}
   p{{.GoName}} C.P{{toUpper .GoName}}
   {{end}}{{end}}
 )
 
-const (
-  {{range .Enums}}
-  {{.GoName}} = {{.Value}}
+var (
+  {{range .Extensions}}
+  {{.}} = true
   {{end}}
 )
 
@@ -92,11 +98,14 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  {{if .Required}}{{with .Function}}
-  if p{{.GoName}} = (C.P{{toUpper .GoName}})(unsafe.Pointer(getProcAddr("gl{{.GoName}}"))); p{{.GoName}} == nil {
-    return errors.New("gl{{.GoName}}")
+  if p{{.Function.GoName}} = (C.P{{toUpper .Function.GoName}})(unsafe.Pointer(getProcAddr("{{.Function.Name}}"))); p{{.Function.GoName}} == nil {
+    {{range .Extensions}}
+    {{.}} = false
+    {{end}}
+    {{if .Required}}
+    return errors.New("gl{{.Function.GoName}}")
+    {{end}}
   }
-  {{end}}{{end}}
   {{end}}
 	return nil
 }

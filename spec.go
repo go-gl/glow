@@ -449,15 +449,10 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 
 	// Select the commands and enums relevant to the specified API version
 	for _, feature := range spec.Features {
-		// Skip features from a different API
-		if pkg.Api != feature.Api {
+		// Skip features from a different API or future version
+		if pkg.Api != feature.Api || pkg.Version.Compare(feature.Version) < 0 {
 			continue
 		}
-		// Skip features from a later version than the package
-		if pkg.Version.Compare(feature.Version) < 0 {
-			continue
-		}
-
 		for _, cmd := range feature.AddRem.addedCommands {
 			pkg.Functions[cmd] = PackageFunction{
 				Function:   *spec.Functions.get(cmd, pkg.Api),
@@ -481,7 +476,7 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 	for _, extension := range spec.Extensions {
 		// Whitelist a test extension while working out typing issues
 		// TODO Lift this restriction
-		if extension.Name != "GL_ARB_compute_shader" {
+		if extension.Name != "GL_ARB_compute_shader" && extension.Name != "GL_ARB_vertex_buffer_object" {
 			continue
 		}
 		matched, err := regexp.MatchString(extension.ApisRegexp, pkg.Api)
@@ -489,9 +484,9 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 			continue
 		}
 		for _, cmd := range extension.AddRem.addedCommands {
-			pkgFunc, ok := pkg.Functions[cmd]
+			fn, ok := pkg.Functions[cmd]
 			if ok {
-				pkgFunc.Extensions = append(pkgFunc.Extensions, extension.Name)
+				fn.Extensions = append(fn.Extensions, extension.Name)
 			} else {
 				pkg.Functions[cmd] = PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.Api),
