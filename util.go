@@ -8,32 +8,21 @@ import (
 	"unicode"
 )
 
-func TrimGLCmdPrefix(cmdName string) string {
-	if strings.HasPrefix(cmdName, "gl") {
-		return strings.TrimPrefix(cmdName, "gl")
-	}
-	if strings.HasPrefix(cmdName, "glx") {
-		return strings.TrimPrefix(cmdName, "glx")
-	}
-	if strings.HasPrefix(cmdName, "wgl") {
-		return strings.TrimPrefix(cmdName, "wgl")
-	}
-	return cmdName
-}
+// TrimApiPrefix removes the API-specific prefix from a spec name.
+// e.g., glTest becomes Test; GLX_TEST becomes TEST; egl0Test stays egl0Test
+func TrimApiPrefix(name string) string {
+	prefixes := []string{"glx", "wgl", "egl", "gl", "GLX_", "WGL_", "EGL_", "GL_"}
 
-func TrimGLEnumPrefix(enumName string) string {
-	trimmed := enumName
+	trimmed := name
 	prefix := ""
-	if strings.HasPrefix(enumName, "GL_") {
-		trimmed = strings.TrimPrefix(enumName, "GL_")
-		prefix = "GL_"
-	} else if strings.HasPrefix(enumName, "GLX_") {
-		trimmed = strings.TrimPrefix(enumName, "GLX_")
-		prefix = "GLX_"
-	} else if strings.HasPrefix(enumName, "WGL_") {
-		trimmed = strings.TrimPrefix(enumName, "WGL_")
-		prefix = "WGL_"
+	for _, p := range prefixes {
+		if strings.HasPrefix(name, p) {
+			trimmed = strings.TrimPrefix(name, p)
+			prefix = p
+			break
+		}
 	}
+
 	if strings.IndexAny(trimmed, "0123456789") == 0 {
 		return prefix + trimmed
 	}

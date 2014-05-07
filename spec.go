@@ -166,7 +166,7 @@ func parseFunctions(commands []specCommand) (specFunctions, error) {
 		fnRef := specRef{cmdName, cmd.Api}
 		functions[fnRef] = &Function{
 			Name:       cmdName,
-			GoName:     TrimGLCmdPrefix(cmdName),
+			GoName:     TrimApiPrefix(cmdName),
 			Parameters: parameters,
 			Return:     cmdReturnType}
 	}
@@ -231,7 +231,7 @@ func parseEnums(enumSets []specEnumSet) (specEnums, error) {
 			enumRef := specRef{enum.Name, enum.Api}
 			enums[enumRef] = &Enum{
 				Name:   enum.Name,
-				GoName: TrimGLEnumPrefix(enum.Name),
+				GoName: TrimApiPrefix(enum.Name),
 				Value:  enum.Value}
 		}
 	}
@@ -491,7 +491,7 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 				pkg.Functions[cmd] = PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.Api),
 					Required:   false,
-					Extensions: []string{extension.Name},
+					Extensions: []string{TrimApiPrefix(extension.Name)},
 				}
 			}
 		}

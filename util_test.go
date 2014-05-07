@@ -2,27 +2,29 @@ package main
 
 import "testing"
 
-type trimGLEnumPrefixTest struct {
+type trimApiPrefixTest struct {
 	in       string
 	expected string
 }
 
-var trimGLEnumPrefixTests = []trimGLEnumPrefixTest{
-	{"", ""},
-	{"_", "_"},
-	{"GL_", ""},
-	{"GL_bla", "bla"},
-	{"GL123", "GL123"},
-	{"GL_0123", "GL_0123"},
-	{"GL", "GL"},
+var trimApiPrefixTests = []trimApiPrefixTest{
+	{"glTest", "Test"},
+	{"wglTest", "Test"},
+	{"eglTest", "Test"},
+	{"glxTest", "Test"},
+	{"GL_TEST", "TEST"},
+	{"WGL_TEST", "TEST"},
+	{"EGL_TEST", "TEST"},
+	{"GLX_TEST", "TEST"},
+	{"GL_0TEST", "GL_0TEST"},
+	{"gl0Test", "gl0Test"},
 }
 
-func TestEnumPrefix(t *testing.T) {
-	for i := range trimGLEnumPrefixTests {
-		test := &trimGLEnumPrefixTests[i]
-		trimmed := TrimGLEnumPrefix(test.in)
+func TestTrimApiPrefix(t *testing.T) {
+	for _, test := range trimApiPrefixTests {
+		trimmed := TrimApiPrefix(test.in)
 		if trimmed != test.expected {
-			t.Errorf("TrimGLEnumPrefix(%s) failed: %s != %s", test.in, test.expected, trimmed)
+			t.Errorf("TrimApiPrefix(%s) failed: %s != %s", test.in, test.expected, trimmed)
 		}
 	}
 }
