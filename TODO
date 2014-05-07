@@ -3,13 +3,8 @@ Work to Consider
 
 - Refactor types 
   * Ensure OpenGL 4 types work correctly
+  * Ensure extension types work correctly
   * Use default C type when Go type conversion unavailable? (i.e., default to "C.<whatever>")
 - Fix debug proc handling
 - Add doc processing and emit function comments
-- Extensions (commands & enums outside core GL features)
-  * Filter extensions by compatibility with generated API
-  * Include some Go bool indicating which extensions are available? pkg.Has<FunctionName>?
-- Fix generation of non-GL packages
-  * Incorrect package defintions
-  * Incorrect function prefixes
-  * ...? Certainly more is broken
+- Test generation of non-GL packages
