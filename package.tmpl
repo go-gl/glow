@@ -103,7 +103,7 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     {{.}} = false
     {{end}}
     {{if .Required}}
-    return errors.New("gl{{.Function.GoName}}")
+    return errors.New("{{.Function.Name}}")
     {{end}}
   }
   {{end}}
