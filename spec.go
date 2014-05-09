@@ -469,7 +469,6 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		for _, enum := range feature.AddRem.removedEnums {
 			delete(pkg.Enums, enum)
 		}
-
 	}
 
 	// Select the extensions compatible with the specified API version
@@ -486,7 +485,7 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 		for _, cmd := range extension.AddRem.addedCommands {
 			fn, ok := pkg.Functions[cmd]
 			if ok {
-				fn.Extensions = append(fn.Extensions, extension.Name)
+				fn.Extensions = append(fn.Extensions, TrimApiPrefix(extension.Name))
 			} else {
 				pkg.Functions[cmd] = PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.Api),
