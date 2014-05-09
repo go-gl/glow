@@ -196,14 +196,11 @@ func parseSignature(signature xmlSignature) (string, Type, error) {
 				name = raw
 			} else if readingType {
 				ctype.Name = raw
-			} else {
-				if strings.Contains(raw, "void") {
-					ctype.Name = "void"
-				}
-				ctype.PointerLevel += strings.Count(raw, "*")
 			}
+			// Even if we're not explicitly reading the type we're doing so implicitly
 			if !readingName {
 				ctype.CDefinition += string(t)
+				ctype.PointerLevel += strings.Count(raw, "*")
 			}
 		case xml.StartElement:
 			if t.Name.Local == "ptype" {
@@ -221,6 +218,15 @@ func parseSignature(signature xmlSignature) (string, Type, error) {
 			}
 		}
 	}
+
+	if ctype.Name == "" {
+		cTypeName := ctype.CDefinition
+		cTypeName = strings.Replace(cTypeName, "const", "", -1)
+		cTypeName = strings.Replace(cTypeName, "*", "", -1)
+		cTypeName = strings.Replace(cTypeName, " ", "", -1)
+		ctype.Name = cTypeName
+	}
+
 	return name, ctype, nil
 }
 
