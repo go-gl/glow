@@ -110,25 +110,25 @@ func (t Type) GoType() string {
 	return t.pointers() + "C." + t.Name
 }
 
-// ConvertGoToC converts from the Go type to the C type.
-func (t Type) ConvertGoToC() string {
+// ConvertGoToC returns an expression that converts a variable from the Go type to the C type.
+func (t Type) ConvertGoToC(name string) string {
 	switch t.Name {
 	case "GLboolean":
 		if t.PointerLevel == 0 {
-			return "GoBoolean"
+			return fmt.Sprintf("(C.GLboolean)(boolToInt(%s))", name)
 		}
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
-			return "unsafe.Pointer"
+			return fmt.Sprintf("unsafe.Pointer(%s)", name)
 		} else if t.PointerLevel == 2 {
-			return "cgoPtr1"
+			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
 		}
 	case "GLchar":
 		if t.PointerLevel == 2 {
-			return "cgoChar2"
+			return fmt.Sprintf("(**C.GLchar)(unsafe.Pointer(%s))", name)
 		}
 	}
-	return fmt.Sprintf("(%sC.%s)", t.pointers(), t.Name)
+	return fmt.Sprintf("(%sC.%s)(%s)", t.pointers(), t.Name, name)
 }
 
 // ConvertCToGo converts from the C type to the Go type.

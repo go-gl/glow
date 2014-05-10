@@ -14,7 +14,7 @@ package {{.Name}}
 {{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
 {{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.CName}}{{end}}{{end}}
 {{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
-{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC}}({{$p.GoName}}){{end}}{{end}}
+{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
@@ -80,15 +80,9 @@ var (
 func GLBoolean(b C.GLboolean) bool {
 	return b == TRUE
 }
-func GoBoolean(b bool) C.GLboolean {
-	if b { return TRUE }
-	return FALSE
-}
-func cgoPtr1(p *glt.Pointer) *unsafe.Pointer {
-	return (*unsafe.Pointer)(unsafe.Pointer(p))
-}
-func cgoChar2(p **int8) **C.GLchar {
-	return (**C.GLchar)(unsafe.Pointer(p))
+func boolToInt(b bool) int {
+	if b { return 1 }
+	return 0
 }
 
 {{define "bridgeCall"}}C.glow{{.GoName}}(p{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
