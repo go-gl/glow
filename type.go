@@ -36,15 +36,14 @@ func (t Type) CType() string {
 // GoType returns the Go definition of the type.
 func (t Type) GoType() string {
 	switch t.Name {
-	case "GLenum":
-		return t.pointers() + "glt.Enum"
-	case "GLbitfield":
-		return t.pointers() + "glt.Bitfield"
-	case "GLboolean":
-		if t.PointerLevel == 0 {
-			return "bool"
-		}
-		return t.pointers() + "byte"
+	case "GLbyte":
+		return t.pointers() + "int8"
+	case "GLubyte":
+		return t.pointers() + "uint8"
+	case "GLshort":
+		return t.pointers() + "int16"
+	case "GLushort":
+		return t.pointers() + "uint16"
 	case "GLint":
 		return t.pointers() + "int32"
 	case "GLuint":
@@ -53,57 +52,49 @@ func (t Type) GoType() string {
 		return t.pointers() + "int64"
 	case "GLuint64", "GLuint64EXT":
 		return t.pointers() + "uint64"
-	case "GLclampf", "GLfloat":
+	case "GLfloat", "GLclampf":
 		return t.pointers() + "float32"
-	case "GLclampd", "GLdouble":
+	case "GLdouble", "GLclampd":
 		return t.pointers() + "float64"
 	case "GLclampx":
 		return t.pointers() + "int32"
 	case "GLsizei":
 		return t.pointers() + "int32"
-	case "GLbyte":
-		return t.pointers() + "int8"
 	case "GLfixed":
 		return t.pointers() + "int32"
+	case "GLchar", "GLcharARB":
+		return t.pointers() + "int8"
+	case "GLenum":
+		return t.pointers() + "glt.Enum"
+	case "GLbitfield":
+		return t.pointers() + "glt.Bitfield"
+	case "GLhalf", "GLhalfNV": // Go has no 16-bit floating point type
+		return t.pointers() + "uint16"
+	case "GLboolean":
+		if t.PointerLevel == 0 {
+			return "bool"
+		}
+		return t.pointers() + "byte"
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
 			return "glt.Pointer"
 		} else if t.PointerLevel == 2 {
 			return "*glt.Pointer"
 		}
-		return ""
 	case "GLintptr", "GLintptrARB":
 		if t.PointerLevel == 0 {
 			return "int"
 		}
 		return t.pointers() + "int64"
-	case "GLsizeiptrARB", "GLsizeiptr":
+	case "GLsizeiptr", "GLsizeiptrARB":
 		if t.PointerLevel == 0 {
 			return "int"
 		}
 		return t.pointers() + "int64"
-	case "GLcharARB", "GLchar":
-		return t.pointers() + "int8"
-	case "GLubyte":
-		return t.pointers() + "uint8"
-	case "GLshort":
-		return t.pointers() + "int16"
-	case "GLushort":
-		return t.pointers() + "uint16"
-	case "GLhandleARB":
-		return t.pointers() + "glt.Pointer"
-	case "GLhalfNV":
-		return t.pointers() + "uint16"
-	case "GLeglImageOES":
-		return t.pointers() + "glt.Pointer"
-	case "GLvdpauSurfaceARB":
+	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
 		return t.pointers() + "glt.Pointer"
 	case "GLsync":
 		return t.pointers() + "glt.Sync"
-	case "void **":
-		return "*glt.Pointer"
-	case "const void *const*":
-		return "*glt.Pointer"
 	case "GLDEBUGPROC":
 		return "glt.DebugProc"
 	}
