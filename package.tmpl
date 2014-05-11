@@ -76,10 +76,7 @@ var (
   {{end}}
 )
 
-// Conversion functions
-func GLBoolean(b C.GLboolean) bool {
-	return b == TRUE
-}
+// Helper functions
 func boolToInt(b bool) int {
 	if b { return 1 }
 	return 0
@@ -89,7 +86,10 @@ func boolToInt(b bool) int {
 {{range .Functions}}{{with .Function}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
-  {{else}}return {{.Return.ConvertCToGo}}({{template "bridgeCall" .}}){{end}}
+  {{else}}
+  ret := {{template "bridgeCall" .}}
+  return {{.Return.ConvertCToGo "ret"}}
+  {{end}}
 }
 {{end}}{{end}}
 

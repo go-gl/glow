@@ -481,7 +481,10 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 	for _, extension := range spec.Extensions {
 		// Whitelist a test extension while working out typing issues
 		// TODO Lift this restriction
-		if extension.Name != "GL_ARB_compute_shader" && extension.Name != "GL_ARB_vertex_buffer_object" {
+		//if extension.Name != "GL_ARB_compute_shader" && extension.Name != "GL_ARB_vertex_buffer_object" {
+		//continue
+		//}
+		if extension.Name == "GL_ARB_cl_event" {
 			continue
 		}
 		matched, err := regexp.MatchString(extension.ApisRegexp, pkg.Api)

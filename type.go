@@ -114,47 +114,21 @@ func (t Type) ConvertGoToC(name string) string {
 		} else if t.PointerLevel == 2 {
 			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
 		}
-	case "GLchar":
-		if t.PointerLevel == 2 {
-			return fmt.Sprintf("(**C.GLchar)(unsafe.Pointer(%s))", name)
+	case "GLhandleARB":
+		if t.PointerLevel == 1 {
+			return fmt.Sprintf("(*C.GLhandleARB)(unsafe.Pointer(%s))", name)
 		}
+	}
+	if t.PointerLevel == 2 {
+		return fmt.Sprintf("(%sC.%s)(unsafe.Pointer(%s))", t.pointers(), t.Name, name)
 	}
 	return fmt.Sprintf("(%sC.%s)(%s)", t.pointers(), t.Name, name)
 }
 
 // ConvertCToGo converts from the C type to the Go type.
-func (t Type) ConvertCToGo() string {
-	switch t.Name {
-	case "GLboolean":
-		if t.PointerLevel == 0 {
-			return "GLBoolean"
-		}
-	case "void", "GLvoid":
-		if t.PointerLevel > 0 {
-			return "glt.Pointer"
-		}
-	case "GLintptr", "GLintptrARB":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-	case "GLuint", "GLuintARB":
-		if t.PointerLevel == 0 {
-			return "uint32"
-		}
-	case "GLenum":
-		if t.PointerLevel == 0 {
-			return "glt.Enum"
-		}
-	case "GLubyte":
-		return "(" + t.pointers() + "byte)"
-	case "GLint":
-		return t.pointers() + "int32"
-	case "GLsizeiptrARB", "GLsizeiptr":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-	case "GLsync":
-		return "glt.Sync"
+func (t Type) ConvertCToGo(name string) string {
+	if t.Name == "GLboolean" {
+		return fmt.Sprintf("%s == TRUE", name)
 	}
-	return fmt.Sprintf("%sC.%s", t.pointers(), t.Name)
+	return fmt.Sprintf("(%s)(%s)", t.GoType(), name)
 }
