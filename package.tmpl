@@ -42,11 +42,11 @@ package {{.Name}}
 // {{end}}
 //
 // {{range .Functions}}{{with .Function}}
-// typedef {{.Return.CType}} (APIENTRYP P{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
+// typedef {{.Return.CType}} (APIENTRYP GP{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
 // {{end}}{{end}}
 //
 // {{range .Functions}}{{with .Function}}
-// {{.Return.CType}} glow{{.GoName}}(P{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+// {{.Return.CType}} glow{{.GoName}}(GP{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
 // {{end}}{{end}}
@@ -66,7 +66,7 @@ const (
 
 var (
   {{range .Functions}}{{with .Function}}
-  p{{.GoName}} C.P{{toUpper .GoName}}
+  p{{.GoName}} C.GP{{toUpper .GoName}}
   {{end}}{{end}}
 )
 
@@ -99,7 +99,7 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if p{{.Function.GoName}} = (C.P{{toUpper .Function.GoName}})(unsafe.Pointer(getProcAddr("{{.Function.Name}}"))); p{{.Function.GoName}} == nil {
+  if p{{.Function.GoName}} = (C.GP{{toUpper .Function.GoName}})(unsafe.Pointer(getProcAddr("{{.Function.Name}}"))); p{{.Function.GoName}} == nil {
     {{range .Extensions}}
     {{.}} = false
     {{end}}
