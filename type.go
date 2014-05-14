@@ -64,17 +64,14 @@ func (t Type) GoType() string {
 		return t.pointers() + "int32"
 	case "GLchar", "GLcharARB":
 		return t.pointers() + "int8"
+	case "GLboolean":
+		return t.pointers() + "bool"
 	case "GLenum":
 		return t.pointers() + "glt.Enum"
 	case "GLbitfield":
 		return t.pointers() + "glt.Bitfield"
 	case "GLhalf", "GLhalfNV": // Go has no 16-bit floating point type
 		return t.pointers() + "uint16"
-	case "GLboolean":
-		if t.PointerLevel == 0 {
-			return "bool"
-		}
-		return t.pointers() + "byte"
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
 			return "glt.Pointer"
