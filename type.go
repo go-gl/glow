@@ -82,15 +82,9 @@ func (t Type) GoType() string {
 			return "*glt.Pointer"
 		}
 	case "GLintptr", "GLintptrARB":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-		return t.pointers() + "int64"
+		return t.pointers() + "int"
 	case "GLsizeiptr", "GLsizeiptrARB":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-		return t.pointers() + "int64"
+		return t.pointers() + "int"
 	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
 		return t.pointers() + "glt.Pointer"
 	case "GLsync":
