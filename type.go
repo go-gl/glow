@@ -114,12 +114,8 @@ func (t Type) ConvertGoToC(name string) string {
 		} else if t.PointerLevel == 2 {
 			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
 		}
-	case "GLhandleARB":
-		if t.PointerLevel == 1 {
-			return fmt.Sprintf("(*C.GLhandleARB)(unsafe.Pointer(%s))", name)
-		}
 	}
-	if t.PointerLevel == 2 {
+	if t.PointerLevel >= 1 {
 		return fmt.Sprintf("(%sC.%s)(unsafe.Pointer(%s))", t.pointers(), t.Name, name)
 	}
 	return fmt.Sprintf("(%sC.%s)(%s)", t.pointers(), t.Name, name)
