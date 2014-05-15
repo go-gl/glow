@@ -1,10 +1,6 @@
 Work to Consider
 ================
 
-- Refactor types 
-  * Ensure OpenGL 4 types work correctly
-  * Ensure extension types work correctly
-  * Reconcile GLhandleARB as void* on OS X and int on other platforms?
 - Fix debug proc handling
 - Add doc processing and emit function comments
 - Test generation of non-GL packages

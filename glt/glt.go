@@ -8,35 +8,31 @@ import (
 
 type Enum uint32
 type Bitfield uint32
-type Pointer uintptr
 type Sync unsafe.Pointer
 type DebugProc unsafe.Pointer
 
-func Ptr(data interface{}) Pointer {
+// Ptr takes a pointer, slice, or array and returns its GL-compatible address.
+func Ptr(data interface{}) uintptr {
 	if data == nil {
-		return Pointer(0)
+		return uintptr(0)
 	}
 	v := reflect.ValueOf(data)
 	switch v.Type().Kind() {
-	case reflect.Ptr: // for pointers: *byte, *int, ...
+	case reflect.Ptr:
 		e := v.Elem()
 		switch e.Kind() {
 		case
 			reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
 			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 			reflect.Float32, reflect.Float64:
-			return Pointer(e.UnsafeAddr())
+			return e.UnsafeAddr()
 		}
 	case reflect.Uintptr:
-		return Pointer(v.Pointer())
-	case reflect.Slice: // for slices and arrays: []int, []float32, ...
-		return Pointer(v.Index(0).UnsafeAddr())
+		return v.Pointer()
+	case reflect.Slice:
+		return v.Index(0).UnsafeAddr()
 	case reflect.Array:
-		return Pointer(v.UnsafeAddr())
+		return v.UnsafeAddr()
 	}
-	panic(fmt.Sprintf("unknown type: %s: must be a pointer or a slice.", v.Type()))
-}
-
-func (p Pointer) Offset(o uintptr) Pointer {
-	return Pointer(uintptr(p) + uintptr(o))
+	panic(fmt.Sprintf("Unsupproted type %s; must be a pointer, slice, or array", v.Type()))
 }
