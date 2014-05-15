@@ -66,10 +66,8 @@ func (t Type) GoType() string {
 		return t.pointers() + "int8"
 	case "GLboolean":
 		return t.pointers() + "bool"
-	case "GLenum":
-		return t.pointers() + "glt.Enum"
-	case "GLbitfield":
-		return t.pointers() + "glt.Bitfield"
+	case "GLenum", "GLbitfield":
+		return t.pointers() + "uint32"
 	case "GLhalf", "GLhalfNV": // Go has no 16-bit floating point type
 		return t.pointers() + "uint16"
 	case "void", "GLvoid":
@@ -85,9 +83,9 @@ func (t Type) GoType() string {
 	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
 		return t.pointers() + "uintptr"
 	case "GLsync":
-		return t.pointers() + "glt.Sync"
+		return t.pointers() + "unsafe.Pointer"
 	case "GLDEBUGPROC":
-		return "glt.DebugProc"
+		return "unsafe.Pointer"
 	}
 	return t.pointers() + "C." + t.Name
 }

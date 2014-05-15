@@ -1,3 +1,4 @@
+// The glt package exposes functions for working with OpenGL types.
 package glt
 
 import (
@@ -5,11 +6,6 @@ import (
 	"reflect"
 	"unsafe"
 )
-
-type Enum uint32
-type Bitfield uint32
-type Sync unsafe.Pointer
-type DebugProc unsafe.Pointer
 
 // Ptr takes a pointer, slice, or array and returns its GL-compatible address.
 func Ptr(data interface{}) uintptr {
