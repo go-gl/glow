@@ -1,4 +1,4 @@
-// Command glow generates Go OpenGL bindings. See http://githubS.com/errcw/glow.
+// Command glow generates Go OpenGL bindings. See http://github.com/errcw/glow.
 package main
 
 import (
