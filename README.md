@@ -18,11 +18,11 @@ Usage
 Until the API is stable Glow requires you to generate your own bindings.
 
     go get github.com/errcw/glow
-    cd github.com/errcw/glow
+    cd $GOPATH/src/github.com/errcw/glow
     go build
     ./glow download
     ./glow generate -g=all
-    go install ./gl/<desired.version/gl
+    go install ./gl/<desired.version>/gl
     
 Once the bindings are installed you can use them with the appropriate import statements.
 
