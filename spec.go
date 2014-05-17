@@ -105,6 +105,7 @@ type specAddRemSet struct {
 	addedEnums      []string
 	removedCommands []string
 	removedEnums    []string
+	profile         string
 }
 
 // A Specification is a parsed version of an XML registry.
@@ -121,7 +122,7 @@ type Specification struct {
 type SpecificationFeature struct {
 	API     string
 	Version Version
-	AddRem  specAddRemSet
+	AddRem  []*specAddRemSet
 }
 
 // A SpecificationExtension describes a set of commands and enums added to
@@ -129,7 +130,7 @@ type SpecificationFeature struct {
 type SpecificationExtension struct {
 	Name      string
 	APIRegexp *regexp.Regexp
-	AddRem    specAddRemSet
+	AddRem    []*specAddRemSet
 }
 
 func readSpecFile(file string) (*xmlRegistry, error) {
@@ -325,14 +326,26 @@ func parseFeatures(xmlFeatures []xmlFeature) ([]SpecificationFeature, error) {
 	return features, nil
 }
 
-func parseAddRem(requires []xmlRequire, removes []xmlRemove) specAddRemSet {
-	addRem := specAddRemSet{
-		addedEnums:      make([]string, 0),
-		addedCommands:   make([]string, 0),
-		removedEnums:    make([]string, 0),
-		removedCommands: make([]string, 0),
+func parseAddRem(requires []xmlRequire, removes []xmlRemove) []*specAddRemSet {
+	addRemByProfile := make(map[string]*specAddRemSet)
+
+	addRemForProfile := func(profile string) *specAddRemSet {
+		addRem, ok := addRemByProfile[profile]
+		if !ok {
+			addRem = &specAddRemSet{
+				profile:         profile,
+				addedEnums:      make([]string, 0),
+				addedCommands:   make([]string, 0),
+				removedEnums:    make([]string, 0),
+				removedCommands: make([]string, 0),
+			}
+			addRemByProfile[profile] = addRem
+		}
+		return addRem
 	}
+
 	for _, req := range requires {
+		addRem := addRemForProfile(req.Profile)
 		for _, cmd := range req.Commands {
 			addRem.addedCommands = append(addRem.addedCommands, cmd.Name)
 		}
@@ -341,6 +354,7 @@ func parseAddRem(requires []xmlRequire, removes []xmlRemove) specAddRemSet {
 		}
 	}
 	for _, rem := range removes {
+		addRem := addRemForProfile(rem.Profile)
 		for _, cmd := range rem.Commands {
 			addRem.removedCommands = append(addRem.removedCommands, cmd.Name)
 		}
@@ -348,7 +362,12 @@ func parseAddRem(requires []xmlRequire, removes []xmlRemove) specAddRemSet {
 			addRem.removedEnums = append(addRem.removedEnums, enum.Name)
 		}
 	}
-	return addRem
+
+	addRems := make([]*specAddRemSet, 0, len(addRemByProfile))
+	for _, addRem := range addRemByProfile {
+		addRems = append(addRems, addRem)
+	}
+	return addRems
 }
 
 func parseExtensions(xmlExtensions []xmlExtension) ([]SpecificationExtension, error) {
@@ -403,7 +422,12 @@ func (extension SpecificationExtension) isSupported(pkgSpec *PackageSpec) bool {
 	if pkgSpec.RemExtRegexp.MatchString(extension.Name) {
 		return false
 	}
-	if !extension.APIRegexp.MatchString(pkgSpec.API) {
+	extensionAPI := pkgSpec.API
+	// Special case for GL core profile extension inclusion which uses a pseudo-API
+	if pkgSpec.API == "gl" && pkgSpec.Profile == "core" {
+		extensionAPI = "glcore"
+	}
+	if !extension.APIRegexp.MatchString(extensionAPI) {
 		return false
 	}
 	return true
@@ -467,6 +491,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 		API:       pkgSpec.API,
 		Name:      pkgSpec.API,
 		Version:   pkgSpec.Version,
+		Profile:   pkgSpec.Profile,
 		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
 		Enums:     make(map[string]Enum),
 		Functions: make(map[string]PackageFunction),
@@ -478,21 +503,26 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 		if pkg.API != feature.API || pkg.Version.Compare(feature.Version) < 0 {
 			continue
 		}
-		for _, cmd := range feature.AddRem.addedCommands {
-			pkg.Functions[cmd] = PackageFunction{
-				Function:   *spec.Functions.get(cmd, pkg.API),
-				Required:   true,
-				Extensions: make([]string, 0),
+		for _, addRem := range feature.AddRem {
+			if !(addRem.profile == pkgSpec.Profile || addRem.profile == "") {
+				continue
 			}
-		}
-		for _, enum := range feature.AddRem.addedEnums {
-			pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
-		}
-		for _, cmd := range feature.AddRem.removedCommands {
-			delete(pkg.Functions, cmd)
-		}
-		for _, enum := range feature.AddRem.removedEnums {
-			delete(pkg.Enums, enum)
+			for _, cmd := range addRem.addedCommands {
+				pkg.Functions[cmd] = PackageFunction{
+					Function:   *spec.Functions.get(cmd, pkg.API),
+					Required:   true,
+					Extensions: make([]string, 0),
+				}
+			}
+			for _, enum := range addRem.addedEnums {
+				pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
+			}
+			for _, cmd := range addRem.removedCommands {
+				delete(pkg.Functions, cmd)
+			}
+			for _, enum := range addRem.removedEnums {
+				delete(pkg.Enums, enum)
+			}
 		}
 	}
 
@@ -501,20 +531,25 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 		if !extension.isSupported(pkgSpec) {
 			continue
 		}
-		for _, cmd := range extension.AddRem.addedCommands {
-			fn, ok := pkg.Functions[cmd]
-			if ok {
-				fn.Extensions = append(fn.Extensions, TrimAPIPrefix(extension.Name))
-			} else {
-				pkg.Functions[cmd] = PackageFunction{
-					Function:   *spec.Functions.get(cmd, pkg.API),
-					Required:   false,
-					Extensions: []string{TrimAPIPrefix(extension.Name)},
+		for _, addRem := range extension.AddRem {
+			if !(addRem.profile == pkgSpec.Profile || addRem.profile == "") {
+				continue
+			}
+			for _, cmd := range addRem.addedCommands {
+				fn, ok := pkg.Functions[cmd]
+				if ok {
+					fn.Extensions = append(fn.Extensions, TrimAPIPrefix(extension.Name))
+				} else {
+					pkg.Functions[cmd] = PackageFunction{
+						Function:   *spec.Functions.get(cmd, pkg.API),
+						Required:   false,
+						Extensions: []string{TrimAPIPrefix(extension.Name)},
+					}
 				}
 			}
-		}
-		for _, enum := range extension.AddRem.addedEnums {
-			pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
+			for _, enum := range addRem.addedEnums {
+				pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
+			}
 		}
 	}
 
