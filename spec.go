@@ -61,11 +61,13 @@ type xmlFeature struct {
 type xmlRequire struct {
 	Enums    []xmlEnumRef    `xml:"enum"`
 	Commands []xmlCommandRef `xml:"command"`
+	Profile  string          `xml:"profile,attr"`
 }
 
 type xmlRemove struct {
 	Enums    []xmlEnumRef    `xml:"enum"`
 	Commands []xmlCommandRef `xml:"command"`
+	Profile  string          `xml:"profile,attr"`
 }
 
 type xmlEnumRef struct {
@@ -126,7 +128,7 @@ type SpecificationFeature struct {
 // implement an extension.
 type SpecificationExtension struct {
 	Name      string
-	APIRegexp string
+	APIRegexp *regexp.Regexp
 	AddRem    specAddRemSet
 }
 
@@ -357,7 +359,7 @@ func parseExtensions(xmlExtensions []xmlExtension) ([]SpecificationExtension, er
 		}
 		extension := SpecificationExtension{
 			Name:      xmlExtension.Name,
-			APIRegexp: xmlExtension.Supported,
+			APIRegexp: regexp.MustCompile(xmlExtension.Supported),
 			AddRem:    parseAddRem(xmlExtension.Requires, xmlExtension.Removes),
 		}
 		extensions = append(extensions, extension)
@@ -392,6 +394,19 @@ func (typedefs specTypedefs) selectRequired(name, api string, requiredTypedefs [
 			typedefs.selectRequired(specTypedef.requires, api, requiredTypedefs)
 		}
 	}
+}
+
+func (extension SpecificationExtension) isSupported(pkgSpec *PackageSpec) bool {
+	if !pkgSpec.AddExtRegexp.MatchString(extension.Name) {
+		return false
+	}
+	if pkgSpec.RemExtRegexp.MatchString(extension.Name) {
+		return false
+	}
+	if !extension.APIRegexp.MatchString(pkgSpec.API) {
+		return false
+	}
+	return true
 }
 
 // NewSpecification creates a new specification based on an XML file.
@@ -437,7 +452,7 @@ func NewSpecification(file string) (*Specification, error) {
 }
 
 // HasPackage determines whether the specification can generate the specified package.
-func (spec *Specification) HasPackage(pkgSpec PackageSpec) bool {
+func (spec *Specification) HasPackage(pkgSpec *PackageSpec) bool {
 	for _, feature := range spec.Features {
 		if pkgSpec.API == feature.API && pkgSpec.Version.Compare(feature.Version) == 0 {
 			return true
@@ -447,7 +462,7 @@ func (spec *Specification) HasPackage(pkgSpec PackageSpec) bool {
 }
 
 // ToPackage generates a package from the specification.
-func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
+func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 	pkg := &Package{
 		API:       pkgSpec.API,
 		Name:      pkgSpec.API,
@@ -483,12 +498,7 @@ func (spec *Specification) ToPackage(pkgSpec PackageSpec) *Package {
 
 	// Select the extensions compatible with the specified API version
 	for _, extension := range spec.Extensions {
-		// Blacklist unsupported extensions
-		if extension.Name == "GL_ARB_cl_event" {
-			continue
-		}
-		matched, err := regexp.MatchString(extension.APIRegexp, pkg.API)
-		if !matched || err != nil {
+		if !extension.isSupported(pkgSpec) {
 			continue
 		}
 		for _, cmd := range extension.AddRem.addedCommands {
