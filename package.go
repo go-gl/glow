@@ -9,13 +9,14 @@ import (
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
-	Name      string
-	API       string
-	Version   Version
-	Profile   string
+	Name    string
+	API     string
+	Version Version
+	Profile string
+
 	Typedefs  []*Typedef
-	Enums     map[string]Enum
-	Functions map[string]PackageFunction
+	Enums     map[string]*Enum
+	Functions map[string]*PackageFunction
 }
 
 // A PackageFunction is a package-specific Function wrapper.

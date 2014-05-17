@@ -493,8 +493,8 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 		Version:   pkgSpec.Version,
 		Profile:   pkgSpec.Profile,
 		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
-		Enums:     make(map[string]Enum),
-		Functions: make(map[string]PackageFunction),
+		Enums:     make(map[string]*Enum),
+		Functions: make(map[string]*PackageFunction),
 	}
 
 	// Select the commands and enums relevant to the specified API version
@@ -508,14 +508,14 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 				continue
 			}
 			for _, cmd := range addRem.addedCommands {
-				pkg.Functions[cmd] = PackageFunction{
+				pkg.Functions[cmd] = &PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.API),
 					Required:   true,
 					Extensions: make([]string, 0),
 				}
 			}
 			for _, enum := range addRem.addedEnums {
-				pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
+				pkg.Enums[enum] = spec.Enums.get(enum, pkg.API)
 			}
 			for _, cmd := range addRem.removedCommands {
 				delete(pkg.Functions, cmd)
@@ -540,7 +540,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 				if ok {
 					fn.Extensions = append(fn.Extensions, TrimAPIPrefix(extension.Name))
 				} else {
-					pkg.Functions[cmd] = PackageFunction{
+					pkg.Functions[cmd] = &PackageFunction{
 						Function:   *spec.Functions.get(cmd, pkg.API),
 						Required:   false,
 						Extensions: []string{TrimAPIPrefix(extension.Name)},
@@ -548,7 +548,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 				}
 			}
 			for _, enum := range addRem.addedEnums {
-				pkg.Enums[enum] = *spec.Enums.get(enum, pkg.API)
+				pkg.Enums[enum] = spec.Enums.get(enum, pkg.API)
 			}
 		}
 	}
