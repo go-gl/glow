@@ -20,7 +20,7 @@ type Package struct {
 
 // A PackageFunction is a package-specific Function wrapper.
 type PackageFunction struct {
-	Function   Function
+	Function
 	Required   bool
 	Extensions []string
 }
