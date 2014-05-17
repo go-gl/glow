@@ -28,8 +28,8 @@ func TrimAPIPrefix(name string) string {
 	return trimmed
 }
 
-// Writer that removes whitespace- or comment-only lines delimited by \n.
-// A necessary evil to work around how text/template handles whitespace.
+// BlankLineStrippingWriter removes whitespace- or comment-only lines delimited
+// by \n. A necessary evil to work around how text/template handles whitespace.
 type BlankLineStrippingWriter struct {
 	output io.Writer
 	buf    *bytes.Buffer

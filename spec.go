@@ -114,12 +114,16 @@ type Specification struct {
 	Extensions []SpecificationExtension
 }
 
+// A SpecificationFeature describes a set of commands and enums added and/or
+// removed in the context of a particular API and version.
 type SpecificationFeature struct {
 	API     string
 	Version Version
 	AddRem  specAddRemSet
 }
 
+// A SpecificationExtension describes a set of commands and enums added to
+// implement an extension.
 type SpecificationExtension struct {
 	Name      string
 	APIRegexp string

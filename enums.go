@@ -1,6 +1,6 @@
 package main
 
-// An enumerated value.
+// An Enum represents an enumerated value.
 type Enum struct {
 	Name   string // Raw specification name
 	GoName string // Go name with the API prefix stripped

@@ -27,21 +27,21 @@ func download(name string, args []string) {
 
 	specDir := filepath.Join(*xmlDir, "spec")
 	if err := os.MkdirAll(specDir, 0755); err != nil {
-		log.Fatal("Error creating specification output directory:", err)
+		log.Fatal("error creating specification output directory:", err)
 	}
 
 	docDir := filepath.Join(*xmlDir, "doc")
 	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatal("Error creating documentation output directory:", err)
+		log.Fatal("error creating documentation output directory:", err)
 	}
 
 	if err := DownloadSvnDir(specURL, specRegexp, specDir); err != nil {
-		log.Fatal("Error downloading specification files:", err)
+		log.Fatal("error downloading specification files:", err)
 	}
 
 	for _, url := range docURLs {
 		if err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
-			log.Fatal("Error downloading documentation files:", err)
+			log.Fatal("error downloading documentation files:", err)
 		}
 	}
 }
@@ -55,21 +55,21 @@ func generate(name string, args []string) {
 	specDir := filepath.Join(*xmlDir, "spec")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
-		log.Fatal("Error reading spec file entries:", err)
+		log.Fatal("error reading spec file entries:", err)
 	}
 
 	specs := make([]*Specification, 0, len(specFiles))
 	for _, specFile := range specFiles {
 		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
 		if err != nil {
-			log.Fatal("Error parsing specification:", specFile.Name(), err)
+			log.Fatal("error parsing specification:", specFile.Name(), err)
 		}
 		specs = append(specs, spec)
 	}
 
 	packageSpecs, err := parsePackageSpecs(*pkgs, specs)
 	if err != nil {
-		log.Fatal("Error parsing generation arguments:", err)
+		log.Fatal("error parsing generation arguments:", err)
 	}
 
 	for _, pkgSpec := range packageSpecs {
@@ -78,18 +78,19 @@ func generate(name string, args []string) {
 			if spec.HasPackage(pkgSpec) {
 				log.Println("Generating package", pkgSpec.API, pkgSpec.Version)
 				if err := spec.ToPackage(pkgSpec).GeneratePackage(); err != nil {
-					log.Fatal("Error generating package:", err)
+					log.Fatal("error generating package:", err)
 				}
 				generated = true
 				break
 			}
 		}
 		if !generated {
-			log.Fatal("Unable to generate package:", pkgSpec)
+			log.Fatal("unable to generate package:", pkgSpec)
 		}
 	}
 }
 
+// PackageSpec describes a package to be generated.
 type PackageSpec struct {
 	API     string
 	Version Version
@@ -111,7 +112,7 @@ func parsePackageSpecs(specStrs string, specs []*Specification) ([]PackageSpec, 
 		for _, specStr := range strings.Split(specStrs, ",") {
 			apiVersion := strings.Split(specStr, "@")
 			if len(apiVersion) != 2 {
-				return nil, fmt.Errorf("error parsing generation specification:", specStr)
+				return nil, fmt.Errorf("error parsing generation specification: %s", specStr)
 			}
 			api := apiVersion[0]
 			version, err := ParseVersion(apiVersion[1])
