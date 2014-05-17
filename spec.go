@@ -180,10 +180,7 @@ func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 	return functions, nil
 }
 
-func parseSignature(signature xmlSignature) (string, Type, error) {
-	name := ""
-	ctype := Type{}
-
+func parseSignature(signature xmlSignature) (name string, ctype Type, err error) {
 	readingName := false
 	readingType := false
 
@@ -226,6 +223,7 @@ func parseSignature(signature xmlSignature) (string, Type, error) {
 		}
 	}
 
+	// If the XML did not call out the name then parse it out
 	if ctype.Name == "" {
 		cTypeName := ctype.CDefinition
 		cTypeName = strings.Replace(cTypeName, "const", "", -1)
@@ -415,7 +413,7 @@ func (typedefs specTypedefs) selectRequired(name, api string, requiredTypedefs [
 	}
 }
 
-func (extension SpecificationExtension) isSupported(pkgSpec *PackageSpec) bool {
+func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool {
 	if !pkgSpec.AddExtRegexp.MatchString(extension.Name) {
 		return false
 	}
@@ -528,7 +526,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 
 	// Select the extensions compatible with the specified API version
 	for _, extension := range spec.Extensions {
-		if !extension.isSupported(pkgSpec) {
+		if !extension.shouldInclude(pkgSpec) {
 			continue
 		}
 		for _, addRem := range extension.AddRem {
