@@ -2,6 +2,7 @@
 package glt
 
 import (
+	"C"
 	"fmt"
 	"log"
 	"reflect"
@@ -42,6 +43,12 @@ func Str(str string) *int8 {
 	if !strings.HasSuffix(str, "\x00") {
 		log.Fatal("str argument missing null terminator", str)
 	}
-	header := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	header := (*reflect.StringHeader)(unsafe.Pointer(&str))
 	return (*int8)(unsafe.Pointer(header.Data))
+}
+
+// GoStr takes a null-terminated string returned by OpenGL and constructs a
+// corresponding Go string.
+func GoStr(cstr *uint8) string {
+	return C.GoString((*C.char)(unsafe.Pointer(cstr)))
 }
