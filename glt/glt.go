@@ -1,9 +1,11 @@
-// The glt package exposes functions for working with OpenGL types.
+// Package glt exposes functions for working with OpenGL types.
 package glt
 
 import (
 	"fmt"
+	"log"
 	"reflect"
+	"strings"
 	"unsafe"
 )
 
@@ -31,4 +33,15 @@ func Ptr(data interface{}) uintptr {
 		return v.UnsafeAddr()
 	}
 	panic(fmt.Sprintf("Unsupproted type %s; must be a pointer, slice, or array", v.Type()))
+}
+
+// Str takes a null-terminated Go string and returns its GL-compatible address.
+// This function reaches into Go string storage in an unsafe way so the caller
+// must ensure the string is not garbage collected.
+func Str(str string) *int8 {
+	if !strings.HasSuffix(str, "\x00") {
+		log.Fatal("str argument missing null terminator", str)
+	}
+	header := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	return (*int8)(unsafe.Pointer(header.Data))
 }
