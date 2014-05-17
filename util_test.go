@@ -2,12 +2,12 @@ package main
 
 import "testing"
 
-type trimApiPrefixTest struct {
+type trimAPIPrefixTest struct {
 	in       string
 	expected string
 }
 
-var trimApiPrefixTests = []trimApiPrefixTest{
+var trimAPIPrefixTests = []trimAPIPrefixTest{
 	{"glTest", "Test"},
 	{"wglTest", "Test"},
 	{"eglTest", "Test"},
@@ -21,10 +21,10 @@ var trimApiPrefixTests = []trimApiPrefixTest{
 }
 
 func TestTrimApiPrefix(t *testing.T) {
-	for _, test := range trimApiPrefixTests {
-		trimmed := TrimApiPrefix(test.in)
+	for _, test := range trimAPIPrefixTests {
+		trimmed := TrimAPIPrefix(test.in)
 		if trimmed != test.expected {
-			t.Errorf("TrimApiPrefix(%s) failed: %s != %s", test.in, test.expected, trimmed)
+			t.Errorf("TrimAPIPrefix(%s) failed: %s != %s", test.in, test.expected, trimmed)
 		}
 	}
 }

@@ -2,15 +2,14 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"strings"
 	"unicode"
 )
 
-// TrimApiPrefix removes the API-specific prefix from a spec name.
+// TrimAPIPrefix removes the API-specific prefix from a spec name.
 // e.g., glTest becomes Test; GLX_TEST becomes TEST; egl0Test stays egl0Test
-func TrimApiPrefix(name string) string {
+func TrimAPIPrefix(name string) string {
 	prefixes := []string{"glX", "wgl", "egl", "gl", "GLX_", "WGL_", "EGL_", "GL_"}
 
 	trimmed := name
@@ -29,31 +28,14 @@ func TrimApiPrefix(name string) string {
 	return trimmed
 }
 
-// RenameIfReservedCWord returns a C-safe version of the given word.
-func RenameIfReservedCWord(word string) string {
-	switch word {
-	case "near", "far":
-		return fmt.Sprintf("x%s", word)
-	}
-	return word
-}
-
-// RenameIfReservedGoWord returns a Go-safe version of the given word.
-func RenameIfReservedGoWord(word string) string {
-	switch word {
-	case "func", "type", "struct", "range", "map", "string":
-		return fmt.Sprintf("x%s", word)
-	}
-	return word
-}
-
-// Writer that removes whitespace- or comment-only lines delimited by \n
-// A necessary evil to work around how text/template handles whitespace
+// Writer that removes whitespace- or comment-only lines delimited by \n.
+// A necessary evil to work around how text/template handles whitespace.
 type BlankLineStrippingWriter struct {
 	output io.Writer
 	buf    *bytes.Buffer
 }
 
+// NewBlankLineStrippingWriter creates a new BlankLineStrippingWriter.
 func NewBlankLineStrippingWriter(wrapped io.Writer) *BlankLineStrippingWriter {
 	return &BlankLineStrippingWriter{wrapped, new(bytes.Buffer)}
 }

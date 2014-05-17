@@ -76,7 +76,7 @@ func generate(name string, args []string) {
 		generated := false
 		for _, spec := range specs {
 			if spec.HasPackage(pkgSpec) {
-				log.Println("Generating package", pkgSpec.Api, pkgSpec.Version)
+				log.Println("Generating package", pkgSpec.API, pkgSpec.Version)
 				if err := spec.ToPackage(pkgSpec).GeneratePackage(); err != nil {
 					log.Fatal("Error generating package:", err)
 				}
@@ -91,12 +91,12 @@ func generate(name string, args []string) {
 }
 
 type PackageSpec struct {
-	Api     string
+	API     string
 	Version Version
 }
 
 func (pkgSpec PackageSpec) String() string {
-	return fmt.Sprintf("%s %s", pkgSpec.Api, pkgSpec.Version)
+	return fmt.Sprintf("%s %s", pkgSpec.API, pkgSpec.Version)
 }
 
 func parsePackageSpecs(specStrs string, specs []*Specification) ([]PackageSpec, error) {
@@ -104,14 +104,14 @@ func parsePackageSpecs(specStrs string, specs []*Specification) ([]PackageSpec, 
 	if specStrs == "all" {
 		for _, spec := range specs {
 			for _, feature := range spec.Features {
-				pkgSpecs = append(pkgSpecs, PackageSpec{feature.Api, feature.Version})
+				pkgSpecs = append(pkgSpecs, PackageSpec{feature.API, feature.Version})
 			}
 		}
 	} else {
 		for _, specStr := range strings.Split(specStrs, ",") {
 			apiVersion := strings.Split(specStr, "@")
 			if len(apiVersion) != 2 {
-				return nil, fmt.Errorf("Error parsing generation specification:", specStr)
+				return nil, fmt.Errorf("error parsing generation specification:", specStr)
 			}
 			api := apiVersion[0]
 			version, err := ParseVersion(apiVersion[1])

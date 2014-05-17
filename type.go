@@ -5,12 +5,14 @@ import (
 	"strings"
 )
 
+// A Type describes the C and Go type of a function parameter or return value.
 type Type struct {
 	Name         string // Name of the type without modifiers
 	PointerLevel int    // Number of levels of declared indirection to the type
 	CDefinition  string // Raw C definition
 }
 
+// A Typedef describes a C typedef statement.
 type Typedef struct {
 	Name        string // Name of the defined type (or included types)
 	CDefinition string // Raw C definition
@@ -20,10 +22,7 @@ func (t Type) String() string {
 	return fmt.Sprintf("%s%s [%s]", t.Name, t.pointers(), t.CDefinition)
 }
 
-func (t Type) pointers() string {
-	return strings.Repeat("*", t.PointerLevel)
-}
-
+// IsVoid indicates whether this type is the void pseudo-type.
 func (t Type) IsVoid() bool {
 	return (t.Name == "void" || t.Name == "GLvoid") && t.PointerLevel == 0
 }
@@ -116,4 +115,8 @@ func (t Type) ConvertCToGo(name string) string {
 		return fmt.Sprintf("%s == TRUE", name)
 	}
 	return fmt.Sprintf("(%s)(%s)", t.GoType(), name)
+}
+
+func (t Type) pointers() string {
+	return strings.Repeat("*", t.PointerLevel)
 }

@@ -10,13 +10,14 @@ import (
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
 	Name      string
-	Api       string
+	API       string
 	Version   Version
 	Typedefs  []*Typedef
 	Enums     map[string]Enum
 	Functions map[string]PackageFunction
 }
 
+// A PackageFunction is a package-specific Function wrapper.
 type PackageFunction struct {
 	Function   Function
 	Required   bool
@@ -25,7 +26,7 @@ type PackageFunction struct {
 
 // GeneratePackage writes a Go package file.
 func (pkg *Package) GeneratePackage() error {
-	dir := filepath.Join(pkg.Api, pkg.Version.String(), pkg.Name)
+	dir := filepath.Join(pkg.API, pkg.Version.String(), pkg.Name)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
 	}
@@ -54,7 +55,7 @@ func (pkg *Package) Extensions() []string {
 		}
 	}
 	extensions := make([]string, 0, len(extensionSet))
-	for extension, _ := range extensionSet {
+	for extension := range extensionSet {
 		extensions = append(extensions, extension)
 	}
 	return extensions
