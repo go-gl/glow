@@ -1,3 +1,4 @@
+// Command glow generates Go OpenGL bindings. See http://github.com/errcw/glow.
 package main
 
 import (
@@ -8,7 +9,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 )
 
 var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
@@ -27,101 +27,100 @@ func download(name string, args []string) {
 
 	specDir := filepath.Join(*xmlDir, "spec")
 	if err := os.MkdirAll(specDir, 0755); err != nil {
-		log.Fatal("Error creating specification output directory:", err)
+		log.Fatal("error creating specification output directory:", err)
 	}
 
 	docDir := filepath.Join(*xmlDir, "doc")
 	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatal("Error creating documentation output directory:", err)
+		log.Fatal("error creating documentation output directory:", err)
 	}
 
 	if err := DownloadSvnDir(specURL, specRegexp, specDir); err != nil {
-		log.Fatal("Error downloading specification files:", err)
+		log.Fatal("error downloading specification files:", err)
 	}
 
 	for _, url := range docURLs {
 		if err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
-			log.Fatal("Error downloading documentation files:", err)
+			log.Fatal("error downloading documentation files:", err)
 		}
 	}
 }
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("d", "xml", "XML directory")
-	pkgs := flags.String("g", "", "Packages to generate in a list of 'api@version' (e.g., gl@4.4) or 'all'")
+	xmlDir := flags.String("xml", "xml", "XML directory")
+	api := flags.String("api", "", "API to generate (e.g., gl)")
+	ver := flags.String("version", "", "API version to generate (e.g., 4.1)")
+	profile := flags.String("profile", "", "API profile to generate (e.g., core)")
+	addext := flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
+	remext := flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
 	flags.Parse(args)
 
-	specDir := filepath.Join(*xmlDir, "spec")
+	version, err := ParseVersion(*ver)
+	if err != nil {
+		log.Fatal("error parsing version:", err)
+	}
+
+	addExtRegexp, err := regexp.Compile(*addext)
+	if err != nil {
+		log.Fatal("error parsing extension inclusion regexp:", err)
+	}
+
+	remExtRegexp, err := regexp.Compile(*remext)
+	if err != nil {
+		log.Fatal("error parsing extension exclusion regexp:", err)
+	}
+
+	packageSpec := &PackageSpec{
+		API:          *api,
+		Version:      version,
+		Profile:      *profile,
+		AddExtRegexp: addExtRegexp,
+		RemExtRegexp: remExtRegexp,
+	}
+
+	var pkg *Package
+	for _, spec := range parseSpecifications(*xmlDir) {
+		if spec.HasPackage(packageSpec) {
+			pkg = spec.ToPackage(packageSpec)
+			if err := pkg.GeneratePackage(); err != nil {
+				log.Fatal("error generating package:", err)
+			}
+			break
+		}
+	}
+	if pkg == nil {
+		log.Fatal("unable to generate package:", packageSpec)
+	}
+	log.Println("generated package in", pkg.Dir())
+}
+
+func parseSpecifications(xmlDir string) []*Specification {
+	specDir := filepath.Join(xmlDir, "spec")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
-		log.Fatal("Error reading spec file entries:", err)
+		log.Fatal("error reading spec file entries:", err)
 	}
 
 	specs := make([]*Specification, 0, len(specFiles))
 	for _, specFile := range specFiles {
 		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
 		if err != nil {
-			log.Fatal("Error parsing specification:", specFile.Name(), err)
+			log.Fatal("error parsing specification:", specFile.Name(), err)
 		}
 		specs = append(specs, spec)
 	}
 
-	packageSpecs, err := parsePackageSpecs(*pkgs, specs)
-	if err != nil {
-		log.Fatal("Error parsing generation arguments:", err)
-	}
-
-	for _, pkgSpec := range packageSpecs {
-		generated := false
-		for _, spec := range specs {
-			if spec.HasPackage(pkgSpec) {
-				log.Println("Generating package", pkgSpec.Api, pkgSpec.Version)
-				if err := spec.ToPackage(pkgSpec).GeneratePackage(); err != nil {
-					log.Fatal("Error generating package:", err)
-				}
-				generated = true
-				break
-			}
-		}
-		if !generated {
-			log.Fatal("Unable to generate package:", pkgSpec)
-		}
-	}
+	return specs
 }
 
+// PackageSpec describes a package to be generated.
 type PackageSpec struct {
-	Api     string
-	Version Version
-}
-
-func (pkgSpec PackageSpec) String() string {
-	return fmt.Sprintf("%s %s", pkgSpec.Api, pkgSpec.Version)
-}
-
-func parsePackageSpecs(specStrs string, specs []*Specification) ([]PackageSpec, error) {
-	pkgSpecs := make([]PackageSpec, 0)
-	if specStrs == "all" {
-		for _, spec := range specs {
-			for _, feature := range spec.Features {
-				pkgSpecs = append(pkgSpecs, PackageSpec{feature.Api, feature.Version})
-			}
-		}
-	} else {
-		for _, specStr := range strings.Split(specStrs, ",") {
-			apiVersion := strings.Split(specStr, "@")
-			if len(apiVersion) != 2 {
-				return nil, fmt.Errorf("Error parsing generation specification:", specStr)
-			}
-			api := apiVersion[0]
-			version, err := ParseVersion(apiVersion[1])
-			if err != nil {
-				return nil, err
-			}
-			pkgSpecs = append(pkgSpecs, PackageSpec{api, version})
-		}
-	}
-	return pkgSpecs, nil
+	API          string
+	Version      Version
+	Profile      string
+	AddExtRegexp *regexp.Regexp
+	RemExtRegexp *regexp.Regexp
 }
 
 func printUsage(name string) {

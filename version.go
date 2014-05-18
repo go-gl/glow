@@ -6,31 +6,31 @@ import (
 	"strings"
 )
 
+// A Version wraps a major and minor integer version pair.
 type Version struct {
 	Major int
 	Minor int
 }
 
+// ParseVersion returns a Version from a major.minor version string.
 func ParseVersion(version string) (Version, error) {
 	split := strings.Split(version, ".")
 	if len(split) != 2 {
-		return Version{0, 0}, fmt.Errorf("Invalid version string: '%s'.", version)
+		return Version{0, 0}, fmt.Errorf("invalid version string: %s", version)
 	}
-	return ParseVersionMajMin(split[0], split[1])
-}
-
-func ParseVersionMajMin(major, minor string) (Version, error) {
-	majorNumber, err := strconv.Atoi(major)
+	majorNumber, err := strconv.Atoi(split[0])
 	if err != nil {
-		return Version{0, 0}, fmt.Errorf("Invalid major version number: '%s'.", major)
+		return Version{0, 0}, fmt.Errorf("invalid major version number: %s", split[0])
 	}
-	minorNumber, err := strconv.Atoi(minor)
+	minorNumber, err := strconv.Atoi(split[1])
 	if err != nil {
-		return Version{0, 0}, fmt.Errorf("Invalid minor version number: '%s'.", minor)
+		return Version{0, 0}, fmt.Errorf("invalid minor version number: %s", split[1])
 	}
 	return Version{majorNumber, minorNumber}, nil
 }
 
+// Compare compares two versions, returning 1, 0, or -1 if the compared version
+// is before, after, or equal to this version respectively.
 func (v Version) Compare(v2 Version) int {
 	if v.Major < v2.Major {
 		return -1
@@ -42,10 +42,6 @@ func (v Version) Compare(v2 Version) int {
 		return 1
 	}
 	return 0
-}
-
-func (v Version) Valid() bool {
-	return v.Major != 0 || v.Minor != 0
 }
 
 func (v Version) String() string {

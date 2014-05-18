@@ -25,6 +25,7 @@ glow
 
 # Temporary/output directories
 examples/test
+examples/cube/cube
 egl
 gl
 gles1
@@ -35,3 +36,4 @@ xml
 
 # Vim
 *.swp
+*.swo

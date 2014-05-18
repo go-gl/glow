@@ -5,12 +5,14 @@ import (
 	"strings"
 )
 
+// A Type describes the C and Go type of a function parameter or return value.
 type Type struct {
 	Name         string // Name of the type without modifiers
 	PointerLevel int    // Number of levels of declared indirection to the type
 	CDefinition  string // Raw C definition
 }
 
+// A Typedef describes a C typedef statement.
 type Typedef struct {
 	Name        string // Name of the defined type (or included types)
 	CDefinition string // Raw C definition
@@ -20,10 +22,7 @@ func (t Type) String() string {
 	return fmt.Sprintf("%s%s [%s]", t.Name, t.pointers(), t.CDefinition)
 }
 
-func (t Type) pointers() string {
-	return strings.Repeat("*", t.PointerLevel)
-}
-
+// IsVoid indicates whether this type is the void pseudo-type.
 func (t Type) IsVoid() bool {
 	return (t.Name == "void" || t.Name == "GLvoid") && t.PointerLevel == 0
 }
@@ -64,39 +63,28 @@ func (t Type) GoType() string {
 		return t.pointers() + "int32"
 	case "GLchar", "GLcharARB":
 		return t.pointers() + "int8"
-	case "GLenum":
-		return t.pointers() + "glt.Enum"
-	case "GLbitfield":
-		return t.pointers() + "glt.Bitfield"
+	case "GLboolean":
+		return t.pointers() + "bool"
+	case "GLenum", "GLbitfield":
+		return t.pointers() + "uint32"
 	case "GLhalf", "GLhalfNV": // Go has no 16-bit floating point type
 		return t.pointers() + "uint16"
-	case "GLboolean":
-		if t.PointerLevel == 0 {
-			return "bool"
-		}
-		return t.pointers() + "byte"
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
-			return "glt.Pointer"
+			return "uintptr"
 		} else if t.PointerLevel == 2 {
-			return "*glt.Pointer"
+			return "*uintptr"
 		}
 	case "GLintptr", "GLintptrARB":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-		return t.pointers() + "int64"
+		return t.pointers() + "int"
 	case "GLsizeiptr", "GLsizeiptrARB":
-		if t.PointerLevel == 0 {
-			return "int"
-		}
-		return t.pointers() + "int64"
+		return t.pointers() + "int"
 	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
-		return t.pointers() + "glt.Pointer"
+		return t.pointers() + "uintptr"
 	case "GLsync":
-		return t.pointers() + "glt.Sync"
+		return t.pointers() + "unsafe.Pointer"
 	case "GLDEBUGPROC":
-		return "glt.DebugProc"
+		return "unsafe.Pointer"
 	}
 	return t.pointers() + "C." + t.Name
 }
@@ -114,12 +102,8 @@ func (t Type) ConvertGoToC(name string) string {
 		} else if t.PointerLevel == 2 {
 			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
 		}
-	case "GLhandleARB":
-		if t.PointerLevel == 1 {
-			return fmt.Sprintf("(*C.GLhandleARB)(unsafe.Pointer(%s))", name)
-		}
 	}
-	if t.PointerLevel == 2 {
+	if t.PointerLevel >= 1 {
 		return fmt.Sprintf("(%sC.%s)(unsafe.Pointer(%s))", t.pointers(), t.Name, name)
 	}
 	return fmt.Sprintf("(%sC.%s)(%s)", t.pointers(), t.Name, name)
@@ -131,4 +115,8 @@ func (t Type) ConvertCToGo(name string) string {
 		return fmt.Sprintf("%s == TRUE", name)
 	}
 	return fmt.Sprintf("(%s)(%s)", t.GoType(), name)
+}
+
+func (t Type) pointers() string {
+	return strings.Repeat("*", t.PointerLevel)
 }
