@@ -47,11 +47,15 @@ func main() {
 
 A note about threading and goroutines. The bindings do not expose a mechanism to make an OpenGL context current on a different thread so you must restrict your usage to the thread on which you called `gl.Init()`. To do so you should use [LockOSThread](https://code.google.com/p/go-wiki/wiki/LockOSThread).
 
-
 Examples
 --------
 
 A simple example illustrating how to use the bindings is available in the [examples](https://github.com/errcw/glow/tree/master/examples) directory.
+
+Extensions
+----------
+
+If the bindings are generated with extensions included (true by default, or otherwise configured via the `-addext` and `-remext` flags) package-global booleans (e.g., `gl.ARB_cl_event`) indicate whether an extension is available. Availability is determined at `Init` time based on the ability to load the relevant functions (_not_ via `glGetString(GL_EXTENSIONS)`).
 
 Function Loading
 ----------------
