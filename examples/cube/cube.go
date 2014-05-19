@@ -28,13 +28,6 @@ func glfwErrorCallback(err glfw.ErrorCode, desc string) {
 	fmt.Printf("GLFW error %v: %v\n", err, desc)
 }
 
-func checkGLError() {
-	e := gl.GetError()
-	if e != gl.NO_ERROR {
-		panic(e)
-	}
-}
-
 func main() {
 	// Initialize GLFW for window management
 	glfw.SetErrorCallback(glfwErrorCallback)
@@ -62,7 +55,7 @@ func main() {
 	version := glt.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL version", version)
 
-	// Configure the scene
+	// Configure the vertex and fragment shaders
 	program, err := newProgram(vertexShader, fragmentShader)
 	if err != nil {
 		panic(err)
@@ -84,45 +77,18 @@ func main() {
 	modelUniform := gl.GetUniformLocation(program, glt.Str("model\x00"))
 	gl.UniformMatrix4fv(modelUniform, 1, false, convertForGL(model))
 
-	gl.BindFragDataLocation(program, 0, glt.Str("outputColor\x00"))
-
-	var texture uint32
-	gl.GenTextures(1, &texture)
-	gl.ActiveTexture(gl.TEXTURE0)
-	gl.BindTexture(gl.TEXTURE_2D, texture)
-	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-
-	imgFile, err := os.Open("square.png")
-	if err != nil {
-		panic(err)
-	}
-	img, _, err := image.Decode(imgFile)
-	if err != nil {
-		panic(err)
-	}
-	rgba := image.NewRGBA(img.Bounds())
-	if rgba.Stride != rgba.Rect.Size().X*4 {
-		panic("unsupported stride")
-	}
-	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
-
-	gl.TexImage2D(
-		gl.TEXTURE_2D,
-		0,
-		gl.RGBA,
-		int32(rgba.Rect.Size().X),
-		int32(rgba.Rect.Size().Y),
-		0,
-		gl.RGBA,
-		gl.UNSIGNED_BYTE,
-		glt.Ptr(rgba.Pix))
-
 	textureUniform := gl.GetUniformLocation(program, glt.Str("tex\x00"))
 	gl.Uniform1i(textureUniform, 0)
 
+	gl.BindFragDataLocation(program, 0, glt.Str("outputColor\x00"))
+
+	// Load the texture
+	texture, err := newTexture("square.png")
+	if err != nil {
+		panic(err)
+	}
+
+	// Configure the vertex data
 	var vao uint32
 	gl.GenVertexArrays(1, &vao)
 	gl.BindVertexArray(vao)
@@ -130,7 +96,7 @@ func main() {
 	var vbo uint32
 	gl.GenBuffers(1, &vbo)
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	gl.BufferData(gl.ARRAY_BUFFER, len(cube)*4, glt.Ptr(cube), gl.STATIC_DRAW)
+	gl.BufferData(gl.ARRAY_BUFFER, len(cubeVertices)*4, glt.Ptr(cubeVertices), gl.STATIC_DRAW)
 
 	vertAttrib := uint32(gl.GetAttribLocation(program, glt.Str("vert\x00")))
 	gl.EnableVertexAttribArray(vertAttrib)
@@ -140,10 +106,9 @@ func main() {
 	gl.EnableVertexAttribArray(texCoordAttrib)
 	gl.VertexAttribPointer(texCoordAttrib, 2, gl.FLOAT, false, 5*4, 3*4)
 
+	// Configure global settings
 	gl.Enable(gl.DEPTH_TEST)
 	gl.DepthFunc(gl.LESS)
-
-	//gl.Viewport(0, 0, WindowWidth, WindowHeight)
 	gl.ClearColor(1.0, 1.0, 1.0, 1.0)
 
 	id := new(geom.Mat4)
@@ -155,19 +120,24 @@ func main() {
 	for !window.ShouldClose() {
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-		gl.UseProgram(program)
-
+		// Update
 		time := glfw.GetTime()
 		elapsed := time - previousTime
 		previousTime = time
 
 		angle += elapsed
 		model.Rot(id, float32(angle), geom.V3(0, 1, 0))
+
+		// Render
+		gl.UseProgram(program)
 		gl.UniformMatrix4fv(modelUniform, 1, false, convertForGL(model))
 
 		gl.BindVertexArray(vao)
+
+		gl.ActiveTexture(gl.TEXTURE0)
+		gl.BindTexture(gl.TEXTURE_2D, texture)
+
 		gl.DrawArrays(gl.TRIANGLES, 0, 6*2*3)
-		checkGLError()
 
 		// Maintenance
 		window.SwapBuffers()
@@ -226,10 +196,48 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 		log := strings.Repeat("\x00", int(logLength+1))
 		gl.GetShaderInfoLog(shader, logLength, nil, glt.Str(log))
 
-		return 0, errors.New(fmt.Sprintf("failed to compile %v: %v", source, log))
+		return 0, fmt.Errorf("failed to compile %v: %v", source, log)
 	}
 
 	return shader, nil
+}
+
+func newTexture(file string) (uint32, error) {
+	imgFile, err := os.Open(file)
+	if err != nil {
+		return 0, err
+	}
+	img, _, err := image.Decode(imgFile)
+	if err != nil {
+		return 0, err
+	}
+
+	rgba := image.NewRGBA(img.Bounds())
+	if rgba.Stride != rgba.Rect.Size().X*4 {
+		return 0, fmt.Errorf("unsupported stride")
+	}
+	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
+
+	var texture uint32
+	gl.GenTextures(1, &texture)
+	gl.ActiveTexture(gl.TEXTURE0)
+	gl.BindTexture(gl.TEXTURE_2D, texture)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+	gl.TexImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		int32(rgba.Rect.Size().X),
+		int32(rgba.Rect.Size().Y),
+		0,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		glt.Ptr(rgba.Pix))
+
+	return texture, nil
 }
 
 func convertForGL(m *geom.Mat4) *float32 {
@@ -289,7 +297,7 @@ void main() {
 }
 ` + "\x00"
 
-var cube = []float32{
+var cubeVertices = []float32{
 	//  X, Y, Z, U, V
 	// Bottom
 	-1.0, -1.0, -1.0, 0.0, 0.0,
