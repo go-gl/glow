@@ -83,6 +83,7 @@ func boolToInt(b bool) int {
 
 {{define "bridgeCall"}}C.glow{{.GoName}}(p{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
+{{with .Doc}}// {{.}}{{end}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
   {{else}}

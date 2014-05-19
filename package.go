@@ -24,6 +24,7 @@ type PackageFunction struct {
 	Function
 	Required   bool
 	Extensions []string
+	Doc        string
 }
 
 // Dir returns the directory to which the Go package files are written
