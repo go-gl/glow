@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/errcw/glow/gl-core/3.3/gl"
-	"github.com/errcw/glow/glt"
 	"github.com/fzipp/geom"
 	glfw "github.com/go-gl/glfw3"
 	"image"
@@ -52,7 +51,7 @@ func main() {
 		panic(err)
 	}
 
-	version := glt.GoStr(gl.GetString(gl.VERSION))
+	version := gl.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL version", version)
 
 	// Configure the vertex and fragment shaders
@@ -64,23 +63,23 @@ func main() {
 
 	projection := new(geom.Mat4)
 	projection.Perspective(70.0, float32(WindowWidth)/WindowHeight, 0.1, 10.0)
-	projectionUniform := gl.GetUniformLocation(program, glt.Str("projection\x00"))
+	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
 	gl.UniformMatrix4fv(projectionUniform, 1, false, convertForGL(projection))
 
 	camera := new(geom.Mat4)
 	camera.LookAt(geom.V3(3, 3, 3), geom.V3(0, 0, 0), geom.V3(0, 1, 0))
-	cameraUniform := gl.GetUniformLocation(program, glt.Str("camera\x00"))
+	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(cameraUniform, 1, false, convertForGL(camera))
 
 	model := new(geom.Mat4)
 	model.ID()
-	modelUniform := gl.GetUniformLocation(program, glt.Str("model\x00"))
+	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
 	gl.UniformMatrix4fv(modelUniform, 1, false, convertForGL(model))
 
-	textureUniform := gl.GetUniformLocation(program, glt.Str("tex\x00"))
+	textureUniform := gl.GetUniformLocation(program, gl.Str("tex\x00"))
 	gl.Uniform1i(textureUniform, 0)
 
-	gl.BindFragDataLocation(program, 0, glt.Str("outputColor\x00"))
+	gl.BindFragDataLocation(program, 0, gl.Str("outputColor\x00"))
 
 	// Load the texture
 	texture, err := newTexture("square.png")
@@ -96,13 +95,13 @@ func main() {
 	var vbo uint32
 	gl.GenBuffers(1, &vbo)
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	gl.BufferData(gl.ARRAY_BUFFER, len(cubeVertices)*4, glt.Ptr(cubeVertices), gl.STATIC_DRAW)
+	gl.BufferData(gl.ARRAY_BUFFER, len(cubeVertices)*4, gl.Ptr(cubeVertices), gl.STATIC_DRAW)
 
-	vertAttrib := uint32(gl.GetAttribLocation(program, glt.Str("vert\x00")))
+	vertAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vert\x00")))
 	gl.EnableVertexAttribArray(vertAttrib)
 	gl.VertexAttribPointer(vertAttrib, 3, gl.FLOAT, false, 5*4, 0)
 
-	texCoordAttrib := uint32(gl.GetAttribLocation(program, glt.Str("vertTexCoord\x00")))
+	texCoordAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vertTexCoord\x00")))
 	gl.EnableVertexAttribArray(texCoordAttrib)
 	gl.VertexAttribPointer(texCoordAttrib, 2, gl.FLOAT, false, 5*4, 3*4)
 
@@ -169,7 +168,7 @@ func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error)
 		gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
 
 		log := strings.Repeat("\x00", int(logLength+1))
-		gl.GetProgramInfoLog(program, logLength, nil, glt.Str(log))
+		gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
 
 		return 0, errors.New(fmt.Sprintf("failed to link program: %v", log))
 	}
@@ -183,7 +182,7 @@ func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error)
 func compileShader(source string, shaderType uint32) (uint32, error) {
 	shader := gl.CreateShader(shaderType)
 
-	csource := glt.Str(source)
+	csource := gl.Str(source)
 	gl.ShaderSource(shader, 1, &csource, nil)
 	gl.CompileShader(shader)
 
@@ -194,7 +193,7 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 		gl.GetShaderiv(shader, gl.INFO_LOG_LENGTH, &logLength)
 
 		log := strings.Repeat("\x00", int(logLength+1))
-		gl.GetShaderInfoLog(shader, logLength, nil, glt.Str(log))
+		gl.GetShaderInfoLog(shader, logLength, nil, gl.Str(log))
 
 		return 0, fmt.Errorf("failed to compile %v: %v", source, log)
 	}
@@ -235,7 +234,7 @@ func newTexture(file string) (uint32, error) {
 		0,
 		gl.RGBA,
 		gl.UNSIGNED_BYTE,
-		glt.Ptr(rgba.Pix))
+		gl.Ptr(rgba.Pix))
 
 	return texture, nil
 }

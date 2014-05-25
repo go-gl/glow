@@ -52,10 +52,12 @@ package {{.Name}}
 // {{end}}
 // 
 import "C"
-import "errors"
-import "github.com/errcw/glow/procaddr"
-import "github.com/errcw/glow/procaddr/auto"
-import "unsafe"
+import (
+  "errors"
+  "github.com/errcw/glow/procaddr"
+  "github.com/errcw/glow/procaddr/auto"
+  "unsafe"
+)
 
 const (
   {{range .Enums}}

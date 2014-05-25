@@ -43,7 +43,18 @@ func (pkg *Package) GeneratePackage() error {
 		return err
 	}
 
-	out, err := os.Create(filepath.Join(dir, pkg.Name+".go"))
+	if err := pkg.generateFile("package", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("conversions", dir); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (pkg *Package) generateFile(file, dir string) error {
+	out, err := os.Create(filepath.Join(dir, file+".go"))
 	if err != nil {
 		return err
 	}
@@ -53,7 +64,7 @@ func (pkg *Package) GeneratePackage() error {
 		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
 	}
-	tmpl := template.Must(template.New("package.tmpl").Funcs(fns).ParseFiles("package.tmpl"))
+	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(file + ".tmpl"))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
