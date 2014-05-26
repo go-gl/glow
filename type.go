@@ -37,6 +37,14 @@ func (t Type) CType() string {
 	return t.CDefinition
 }
 
+// GoCType returns the Go definition of the C type.
+func (t Type) GoCType() string {
+  if strings.HasPrefix(t.Name, "struct ") {
+    return t.pointers() + "C.struct_" + strings.TrimPrefix(t.Name, "struct ")
+  }
+	return t.pointers() + "C." + t.Name
+}
+
 // GoType returns the Go definition of the type.
 func (t Type) GoType() string {
 	switch t.Name {
@@ -91,7 +99,7 @@ func (t Type) GoType() string {
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		return "DebugProc"
 	}
-	return t.pointers() + "C." + t.Name
+	return t.GoCType()
 }
 
 // ConvertGoToC returns an expression that converts a variable from the Go type to the C type.
@@ -111,9 +119,9 @@ func (t Type) ConvertGoToC(name string) string {
 		return fmt.Sprintf("(C.%s)(unsafe.Pointer(&%s))", t.Name, name)
 	}
 	if t.PointerLevel >= 1 {
-		return fmt.Sprintf("(%sC.%s)(unsafe.Pointer(%s))", t.pointers(), t.Name, name)
+		return fmt.Sprintf("(%s)(unsafe.Pointer(%s))", t.GoCType(), name)
 	}
-	return fmt.Sprintf("(%sC.%s)(%s)", t.pointers(), t.Name, name)
+	return fmt.Sprintf("(%s)(%s)", t.GoCType(), name)
 }
 
 // ConvertCToGo converts from the C type to the Go type.
