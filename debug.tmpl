@@ -11,7 +11,7 @@ type DebugProc func(
 	id uint32,
 	severity uint32,
 	length int32,
-	message *int8,
+	message string,
 	userParam unsafe.Pointer)
 
 var userDebugCallback DebugProc
@@ -23,9 +23,9 @@ func glowDebugCallback(
 	id uint32,
 	severity uint32,
 	length int32,
-	message *int8,
+	message *uint8,
 	userParam unsafe.Pointer) {
   if userDebugCallback != nil {
-    userDebugCallback(source, gltype, id, severity, length, message, userParam)
+    userDebugCallback(source, gltype, id, severity, length, GoStr(message), userParam)
   }
 }
