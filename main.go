@@ -79,10 +79,14 @@ func generate(name string, args []string) {
 		RemExtRegexp: remExtRegexp,
 	}
 
+	specs := parseSpecifications(*xmlDir)
+	docs := parseDocumentation(*xmlDir)
+
 	var pkg *Package
-	for _, spec := range parseSpecifications(*xmlDir) {
+	for _, spec := range specs {
 		if spec.HasPackage(packageSpec) {
 			pkg = spec.ToPackage(packageSpec)
+			docs.AddDocs(pkg)
 			if err := pkg.GeneratePackage(); err != nil {
 				log.Fatal("error generating package:", err)
 			}
@@ -112,6 +116,26 @@ func parseSpecifications(xmlDir string) []*Specification {
 	}
 
 	return specs
+}
+
+func parseDocumentation(xmlDir string) Documentation {
+	docDir := filepath.Join(xmlDir, "doc")
+	docFiles, err := ioutil.ReadDir(docDir)
+	if err != nil {
+		log.Fatal("error reading doc file entries:", err)
+	}
+
+	docs := make([]string, 0, len(docFiles))
+	for _, docFile := range docFiles {
+		docs = append(docs, filepath.Join(docDir, docFile.Name()))
+	}
+
+	doc, err := NewDocumentation(docs)
+	if err != nil {
+		log.Fatal("error parsing documentation:", err)
+	}
+
+	return doc
 }
 
 // PackageSpec describes a package to be generated.

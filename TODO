@@ -1,6 +1,0 @@
-Work to Consider
-================
-
-- Fix debug proc handling
-- Add doc processing and emit function comments
-- Test generation of non-GL packages

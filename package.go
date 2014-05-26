@@ -24,6 +24,7 @@ type PackageFunction struct {
 	Function
 	Required   bool
 	Extensions []string
+	Doc        string
 }
 
 // Dir returns the directory to which the Go package files are written
@@ -42,7 +43,23 @@ func (pkg *Package) GeneratePackage() error {
 		return err
 	}
 
-	out, err := os.Create(filepath.Join(dir, pkg.Name+".go"))
+	if err := pkg.generateFile("package", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("conversions", dir); err != nil {
+		return err
+	}
+	if pkg.HasDebugCallbackFeature() {
+		if err := pkg.generateFile("debug", dir); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (pkg *Package) generateFile(file, dir string) error {
+	out, err := os.Create(filepath.Join(dir, file+".go"))
 	if err != nil {
 		return err
 	}
@@ -52,7 +69,7 @@ func (pkg *Package) GeneratePackage() error {
 		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
 	}
-	tmpl := template.Must(template.New("package.tmpl").Funcs(fns).ParseFiles("package.tmpl"))
+	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(file + ".tmpl"))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
@@ -70,4 +87,18 @@ func (pkg *Package) Extensions() []string {
 		extensions = append(extensions, extension)
 	}
 	return extensions
+}
+
+// HasDebugCallbackFeature returns whether this package exposes the ability to
+// set a debug callback. Used to determine whether to include the necessary
+// GL-specific callback code.
+func (pkg *Package) HasDebugCallbackFeature() bool {
+	for _, fn := range pkg.Functions {
+		for _, param := range fn.Parameters {
+			if param.Type.IsDebugProc() {
+				return true
+			}
+		}
+	}
+	return false
 }
