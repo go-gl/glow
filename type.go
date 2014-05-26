@@ -27,6 +27,11 @@ func (t Type) IsVoid() bool {
 	return (t.Name == "void" || t.Name == "GLvoid") && t.PointerLevel == 0
 }
 
+// IsDebugProc indicates whether this type is a debug callback function pointer.
+func (t Type) IsDebugProc() bool {
+	return t.Name == "GLDEBUGPROC" || t.Name == "GLDEBUGPROCARB" || t.Name == "GLDEBUGPROCKHR"
+}
+
 // CType returns the C definition of the type.
 func (t Type) CType() string {
 	return t.CDefinition
@@ -83,8 +88,8 @@ func (t Type) GoType() string {
 		return t.pointers() + "uintptr"
 	case "GLsync":
 		return t.pointers() + "unsafe.Pointer"
-	case "GLDEBUGPROC":
-		return "unsafe.Pointer"
+	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
+		return "DebugProc"
 	}
 	return t.pointers() + "C." + t.Name
 }
@@ -102,6 +107,8 @@ func (t Type) ConvertGoToC(name string) string {
 		} else if t.PointerLevel == 2 {
 			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
 		}
+	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
+		return fmt.Sprintf("(C.%s)(unsafe.Pointer(&%s))", t.Name, name)
 	}
 	if t.PointerLevel >= 1 {
 		return fmt.Sprintf("(%sC.%s)(unsafe.Pointer(%s))", t.pointers(), t.Name, name)

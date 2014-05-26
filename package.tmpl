@@ -12,7 +12,8 @@
 package {{.Name}}
 
 {{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
-{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.CName}}{{end}}{{end}}
+{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{$p.CName}}{{end}}{{end}}{{end}}
+
 {{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
@@ -40,6 +41,11 @@ package {{.Name}}
 // {{range .Typedefs}}
 // {{replace .CDefinition "\n" "\n// " -1}}
 // {{end}}
+//
+// extern void glowDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+// void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+//   glowDebugCallback(source, type, id, severity, length, message, userParam);
+// }
 //
 // {{range .Functions}}
 // typedef {{.Return.CType}} (APIENTRYP P{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
@@ -87,6 +93,9 @@ func boolToInt(b bool) int {
 {{range .Functions}}
 {{with .Doc}}// {{.}}{{end}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
+  {{range .Parameters}}
+  {{if .Type.IsDebugProc}}userDebugCallback = {{.GoName}}{{end}}
+  {{end}}
   {{if .Return.IsVoid}}{{template "bridgeCall" .}}
   {{else}}
   ret := {{template "bridgeCall" .}}
