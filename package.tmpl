@@ -42,10 +42,12 @@ package {{.Name}}
 // {{replace .CDefinition "\n" "\n// " -1}}
 // {{end}}
 //
+// {{if .HasDebugCallbackFeature}}
 // extern void glowDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 // void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 //   glowDebugCallback(source, type, id, severity, length, message, userParam);
 // }
+// {{end}}
 //
 // {{range .Functions}}
 // typedef {{.Return.CType}} (APIENTRYP P{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});

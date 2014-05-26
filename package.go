@@ -49,8 +49,10 @@ func (pkg *Package) GeneratePackage() error {
 	if err := pkg.generateFile("conversions", dir); err != nil {
 		return err
 	}
-	if err := pkg.generateFile("debug", dir); err != nil {
-		return err
+	if pkg.HasDebugCallbackFeature() {
+		if err := pkg.generateFile("debug", dir); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -85,4 +87,18 @@ func (pkg *Package) Extensions() []string {
 		extensions = append(extensions, extension)
 	}
 	return extensions
+}
+
+// HasDebugCallbackFeature returns whether this package exposes the ability to
+// set a debug callback. Used to determine whether to include the necessary
+// GL-specific callback code.
+func (pkg *Package) HasDebugCallbackFeature() bool {
+	for _, fn := range pkg.Functions {
+		for _, param := range fn.Parameters {
+			if param.Type.IsDebugProc() {
+				return true
+			}
+		}
+	}
+	return false
 }
