@@ -13,6 +13,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"unsafe"
 )
 
 const WindowWidth = 800
@@ -25,6 +26,17 @@ func init() {
 
 func glfwErrorCallback(err glfw.ErrorCode, desc string) {
 	fmt.Printf("GLFW error %v: %v\n", err, desc)
+}
+
+func glDebugCallback(
+	source uint32,
+	gltype uint32,
+	id uint32,
+	severity uint32,
+	length int32,
+	message string,
+	userParam unsafe.Pointer) {
+	fmt.Printf("Debug source=%d type=%d severity=%d: %s\n", source, gltype, severity, message)
 }
 
 func main() {
@@ -40,6 +52,7 @@ func main() {
 	glfw.WindowHint(glfw.ContextVersionMinor, 3)
 	glfw.WindowHint(glfw.OpenglForwardCompatible, glfw.True)    // Necessary for OS X
 	glfw.WindowHint(glfw.OpenglProfile, glfw.OpenglCoreProfile) // Necessary for OS X
+	glfw.WindowHint(glfw.OpenglDebugContext, glfw.True)
 	window, err := glfw.CreateWindow(WindowWidth, WindowHeight, "Cube", nil, nil)
 	if err != nil {
 		panic(err)
@@ -49,6 +62,13 @@ func main() {
 	// Initialize Glow
 	if err := gl.Init(); err != nil {
 		panic(err)
+	}
+
+	if gl.ARB_debug_output {
+		gl.Enable(gl.DEBUG_OUTPUT_SYNCHRONOUS_ARB)
+		gl.DebugMessageCallbackARB(gl.DebugProc(glDebugCallback), gl.Ptr(nil))
+		// Trigger an error to demonstrate debug output
+		gl.Enable(gl.CONTEXT_FLAGS)
 	}
 
 	version := gl.GoStr(gl.GetString(gl.VERSION))
