@@ -6,7 +6,7 @@ Glow is an OpenGL binding generator for Go. Glow parses the [OpenGL XML API regi
 Features:
 - Go functions that mirror the C specification using Go types.
 - Support for multiple OpenGL APIs (GL/GLES/EGL/WGL/GLX/EGL), versions and profiles.
-- Support for extensions.
+- Support for extensions (including debug callbacks).
 
 See the [open issues](https://github.com/errcw/glow/issues) for caveats about the current state of the implementation.
 
