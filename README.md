@@ -13,7 +13,7 @@ See the [open issues](https://github.com/errcw/glow/issues) for caveats about th
 Usage
 -----
 
-Use `go get` to download and install one of the prebuilt packages.
+Use `go get` to download and install one of the prebuilt packages. The prebuilt packages support OpenGL versions 3.2, 3.3, 4.1, and 4.4 across both the core and compatibility profiles and include all extensions.
 
     go get github.com/errcw/glow/gl-{core,compatibility}/{3.2,3.3,4.1,4.4}/gl
     go get github.com/errcw/glow/gl-core/3.3/gl
