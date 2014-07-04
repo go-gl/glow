@@ -27,7 +27,6 @@ glow
 examples/test
 examples/cube/cube
 egl
-gl
 gles1
 gles2
 glx
