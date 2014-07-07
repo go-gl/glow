@@ -112,7 +112,7 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if p{{.GoName}} = (C.P{{toUpper .GoName}})(unsafe.Pointer(getProcAddr("{{.Name}}"))); p{{.GoName}} == nil {
+  if p{{.GoName}} = (C.P{{toUpper .GoName}})(getProcAddr("{{.Name}}")); p{{.GoName}} == nil {
     {{range .Extensions}}
     {{.}} = false
     {{end}}

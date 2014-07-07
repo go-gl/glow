@@ -39,9 +39,9 @@ func (t Type) CType() string {
 
 // GoCType returns the Go definition of the C type.
 func (t Type) GoCType() string {
-  if strings.HasPrefix(t.Name, "struct ") {
-    return t.pointers() + "C.struct_" + strings.TrimPrefix(t.Name, "struct ")
-  }
+	if strings.HasPrefix(t.Name, "struct ") {
+		return t.pointers() + "C.struct_" + strings.TrimPrefix(t.Name, "struct ")
+	}
 	return t.pointers() + "C." + t.Name
 }
 
@@ -84,16 +84,16 @@ func (t Type) GoType() string {
 		return t.pointers() + "uint16"
 	case "void", "GLvoid":
 		if t.PointerLevel == 1 {
-			return "uintptr"
+			return "unsafe.Pointer"
 		} else if t.PointerLevel == 2 {
-			return "*uintptr"
+			return "*unsafe.Pointer"
 		}
 	case "GLintptr", "GLintptrARB":
 		return t.pointers() + "int"
 	case "GLsizeiptr", "GLsizeiptrARB":
 		return t.pointers() + "int"
 	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
-		return t.pointers() + "uintptr"
+		return t.pointers() + "unsafe.Pointer"
 	case "GLsync":
 		return t.pointers() + "unsafe.Pointer"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
@@ -110,11 +110,7 @@ func (t Type) ConvertGoToC(name string) string {
 			return fmt.Sprintf("(C.GLboolean)(boolToInt(%s))", name)
 		}
 	case "void", "GLvoid":
-		if t.PointerLevel == 1 {
-			return fmt.Sprintf("unsafe.Pointer(%s)", name)
-		} else if t.PointerLevel == 2 {
-			return fmt.Sprintf("(*unsafe.Pointer)(unsafe.Pointer(%s))", name)
-		}
+		return name
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		return fmt.Sprintf("(C.%s)(unsafe.Pointer(&%s))", t.Name, name)
 	}
