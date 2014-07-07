@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/errcw/glow/gl-core/3.3/gl"
-	"github.com/fzipp/geom"
 	glfw "github.com/go-gl/glfw3"
+	"github.com/go-gl/mathgl/mgl32"
 	"image"
 	"image/draw"
 	_ "image/png"
@@ -81,20 +81,17 @@ func main() {
 	}
 	gl.UseProgram(program)
 
-	projection := new(geom.Mat4)
-	projection.Perspective(70.0, float32(WindowWidth)/WindowHeight, 0.1, 10.0)
+	projection := mgl32.Perspective(70.0, float32(WindowWidth)/WindowHeight, 0.1, 10.0)
 	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
-	gl.UniformMatrix4fv(projectionUniform, 1, false, convertForGL(projection))
+	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
 
-	camera := new(geom.Mat4)
-	camera.LookAt(geom.V3(3, 3, 3), geom.V3(0, 0, 0), geom.V3(0, 1, 0))
+	camera := mgl32.LookAtV(mgl32.Vec3{3, 3, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
 	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
-	gl.UniformMatrix4fv(cameraUniform, 1, false, convertForGL(camera))
+	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
 
-	model := new(geom.Mat4)
-	model.ID()
+	model := mgl32.Ident4()
 	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
-	gl.UniformMatrix4fv(modelUniform, 1, false, convertForGL(model))
+	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
 
 	textureUniform := gl.GetUniformLocation(program, gl.Str("tex\x00"))
 	gl.Uniform1i(textureUniform, 0)
@@ -130,9 +127,6 @@ func main() {
 	gl.DepthFunc(gl.LESS)
 	gl.ClearColor(1.0, 1.0, 1.0, 1.0)
 
-	id := new(geom.Mat4)
-	id.ID()
-
 	angle := 0.0
 	previousTime := glfw.GetTime()
 
@@ -145,11 +139,11 @@ func main() {
 		previousTime = time
 
 		angle += elapsed
-		model.Rot(id, float32(angle), geom.V3(0, 1, 0))
+		model = mgl32.HomogRotate3D(float32(angle), mgl32.Vec3{0, 1, 0})
 
 		// Render
 		gl.UseProgram(program)
-		gl.UniformMatrix4fv(modelUniform, 1, false, convertForGL(model))
+		gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
 
 		gl.BindVertexArray(vao)
 
@@ -257,31 +251,6 @@ func newTexture(file string) (uint32, error) {
 		gl.Ptr(rgba.Pix))
 
 	return texture, nil
-}
-
-func convertForGL(m *geom.Mat4) *float32 {
-	a := [16]float32{
-		m[0][0],
-		m[0][1],
-		m[0][2],
-		m[0][3],
-
-		m[1][0],
-		m[1][1],
-		m[1][2],
-		m[1][3],
-
-		m[2][0],
-		m[2][1],
-		m[2][2],
-		m[2][3],
-
-		m[3][0],
-		m[3][1],
-		m[3][2],
-		m[3][3],
-	}
-	return &a[0]
 }
 
 var vertexShader string = `
