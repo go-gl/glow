@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
 )
@@ -86,6 +87,7 @@ func (pkg *Package) Extensions() []string {
 	for extension := range extensionSet {
 		extensions = append(extensions, extension)
 	}
+	sort.Sort(sort.StringSlice(extensions)) // Sort to guarantee a stable declaration order
 	return extensions
 }
 
