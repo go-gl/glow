@@ -80,21 +80,32 @@ func (t Type) GoType() string {
 		return t.pointers() + "bool"
 	case "GLenum", "GLbitfield":
 		return t.pointers() + "uint32"
-	case "GLhalf", "GLhalfNV": // Go has no 16-bit floating point type
+	case "GLhalf", "GLhalfNV":
+		// Go has no 16-bit floating point type
 		return t.pointers() + "uint16"
 	case "void", "GLvoid":
+		// Type void* could map to either uintptr or unsafe.Pointer but we use the
+		// latter because pointers passed from Go to C need to use Go pointer types
+		// for the sake of the GC
 		if t.PointerLevel == 1 {
 			return "unsafe.Pointer"
 		} else if t.PointerLevel == 2 {
 			return "*unsafe.Pointer"
 		}
 	case "GLintptr", "GLintptrARB":
+		// Type ptrdiff_t should map to an architecture-width Go int
 		return t.pointers() + "int"
 	case "GLsizeiptr", "GLsizeiptrARB":
+		// Same as GLintptr
 		return t.pointers() + "int"
 	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB", "GLsync":
+		// OpenGL pointer types should fit in a pointer-width Go type. No need to
+		// use unsafe.Pointer because there is no need for the Go GC to understand
+		// that these are pointer types. Moreover on most platforms GLhandleARB is
+		// an integer type.
 		return t.pointers() + "uintptr"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
+		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
 	}
 	return t.GoCType()
