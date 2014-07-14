@@ -98,12 +98,14 @@ func (t Type) GoType() string {
 	case "GLsizeiptr", "GLsizeiptrARB":
 		// Same as GLintptr
 		return t.pointers() + "int"
-	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB", "GLsync":
+	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceNV":
 		// OpenGL pointer types should fit in a pointer-width Go type. No need to
 		// use unsafe.Pointer because there is no need for the Go GC to understand
 		// that these are pointer types. Moreover on most platforms GLhandleARB is
 		// an integer type.
 		return t.pointers() + "uintptr"
+	case "GLsync":
+		return t.pointers() + "unsafe.Pointer"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
