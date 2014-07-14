@@ -92,10 +92,8 @@ func (t Type) GoType() string {
 		return t.pointers() + "int"
 	case "GLsizeiptr", "GLsizeiptrARB":
 		return t.pointers() + "int"
-	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB":
-		return t.pointers() + "unsafe.Pointer"
-	case "GLsync":
-		return t.pointers() + "unsafe.Pointer"
+	case "GLhandleARB", "GLeglImagesOES", "GLvdpauSurfaceARB", "GLsync":
+		return t.pointers() + "uintptr"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		return "DebugProc"
 	}
