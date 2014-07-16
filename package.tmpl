@@ -54,7 +54,7 @@ package {{.Name}}
 // {{end}}
 //
 // {{range .Functions}}
-// {{.Return.CType}} glow{{.GoName}}(P{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+// static {{.Return.CType}} glow{{.GoName}}(P{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
 // {{end}}
