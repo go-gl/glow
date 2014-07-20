@@ -31,7 +31,6 @@ gles1
 gles2
 glx
 wgl
-xml
 
 # Vim
 *.swp
