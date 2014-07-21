@@ -50,11 +50,11 @@ package {{.Name}}
 // {{end}}
 //
 // {{range .Functions}}
-// typedef {{.Return.CType}} (APIENTRYP P{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
+// typedef {{.Return.CType}} (APIENTRYP GP{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
 // {{end}}
 //
 // {{range .Functions}}
-// static {{.Return.CType}} glow{{.GoName}}(P{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+// static {{.Return.CType}} glow{{.GoName}}(GP{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
 // {{end}}
@@ -75,7 +75,7 @@ const (
 
 var (
   {{range .Functions}}
-  p{{.GoName}} C.P{{toUpper .GoName}}
+  gp{{.GoName}} C.GP{{toUpper .GoName}}
   {{end}}
 )
 
@@ -91,7 +91,7 @@ func boolToInt(b bool) int {
 	return 0
 }
 
-{{define "bridgeCall"}}C.glow{{.GoName}}(p{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
+{{define "bridgeCall"}}C.glow{{.GoName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
 {{with .Doc}}// {{.}}{{end}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
@@ -112,7 +112,7 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if p{{.GoName}} = (C.P{{toUpper .GoName}})(getProcAddr("{{.Name}}")); p{{.GoName}} == nil {
+  if gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}")); gp{{.GoName}} == nil {
     {{range .Extensions}}
     {{.}} = false
     {{end}}
