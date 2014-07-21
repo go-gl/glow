@@ -1,6 +1,7 @@
 package main
 
 import (
+  "fmt"
 	"os"
 	"path/filepath"
 	"sort"
@@ -28,13 +29,18 @@ type PackageFunction struct {
 	Doc        string
 }
 
-// Dir returns the directory to which the Go package files are written
+// Dir returns the directory to which the Go package files are written.
 func (pkg *Package) Dir() string {
 	apiPrefix := pkg.API
 	if pkg.Profile != "" {
 		apiPrefix = pkg.API + "-" + pkg.Profile
 	}
 	return filepath.Join(apiPrefix, pkg.Version.String(), pkg.Name)
+}
+
+// UniqueName returns a globally unique Go-compatible name for thie package.
+func (pkg *Package) UniqueName() string {
+  return fmt.Sprintf("%s%s%d%d", pkg.API, pkg.Profile, pkg.Version.Major, pkg.Version.Minor)
 }
 
 // GeneratePackage writes a Go package file.

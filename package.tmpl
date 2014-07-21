@@ -43,9 +43,9 @@ package {{.Name}}
 // {{end}}
 //
 // {{if .HasDebugCallbackFeature}}
-// extern void glowDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
-// void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
-//   glowDebugCallback(source, type, id, severity, length, message, userParam);
+// extern void glowDebugCallback_{{.UniqueName}}(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+// static void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+//   glowDebugCallback_{{.UniqueName}}(source, type, id, severity, length, message, userParam);
 // }
 // {{end}}
 //
