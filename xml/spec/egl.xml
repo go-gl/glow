@@ -56,6 +56,7 @@
         <type requires="khrplatform">typedef intptr_t <name>EGLAttrib</name>;</type>
         <type>typedef void *<name>EGLConfig</name>;</type>
         <type>typedef void *<name>EGLContext</name>;</type>
+        <type>typedef void *<name>EGLDeviceEXT</name>;</type>
         <type>typedef void *<name>EGLDisplay</name>;</type>
         <type>typedef void *<name>EGLSurface</name>;</type>
         <type>typedef void *<name>EGLClientBuffer</name>;</type>
@@ -172,6 +173,7 @@
         <enum value="-1" name="EGL_NO_NATIVE_FENCE_FD_ANDROID"/>
         <enum value="0" name="EGL_DEPTH_ENCODING_NONE_NV"/>
         <enum value="((EGLContext)0)" name="EGL_NO_CONTEXT"/>
+        <enum value="((EGLDeviceEXT)(0))" name="EGL_NO_DEVICE_EXT"/>
         <enum value="((EGLDisplay)0)" name="EGL_NO_DISPLAY"/>
         <enum value="((EGLImageKHR)0)" name="EGL_NO_IMAGE_KHR"/>
         <enum value="((EGLNativeDisplayType)0)" name="EGL_DEFAULT_DISPLAY"/>
@@ -455,6 +457,7 @@
             <unused start="0x3139" end="0x313C"/>
         <enum value="0x313D" name="EGL_BUFFER_AGE_EXT"/>
             <unused start="0x313E" end="0x313F"/>
+        <enum value="0x313F" name="EGL_PLATFORM_DEVICE_EXT"/>
     </enums>
 
     <enums namespace="EGL" start="0x3140" end="0x314F" vendor="Google" comment="Reserved for Mathias Agopian (Khronos bug 5199)">
@@ -572,7 +575,10 @@
     </enums>
 
     <enums namespace="EGL" start="0x3220" end="0x325F" vendor="NV" comment="Reserved for Greg Roth (Bug 8220)">
-            <unused start="0x3220" end="0x325F"/>
+            <unused start="0x3220" end="0x322A"/>
+        <enum value="0x322B" name="EGL_BAD_DEVICE_EXT"/>
+        <enum value="0x322C" name="EGL_DEVICE_EXT"/>
+            <unused start="0x322D" end="0x325F"/>
     </enums>
 
     <enums namespace="EGL" start="0x3260" end="0x326F" vendor="BCOM" comment="Reserved for Gary Sweet, Broadcom (Public bug 620)">
@@ -623,8 +629,8 @@
             <unused start="0x32C1" end="0x32CF"/>
     </enums>
 
-    <enums namespace="EGL" start="0x32D0" end="0x32DF" vendor="QCOM" comment="Reserved for Jeff Vigil (Bug 11735) - EGL_QCOM_gpu_perf spec TBD">
-            <unused start="0x32D0" end="0x32DF"/>
+    <enums namespace="EGL" start="0x32D0" end="0x32EF" vendor="QCOM" comment="Reserved for Jeff Vigil (Bug 11735) - EGL_QCOM_gpu_perf spec TBD + Bug 12286 - EGL_QCOM_content_protection spec TBD">
+            <unused start="0x32D0" end="0x32EF"/>
     </enums>
 
 <!-- Please remember that new enumerant allocations must be obtained by
@@ -634,11 +640,11 @@
      Khronos APIs, and new ranges should be allocated with such overlaps in
      mind. -->
 
-<!-- Reservable for future use: 0x32E0-0x3FFF.
+<!-- Reservable for future use: 0x32F0-0x3FFF.
      To generate a new range, allocate multiples of 16 starting at the
      lowest available point in this block. -->
-    <enums namespace="EGL" start="0x32E0" end="0x3FFF" vendor="KHR">
-            <unused start="0x32E0" end="0x3FFF" comment="Reserved for future use"/>
+    <enums namespace="EGL" start="0x32F0" end="0x3FFF" vendor="KHR">
+            <unused start="0x32F0" end="0x3FFF" comment="Reserved for future use"/>
     </enums>
 
     <enums namespace="EGL" start="0x8F70" end="0x8F7F" vendor="HI" comment="For Mark Callow, Khronos bug 4055. Shared with GL.">
@@ -994,6 +1000,29 @@
             <param><ptype>EGLContext</ptype> <name>ctx</name></param>
             <param><ptype>EGLint</ptype> <name>attribute</name></param>
             <param><ptype>EGLint</ptype> *<name>value</name></param>
+        </command>
+        <command>
+            <proto><ptype>EGLBoolean</ptype> <name>eglQueryDeviceAttribEXT</name></proto>
+            <param><ptype>EGLDeviceEXT</ptype> <name>device</name></param>                            
+            <param><ptype>EGLint</ptype> <name>attribute</name></param>                               
+            <param><ptype>EGLAttrib</ptype> *<name>value</name></param>   
+        </command>
+        <command>
+            <proto>const char *<name>eglQueryDeviceStringEXT</name></proto>
+            <param><ptype>EGLDeviceEXT</ptype> <name>device</name></param>                            
+            <param><ptype>EGLint</ptype> <name>name</name></param>       
+        </command>
+        <command>
+            <proto><ptype>EGLBoolean</ptype> <name>eglQueryDevicesEXT</name></proto>
+            <param><ptype>EGLint</ptype> <name>max_devices</name></param>                         
+            <param><ptype>EGLDeviceEXT</ptype> *<name>devices</name></param>                      
+            <param><ptype>EGLint</ptype> *<name>num_devices</name></param> 
+        </command>
+        <command>
+            <proto><ptype>EGLBoolean</ptype> <name>eglQueryDisplayAttribEXT</name></proto>
+            <param><ptype>EGLDisplay</ptype> <name>dpy</name></param>                                 
+            <param><ptype>EGLint</ptype> <name>attribute</name></param>                               
+            <param><ptype>EGLAttrib</ptype> *<name>value</name></param>  
         </command>
         <command>
             <proto><ptype>EGLBoolean</ptype> <name>eglQueryNativeDisplayNV</name></proto>
@@ -1500,6 +1529,17 @@
                 <enum name="EGL_LOSE_CONTEXT_ON_RESET_EXT"/>
             </require>
         </extension>
+        <extension name="EGL_EXT_device_base" supported="egl">
+            <require>
+                <enum name="EGL_NO_DEVICE_EXT"/>
+                <enum name="EGL_BAD_DEVICE_EXT"/>
+                <enum name="EGL_DEVICE_EXT"/>
+                <command name="eglQueryDeviceAttribEXT"/>
+                <command name="eglQueryDeviceStringEXT"/>
+                <command name="eglQueryDevicesEXT"/>
+                <command name="eglQueryDisplayAttribEXT"/>
+            </require>
+        </extension>
         <extension name="EGL_EXT_image_dma_buf_import" supported="egl">
             <require>
                 <enum name="EGL_LINUX_DMA_BUF_EXT"/>
@@ -1536,6 +1576,11 @@
                 <command name="eglGetPlatformDisplayEXT"/>
                 <command name="eglCreatePlatformWindowSurfaceEXT"/>
                 <command name="eglCreatePlatformPixmapSurfaceEXT"/>
+            </require>
+        </extension>
+        <extension name="EGL_EXT_platform_device" supported="egl">
+            <require>
+                <enum name="EGL_PLATFORM_DEVICE_EXT"/>
             </require>
         </extension>
         <extension name="EGL_EXT_platform_wayland" supported="egl">

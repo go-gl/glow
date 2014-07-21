@@ -385,7 +385,8 @@ typedef unsigned __int64 uint64_t;
             <!-- 0x2095 collides with WGL_ERROR_INVALID_VERSION_ARB! -->
         <enum value="0x2095"        name="GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB"/>
             <!-- 0x2096 used for WGL_ERROR_INVALID_PROFILE_ARB -->
-            <unused start="0x2097" end="0x209F"/>
+            <!-- 0x2097-0x2098 reserved for future WGL/GLX extensions -->
+            <unused start="0x2099" end="0x209F"/>
     </enums>
 
     <enums namespace="GLX" start="0x20A0" end="0x219F" vendor="NV" comment="Shared with WGL">
@@ -1853,7 +1854,7 @@ typedef unsigned __int64 uint64_t;
                 <command name="glXReleaseVideoCaptureDeviceNV"/>
             </require>
         </extension>
-        <extension name="GLX_NV_video_output" supported="glx">
+        <extension name="GLX_NV_video_out" supported="glx">
             <require>
                 <enum name="GLX_VIDEO_OUT_COLOR_NV"/>
                 <enum name="GLX_VIDEO_OUT_ALPHA_NV"/>
