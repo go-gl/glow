@@ -104,9 +104,9 @@ package gl
 // typedef void (APIENTRY *GLDEBUGPROCAMD)(GLuint id,GLenum category,GLenum severity,GLsizei length,const GLchar *message,void *userParam);
 // typedef unsigned short GLhalfNV;
 // typedef GLintptr GLvdpauSurfaceNV;
-// extern void glowDebugCallback_glall00(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+// extern void glowDebugCallback_glcoreall(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 // static void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
-//   glowDebugCallback_glall00(source, type, id, severity, length, message, userParam);
+//   glowDebugCallback_glcoreall(source, type, id, severity, length, message, userParam);
 // }
 // typedef void  (APIENTRYP GPACCUM)(GLenum  op, GLfloat  value);
 // typedef void  (APIENTRYP GPACCUMXOES)(GLenum  op, GLfixed  value);
@@ -339,21 +339,13 @@ package gl
 // typedef void  (APIENTRYP GPCOLORMASKINDEXEDEXT)(GLuint  index, GLboolean  r, GLboolean  g, GLboolean  b, GLboolean  a);
 // typedef void  (APIENTRYP GPCOLORMASKI)(GLuint  index, GLboolean  r, GLboolean  g, GLboolean  b, GLboolean  a);
 // typedef void  (APIENTRYP GPCOLORMATERIAL)(GLenum  face, GLenum  mode);
-// typedef void  (APIENTRYP GPCOLORP3UI)(GLenum  type, GLuint  color);
-// typedef void  (APIENTRYP GPCOLORP3UIV)(GLenum  type, const GLuint * color);
-// typedef void  (APIENTRYP GPCOLORP4UI)(GLenum  type, GLuint  color);
-// typedef void  (APIENTRYP GPCOLORP4UIV)(GLenum  type, const GLuint * color);
 // typedef void  (APIENTRYP GPCOLORPOINTER)(GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPCOLORPOINTEREXT)(GLint  size, GLenum  type, GLsizei  stride, GLsizei  count, const void * pointer);
 // typedef void  (APIENTRYP GPCOLORPOINTERLISTIBM)(GLint  size, GLenum  type, GLint  stride, const void ** pointer, GLint  ptrstride);
 // typedef void  (APIENTRYP GPCOLORPOINTERVINTEL)(GLint  size, GLenum  type, const void ** pointer);
-// typedef void  (APIENTRYP GPCOLORSUBTABLE)(GLenum  target, GLsizei  start, GLsizei  count, GLenum  format, GLenum  type, const void * data);
 // typedef void  (APIENTRYP GPCOLORSUBTABLEEXT)(GLenum  target, GLsizei  start, GLsizei  count, GLenum  format, GLenum  type, const void * data);
-// typedef void  (APIENTRYP GPCOLORTABLE)(GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * table);
 // typedef void  (APIENTRYP GPCOLORTABLEEXT)(GLenum  target, GLenum  internalFormat, GLsizei  width, GLenum  format, GLenum  type, const void * table);
-// typedef void  (APIENTRYP GPCOLORTABLEPARAMETERFV)(GLenum  target, GLenum  pname, const GLfloat * params);
 // typedef void  (APIENTRYP GPCOLORTABLEPARAMETERFVSGI)(GLenum  target, GLenum  pname, const GLfloat * params);
-// typedef void  (APIENTRYP GPCOLORTABLEPARAMETERIV)(GLenum  target, GLenum  pname, const GLint * params);
 // typedef void  (APIENTRYP GPCOLORTABLEPARAMETERIVSGI)(GLenum  target, GLenum  pname, const GLint * params);
 // typedef void  (APIENTRYP GPCOLORTABLESGI)(GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * table);
 // typedef void  (APIENTRYP GPCOMBINERINPUTNV)(GLenum  stage, GLenum  portion, GLenum  variable, GLenum  input, GLenum  mapping, GLenum  componentUsage);
@@ -390,28 +382,18 @@ package gl
 // typedef void  (APIENTRYP GPCOMPRESSEDTEXTURESUBIMAGE1DEXT)(GLuint  texture, GLenum  target, GLint  level, GLint  xoffset, GLsizei  width, GLenum  format, GLsizei  imageSize, const void * bits);
 // typedef void  (APIENTRYP GPCOMPRESSEDTEXTURESUBIMAGE2DEXT)(GLuint  texture, GLenum  target, GLint  level, GLint  xoffset, GLint  yoffset, GLsizei  width, GLsizei  height, GLenum  format, GLsizei  imageSize, const void * bits);
 // typedef void  (APIENTRYP GPCOMPRESSEDTEXTURESUBIMAGE3DEXT)(GLuint  texture, GLenum  target, GLint  level, GLint  xoffset, GLint  yoffset, GLint  zoffset, GLsizei  width, GLsizei  height, GLsizei  depth, GLenum  format, GLsizei  imageSize, const void * bits);
-// typedef void  (APIENTRYP GPCONVOLUTIONFILTER1D)(GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * image);
 // typedef void  (APIENTRYP GPCONVOLUTIONFILTER1DEXT)(GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * image);
-// typedef void  (APIENTRYP GPCONVOLUTIONFILTER2D)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * image);
 // typedef void  (APIENTRYP GPCONVOLUTIONFILTER2DEXT)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * image);
-// typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERF)(GLenum  target, GLenum  pname, GLfloat  params);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERFEXT)(GLenum  target, GLenum  pname, GLfloat  params);
-// typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERFV)(GLenum  target, GLenum  pname, const GLfloat * params);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERFVEXT)(GLenum  target, GLenum  pname, const GLfloat * params);
-// typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERI)(GLenum  target, GLenum  pname, GLint  params);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERIEXT)(GLenum  target, GLenum  pname, GLint  params);
-// typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERIV)(GLenum  target, GLenum  pname, const GLint * params);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERIVEXT)(GLenum  target, GLenum  pname, const GLint * params);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERXOES)(GLenum  target, GLenum  pname, GLfixed  param);
 // typedef void  (APIENTRYP GPCONVOLUTIONPARAMETERXVOES)(GLenum  target, GLenum  pname, const GLfixed * params);
 // typedef void  (APIENTRYP GPCOPYBUFFERSUBDATA)(GLenum  readTarget, GLenum  writeTarget, GLintptr  readOffset, GLintptr  writeOffset, GLsizeiptr  size);
-// typedef void  (APIENTRYP GPCOPYCOLORSUBTABLE)(GLenum  target, GLsizei  start, GLint  x, GLint  y, GLsizei  width);
 // typedef void  (APIENTRYP GPCOPYCOLORSUBTABLEEXT)(GLenum  target, GLsizei  start, GLint  x, GLint  y, GLsizei  width);
-// typedef void  (APIENTRYP GPCOPYCOLORTABLE)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width);
 // typedef void  (APIENTRYP GPCOPYCOLORTABLESGI)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width);
-// typedef void  (APIENTRYP GPCOPYCONVOLUTIONFILTER1D)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width);
 // typedef void  (APIENTRYP GPCOPYCONVOLUTIONFILTER1DEXT)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width);
-// typedef void  (APIENTRYP GPCOPYCONVOLUTIONFILTER2D)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPCOPYCONVOLUTIONFILTER2DEXT)(GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width, GLsizei  height);
 // typedef void  (APIENTRYP GPCOPYIMAGESUBDATA)(GLuint  srcName, GLenum  srcTarget, GLint  srcLevel, GLint  srcX, GLint  srcY, GLint  srcZ, GLuint  dstName, GLenum  dstTarget, GLint  dstLevel, GLint  dstX, GLint  dstY, GLint  dstZ, GLsizei  srcWidth, GLsizei  srcHeight, GLsizei  srcDepth);
 // typedef void  (APIENTRYP GPCOPYIMAGESUBDATANV)(GLuint  srcName, GLenum  srcTarget, GLint  srcLevel, GLint  srcX, GLint  srcY, GLint  srcZ, GLuint  dstName, GLenum  dstTarget, GLint  dstLevel, GLint  dstX, GLint  dstY, GLint  dstZ, GLsizei  width, GLsizei  height, GLsizei  depth);
@@ -771,12 +753,9 @@ package gl
 // typedef void  (APIENTRYP GPGETCLIPPLANE)(GLenum  plane, GLdouble * equation);
 // typedef void  (APIENTRYP GPGETCLIPPLANEFOES)(GLenum  plane, GLfloat * equation);
 // typedef void  (APIENTRYP GPGETCLIPPLANEXOES)(GLenum  plane, GLfixed * equation);
-// typedef void  (APIENTRYP GPGETCOLORTABLE)(GLenum  target, GLenum  format, GLenum  type, void * table);
 // typedef void  (APIENTRYP GPGETCOLORTABLEEXT)(GLenum  target, GLenum  format, GLenum  type, void * data);
-// typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERFV)(GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERFVEXT)(GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERFVSGI)(GLenum  target, GLenum  pname, GLfloat * params);
-// typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERIV)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERIVEXT)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETCOLORTABLEPARAMETERIVSGI)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETCOLORTABLESGI)(GLenum  target, GLenum  format, GLenum  type, void * table);
@@ -789,11 +768,8 @@ package gl
 // typedef void  (APIENTRYP GPGETCOMPRESSEDTEXIMAGE)(GLenum  target, GLint  level, void * img);
 // typedef void  (APIENTRYP GPGETCOMPRESSEDTEXIMAGEARB)(GLenum  target, GLint  level, void * img);
 // typedef void  (APIENTRYP GPGETCOMPRESSEDTEXTUREIMAGEEXT)(GLuint  texture, GLenum  target, GLint  lod, void * img);
-// typedef void  (APIENTRYP GPGETCONVOLUTIONFILTER)(GLenum  target, GLenum  format, GLenum  type, void * image);
 // typedef void  (APIENTRYP GPGETCONVOLUTIONFILTEREXT)(GLenum  target, GLenum  format, GLenum  type, void * image);
-// typedef void  (APIENTRYP GPGETCONVOLUTIONPARAMETERFV)(GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETCONVOLUTIONPARAMETERFVEXT)(GLenum  target, GLenum  pname, GLfloat * params);
-// typedef void  (APIENTRYP GPGETCONVOLUTIONPARAMETERIV)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETCONVOLUTIONPARAMETERIVEXT)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETCONVOLUTIONPARAMETERXVOES)(GLenum  target, GLenum  pname, GLfixed * params);
 // typedef GLuint  (APIENTRYP GPGETDEBUGMESSAGELOG)(GLuint  count, GLsizei  bufSize, GLenum * sources, GLenum * types, GLuint * ids, GLenum * severities, GLsizei * lengths, GLchar * messageLog);
@@ -829,11 +805,8 @@ package gl
 // typedef void  (APIENTRYP GPGETFRAMEBUFFERPARAMETERIVEXT)(GLuint  framebuffer, GLenum  pname, GLint * params);
 // typedef GLenum  (APIENTRYP GPGETGRAPHICSRESETSTATUSARB)();
 // typedef GLhandleARB  (APIENTRYP GPGETHANDLEARB)(GLenum  pname);
-// typedef void  (APIENTRYP GPGETHISTOGRAM)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values);
 // typedef void  (APIENTRYP GPGETHISTOGRAMEXT)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values);
-// typedef void  (APIENTRYP GPGETHISTOGRAMPARAMETERFV)(GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETHISTOGRAMPARAMETERFVEXT)(GLenum  target, GLenum  pname, GLfloat * params);
-// typedef void  (APIENTRYP GPGETHISTOGRAMPARAMETERIV)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETHISTOGRAMPARAMETERIVEXT)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETHISTOGRAMPARAMETERXVOES)(GLenum  target, GLenum  pname, GLfixed * params);
 // typedef GLuint64  (APIENTRYP GPGETIMAGEHANDLEARB)(GLuint  texture, GLint  level, GLboolean  layered, GLint  layer, GLenum  format);
@@ -876,11 +849,8 @@ package gl
 // typedef void  (APIENTRYP GPGETMATERIALIV)(GLenum  face, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETMATERIALXOES)(GLenum  face, GLenum  pname, GLfixed  param);
 // typedef void  (APIENTRYP GPGETMATERIALXVOES)(GLenum  face, GLenum  pname, GLfixed * params);
-// typedef void  (APIENTRYP GPGETMINMAX)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values);
 // typedef void  (APIENTRYP GPGETMINMAXEXT)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values);
-// typedef void  (APIENTRYP GPGETMINMAXPARAMETERFV)(GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETMINMAXPARAMETERFVEXT)(GLenum  target, GLenum  pname, GLfloat * params);
-// typedef void  (APIENTRYP GPGETMINMAXPARAMETERIV)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETMINMAXPARAMETERIVEXT)(GLenum  target, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETMULTITEXENVFVEXT)(GLenum  texunit, GLenum  target, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETMULTITEXENVIVEXT)(GLenum  texunit, GLenum  target, GLenum  pname, GLint * params);
@@ -1009,7 +979,6 @@ package gl
 // typedef void  (APIENTRYP GPGETSAMPLERPARAMETERIUIV)(GLuint  sampler, GLenum  pname, GLuint * params);
 // typedef void  (APIENTRYP GPGETSAMPLERPARAMETERFV)(GLuint  sampler, GLenum  pname, GLfloat * params);
 // typedef void  (APIENTRYP GPGETSAMPLERPARAMETERIV)(GLuint  sampler, GLenum  pname, GLint * params);
-// typedef void  (APIENTRYP GPGETSEPARABLEFILTER)(GLenum  target, GLenum  format, GLenum  type, void * row, void * column, void * span);
 // typedef void  (APIENTRYP GPGETSEPARABLEFILTEREXT)(GLenum  target, GLenum  format, GLenum  type, void * row, void * column, void * span);
 // typedef void  (APIENTRYP GPGETSHADERINFOLOG)(GLuint  shader, GLsizei  bufSize, GLsizei * length, GLchar * infoLog);
 // typedef void  (APIENTRYP GPGETSHADERPRECISIONFORMAT)(GLenum  shadertype, GLenum  precisiontype, GLint * range, GLint * precision);
@@ -1117,19 +1086,7 @@ package gl
 // typedef void  (APIENTRYP GPGETVIDEOIVNV)(GLuint  video_slot, GLenum  pname, GLint * params);
 // typedef void  (APIENTRYP GPGETVIDEOUI64VNV)(GLuint  video_slot, GLenum  pname, GLuint64EXT * params);
 // typedef void  (APIENTRYP GPGETVIDEOUIVNV)(GLuint  video_slot, GLenum  pname, GLuint * params);
-// typedef void  (APIENTRYP GPGETNCOLORTABLEARB)(GLenum  target, GLenum  format, GLenum  type, GLsizei  bufSize, void * table);
 // typedef void  (APIENTRYP GPGETNCOMPRESSEDTEXIMAGEARB)(GLenum  target, GLint  lod, GLsizei  bufSize, void * img);
-// typedef void  (APIENTRYP GPGETNCONVOLUTIONFILTERARB)(GLenum  target, GLenum  format, GLenum  type, GLsizei  bufSize, void * image);
-// typedef void  (APIENTRYP GPGETNHISTOGRAMARB)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, GLsizei  bufSize, void * values);
-// typedef void  (APIENTRYP GPGETNMAPDVARB)(GLenum  target, GLenum  query, GLsizei  bufSize, GLdouble * v);
-// typedef void  (APIENTRYP GPGETNMAPFVARB)(GLenum  target, GLenum  query, GLsizei  bufSize, GLfloat * v);
-// typedef void  (APIENTRYP GPGETNMAPIVARB)(GLenum  target, GLenum  query, GLsizei  bufSize, GLint * v);
-// typedef void  (APIENTRYP GPGETNMINMAXARB)(GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, GLsizei  bufSize, void * values);
-// typedef void  (APIENTRYP GPGETNPIXELMAPFVARB)(GLenum  map, GLsizei  bufSize, GLfloat * values);
-// typedef void  (APIENTRYP GPGETNPIXELMAPUIVARB)(GLenum  map, GLsizei  bufSize, GLuint * values);
-// typedef void  (APIENTRYP GPGETNPIXELMAPUSVARB)(GLenum  map, GLsizei  bufSize, GLushort * values);
-// typedef void  (APIENTRYP GPGETNPOLYGONSTIPPLEARB)(GLsizei  bufSize, GLubyte * pattern);
-// typedef void  (APIENTRYP GPGETNSEPARABLEFILTERARB)(GLenum  target, GLenum  format, GLenum  type, GLsizei  rowBufSize, void * row, GLsizei  columnBufSize, void * column, void * span);
 // typedef void  (APIENTRYP GPGETNTEXIMAGEARB)(GLenum  target, GLint  level, GLenum  format, GLenum  type, GLsizei  bufSize, void * img);
 // typedef void  (APIENTRYP GPGETNUNIFORMDVARB)(GLuint  program, GLint  location, GLsizei  bufSize, GLdouble * params);
 // typedef void  (APIENTRYP GPGETNUNIFORMFVARB)(GLuint  program, GLint  location, GLsizei  bufSize, GLfloat * params);
@@ -1145,7 +1102,6 @@ package gl
 // typedef void  (APIENTRYP GPGLOBALALPHAFACTORUSSUN)(GLushort  factor);
 // typedef void  (APIENTRYP GPHINT)(GLenum  target, GLenum  mode);
 // typedef void  (APIENTRYP GPHINTPGI)(GLenum  target, GLint  mode);
-// typedef void  (APIENTRYP GPHISTOGRAM)(GLenum  target, GLsizei  width, GLenum  internalformat, GLboolean  sink);
 // typedef void  (APIENTRYP GPHISTOGRAMEXT)(GLenum  target, GLsizei  width, GLenum  internalformat, GLboolean  sink);
 // typedef void  (APIENTRYP GPIGLOOINTERFACESGIX)(GLenum  pname, const void * params);
 // typedef void  (APIENTRYP GPIMAGETRANSFORMPARAMETERFHP)(GLenum  target, GLenum  pname, GLfloat  param);
@@ -1338,7 +1294,6 @@ package gl
 // typedef void  (APIENTRYP GPMEMORYBARRIEREXT)(GLbitfield  barriers);
 // typedef void  (APIENTRYP GPMINSAMPLESHADING)(GLfloat  value);
 // typedef void  (APIENTRYP GPMINSAMPLESHADINGARB)(GLfloat  value);
-// typedef void  (APIENTRYP GPMINMAX)(GLenum  target, GLenum  internalformat, GLboolean  sink);
 // typedef void  (APIENTRYP GPMINMAXEXT)(GLenum  target, GLenum  internalformat, GLboolean  sink);
 // typedef void  (APIENTRYP GPMULTMATRIXD)(const GLdouble * m);
 // typedef void  (APIENTRYP GPMULTMATRIXF)(const GLfloat * m);
@@ -1454,14 +1409,6 @@ package gl
 // typedef void  (APIENTRYP GPMULTITEXCOORD4SVARB)(GLenum  target, const GLshort * v);
 // typedef void  (APIENTRYP GPMULTITEXCOORD4XOES)(GLenum  texture, GLfixed  s, GLfixed  t, GLfixed  r, GLfixed  q);
 // typedef void  (APIENTRYP GPMULTITEXCOORD4XVOES)(GLenum  texture, const GLfixed * coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP1UI)(GLenum  texture, GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP1UIV)(GLenum  texture, GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP2UI)(GLenum  texture, GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP2UIV)(GLenum  texture, GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP3UI)(GLenum  texture, GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP3UIV)(GLenum  texture, GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP4UI)(GLenum  texture, GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPMULTITEXCOORDP4UIV)(GLenum  texture, GLenum  type, const GLuint * coords);
 // typedef void  (APIENTRYP GPMULTITEXCOORDPOINTEREXT)(GLenum  texunit, GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPMULTITEXENVFEXT)(GLenum  texunit, GLenum  target, GLenum  pname, GLfloat  param);
 // typedef void  (APIENTRYP GPMULTITEXENVFVEXT)(GLenum  texunit, GLenum  target, GLenum  pname, const GLfloat * params);
@@ -1533,8 +1480,6 @@ package gl
 // typedef void  (APIENTRYP GPNORMAL3XOES)(GLfixed  nx, GLfixed  ny, GLfixed  nz);
 // typedef void  (APIENTRYP GPNORMAL3XVOES)(const GLfixed * coords);
 // typedef void  (APIENTRYP GPNORMALFORMATNV)(GLenum  type, GLsizei  stride);
-// typedef void  (APIENTRYP GPNORMALP3UI)(GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPNORMALP3UIV)(GLenum  type, const GLuint * coords);
 // typedef void  (APIENTRYP GPNORMALPOINTER)(GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPNORMALPOINTEREXT)(GLenum  type, GLsizei  stride, GLsizei  count, const void * pointer);
 // typedef void  (APIENTRYP GPNORMALPOINTERLISTIBM)(GLenum  type, GLint  stride, const void ** pointer, GLint  ptrstride);
@@ -1899,9 +1844,7 @@ package gl
 // typedef void  (APIENTRYP GPREPLACEMENTCODEUSSUN)(GLushort  code);
 // typedef void  (APIENTRYP GPREPLACEMENTCODEUSVSUN)(const GLushort * code);
 // typedef void  (APIENTRYP GPREQUESTRESIDENTPROGRAMSNV)(GLsizei  n, const GLuint * programs);
-// typedef void  (APIENTRYP GPRESETHISTOGRAM)(GLenum  target);
 // typedef void  (APIENTRYP GPRESETHISTOGRAMEXT)(GLenum  target);
-// typedef void  (APIENTRYP GPRESETMINMAX)(GLenum  target);
 // typedef void  (APIENTRYP GPRESETMINMAXEXT)(GLenum  target);
 // typedef void  (APIENTRYP GPRESIZEBUFFERSMESA)();
 // typedef void  (APIENTRYP GPRESUMETRANSFORMFEEDBACK)();
@@ -1968,14 +1911,11 @@ package gl
 // typedef void  (APIENTRYP GPSECONDARYCOLOR3USV)(const GLushort * v);
 // typedef void  (APIENTRYP GPSECONDARYCOLOR3USVEXT)(const GLushort * v);
 // typedef void  (APIENTRYP GPSECONDARYCOLORFORMATNV)(GLint  size, GLenum  type, GLsizei  stride);
-// typedef void  (APIENTRYP GPSECONDARYCOLORP3UI)(GLenum  type, GLuint  color);
-// typedef void  (APIENTRYP GPSECONDARYCOLORP3UIV)(GLenum  type, const GLuint * color);
 // typedef void  (APIENTRYP GPSECONDARYCOLORPOINTER)(GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPSECONDARYCOLORPOINTEREXT)(GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPSECONDARYCOLORPOINTERLISTIBM)(GLint  size, GLenum  type, GLint  stride, const void ** pointer, GLint  ptrstride);
 // typedef void  (APIENTRYP GPSELECTBUFFER)(GLsizei  size, GLuint * buffer);
 // typedef void  (APIENTRYP GPSELECTPERFMONITORCOUNTERSAMD)(GLuint  monitor, GLboolean  enable, GLuint  group, GLint  numCounters, GLuint * counterList);
-// typedef void  (APIENTRYP GPSEPARABLEFILTER2D)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * row, const void * column);
 // typedef void  (APIENTRYP GPSEPARABLEFILTER2DEXT)(GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * row, const void * column);
 // typedef void  (APIENTRYP GPSETFENCEAPPLE)(GLuint  fence);
 // typedef void  (APIENTRYP GPSETFENCENV)(GLuint  fence, GLenum  condition);
@@ -2110,14 +2050,6 @@ package gl
 // typedef void  (APIENTRYP GPTEXCOORD4XOES)(GLfixed  s, GLfixed  t, GLfixed  r, GLfixed  q);
 // typedef void  (APIENTRYP GPTEXCOORD4XVOES)(const GLfixed * coords);
 // typedef void  (APIENTRYP GPTEXCOORDFORMATNV)(GLint  size, GLenum  type, GLsizei  stride);
-// typedef void  (APIENTRYP GPTEXCOORDP1UI)(GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPTEXCOORDP1UIV)(GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPTEXCOORDP2UI)(GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPTEXCOORDP2UIV)(GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPTEXCOORDP3UI)(GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPTEXCOORDP3UIV)(GLenum  type, const GLuint * coords);
-// typedef void  (APIENTRYP GPTEXCOORDP4UI)(GLenum  type, GLuint  coords);
-// typedef void  (APIENTRYP GPTEXCOORDP4UIV)(GLenum  type, const GLuint * coords);
 // typedef void  (APIENTRYP GPTEXCOORDPOINTER)(GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPTEXCOORDPOINTEREXT)(GLint  size, GLenum  type, GLsizei  stride, GLsizei  count, const void * pointer);
 // typedef void  (APIENTRYP GPTEXCOORDPOINTERLISTIBM)(GLint  size, GLenum  type, GLint  stride, const void ** pointer, GLint  ptrstride);
@@ -2644,12 +2576,6 @@ package gl
 // typedef void  (APIENTRYP GPVERTEXBLENDENVFATI)(GLenum  pname, GLfloat  param);
 // typedef void  (APIENTRYP GPVERTEXBLENDENVIATI)(GLenum  pname, GLint  param);
 // typedef void  (APIENTRYP GPVERTEXFORMATNV)(GLint  size, GLenum  type, GLsizei  stride);
-// typedef void  (APIENTRYP GPVERTEXP2UI)(GLenum  type, GLuint  value);
-// typedef void  (APIENTRYP GPVERTEXP2UIV)(GLenum  type, const GLuint * value);
-// typedef void  (APIENTRYP GPVERTEXP3UI)(GLenum  type, GLuint  value);
-// typedef void  (APIENTRYP GPVERTEXP3UIV)(GLenum  type, const GLuint * value);
-// typedef void  (APIENTRYP GPVERTEXP4UI)(GLenum  type, GLuint  value);
-// typedef void  (APIENTRYP GPVERTEXP4UIV)(GLenum  type, const GLuint * value);
 // typedef void  (APIENTRYP GPVERTEXPOINTER)(GLint  size, GLenum  type, GLsizei  stride, const void * pointer);
 // typedef void  (APIENTRYP GPVERTEXPOINTEREXT)(GLint  size, GLenum  type, GLsizei  stride, GLsizei  count, const void * pointer);
 // typedef void  (APIENTRYP GPVERTEXPOINTERLISTIBM)(GLint  size, GLenum  type, GLint  stride, const void ** pointer, GLint  ptrstride);
@@ -3460,18 +3386,6 @@ package gl
 // static void  glowColorMaterial(GPCOLORMATERIAL fnptr, GLenum  face, GLenum  mode) {
 //   (*fnptr)(face, mode);
 // }
-// static void  glowColorP3ui(GPCOLORP3UI fnptr, GLenum  type, GLuint  color) {
-//   (*fnptr)(type, color);
-// }
-// static void  glowColorP3uiv(GPCOLORP3UIV fnptr, GLenum  type, const GLuint * color) {
-//   (*fnptr)(type, color);
-// }
-// static void  glowColorP4ui(GPCOLORP4UI fnptr, GLenum  type, GLuint  color) {
-//   (*fnptr)(type, color);
-// }
-// static void  glowColorP4uiv(GPCOLORP4UIV fnptr, GLenum  type, const GLuint * color) {
-//   (*fnptr)(type, color);
-// }
 // static void  glowColorPointer(GPCOLORPOINTER fnptr, GLint  size, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(size, type, stride, pointer);
 // }
@@ -3484,25 +3398,13 @@ package gl
 // static void  glowColorPointervINTEL(GPCOLORPOINTERVINTEL fnptr, GLint  size, GLenum  type, const void ** pointer) {
 //   (*fnptr)(size, type, pointer);
 // }
-// static void  glowColorSubTable(GPCOLORSUBTABLE fnptr, GLenum  target, GLsizei  start, GLsizei  count, GLenum  format, GLenum  type, const void * data) {
-//   (*fnptr)(target, start, count, format, type, data);
-// }
 // static void  glowColorSubTableEXT(GPCOLORSUBTABLEEXT fnptr, GLenum  target, GLsizei  start, GLsizei  count, GLenum  format, GLenum  type, const void * data) {
 //   (*fnptr)(target, start, count, format, type, data);
-// }
-// static void  glowColorTable(GPCOLORTABLE fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * table) {
-//   (*fnptr)(target, internalformat, width, format, type, table);
 // }
 // static void  glowColorTableEXT(GPCOLORTABLEEXT fnptr, GLenum  target, GLenum  internalFormat, GLsizei  width, GLenum  format, GLenum  type, const void * table) {
 //   (*fnptr)(target, internalFormat, width, format, type, table);
 // }
-// static void  glowColorTableParameterfv(GPCOLORTABLEPARAMETERFV fnptr, GLenum  target, GLenum  pname, const GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowColorTableParameterfvSGI(GPCOLORTABLEPARAMETERFVSGI fnptr, GLenum  target, GLenum  pname, const GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowColorTableParameteriv(GPCOLORTABLEPARAMETERIV fnptr, GLenum  target, GLenum  pname, const GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowColorTableParameterivSGI(GPCOLORTABLEPARAMETERIVSGI fnptr, GLenum  target, GLenum  pname, const GLint * params) {
@@ -3613,37 +3515,19 @@ package gl
 // static void  glowCompressedTextureSubImage3DEXT(GPCOMPRESSEDTEXTURESUBIMAGE3DEXT fnptr, GLuint  texture, GLenum  target, GLint  level, GLint  xoffset, GLint  yoffset, GLint  zoffset, GLsizei  width, GLsizei  height, GLsizei  depth, GLenum  format, GLsizei  imageSize, const void * bits) {
 //   (*fnptr)(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, bits);
 // }
-// static void  glowConvolutionFilter1D(GPCONVOLUTIONFILTER1D fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * image) {
-//   (*fnptr)(target, internalformat, width, format, type, image);
-// }
 // static void  glowConvolutionFilter1DEXT(GPCONVOLUTIONFILTER1DEXT fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLenum  format, GLenum  type, const void * image) {
 //   (*fnptr)(target, internalformat, width, format, type, image);
-// }
-// static void  glowConvolutionFilter2D(GPCONVOLUTIONFILTER2D fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * image) {
-//   (*fnptr)(target, internalformat, width, height, format, type, image);
 // }
 // static void  glowConvolutionFilter2DEXT(GPCONVOLUTIONFILTER2DEXT fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * image) {
 //   (*fnptr)(target, internalformat, width, height, format, type, image);
 // }
-// static void  glowConvolutionParameterf(GPCONVOLUTIONPARAMETERF fnptr, GLenum  target, GLenum  pname, GLfloat  params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowConvolutionParameterfEXT(GPCONVOLUTIONPARAMETERFEXT fnptr, GLenum  target, GLenum  pname, GLfloat  params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowConvolutionParameterfv(GPCONVOLUTIONPARAMETERFV fnptr, GLenum  target, GLenum  pname, const GLfloat * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowConvolutionParameterfvEXT(GPCONVOLUTIONPARAMETERFVEXT fnptr, GLenum  target, GLenum  pname, const GLfloat * params) {
 //   (*fnptr)(target, pname, params);
 // }
-// static void  glowConvolutionParameteri(GPCONVOLUTIONPARAMETERI fnptr, GLenum  target, GLenum  pname, GLint  params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowConvolutionParameteriEXT(GPCONVOLUTIONPARAMETERIEXT fnptr, GLenum  target, GLenum  pname, GLint  params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowConvolutionParameteriv(GPCONVOLUTIONPARAMETERIV fnptr, GLenum  target, GLenum  pname, const GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowConvolutionParameterivEXT(GPCONVOLUTIONPARAMETERIVEXT fnptr, GLenum  target, GLenum  pname, const GLint * params) {
@@ -3658,26 +3542,14 @@ package gl
 // static void  glowCopyBufferSubData(GPCOPYBUFFERSUBDATA fnptr, GLenum  readTarget, GLenum  writeTarget, GLintptr  readOffset, GLintptr  writeOffset, GLsizeiptr  size) {
 //   (*fnptr)(readTarget, writeTarget, readOffset, writeOffset, size);
 // }
-// static void  glowCopyColorSubTable(GPCOPYCOLORSUBTABLE fnptr, GLenum  target, GLsizei  start, GLint  x, GLint  y, GLsizei  width) {
-//   (*fnptr)(target, start, x, y, width);
-// }
 // static void  glowCopyColorSubTableEXT(GPCOPYCOLORSUBTABLEEXT fnptr, GLenum  target, GLsizei  start, GLint  x, GLint  y, GLsizei  width) {
 //   (*fnptr)(target, start, x, y, width);
-// }
-// static void  glowCopyColorTable(GPCOPYCOLORTABLE fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width) {
-//   (*fnptr)(target, internalformat, x, y, width);
 // }
 // static void  glowCopyColorTableSGI(GPCOPYCOLORTABLESGI fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width) {
 //   (*fnptr)(target, internalformat, x, y, width);
 // }
-// static void  glowCopyConvolutionFilter1D(GPCOPYCONVOLUTIONFILTER1D fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width) {
-//   (*fnptr)(target, internalformat, x, y, width);
-// }
 // static void  glowCopyConvolutionFilter1DEXT(GPCOPYCONVOLUTIONFILTER1DEXT fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width) {
 //   (*fnptr)(target, internalformat, x, y, width);
-// }
-// static void  glowCopyConvolutionFilter2D(GPCOPYCONVOLUTIONFILTER2D fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width, GLsizei  height) {
-//   (*fnptr)(target, internalformat, x, y, width, height);
 // }
 // static void  glowCopyConvolutionFilter2DEXT(GPCOPYCONVOLUTIONFILTER2DEXT fnptr, GLenum  target, GLenum  internalformat, GLint  x, GLint  y, GLsizei  width, GLsizei  height) {
 //   (*fnptr)(target, internalformat, x, y, width, height);
@@ -4756,22 +4628,13 @@ package gl
 // static void  glowGetClipPlanexOES(GPGETCLIPPLANEXOES fnptr, GLenum  plane, GLfixed * equation) {
 //   (*fnptr)(plane, equation);
 // }
-// static void  glowGetColorTable(GPGETCOLORTABLE fnptr, GLenum  target, GLenum  format, GLenum  type, void * table) {
-//   (*fnptr)(target, format, type, table);
-// }
 // static void  glowGetColorTableEXT(GPGETCOLORTABLEEXT fnptr, GLenum  target, GLenum  format, GLenum  type, void * data) {
 //   (*fnptr)(target, format, type, data);
-// }
-// static void  glowGetColorTableParameterfv(GPGETCOLORTABLEPARAMETERFV fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetColorTableParameterfvEXT(GPGETCOLORTABLEPARAMETERFVEXT fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetColorTableParameterfvSGI(GPGETCOLORTABLEPARAMETERFVSGI fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowGetColorTableParameteriv(GPGETCOLORTABLEPARAMETERIV fnptr, GLenum  target, GLenum  pname, GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetColorTableParameterivEXT(GPGETCOLORTABLEPARAMETERIVEXT fnptr, GLenum  target, GLenum  pname, GLint * params) {
@@ -4810,19 +4673,10 @@ package gl
 // static void  glowGetCompressedTextureImageEXT(GPGETCOMPRESSEDTEXTUREIMAGEEXT fnptr, GLuint  texture, GLenum  target, GLint  lod, void * img) {
 //   (*fnptr)(texture, target, lod, img);
 // }
-// static void  glowGetConvolutionFilter(GPGETCONVOLUTIONFILTER fnptr, GLenum  target, GLenum  format, GLenum  type, void * image) {
-//   (*fnptr)(target, format, type, image);
-// }
 // static void  glowGetConvolutionFilterEXT(GPGETCONVOLUTIONFILTEREXT fnptr, GLenum  target, GLenum  format, GLenum  type, void * image) {
 //   (*fnptr)(target, format, type, image);
 // }
-// static void  glowGetConvolutionParameterfv(GPGETCONVOLUTIONPARAMETERFV fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowGetConvolutionParameterfvEXT(GPGETCONVOLUTIONPARAMETERFVEXT fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowGetConvolutionParameteriv(GPGETCONVOLUTIONPARAMETERIV fnptr, GLenum  target, GLenum  pname, GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetConvolutionParameterivEXT(GPGETCONVOLUTIONPARAMETERIVEXT fnptr, GLenum  target, GLenum  pname, GLint * params) {
@@ -4930,19 +4784,10 @@ package gl
 // static GLhandleARB  glowGetHandleARB(GPGETHANDLEARB fnptr, GLenum  pname) {
 //   return (*fnptr)(pname);
 // }
-// static void  glowGetHistogram(GPGETHISTOGRAM fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values) {
-//   (*fnptr)(target, reset, format, type, values);
-// }
 // static void  glowGetHistogramEXT(GPGETHISTOGRAMEXT fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values) {
 //   (*fnptr)(target, reset, format, type, values);
 // }
-// static void  glowGetHistogramParameterfv(GPGETHISTOGRAMPARAMETERFV fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowGetHistogramParameterfvEXT(GPGETHISTOGRAMPARAMETERFVEXT fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowGetHistogramParameteriv(GPGETHISTOGRAMPARAMETERIV fnptr, GLenum  target, GLenum  pname, GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetHistogramParameterivEXT(GPGETHISTOGRAMPARAMETERIVEXT fnptr, GLenum  target, GLenum  pname, GLint * params) {
@@ -5071,19 +4916,10 @@ package gl
 // static void  glowGetMaterialxvOES(GPGETMATERIALXVOES fnptr, GLenum  face, GLenum  pname, GLfixed * params) {
 //   (*fnptr)(face, pname, params);
 // }
-// static void  glowGetMinmax(GPGETMINMAX fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values) {
-//   (*fnptr)(target, reset, format, type, values);
-// }
 // static void  glowGetMinmaxEXT(GPGETMINMAXEXT fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, void * values) {
 //   (*fnptr)(target, reset, format, type, values);
 // }
-// static void  glowGetMinmaxParameterfv(GPGETMINMAXPARAMETERFV fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
 // static void  glowGetMinmaxParameterfvEXT(GPGETMINMAXPARAMETERFVEXT fnptr, GLenum  target, GLenum  pname, GLfloat * params) {
-//   (*fnptr)(target, pname, params);
-// }
-// static void  glowGetMinmaxParameteriv(GPGETMINMAXPARAMETERIV fnptr, GLenum  target, GLenum  pname, GLint * params) {
 //   (*fnptr)(target, pname, params);
 // }
 // static void  glowGetMinmaxParameterivEXT(GPGETMINMAXPARAMETERIVEXT fnptr, GLenum  target, GLenum  pname, GLint * params) {
@@ -5470,9 +5306,6 @@ package gl
 // static void  glowGetSamplerParameteriv(GPGETSAMPLERPARAMETERIV fnptr, GLuint  sampler, GLenum  pname, GLint * params) {
 //   (*fnptr)(sampler, pname, params);
 // }
-// static void  glowGetSeparableFilter(GPGETSEPARABLEFILTER fnptr, GLenum  target, GLenum  format, GLenum  type, void * row, void * column, void * span) {
-//   (*fnptr)(target, format, type, row, column, span);
-// }
 // static void  glowGetSeparableFilterEXT(GPGETSEPARABLEFILTEREXT fnptr, GLenum  target, GLenum  format, GLenum  type, void * row, void * column, void * span) {
 //   (*fnptr)(target, format, type, row, column, span);
 // }
@@ -5794,44 +5627,8 @@ package gl
 // static void  glowGetVideouivNV(GPGETVIDEOUIVNV fnptr, GLuint  video_slot, GLenum  pname, GLuint * params) {
 //   (*fnptr)(video_slot, pname, params);
 // }
-// static void  glowGetnColorTableARB(GPGETNCOLORTABLEARB fnptr, GLenum  target, GLenum  format, GLenum  type, GLsizei  bufSize, void * table) {
-//   (*fnptr)(target, format, type, bufSize, table);
-// }
 // static void  glowGetnCompressedTexImageARB(GPGETNCOMPRESSEDTEXIMAGEARB fnptr, GLenum  target, GLint  lod, GLsizei  bufSize, void * img) {
 //   (*fnptr)(target, lod, bufSize, img);
-// }
-// static void  glowGetnConvolutionFilterARB(GPGETNCONVOLUTIONFILTERARB fnptr, GLenum  target, GLenum  format, GLenum  type, GLsizei  bufSize, void * image) {
-//   (*fnptr)(target, format, type, bufSize, image);
-// }
-// static void  glowGetnHistogramARB(GPGETNHISTOGRAMARB fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, GLsizei  bufSize, void * values) {
-//   (*fnptr)(target, reset, format, type, bufSize, values);
-// }
-// static void  glowGetnMapdvARB(GPGETNMAPDVARB fnptr, GLenum  target, GLenum  query, GLsizei  bufSize, GLdouble * v) {
-//   (*fnptr)(target, query, bufSize, v);
-// }
-// static void  glowGetnMapfvARB(GPGETNMAPFVARB fnptr, GLenum  target, GLenum  query, GLsizei  bufSize, GLfloat * v) {
-//   (*fnptr)(target, query, bufSize, v);
-// }
-// static void  glowGetnMapivARB(GPGETNMAPIVARB fnptr, GLenum  target, GLenum  query, GLsizei  bufSize, GLint * v) {
-//   (*fnptr)(target, query, bufSize, v);
-// }
-// static void  glowGetnMinmaxARB(GPGETNMINMAXARB fnptr, GLenum  target, GLboolean  reset, GLenum  format, GLenum  type, GLsizei  bufSize, void * values) {
-//   (*fnptr)(target, reset, format, type, bufSize, values);
-// }
-// static void  glowGetnPixelMapfvARB(GPGETNPIXELMAPFVARB fnptr, GLenum  map, GLsizei  bufSize, GLfloat * values) {
-//   (*fnptr)(map, bufSize, values);
-// }
-// static void  glowGetnPixelMapuivARB(GPGETNPIXELMAPUIVARB fnptr, GLenum  map, GLsizei  bufSize, GLuint * values) {
-//   (*fnptr)(map, bufSize, values);
-// }
-// static void  glowGetnPixelMapusvARB(GPGETNPIXELMAPUSVARB fnptr, GLenum  map, GLsizei  bufSize, GLushort * values) {
-//   (*fnptr)(map, bufSize, values);
-// }
-// static void  glowGetnPolygonStippleARB(GPGETNPOLYGONSTIPPLEARB fnptr, GLsizei  bufSize, GLubyte * pattern) {
-//   (*fnptr)(bufSize, pattern);
-// }
-// static void  glowGetnSeparableFilterARB(GPGETNSEPARABLEFILTERARB fnptr, GLenum  target, GLenum  format, GLenum  type, GLsizei  rowBufSize, void * row, GLsizei  columnBufSize, void * column, void * span) {
-//   (*fnptr)(target, format, type, rowBufSize, row, columnBufSize, column, span);
 // }
 // static void  glowGetnTexImageARB(GPGETNTEXIMAGEARB fnptr, GLenum  target, GLint  level, GLenum  format, GLenum  type, GLsizei  bufSize, void * img) {
 //   (*fnptr)(target, level, format, type, bufSize, img);
@@ -5877,9 +5674,6 @@ package gl
 // }
 // static void  glowHintPGI(GPHINTPGI fnptr, GLenum  target, GLint  mode) {
 //   (*fnptr)(target, mode);
-// }
-// static void  glowHistogram(GPHISTOGRAM fnptr, GLenum  target, GLsizei  width, GLenum  internalformat, GLboolean  sink) {
-//   (*fnptr)(target, width, internalformat, sink);
 // }
 // static void  glowHistogramEXT(GPHISTOGRAMEXT fnptr, GLenum  target, GLsizei  width, GLenum  internalformat, GLboolean  sink) {
 //   (*fnptr)(target, width, internalformat, sink);
@@ -6457,9 +6251,6 @@ package gl
 // static void  glowMinSampleShadingARB(GPMINSAMPLESHADINGARB fnptr, GLfloat  value) {
 //   (*fnptr)(value);
 // }
-// static void  glowMinmax(GPMINMAX fnptr, GLenum  target, GLenum  internalformat, GLboolean  sink) {
-//   (*fnptr)(target, internalformat, sink);
-// }
 // static void  glowMinmaxEXT(GPMINMAXEXT fnptr, GLenum  target, GLenum  internalformat, GLboolean  sink) {
 //   (*fnptr)(target, internalformat, sink);
 // }
@@ -6805,30 +6596,6 @@ package gl
 // static void  glowMultiTexCoord4xvOES(GPMULTITEXCOORD4XVOES fnptr, GLenum  texture, const GLfixed * coords) {
 //   (*fnptr)(texture, coords);
 // }
-// static void  glowMultiTexCoordP1ui(GPMULTITEXCOORDP1UI fnptr, GLenum  texture, GLenum  type, GLuint  coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP1uiv(GPMULTITEXCOORDP1UIV fnptr, GLenum  texture, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP2ui(GPMULTITEXCOORDP2UI fnptr, GLenum  texture, GLenum  type, GLuint  coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP2uiv(GPMULTITEXCOORDP2UIV fnptr, GLenum  texture, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP3ui(GPMULTITEXCOORDP3UI fnptr, GLenum  texture, GLenum  type, GLuint  coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP3uiv(GPMULTITEXCOORDP3UIV fnptr, GLenum  texture, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP4ui(GPMULTITEXCOORDP4UI fnptr, GLenum  texture, GLenum  type, GLuint  coords) {
-//   (*fnptr)(texture, type, coords);
-// }
-// static void  glowMultiTexCoordP4uiv(GPMULTITEXCOORDP4UIV fnptr, GLenum  texture, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(texture, type, coords);
-// }
 // static void  glowMultiTexCoordPointerEXT(GPMULTITEXCOORDPOINTEREXT fnptr, GLenum  texunit, GLint  size, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(texunit, size, type, stride, pointer);
 // }
@@ -7041,12 +6808,6 @@ package gl
 // }
 // static void  glowNormalFormatNV(GPNORMALFORMATNV fnptr, GLenum  type, GLsizei  stride) {
 //   (*fnptr)(type, stride);
-// }
-// static void  glowNormalP3ui(GPNORMALP3UI fnptr, GLenum  type, GLuint  coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowNormalP3uiv(GPNORMALP3UIV fnptr, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(type, coords);
 // }
 // static void  glowNormalPointer(GPNORMALPOINTER fnptr, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(type, stride, pointer);
@@ -8140,13 +7901,7 @@ package gl
 // static void  glowRequestResidentProgramsNV(GPREQUESTRESIDENTPROGRAMSNV fnptr, GLsizei  n, const GLuint * programs) {
 //   (*fnptr)(n, programs);
 // }
-// static void  glowResetHistogram(GPRESETHISTOGRAM fnptr, GLenum  target) {
-//   (*fnptr)(target);
-// }
 // static void  glowResetHistogramEXT(GPRESETHISTOGRAMEXT fnptr, GLenum  target) {
-//   (*fnptr)(target);
-// }
-// static void  glowResetMinmax(GPRESETMINMAX fnptr, GLenum  target) {
 //   (*fnptr)(target);
 // }
 // static void  glowResetMinmaxEXT(GPRESETMINMAXEXT fnptr, GLenum  target) {
@@ -8347,12 +8102,6 @@ package gl
 // static void  glowSecondaryColorFormatNV(GPSECONDARYCOLORFORMATNV fnptr, GLint  size, GLenum  type, GLsizei  stride) {
 //   (*fnptr)(size, type, stride);
 // }
-// static void  glowSecondaryColorP3ui(GPSECONDARYCOLORP3UI fnptr, GLenum  type, GLuint  color) {
-//   (*fnptr)(type, color);
-// }
-// static void  glowSecondaryColorP3uiv(GPSECONDARYCOLORP3UIV fnptr, GLenum  type, const GLuint * color) {
-//   (*fnptr)(type, color);
-// }
 // static void  glowSecondaryColorPointer(GPSECONDARYCOLORPOINTER fnptr, GLint  size, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(size, type, stride, pointer);
 // }
@@ -8367,9 +8116,6 @@ package gl
 // }
 // static void  glowSelectPerfMonitorCountersAMD(GPSELECTPERFMONITORCOUNTERSAMD fnptr, GLuint  monitor, GLboolean  enable, GLuint  group, GLint  numCounters, GLuint * counterList) {
 //   (*fnptr)(monitor, enable, group, numCounters, counterList);
-// }
-// static void  glowSeparableFilter2D(GPSEPARABLEFILTER2D fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * row, const void * column) {
-//   (*fnptr)(target, internalformat, width, height, format, type, row, column);
 // }
 // static void  glowSeparableFilter2DEXT(GPSEPARABLEFILTER2DEXT fnptr, GLenum  target, GLenum  internalformat, GLsizei  width, GLsizei  height, GLenum  format, GLenum  type, const void * row, const void * column) {
 //   (*fnptr)(target, internalformat, width, height, format, type, row, column);
@@ -8772,30 +8518,6 @@ package gl
 // }
 // static void  glowTexCoordFormatNV(GPTEXCOORDFORMATNV fnptr, GLint  size, GLenum  type, GLsizei  stride) {
 //   (*fnptr)(size, type, stride);
-// }
-// static void  glowTexCoordP1ui(GPTEXCOORDP1UI fnptr, GLenum  type, GLuint  coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP1uiv(GPTEXCOORDP1UIV fnptr, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP2ui(GPTEXCOORDP2UI fnptr, GLenum  type, GLuint  coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP2uiv(GPTEXCOORDP2UIV fnptr, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP3ui(GPTEXCOORDP3UI fnptr, GLenum  type, GLuint  coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP3uiv(GPTEXCOORDP3UIV fnptr, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP4ui(GPTEXCOORDP4UI fnptr, GLenum  type, GLuint  coords) {
-//   (*fnptr)(type, coords);
-// }
-// static void  glowTexCoordP4uiv(GPTEXCOORDP4UIV fnptr, GLenum  type, const GLuint * coords) {
-//   (*fnptr)(type, coords);
 // }
 // static void  glowTexCoordPointer(GPTEXCOORDPOINTER fnptr, GLint  size, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(size, type, stride, pointer);
@@ -10375,24 +10097,6 @@ package gl
 // static void  glowVertexFormatNV(GPVERTEXFORMATNV fnptr, GLint  size, GLenum  type, GLsizei  stride) {
 //   (*fnptr)(size, type, stride);
 // }
-// static void  glowVertexP2ui(GPVERTEXP2UI fnptr, GLenum  type, GLuint  value) {
-//   (*fnptr)(type, value);
-// }
-// static void  glowVertexP2uiv(GPVERTEXP2UIV fnptr, GLenum  type, const GLuint * value) {
-//   (*fnptr)(type, value);
-// }
-// static void  glowVertexP3ui(GPVERTEXP3UI fnptr, GLenum  type, GLuint  value) {
-//   (*fnptr)(type, value);
-// }
-// static void  glowVertexP3uiv(GPVERTEXP3UIV fnptr, GLenum  type, const GLuint * value) {
-//   (*fnptr)(type, value);
-// }
-// static void  glowVertexP4ui(GPVERTEXP4UI fnptr, GLenum  type, GLuint  value) {
-//   (*fnptr)(type, value);
-// }
-// static void  glowVertexP4uiv(GPVERTEXP4UIV fnptr, GLenum  type, const GLuint * value) {
-//   (*fnptr)(type, value);
-// }
 // static void  glowVertexPointer(GPVERTEXPOINTER fnptr, GLint  size, GLenum  type, GLsizei  stride, const void * pointer) {
 //   (*fnptr)(size, type, stride, pointer);
 // }
@@ -11160,9 +10864,7 @@ const (
   COLOR_MATERIAL = 0x0B57
   COLOR_MATERIAL_FACE = 0x0B55
   COLOR_MATERIAL_PARAMETER = 0x0B56
-  COLOR_MATRIX = 0x80B1
   COLOR_MATRIX_SGI = 0x80B1
-  COLOR_MATRIX_STACK_DEPTH = 0x80B2
   COLOR_MATRIX_STACK_DEPTH_SGI = 0x80B2
   COLOR_RENDERABLE = 0x8286
   COLOR_SAMPLES_NV = 0x8E20
@@ -11170,27 +10872,16 @@ const (
   COLOR_SUM_ARB = 0x8458
   COLOR_SUM_CLAMP_NV = 0x854F
   COLOR_SUM_EXT = 0x8458
-  COLOR_TABLE = 0x80D0
-  COLOR_TABLE_ALPHA_SIZE = 0x80DD
   COLOR_TABLE_ALPHA_SIZE_SGI = 0x80DD
-  COLOR_TABLE_BIAS = 0x80D7
   COLOR_TABLE_BIAS_SGI = 0x80D7
-  COLOR_TABLE_BLUE_SIZE = 0x80DC
   COLOR_TABLE_BLUE_SIZE_SGI = 0x80DC
-  COLOR_TABLE_FORMAT = 0x80D8
   COLOR_TABLE_FORMAT_SGI = 0x80D8
-  COLOR_TABLE_GREEN_SIZE = 0x80DB
   COLOR_TABLE_GREEN_SIZE_SGI = 0x80DB
-  COLOR_TABLE_INTENSITY_SIZE = 0x80DF
   COLOR_TABLE_INTENSITY_SIZE_SGI = 0x80DF
-  COLOR_TABLE_LUMINANCE_SIZE = 0x80DE
   COLOR_TABLE_LUMINANCE_SIZE_SGI = 0x80DE
-  COLOR_TABLE_RED_SIZE = 0x80DA
   COLOR_TABLE_RED_SIZE_SGI = 0x80DA
-  COLOR_TABLE_SCALE = 0x80D6
   COLOR_TABLE_SCALE_SGI = 0x80D6
   COLOR_TABLE_SGI = 0x80D0
-  COLOR_TABLE_WIDTH = 0x80D9
   COLOR_TABLE_WIDTH_SGI = 0x80D9
   COLOR_WRITEMASK = 0x0C23
   COMBINE = 0x8570
@@ -11341,7 +11032,6 @@ const (
   CONSTANT_ALPHA_EXT = 0x8003
   CONSTANT_ARB = 0x8576
   CONSTANT_ATTENUATION = 0x1207
-  CONSTANT_BORDER = 0x8151
   CONSTANT_BORDER_HP = 0x8151
   CONSTANT_COLOR = 0x8001
   CONSTANT_COLOR0_NV = 0x852A
@@ -11360,24 +11050,15 @@ const (
   CONTINUOUS_AMD = 0x9007
   CONTRAST_NV = 0x92A1
   CONVEX_HULL_NV = 0x908B
-  CONVOLUTION_1D = 0x8010
   CONVOLUTION_1D_EXT = 0x8010
-  CONVOLUTION_2D = 0x8011
   CONVOLUTION_2D_EXT = 0x8011
-  CONVOLUTION_BORDER_COLOR = 0x8154
   CONVOLUTION_BORDER_COLOR_HP = 0x8154
-  CONVOLUTION_BORDER_MODE = 0x8013
   CONVOLUTION_BORDER_MODE_EXT = 0x8013
-  CONVOLUTION_FILTER_BIAS = 0x8015
   CONVOLUTION_FILTER_BIAS_EXT = 0x8015
-  CONVOLUTION_FILTER_SCALE = 0x8014
   CONVOLUTION_FILTER_SCALE_EXT = 0x8014
-  CONVOLUTION_FORMAT = 0x8017
   CONVOLUTION_FORMAT_EXT = 0x8017
-  CONVOLUTION_HEIGHT = 0x8019
   CONVOLUTION_HEIGHT_EXT = 0x8019
   CONVOLUTION_HINT_SGIX = 0x8316
-  CONVOLUTION_WIDTH = 0x8018
   CONVOLUTION_WIDTH_EXT = 0x8018
   CON_0_ATI = 0x8941
   CON_10_ATI = 0x894B
@@ -11631,7 +11312,6 @@ const (
   DISJOINT_NV = 0x9283
   DISPATCH_INDIRECT_BUFFER = 0x90EE
   DISPATCH_INDIRECT_BUFFER_BINDING = 0x90EF
-  DISPLAY_LIST = 0x82E7
   DISTANCE_ATTENUATION_EXT = 0x8129
   DISTANCE_ATTENUATION_SGIS = 0x8129
   DITHER = 0x0BD0
@@ -12176,23 +11856,14 @@ const (
   HILO8_NV = 0x885E
   HILO_NV = 0x86F4
   HINT_BIT = 0x00008000
-  HISTOGRAM = 0x8024
-  HISTOGRAM_ALPHA_SIZE = 0x802B
   HISTOGRAM_ALPHA_SIZE_EXT = 0x802B
-  HISTOGRAM_BLUE_SIZE = 0x802A
   HISTOGRAM_BLUE_SIZE_EXT = 0x802A
   HISTOGRAM_EXT = 0x8024
-  HISTOGRAM_FORMAT = 0x8027
   HISTOGRAM_FORMAT_EXT = 0x8027
-  HISTOGRAM_GREEN_SIZE = 0x8029
   HISTOGRAM_GREEN_SIZE_EXT = 0x8029
-  HISTOGRAM_LUMINANCE_SIZE = 0x802C
   HISTOGRAM_LUMINANCE_SIZE_EXT = 0x802C
-  HISTOGRAM_RED_SIZE = 0x8028
   HISTOGRAM_RED_SIZE_EXT = 0x8028
-  HISTOGRAM_SINK = 0x802D
   HISTOGRAM_SINK_EXT = 0x802D
-  HISTOGRAM_WIDTH = 0x8026
   HISTOGRAM_WIDTH_EXT = 0x8026
   HI_BIAS_NV = 0x8714
   HI_SCALE_NV = 0x870E
@@ -12273,7 +11944,6 @@ const (
   INCR = 0x1E02
   INCR_WRAP = 0x8507
   INCR_WRAP_EXT = 0x8507
-  INDEX = 0x8222
   INDEX_ARRAY = 0x8077
   INDEX_ARRAY_ADDRESS_NV = 0x8F24
   INDEX_ARRAY_BUFFER_BINDING = 0x8899
@@ -12746,7 +12416,6 @@ const (
   MAX_CLIP_PLANES = 0x0D32
   MAX_COLOR_ATTACHMENTS = 0x8CDF
   MAX_COLOR_ATTACHMENTS_EXT = 0x8CDF
-  MAX_COLOR_MATRIX_STACK_DEPTH = 0x80B3
   MAX_COLOR_MATRIX_STACK_DEPTH_SGI = 0x80B3
   MAX_COLOR_TEXTURE_SAMPLES = 0x910E
   MAX_COMBINED_ATOMIC_COUNTERS = 0x92D7
@@ -12781,9 +12450,7 @@ const (
   MAX_COMPUTE_WORK_GROUP_COUNT = 0x91BE
   MAX_COMPUTE_WORK_GROUP_INVOCATIONS = 0x90EB
   MAX_COMPUTE_WORK_GROUP_SIZE = 0x91BF
-  MAX_CONVOLUTION_HEIGHT = 0x801B
   MAX_CONVOLUTION_HEIGHT_EXT = 0x801B
-  MAX_CONVOLUTION_WIDTH = 0x801A
   MAX_CONVOLUTION_WIDTH_EXT = 0x801A
   MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C
   MAX_CUBE_MAP_TEXTURE_SIZE_ARB = 0x851C
@@ -13048,11 +12715,8 @@ const (
   MEDIUM_FLOAT = 0x8DF1
   MEDIUM_INT = 0x8DF4
   MIN = 0x8007
-  MINMAX = 0x802E
   MINMAX_EXT = 0x802E
-  MINMAX_FORMAT = 0x802F
   MINMAX_FORMAT_EXT = 0x802F
-  MINMAX_SINK = 0x8030
   MINMAX_SINK_EXT = 0x8030
   MINOR_VERSION = 0x821C
   MINUS_CLAMPED_NV = 0x92B3
@@ -13592,41 +13256,23 @@ const (
   POLYGON_STIPPLE_BIT = 0x00000010
   POLYGON_TOKEN = 0x0703
   POSITION = 0x1203
-  POST_COLOR_MATRIX_ALPHA_BIAS = 0x80BB
   POST_COLOR_MATRIX_ALPHA_BIAS_SGI = 0x80BB
-  POST_COLOR_MATRIX_ALPHA_SCALE = 0x80B7
   POST_COLOR_MATRIX_ALPHA_SCALE_SGI = 0x80B7
-  POST_COLOR_MATRIX_BLUE_BIAS = 0x80BA
   POST_COLOR_MATRIX_BLUE_BIAS_SGI = 0x80BA
-  POST_COLOR_MATRIX_BLUE_SCALE = 0x80B6
   POST_COLOR_MATRIX_BLUE_SCALE_SGI = 0x80B6
-  POST_COLOR_MATRIX_COLOR_TABLE = 0x80D2
   POST_COLOR_MATRIX_COLOR_TABLE_SGI = 0x80D2
-  POST_COLOR_MATRIX_GREEN_BIAS = 0x80B9
   POST_COLOR_MATRIX_GREEN_BIAS_SGI = 0x80B9
-  POST_COLOR_MATRIX_GREEN_SCALE = 0x80B5
   POST_COLOR_MATRIX_GREEN_SCALE_SGI = 0x80B5
-  POST_COLOR_MATRIX_RED_BIAS = 0x80B8
   POST_COLOR_MATRIX_RED_BIAS_SGI = 0x80B8
-  POST_COLOR_MATRIX_RED_SCALE = 0x80B4
   POST_COLOR_MATRIX_RED_SCALE_SGI = 0x80B4
-  POST_CONVOLUTION_ALPHA_BIAS = 0x8023
   POST_CONVOLUTION_ALPHA_BIAS_EXT = 0x8023
-  POST_CONVOLUTION_ALPHA_SCALE = 0x801F
   POST_CONVOLUTION_ALPHA_SCALE_EXT = 0x801F
-  POST_CONVOLUTION_BLUE_BIAS = 0x8022
   POST_CONVOLUTION_BLUE_BIAS_EXT = 0x8022
-  POST_CONVOLUTION_BLUE_SCALE = 0x801E
   POST_CONVOLUTION_BLUE_SCALE_EXT = 0x801E
-  POST_CONVOLUTION_COLOR_TABLE = 0x80D1
   POST_CONVOLUTION_COLOR_TABLE_SGI = 0x80D1
-  POST_CONVOLUTION_GREEN_BIAS = 0x8021
   POST_CONVOLUTION_GREEN_BIAS_EXT = 0x8021
-  POST_CONVOLUTION_GREEN_SCALE = 0x801D
   POST_CONVOLUTION_GREEN_SCALE_EXT = 0x801D
-  POST_CONVOLUTION_RED_BIAS = 0x8020
   POST_CONVOLUTION_RED_BIAS_EXT = 0x8020
-  POST_CONVOLUTION_RED_SCALE = 0x801C
   POST_CONVOLUTION_RED_SCALE_EXT = 0x801C
   POST_IMAGE_TRANSFORM_COLOR_TABLE_HP = 0x8162
   POST_TEXTURE_FILTER_BIAS_RANGE_SGIX = 0x817B
@@ -13713,13 +13359,9 @@ const (
   PROJECTION_STACK_DEPTH = 0x0BA4
   PROVOKING_VERTEX = 0x8E4F
   PROVOKING_VERTEX_EXT = 0x8E4F
-  PROXY_COLOR_TABLE = 0x80D3
   PROXY_COLOR_TABLE_SGI = 0x80D3
-  PROXY_HISTOGRAM = 0x8025
   PROXY_HISTOGRAM_EXT = 0x8025
-  PROXY_POST_COLOR_MATRIX_COLOR_TABLE = 0x80D5
   PROXY_POST_COLOR_MATRIX_COLOR_TABLE_SGI = 0x80D5
-  PROXY_POST_CONVOLUTION_COLOR_TABLE = 0x80D4
   PROXY_POST_CONVOLUTION_COLOR_TABLE_SGI = 0x80D4
   PROXY_POST_IMAGE_TRANSFORM_COLOR_TABLE_HP = 0x8163
   PROXY_TEXTURE_1D = 0x8063
@@ -13839,7 +13481,6 @@ const (
   RECLAIM_MEMORY_HINT_PGI = 0x1A1FE
   RECT_NV = 0xF6
   RED = 0x1903
-  REDUCE = 0x8016
   REDUCE_EXT = 0x8016
   RED_BIAS = 0x0D15
   RED_BITS = 0x0D52
@@ -13951,7 +13592,6 @@ const (
   REPLACE_MIDDLE_SUN = 0x0002
   REPLACE_OLDEST_SUN = 0x0003
   REPLACE_VALUE_AMD = 0x874B
-  REPLICATE_BORDER = 0x8153
   REPLICATE_BORDER_HP = 0x8153
   RESAMPLE_AVERAGE_OML = 0x8988
   RESAMPLE_DECIMATE_OML = 0x8989
@@ -14201,7 +13841,6 @@ const (
   SELECT = 0x1C02
   SELECTION_BUFFER_POINTER = 0x0DF3
   SELECTION_BUFFER_SIZE = 0x0DF4
-  SEPARABLE_2D = 0x8012
   SEPARABLE_2D_EXT = 0x8012
   SEPARATE_ATTRIBS = 0x8C8D
   SEPARATE_ATTRIBS_EXT = 0x8C8D
@@ -14465,7 +14104,6 @@ const (
   T2F_V3F = 0x2A27
   T4F_C4F_N3F_V4F = 0x2A2D
   T4F_V4F = 0x2A28
-  TABLE_TOO_LARGE = 0x8031
   TABLE_TOO_LARGE_EXT = 0x8031
   TANGENT_ARRAY_EXT = 0x8439
   TANGENT_ARRAY_POINTER_EXT = 0x8442
@@ -14743,7 +14381,6 @@ const (
   TEXTURE_INDEX_SIZE_EXT = 0x80ED
   TEXTURE_INTENSITY_SIZE = 0x8061
   TEXTURE_INTENSITY_SIZE_EXT = 0x8061
-  TEXTURE_INTENSITY_TYPE = 0x8C15
   TEXTURE_INTENSITY_TYPE_ARB = 0x8C15
   TEXTURE_INTERNAL_FORMAT = 0x1003
   TEXTURE_LEQUAL_R_SGIX = 0x819C
@@ -14757,7 +14394,6 @@ const (
   TEXTURE_LO_SIZE_NV = 0x871C
   TEXTURE_LUMINANCE_SIZE = 0x8060
   TEXTURE_LUMINANCE_SIZE_EXT = 0x8060
-  TEXTURE_LUMINANCE_TYPE = 0x8C14
   TEXTURE_LUMINANCE_TYPE_ARB = 0x8C14
   TEXTURE_MAG_FILTER = 0x2800
   TEXTURE_MAG_SIZE_NV = 0x871F
@@ -15564,21 +15200,13 @@ var (
   gpColorMaskIndexedEXT C.GPCOLORMASKINDEXEDEXT
   gpColorMaski C.GPCOLORMASKI
   gpColorMaterial C.GPCOLORMATERIAL
-  gpColorP3ui C.GPCOLORP3UI
-  gpColorP3uiv C.GPCOLORP3UIV
-  gpColorP4ui C.GPCOLORP4UI
-  gpColorP4uiv C.GPCOLORP4UIV
   gpColorPointer C.GPCOLORPOINTER
   gpColorPointerEXT C.GPCOLORPOINTEREXT
   gpColorPointerListIBM C.GPCOLORPOINTERLISTIBM
   gpColorPointervINTEL C.GPCOLORPOINTERVINTEL
-  gpColorSubTable C.GPCOLORSUBTABLE
   gpColorSubTableEXT C.GPCOLORSUBTABLEEXT
-  gpColorTable C.GPCOLORTABLE
   gpColorTableEXT C.GPCOLORTABLEEXT
-  gpColorTableParameterfv C.GPCOLORTABLEPARAMETERFV
   gpColorTableParameterfvSGI C.GPCOLORTABLEPARAMETERFVSGI
-  gpColorTableParameteriv C.GPCOLORTABLEPARAMETERIV
   gpColorTableParameterivSGI C.GPCOLORTABLEPARAMETERIVSGI
   gpColorTableSGI C.GPCOLORTABLESGI
   gpCombinerInputNV C.GPCOMBINERINPUTNV
@@ -15615,28 +15243,18 @@ var (
   gpCompressedTextureSubImage1DEXT C.GPCOMPRESSEDTEXTURESUBIMAGE1DEXT
   gpCompressedTextureSubImage2DEXT C.GPCOMPRESSEDTEXTURESUBIMAGE2DEXT
   gpCompressedTextureSubImage3DEXT C.GPCOMPRESSEDTEXTURESUBIMAGE3DEXT
-  gpConvolutionFilter1D C.GPCONVOLUTIONFILTER1D
   gpConvolutionFilter1DEXT C.GPCONVOLUTIONFILTER1DEXT
-  gpConvolutionFilter2D C.GPCONVOLUTIONFILTER2D
   gpConvolutionFilter2DEXT C.GPCONVOLUTIONFILTER2DEXT
-  gpConvolutionParameterf C.GPCONVOLUTIONPARAMETERF
   gpConvolutionParameterfEXT C.GPCONVOLUTIONPARAMETERFEXT
-  gpConvolutionParameterfv C.GPCONVOLUTIONPARAMETERFV
   gpConvolutionParameterfvEXT C.GPCONVOLUTIONPARAMETERFVEXT
-  gpConvolutionParameteri C.GPCONVOLUTIONPARAMETERI
   gpConvolutionParameteriEXT C.GPCONVOLUTIONPARAMETERIEXT
-  gpConvolutionParameteriv C.GPCONVOLUTIONPARAMETERIV
   gpConvolutionParameterivEXT C.GPCONVOLUTIONPARAMETERIVEXT
   gpConvolutionParameterxOES C.GPCONVOLUTIONPARAMETERXOES
   gpConvolutionParameterxvOES C.GPCONVOLUTIONPARAMETERXVOES
   gpCopyBufferSubData C.GPCOPYBUFFERSUBDATA
-  gpCopyColorSubTable C.GPCOPYCOLORSUBTABLE
   gpCopyColorSubTableEXT C.GPCOPYCOLORSUBTABLEEXT
-  gpCopyColorTable C.GPCOPYCOLORTABLE
   gpCopyColorTableSGI C.GPCOPYCOLORTABLESGI
-  gpCopyConvolutionFilter1D C.GPCOPYCONVOLUTIONFILTER1D
   gpCopyConvolutionFilter1DEXT C.GPCOPYCONVOLUTIONFILTER1DEXT
-  gpCopyConvolutionFilter2D C.GPCOPYCONVOLUTIONFILTER2D
   gpCopyConvolutionFilter2DEXT C.GPCOPYCONVOLUTIONFILTER2DEXT
   gpCopyImageSubData C.GPCOPYIMAGESUBDATA
   gpCopyImageSubDataNV C.GPCOPYIMAGESUBDATANV
@@ -15996,12 +15614,9 @@ var (
   gpGetClipPlane C.GPGETCLIPPLANE
   gpGetClipPlanefOES C.GPGETCLIPPLANEFOES
   gpGetClipPlanexOES C.GPGETCLIPPLANEXOES
-  gpGetColorTable C.GPGETCOLORTABLE
   gpGetColorTableEXT C.GPGETCOLORTABLEEXT
-  gpGetColorTableParameterfv C.GPGETCOLORTABLEPARAMETERFV
   gpGetColorTableParameterfvEXT C.GPGETCOLORTABLEPARAMETERFVEXT
   gpGetColorTableParameterfvSGI C.GPGETCOLORTABLEPARAMETERFVSGI
-  gpGetColorTableParameteriv C.GPGETCOLORTABLEPARAMETERIV
   gpGetColorTableParameterivEXT C.GPGETCOLORTABLEPARAMETERIVEXT
   gpGetColorTableParameterivSGI C.GPGETCOLORTABLEPARAMETERIVSGI
   gpGetColorTableSGI C.GPGETCOLORTABLESGI
@@ -16014,11 +15629,8 @@ var (
   gpGetCompressedTexImage C.GPGETCOMPRESSEDTEXIMAGE
   gpGetCompressedTexImageARB C.GPGETCOMPRESSEDTEXIMAGEARB
   gpGetCompressedTextureImageEXT C.GPGETCOMPRESSEDTEXTUREIMAGEEXT
-  gpGetConvolutionFilter C.GPGETCONVOLUTIONFILTER
   gpGetConvolutionFilterEXT C.GPGETCONVOLUTIONFILTEREXT
-  gpGetConvolutionParameterfv C.GPGETCONVOLUTIONPARAMETERFV
   gpGetConvolutionParameterfvEXT C.GPGETCONVOLUTIONPARAMETERFVEXT
-  gpGetConvolutionParameteriv C.GPGETCONVOLUTIONPARAMETERIV
   gpGetConvolutionParameterivEXT C.GPGETCONVOLUTIONPARAMETERIVEXT
   gpGetConvolutionParameterxvOES C.GPGETCONVOLUTIONPARAMETERXVOES
   gpGetDebugMessageLog C.GPGETDEBUGMESSAGELOG
@@ -16054,11 +15666,8 @@ var (
   gpGetFramebufferParameterivEXT C.GPGETFRAMEBUFFERPARAMETERIVEXT
   gpGetGraphicsResetStatusARB C.GPGETGRAPHICSRESETSTATUSARB
   gpGetHandleARB C.GPGETHANDLEARB
-  gpGetHistogram C.GPGETHISTOGRAM
   gpGetHistogramEXT C.GPGETHISTOGRAMEXT
-  gpGetHistogramParameterfv C.GPGETHISTOGRAMPARAMETERFV
   gpGetHistogramParameterfvEXT C.GPGETHISTOGRAMPARAMETERFVEXT
-  gpGetHistogramParameteriv C.GPGETHISTOGRAMPARAMETERIV
   gpGetHistogramParameterivEXT C.GPGETHISTOGRAMPARAMETERIVEXT
   gpGetHistogramParameterxvOES C.GPGETHISTOGRAMPARAMETERXVOES
   gpGetImageHandleARB C.GPGETIMAGEHANDLEARB
@@ -16101,11 +15710,8 @@ var (
   gpGetMaterialiv C.GPGETMATERIALIV
   gpGetMaterialxOES C.GPGETMATERIALXOES
   gpGetMaterialxvOES C.GPGETMATERIALXVOES
-  gpGetMinmax C.GPGETMINMAX
   gpGetMinmaxEXT C.GPGETMINMAXEXT
-  gpGetMinmaxParameterfv C.GPGETMINMAXPARAMETERFV
   gpGetMinmaxParameterfvEXT C.GPGETMINMAXPARAMETERFVEXT
-  gpGetMinmaxParameteriv C.GPGETMINMAXPARAMETERIV
   gpGetMinmaxParameterivEXT C.GPGETMINMAXPARAMETERIVEXT
   gpGetMultiTexEnvfvEXT C.GPGETMULTITEXENVFVEXT
   gpGetMultiTexEnvivEXT C.GPGETMULTITEXENVIVEXT
@@ -16234,7 +15840,6 @@ var (
   gpGetSamplerParameterIuiv C.GPGETSAMPLERPARAMETERIUIV
   gpGetSamplerParameterfv C.GPGETSAMPLERPARAMETERFV
   gpGetSamplerParameteriv C.GPGETSAMPLERPARAMETERIV
-  gpGetSeparableFilter C.GPGETSEPARABLEFILTER
   gpGetSeparableFilterEXT C.GPGETSEPARABLEFILTEREXT
   gpGetShaderInfoLog C.GPGETSHADERINFOLOG
   gpGetShaderPrecisionFormat C.GPGETSHADERPRECISIONFORMAT
@@ -16342,19 +15947,7 @@ var (
   gpGetVideoivNV C.GPGETVIDEOIVNV
   gpGetVideoui64vNV C.GPGETVIDEOUI64VNV
   gpGetVideouivNV C.GPGETVIDEOUIVNV
-  gpGetnColorTableARB C.GPGETNCOLORTABLEARB
   gpGetnCompressedTexImageARB C.GPGETNCOMPRESSEDTEXIMAGEARB
-  gpGetnConvolutionFilterARB C.GPGETNCONVOLUTIONFILTERARB
-  gpGetnHistogramARB C.GPGETNHISTOGRAMARB
-  gpGetnMapdvARB C.GPGETNMAPDVARB
-  gpGetnMapfvARB C.GPGETNMAPFVARB
-  gpGetnMapivARB C.GPGETNMAPIVARB
-  gpGetnMinmaxARB C.GPGETNMINMAXARB
-  gpGetnPixelMapfvARB C.GPGETNPIXELMAPFVARB
-  gpGetnPixelMapuivARB C.GPGETNPIXELMAPUIVARB
-  gpGetnPixelMapusvARB C.GPGETNPIXELMAPUSVARB
-  gpGetnPolygonStippleARB C.GPGETNPOLYGONSTIPPLEARB
-  gpGetnSeparableFilterARB C.GPGETNSEPARABLEFILTERARB
   gpGetnTexImageARB C.GPGETNTEXIMAGEARB
   gpGetnUniformdvARB C.GPGETNUNIFORMDVARB
   gpGetnUniformfvARB C.GPGETNUNIFORMFVARB
@@ -16370,7 +15963,6 @@ var (
   gpGlobalAlphaFactorusSUN C.GPGLOBALALPHAFACTORUSSUN
   gpHint C.GPHINT
   gpHintPGI C.GPHINTPGI
-  gpHistogram C.GPHISTOGRAM
   gpHistogramEXT C.GPHISTOGRAMEXT
   gpIglooInterfaceSGIX C.GPIGLOOINTERFACESGIX
   gpImageTransformParameterfHP C.GPIMAGETRANSFORMPARAMETERFHP
@@ -16563,7 +16155,6 @@ var (
   gpMemoryBarrierEXT C.GPMEMORYBARRIEREXT
   gpMinSampleShading C.GPMINSAMPLESHADING
   gpMinSampleShadingARB C.GPMINSAMPLESHADINGARB
-  gpMinmax C.GPMINMAX
   gpMinmaxEXT C.GPMINMAXEXT
   gpMultMatrixd C.GPMULTMATRIXD
   gpMultMatrixf C.GPMULTMATRIXF
@@ -16679,14 +16270,6 @@ var (
   gpMultiTexCoord4svARB C.GPMULTITEXCOORD4SVARB
   gpMultiTexCoord4xOES C.GPMULTITEXCOORD4XOES
   gpMultiTexCoord4xvOES C.GPMULTITEXCOORD4XVOES
-  gpMultiTexCoordP1ui C.GPMULTITEXCOORDP1UI
-  gpMultiTexCoordP1uiv C.GPMULTITEXCOORDP1UIV
-  gpMultiTexCoordP2ui C.GPMULTITEXCOORDP2UI
-  gpMultiTexCoordP2uiv C.GPMULTITEXCOORDP2UIV
-  gpMultiTexCoordP3ui C.GPMULTITEXCOORDP3UI
-  gpMultiTexCoordP3uiv C.GPMULTITEXCOORDP3UIV
-  gpMultiTexCoordP4ui C.GPMULTITEXCOORDP4UI
-  gpMultiTexCoordP4uiv C.GPMULTITEXCOORDP4UIV
   gpMultiTexCoordPointerEXT C.GPMULTITEXCOORDPOINTEREXT
   gpMultiTexEnvfEXT C.GPMULTITEXENVFEXT
   gpMultiTexEnvfvEXT C.GPMULTITEXENVFVEXT
@@ -16758,8 +16341,6 @@ var (
   gpNormal3xOES C.GPNORMAL3XOES
   gpNormal3xvOES C.GPNORMAL3XVOES
   gpNormalFormatNV C.GPNORMALFORMATNV
-  gpNormalP3ui C.GPNORMALP3UI
-  gpNormalP3uiv C.GPNORMALP3UIV
   gpNormalPointer C.GPNORMALPOINTER
   gpNormalPointerEXT C.GPNORMALPOINTEREXT
   gpNormalPointerListIBM C.GPNORMALPOINTERLISTIBM
@@ -17124,9 +16705,7 @@ var (
   gpReplacementCodeusSUN C.GPREPLACEMENTCODEUSSUN
   gpReplacementCodeusvSUN C.GPREPLACEMENTCODEUSVSUN
   gpRequestResidentProgramsNV C.GPREQUESTRESIDENTPROGRAMSNV
-  gpResetHistogram C.GPRESETHISTOGRAM
   gpResetHistogramEXT C.GPRESETHISTOGRAMEXT
-  gpResetMinmax C.GPRESETMINMAX
   gpResetMinmaxEXT C.GPRESETMINMAXEXT
   gpResizeBuffersMESA C.GPRESIZEBUFFERSMESA
   gpResumeTransformFeedback C.GPRESUMETRANSFORMFEEDBACK
@@ -17193,14 +16772,11 @@ var (
   gpSecondaryColor3usv C.GPSECONDARYCOLOR3USV
   gpSecondaryColor3usvEXT C.GPSECONDARYCOLOR3USVEXT
   gpSecondaryColorFormatNV C.GPSECONDARYCOLORFORMATNV
-  gpSecondaryColorP3ui C.GPSECONDARYCOLORP3UI
-  gpSecondaryColorP3uiv C.GPSECONDARYCOLORP3UIV
   gpSecondaryColorPointer C.GPSECONDARYCOLORPOINTER
   gpSecondaryColorPointerEXT C.GPSECONDARYCOLORPOINTEREXT
   gpSecondaryColorPointerListIBM C.GPSECONDARYCOLORPOINTERLISTIBM
   gpSelectBuffer C.GPSELECTBUFFER
   gpSelectPerfMonitorCountersAMD C.GPSELECTPERFMONITORCOUNTERSAMD
-  gpSeparableFilter2D C.GPSEPARABLEFILTER2D
   gpSeparableFilter2DEXT C.GPSEPARABLEFILTER2DEXT
   gpSetFenceAPPLE C.GPSETFENCEAPPLE
   gpSetFenceNV C.GPSETFENCENV
@@ -17335,14 +16911,6 @@ var (
   gpTexCoord4xOES C.GPTEXCOORD4XOES
   gpTexCoord4xvOES C.GPTEXCOORD4XVOES
   gpTexCoordFormatNV C.GPTEXCOORDFORMATNV
-  gpTexCoordP1ui C.GPTEXCOORDP1UI
-  gpTexCoordP1uiv C.GPTEXCOORDP1UIV
-  gpTexCoordP2ui C.GPTEXCOORDP2UI
-  gpTexCoordP2uiv C.GPTEXCOORDP2UIV
-  gpTexCoordP3ui C.GPTEXCOORDP3UI
-  gpTexCoordP3uiv C.GPTEXCOORDP3UIV
-  gpTexCoordP4ui C.GPTEXCOORDP4UI
-  gpTexCoordP4uiv C.GPTEXCOORDP4UIV
   gpTexCoordPointer C.GPTEXCOORDPOINTER
   gpTexCoordPointerEXT C.GPTEXCOORDPOINTEREXT
   gpTexCoordPointerListIBM C.GPTEXCOORDPOINTERLISTIBM
@@ -17869,12 +17437,6 @@ var (
   gpVertexBlendEnvfATI C.GPVERTEXBLENDENVFATI
   gpVertexBlendEnviATI C.GPVERTEXBLENDENVIATI
   gpVertexFormatNV C.GPVERTEXFORMATNV
-  gpVertexP2ui C.GPVERTEXP2UI
-  gpVertexP2uiv C.GPVERTEXP2UIV
-  gpVertexP3ui C.GPVERTEXP3UI
-  gpVertexP3uiv C.GPVERTEXP3UIV
-  gpVertexP4ui C.GPVERTEXP4UI
-  gpVertexP4uiv C.GPVERTEXP4UIV
   gpVertexPointer C.GPVERTEXPOINTER
   gpVertexPointerEXT C.GPVERTEXPOINTEREXT
   gpVertexPointerListIBM C.GPVERTEXPOINTERLISTIBM
@@ -18474,21 +18036,13 @@ var (
   HasColorMaskIndexedEXT = true
   HasColorMaski = true
   HasColorMaterial = true
-  HasColorP3ui = true
-  HasColorP3uiv = true
-  HasColorP4ui = true
-  HasColorP4uiv = true
   HasColorPointer = true
   HasColorPointerEXT = true
   HasColorPointerListIBM = true
   HasColorPointervINTEL = true
-  HasColorSubTable = true
   HasColorSubTableEXT = true
-  HasColorTable = true
   HasColorTableEXT = true
-  HasColorTableParameterfv = true
   HasColorTableParameterfvSGI = true
-  HasColorTableParameteriv = true
   HasColorTableParameterivSGI = true
   HasColorTableSGI = true
   HasCombinerInputNV = true
@@ -18525,28 +18079,18 @@ var (
   HasCompressedTextureSubImage1DEXT = true
   HasCompressedTextureSubImage2DEXT = true
   HasCompressedTextureSubImage3DEXT = true
-  HasConvolutionFilter1D = true
   HasConvolutionFilter1DEXT = true
-  HasConvolutionFilter2D = true
   HasConvolutionFilter2DEXT = true
-  HasConvolutionParameterf = true
   HasConvolutionParameterfEXT = true
-  HasConvolutionParameterfv = true
   HasConvolutionParameterfvEXT = true
-  HasConvolutionParameteri = true
   HasConvolutionParameteriEXT = true
-  HasConvolutionParameteriv = true
   HasConvolutionParameterivEXT = true
   HasConvolutionParameterxOES = true
   HasConvolutionParameterxvOES = true
   HasCopyBufferSubData = true
-  HasCopyColorSubTable = true
   HasCopyColorSubTableEXT = true
-  HasCopyColorTable = true
   HasCopyColorTableSGI = true
-  HasCopyConvolutionFilter1D = true
   HasCopyConvolutionFilter1DEXT = true
-  HasCopyConvolutionFilter2D = true
   HasCopyConvolutionFilter2DEXT = true
   HasCopyImageSubData = true
   HasCopyImageSubDataNV = true
@@ -18906,12 +18450,9 @@ var (
   HasGetClipPlane = true
   HasGetClipPlanefOES = true
   HasGetClipPlanexOES = true
-  HasGetColorTable = true
   HasGetColorTableEXT = true
-  HasGetColorTableParameterfv = true
   HasGetColorTableParameterfvEXT = true
   HasGetColorTableParameterfvSGI = true
-  HasGetColorTableParameteriv = true
   HasGetColorTableParameterivEXT = true
   HasGetColorTableParameterivSGI = true
   HasGetColorTableSGI = true
@@ -18924,11 +18465,8 @@ var (
   HasGetCompressedTexImage = true
   HasGetCompressedTexImageARB = true
   HasGetCompressedTextureImageEXT = true
-  HasGetConvolutionFilter = true
   HasGetConvolutionFilterEXT = true
-  HasGetConvolutionParameterfv = true
   HasGetConvolutionParameterfvEXT = true
-  HasGetConvolutionParameteriv = true
   HasGetConvolutionParameterivEXT = true
   HasGetConvolutionParameterxvOES = true
   HasGetDebugMessageLog = true
@@ -18964,11 +18502,8 @@ var (
   HasGetFramebufferParameterivEXT = true
   HasGetGraphicsResetStatusARB = true
   HasGetHandleARB = true
-  HasGetHistogram = true
   HasGetHistogramEXT = true
-  HasGetHistogramParameterfv = true
   HasGetHistogramParameterfvEXT = true
-  HasGetHistogramParameteriv = true
   HasGetHistogramParameterivEXT = true
   HasGetHistogramParameterxvOES = true
   HasGetImageHandleARB = true
@@ -19011,11 +18546,8 @@ var (
   HasGetMaterialiv = true
   HasGetMaterialxOES = true
   HasGetMaterialxvOES = true
-  HasGetMinmax = true
   HasGetMinmaxEXT = true
-  HasGetMinmaxParameterfv = true
   HasGetMinmaxParameterfvEXT = true
-  HasGetMinmaxParameteriv = true
   HasGetMinmaxParameterivEXT = true
   HasGetMultiTexEnvfvEXT = true
   HasGetMultiTexEnvivEXT = true
@@ -19144,7 +18676,6 @@ var (
   HasGetSamplerParameterIuiv = true
   HasGetSamplerParameterfv = true
   HasGetSamplerParameteriv = true
-  HasGetSeparableFilter = true
   HasGetSeparableFilterEXT = true
   HasGetShaderInfoLog = true
   HasGetShaderPrecisionFormat = true
@@ -19252,19 +18783,7 @@ var (
   HasGetVideoivNV = true
   HasGetVideoui64vNV = true
   HasGetVideouivNV = true
-  HasGetnColorTableARB = true
   HasGetnCompressedTexImageARB = true
-  HasGetnConvolutionFilterARB = true
-  HasGetnHistogramARB = true
-  HasGetnMapdvARB = true
-  HasGetnMapfvARB = true
-  HasGetnMapivARB = true
-  HasGetnMinmaxARB = true
-  HasGetnPixelMapfvARB = true
-  HasGetnPixelMapuivARB = true
-  HasGetnPixelMapusvARB = true
-  HasGetnPolygonStippleARB = true
-  HasGetnSeparableFilterARB = true
   HasGetnTexImageARB = true
   HasGetnUniformdvARB = true
   HasGetnUniformfvARB = true
@@ -19280,7 +18799,6 @@ var (
   HasGlobalAlphaFactorusSUN = true
   HasHint = true
   HasHintPGI = true
-  HasHistogram = true
   HasHistogramEXT = true
   HasIglooInterfaceSGIX = true
   HasImageTransformParameterfHP = true
@@ -19473,7 +18991,6 @@ var (
   HasMemoryBarrierEXT = true
   HasMinSampleShading = true
   HasMinSampleShadingARB = true
-  HasMinmax = true
   HasMinmaxEXT = true
   HasMultMatrixd = true
   HasMultMatrixf = true
@@ -19589,14 +19106,6 @@ var (
   HasMultiTexCoord4svARB = true
   HasMultiTexCoord4xOES = true
   HasMultiTexCoord4xvOES = true
-  HasMultiTexCoordP1ui = true
-  HasMultiTexCoordP1uiv = true
-  HasMultiTexCoordP2ui = true
-  HasMultiTexCoordP2uiv = true
-  HasMultiTexCoordP3ui = true
-  HasMultiTexCoordP3uiv = true
-  HasMultiTexCoordP4ui = true
-  HasMultiTexCoordP4uiv = true
   HasMultiTexCoordPointerEXT = true
   HasMultiTexEnvfEXT = true
   HasMultiTexEnvfvEXT = true
@@ -19668,8 +19177,6 @@ var (
   HasNormal3xOES = true
   HasNormal3xvOES = true
   HasNormalFormatNV = true
-  HasNormalP3ui = true
-  HasNormalP3uiv = true
   HasNormalPointer = true
   HasNormalPointerEXT = true
   HasNormalPointerListIBM = true
@@ -20034,9 +19541,7 @@ var (
   HasReplacementCodeusSUN = true
   HasReplacementCodeusvSUN = true
   HasRequestResidentProgramsNV = true
-  HasResetHistogram = true
   HasResetHistogramEXT = true
-  HasResetMinmax = true
   HasResetMinmaxEXT = true
   HasResizeBuffersMESA = true
   HasResumeTransformFeedback = true
@@ -20103,14 +19608,11 @@ var (
   HasSecondaryColor3usv = true
   HasSecondaryColor3usvEXT = true
   HasSecondaryColorFormatNV = true
-  HasSecondaryColorP3ui = true
-  HasSecondaryColorP3uiv = true
   HasSecondaryColorPointer = true
   HasSecondaryColorPointerEXT = true
   HasSecondaryColorPointerListIBM = true
   HasSelectBuffer = true
   HasSelectPerfMonitorCountersAMD = true
-  HasSeparableFilter2D = true
   HasSeparableFilter2DEXT = true
   HasSetFenceAPPLE = true
   HasSetFenceNV = true
@@ -20245,14 +19747,6 @@ var (
   HasTexCoord4xOES = true
   HasTexCoord4xvOES = true
   HasTexCoordFormatNV = true
-  HasTexCoordP1ui = true
-  HasTexCoordP1uiv = true
-  HasTexCoordP2ui = true
-  HasTexCoordP2uiv = true
-  HasTexCoordP3ui = true
-  HasTexCoordP3uiv = true
-  HasTexCoordP4ui = true
-  HasTexCoordP4uiv = true
   HasTexCoordPointer = true
   HasTexCoordPointerEXT = true
   HasTexCoordPointerListIBM = true
@@ -20779,12 +20273,6 @@ var (
   HasVertexBlendEnvfATI = true
   HasVertexBlendEnviATI = true
   HasVertexFormatNV = true
-  HasVertexP2ui = true
-  HasVertexP2uiv = true
-  HasVertexP3ui = true
-  HasVertexP3uiv = true
-  HasVertexP4ui = true
-  HasVertexP4uiv = true
   HasVertexPointer = true
   HasVertexPointerEXT = true
   HasVertexPointerListIBM = true
@@ -21673,18 +21161,6 @@ func ColorMaski(index uint32, r bool, g bool, b bool, a bool) {
 func ColorMaterial(face uint32, mode uint32) {
   C.glowColorMaterial(gpColorMaterial, (C.GLenum)(face), (C.GLenum)(mode))
 }
-func ColorP3ui(xtype uint32, color uint32) {
-  C.glowColorP3ui(gpColorP3ui, (C.GLenum)(xtype), (C.GLuint)(color))
-}
-func ColorP3uiv(xtype uint32, color *uint32) {
-  C.glowColorP3uiv(gpColorP3uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(color)))
-}
-func ColorP4ui(xtype uint32, color uint32) {
-  C.glowColorP4ui(gpColorP4ui, (C.GLenum)(xtype), (C.GLuint)(color))
-}
-func ColorP4uiv(xtype uint32, color *uint32) {
-  C.glowColorP4uiv(gpColorP4uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(color)))
-}
 // define an array of colors
 func ColorPointer(size int32, xtype uint32, stride int32, pointer unsafe.Pointer) {
   C.glowColorPointer(gpColorPointer, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride), pointer)
@@ -21698,28 +21174,14 @@ func ColorPointerListIBM(size int32, xtype uint32, stride int32, pointer *unsafe
 func ColorPointervINTEL(size int32, xtype uint32, pointer *unsafe.Pointer) {
   C.glowColorPointervINTEL(gpColorPointervINTEL, (C.GLint)(size), (C.GLenum)(xtype), pointer)
 }
-// respecify a portion of a color table
-func ColorSubTable(target uint32, start int32, count int32, format uint32, xtype uint32, data unsafe.Pointer) {
-  C.glowColorSubTable(gpColorSubTable, (C.GLenum)(target), (C.GLsizei)(start), (C.GLsizei)(count), (C.GLenum)(format), (C.GLenum)(xtype), data)
-}
 func ColorSubTableEXT(target uint32, start int32, count int32, format uint32, xtype uint32, data unsafe.Pointer) {
   C.glowColorSubTableEXT(gpColorSubTableEXT, (C.GLenum)(target), (C.GLsizei)(start), (C.GLsizei)(count), (C.GLenum)(format), (C.GLenum)(xtype), data)
-}
-// define a color lookup table
-func ColorTable(target uint32, internalformat uint32, width int32, format uint32, xtype uint32, table unsafe.Pointer) {
-  C.glowColorTable(gpColorTable, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLenum)(format), (C.GLenum)(xtype), table)
 }
 func ColorTableEXT(target uint32, internalFormat uint32, width int32, format uint32, xtype uint32, table unsafe.Pointer) {
   C.glowColorTableEXT(gpColorTableEXT, (C.GLenum)(target), (C.GLenum)(internalFormat), (C.GLsizei)(width), (C.GLenum)(format), (C.GLenum)(xtype), table)
 }
-func ColorTableParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowColorTableParameterfv(gpColorTableParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
 func ColorTableParameterfvSGI(target uint32, pname uint32, params *float32) {
   C.glowColorTableParameterfvSGI(gpColorTableParameterfvSGI, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
-func ColorTableParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowColorTableParameteriv(gpColorTableParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func ColorTableParameterivSGI(target uint32, pname uint32, params *int32) {
   C.glowColorTableParameterivSGI(gpColorTableParameterivSGI, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -21836,40 +21298,20 @@ func CompressedTextureSubImage2DEXT(texture uint32, target uint32, level int32, 
 func CompressedTextureSubImage3DEXT(texture uint32, target uint32, level int32, xoffset int32, yoffset int32, zoffset int32, width int32, height int32, depth int32, format uint32, imageSize int32, bits unsafe.Pointer) {
   C.glowCompressedTextureSubImage3DEXT(gpCompressedTextureSubImage3DEXT, (C.GLuint)(texture), (C.GLenum)(target), (C.GLint)(level), (C.GLint)(xoffset), (C.GLint)(yoffset), (C.GLint)(zoffset), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLsizei)(depth), (C.GLenum)(format), (C.GLsizei)(imageSize), bits)
 }
-// define a one-dimensional convolution filter
-func ConvolutionFilter1D(target uint32, internalformat uint32, width int32, format uint32, xtype uint32, image unsafe.Pointer) {
-  C.glowConvolutionFilter1D(gpConvolutionFilter1D, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLenum)(format), (C.GLenum)(xtype), image)
-}
 func ConvolutionFilter1DEXT(target uint32, internalformat uint32, width int32, format uint32, xtype uint32, image unsafe.Pointer) {
   C.glowConvolutionFilter1DEXT(gpConvolutionFilter1DEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLenum)(format), (C.GLenum)(xtype), image)
-}
-// define a two-dimensional convolution filter
-func ConvolutionFilter2D(target uint32, internalformat uint32, width int32, height int32, format uint32, xtype uint32, image unsafe.Pointer) {
-  C.glowConvolutionFilter2D(gpConvolutionFilter2D, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLenum)(format), (C.GLenum)(xtype), image)
 }
 func ConvolutionFilter2DEXT(target uint32, internalformat uint32, width int32, height int32, format uint32, xtype uint32, image unsafe.Pointer) {
   C.glowConvolutionFilter2DEXT(gpConvolutionFilter2DEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLenum)(format), (C.GLenum)(xtype), image)
 }
-func ConvolutionParameterf(target uint32, pname uint32, params float32) {
-  C.glowConvolutionParameterf(gpConvolutionParameterf, (C.GLenum)(target), (C.GLenum)(pname), (C.GLfloat)(params))
-}
 func ConvolutionParameterfEXT(target uint32, pname uint32, params float32) {
   C.glowConvolutionParameterfEXT(gpConvolutionParameterfEXT, (C.GLenum)(target), (C.GLenum)(pname), (C.GLfloat)(params))
-}
-func ConvolutionParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowConvolutionParameterfv(gpConvolutionParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
 }
 func ConvolutionParameterfvEXT(target uint32, pname uint32, params *float32) {
   C.glowConvolutionParameterfvEXT(gpConvolutionParameterfvEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
 }
-func ConvolutionParameteri(target uint32, pname uint32, params int32) {
-  C.glowConvolutionParameteri(gpConvolutionParameteri, (C.GLenum)(target), (C.GLenum)(pname), (C.GLint)(params))
-}
 func ConvolutionParameteriEXT(target uint32, pname uint32, params int32) {
   C.glowConvolutionParameteriEXT(gpConvolutionParameteriEXT, (C.GLenum)(target), (C.GLenum)(pname), (C.GLint)(params))
-}
-func ConvolutionParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowConvolutionParameteriv(gpConvolutionParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func ConvolutionParameterivEXT(target uint32, pname uint32, params *int32) {
   C.glowConvolutionParameterivEXT(gpConvolutionParameterivEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -21884,30 +21326,14 @@ func ConvolutionParameterxvOES(target uint32, pname uint32, params *int32) {
 func CopyBufferSubData(readTarget uint32, writeTarget uint32, readOffset int, writeOffset int, size int) {
   C.glowCopyBufferSubData(gpCopyBufferSubData, (C.GLenum)(readTarget), (C.GLenum)(writeTarget), (C.GLintptr)(readOffset), (C.GLintptr)(writeOffset), (C.GLsizeiptr)(size))
 }
-// respecify a portion of a color table
-func CopyColorSubTable(target uint32, start int32, x int32, y int32, width int32) {
-  C.glowCopyColorSubTable(gpCopyColorSubTable, (C.GLenum)(target), (C.GLsizei)(start), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
-}
 func CopyColorSubTableEXT(target uint32, start int32, x int32, y int32, width int32) {
   C.glowCopyColorSubTableEXT(gpCopyColorSubTableEXT, (C.GLenum)(target), (C.GLsizei)(start), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
-}
-// copy pixels into a color table
-func CopyColorTable(target uint32, internalformat uint32, x int32, y int32, width int32) {
-  C.glowCopyColorTable(gpCopyColorTable, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
 }
 func CopyColorTableSGI(target uint32, internalformat uint32, x int32, y int32, width int32) {
   C.glowCopyColorTableSGI(gpCopyColorTableSGI, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
 }
-// copy pixels into a one-dimensional convolution filter
-func CopyConvolutionFilter1D(target uint32, internalformat uint32, x int32, y int32, width int32) {
-  C.glowCopyConvolutionFilter1D(gpCopyConvolutionFilter1D, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
-}
 func CopyConvolutionFilter1DEXT(target uint32, internalformat uint32, x int32, y int32, width int32) {
   C.glowCopyConvolutionFilter1DEXT(gpCopyConvolutionFilter1DEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width))
-}
-// copy pixels into a two-dimensional convolution filter
-func CopyConvolutionFilter2D(target uint32, internalformat uint32, x int32, y int32, width int32, height int32) {
-  C.glowCopyConvolutionFilter2D(gpCopyConvolutionFilter2D, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width), (C.GLsizei)(height))
 }
 func CopyConvolutionFilter2DEXT(target uint32, internalformat uint32, x int32, y int32, width int32, height int32) {
   C.glowCopyConvolutionFilter2DEXT(gpCopyConvolutionFilter2DEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLint)(x), (C.GLint)(y), (C.GLsizei)(width), (C.GLsizei)(height))
@@ -23104,24 +22530,14 @@ func GetClipPlanefOES(plane uint32, equation *float32) {
 func GetClipPlanexOES(plane uint32, equation *int32) {
   C.glowGetClipPlanexOES(gpGetClipPlanexOES, (C.GLenum)(plane), (*C.GLfixed)(unsafe.Pointer(equation)))
 }
-// retrieve contents of a color lookup table
-func GetColorTable(target uint32, format uint32, xtype uint32, table unsafe.Pointer) {
-  C.glowGetColorTable(gpGetColorTable, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), table)
-}
 func GetColorTableEXT(target uint32, format uint32, xtype uint32, data unsafe.Pointer) {
   C.glowGetColorTableEXT(gpGetColorTableEXT, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), data)
-}
-func GetColorTableParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowGetColorTableParameterfv(gpGetColorTableParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
 }
 func GetColorTableParameterfvEXT(target uint32, pname uint32, params *float32) {
   C.glowGetColorTableParameterfvEXT(gpGetColorTableParameterfvEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
 }
 func GetColorTableParameterfvSGI(target uint32, pname uint32, params *float32) {
   C.glowGetColorTableParameterfvSGI(gpGetColorTableParameterfvSGI, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
-func GetColorTableParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowGetColorTableParameteriv(gpGetColorTableParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func GetColorTableParameterivEXT(target uint32, pname uint32, params *int32) {
   C.glowGetColorTableParameterivEXT(gpGetColorTableParameterivEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -23160,21 +22576,11 @@ func GetCompressedTexImageARB(target uint32, level int32, img unsafe.Pointer) {
 func GetCompressedTextureImageEXT(texture uint32, target uint32, lod int32, img unsafe.Pointer) {
   C.glowGetCompressedTextureImageEXT(gpGetCompressedTextureImageEXT, (C.GLuint)(texture), (C.GLenum)(target), (C.GLint)(lod), img)
 }
-// get current 1D or 2D convolution filter kernel
-func GetConvolutionFilter(target uint32, format uint32, xtype uint32, image unsafe.Pointer) {
-  C.glowGetConvolutionFilter(gpGetConvolutionFilter, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), image)
-}
 func GetConvolutionFilterEXT(target uint32, format uint32, xtype uint32, image unsafe.Pointer) {
   C.glowGetConvolutionFilterEXT(gpGetConvolutionFilterEXT, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), image)
 }
-func GetConvolutionParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowGetConvolutionParameterfv(gpGetConvolutionParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
 func GetConvolutionParameterfvEXT(target uint32, pname uint32, params *float32) {
   C.glowGetConvolutionParameterfvEXT(gpGetConvolutionParameterfvEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
-func GetConvolutionParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowGetConvolutionParameteriv(gpGetConvolutionParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func GetConvolutionParameterivEXT(target uint32, pname uint32, params *int32) {
   C.glowGetConvolutionParameterivEXT(gpGetConvolutionParameterivEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -23296,21 +22702,11 @@ func GetHandleARB(pname uint32) uintptr {
   ret := C.glowGetHandleARB(gpGetHandleARB, (C.GLenum)(pname))
   return (uintptr)(ret)
 }
-// get histogram table
-func GetHistogram(target uint32, reset bool, format uint32, xtype uint32, values unsafe.Pointer) {
-  C.glowGetHistogram(gpGetHistogram, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), values)
-}
 func GetHistogramEXT(target uint32, reset bool, format uint32, xtype uint32, values unsafe.Pointer) {
   C.glowGetHistogramEXT(gpGetHistogramEXT, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), values)
 }
-func GetHistogramParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowGetHistogramParameterfv(gpGetHistogramParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
 func GetHistogramParameterfvEXT(target uint32, pname uint32, params *float32) {
   C.glowGetHistogramParameterfvEXT(gpGetHistogramParameterfvEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
-func GetHistogramParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowGetHistogramParameteriv(gpGetHistogramParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func GetHistogramParameterivEXT(target uint32, pname uint32, params *int32) {
   C.glowGetHistogramParameterivEXT(gpGetHistogramParameterivEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -23441,21 +22837,11 @@ func GetMaterialxOES(face uint32, pname uint32, param int32) {
 func GetMaterialxvOES(face uint32, pname uint32, params *int32) {
   C.glowGetMaterialxvOES(gpGetMaterialxvOES, (C.GLenum)(face), (C.GLenum)(pname), (*C.GLfixed)(unsafe.Pointer(params)))
 }
-// get minimum and maximum pixel values
-func GetMinmax(target uint32, reset bool, format uint32, xtype uint32, values unsafe.Pointer) {
-  C.glowGetMinmax(gpGetMinmax, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), values)
-}
 func GetMinmaxEXT(target uint32, reset bool, format uint32, xtype uint32, values unsafe.Pointer) {
   C.glowGetMinmaxEXT(gpGetMinmaxEXT, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), values)
 }
-func GetMinmaxParameterfv(target uint32, pname uint32, params *float32) {
-  C.glowGetMinmaxParameterfv(gpGetMinmaxParameterfv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
 func GetMinmaxParameterfvEXT(target uint32, pname uint32, params *float32) {
   C.glowGetMinmaxParameterfvEXT(gpGetMinmaxParameterfvEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLfloat)(unsafe.Pointer(params)))
-}
-func GetMinmaxParameteriv(target uint32, pname uint32, params *int32) {
-  C.glowGetMinmaxParameteriv(gpGetMinmaxParameteriv, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
 func GetMinmaxParameterivEXT(target uint32, pname uint32, params *int32) {
   C.glowGetMinmaxParameterivEXT(gpGetMinmaxParameterivEXT, (C.GLenum)(target), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
@@ -23861,10 +23247,6 @@ func GetSamplerParameterfv(sampler uint32, pname uint32, params *float32) {
 func GetSamplerParameteriv(sampler uint32, pname uint32, params *int32) {
   C.glowGetSamplerParameteriv(gpGetSamplerParameteriv, (C.GLuint)(sampler), (C.GLenum)(pname), (*C.GLint)(unsafe.Pointer(params)))
 }
-// get separable convolution filter kernel images
-func GetSeparableFilter(target uint32, format uint32, xtype uint32, row unsafe.Pointer, column unsafe.Pointer, span unsafe.Pointer) {
-  C.glowGetSeparableFilter(gpGetSeparableFilter, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), row, column, span)
-}
 func GetSeparableFilterEXT(target uint32, format uint32, xtype uint32, row unsafe.Pointer, column unsafe.Pointer, span unsafe.Pointer) {
   C.glowGetSeparableFilterEXT(gpGetSeparableFilterEXT, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), row, column, span)
 }
@@ -24222,44 +23604,8 @@ func GetVideoui64vNV(video_slot uint32, pname uint32, params *uint64) {
 func GetVideouivNV(video_slot uint32, pname uint32, params *uint32) {
   C.glowGetVideouivNV(gpGetVideouivNV, (C.GLuint)(video_slot), (C.GLenum)(pname), (*C.GLuint)(unsafe.Pointer(params)))
 }
-func GetnColorTableARB(target uint32, format uint32, xtype uint32, bufSize int32, table unsafe.Pointer) {
-  C.glowGetnColorTableARB(gpGetnColorTableARB, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(bufSize), table)
-}
 func GetnCompressedTexImageARB(target uint32, lod int32, bufSize int32, img unsafe.Pointer) {
   C.glowGetnCompressedTexImageARB(gpGetnCompressedTexImageARB, (C.GLenum)(target), (C.GLint)(lod), (C.GLsizei)(bufSize), img)
-}
-func GetnConvolutionFilterARB(target uint32, format uint32, xtype uint32, bufSize int32, image unsafe.Pointer) {
-  C.glowGetnConvolutionFilterARB(gpGetnConvolutionFilterARB, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(bufSize), image)
-}
-func GetnHistogramARB(target uint32, reset bool, format uint32, xtype uint32, bufSize int32, values unsafe.Pointer) {
-  C.glowGetnHistogramARB(gpGetnHistogramARB, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(bufSize), values)
-}
-func GetnMapdvARB(target uint32, query uint32, bufSize int32, v *float64) {
-  C.glowGetnMapdvARB(gpGetnMapdvARB, (C.GLenum)(target), (C.GLenum)(query), (C.GLsizei)(bufSize), (*C.GLdouble)(unsafe.Pointer(v)))
-}
-func GetnMapfvARB(target uint32, query uint32, bufSize int32, v *float32) {
-  C.glowGetnMapfvARB(gpGetnMapfvARB, (C.GLenum)(target), (C.GLenum)(query), (C.GLsizei)(bufSize), (*C.GLfloat)(unsafe.Pointer(v)))
-}
-func GetnMapivARB(target uint32, query uint32, bufSize int32, v *int32) {
-  C.glowGetnMapivARB(gpGetnMapivARB, (C.GLenum)(target), (C.GLenum)(query), (C.GLsizei)(bufSize), (*C.GLint)(unsafe.Pointer(v)))
-}
-func GetnMinmaxARB(target uint32, reset bool, format uint32, xtype uint32, bufSize int32, values unsafe.Pointer) {
-  C.glowGetnMinmaxARB(gpGetnMinmaxARB, (C.GLenum)(target), (C.GLboolean)(boolToInt(reset)), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(bufSize), values)
-}
-func GetnPixelMapfvARB(xmap uint32, bufSize int32, values *float32) {
-  C.glowGetnPixelMapfvARB(gpGetnPixelMapfvARB, (C.GLenum)(xmap), (C.GLsizei)(bufSize), (*C.GLfloat)(unsafe.Pointer(values)))
-}
-func GetnPixelMapuivARB(xmap uint32, bufSize int32, values *uint32) {
-  C.glowGetnPixelMapuivARB(gpGetnPixelMapuivARB, (C.GLenum)(xmap), (C.GLsizei)(bufSize), (*C.GLuint)(unsafe.Pointer(values)))
-}
-func GetnPixelMapusvARB(xmap uint32, bufSize int32, values *uint16) {
-  C.glowGetnPixelMapusvARB(gpGetnPixelMapusvARB, (C.GLenum)(xmap), (C.GLsizei)(bufSize), (*C.GLushort)(unsafe.Pointer(values)))
-}
-func GetnPolygonStippleARB(bufSize int32, pattern *uint8) {
-  C.glowGetnPolygonStippleARB(gpGetnPolygonStippleARB, (C.GLsizei)(bufSize), (*C.GLubyte)(unsafe.Pointer(pattern)))
-}
-func GetnSeparableFilterARB(target uint32, format uint32, xtype uint32, rowBufSize int32, row unsafe.Pointer, columnBufSize int32, column unsafe.Pointer, span unsafe.Pointer) {
-  C.glowGetnSeparableFilterARB(gpGetnSeparableFilterARB, (C.GLenum)(target), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(rowBufSize), row, (C.GLsizei)(columnBufSize), column, span)
 }
 func GetnTexImageARB(target uint32, level int32, format uint32, xtype uint32, bufSize int32, img unsafe.Pointer) {
   C.glowGetnTexImageARB(gpGetnTexImageARB, (C.GLenum)(target), (C.GLint)(level), (C.GLenum)(format), (C.GLenum)(xtype), (C.GLsizei)(bufSize), img)
@@ -24306,10 +23652,6 @@ func Hint(target uint32, mode uint32) {
 }
 func HintPGI(target uint32, mode int32) {
   C.glowHintPGI(gpHintPGI, (C.GLenum)(target), (C.GLint)(mode))
-}
-// define histogram table
-func Histogram(target uint32, width int32, internalformat uint32, sink bool) {
-  C.glowHistogram(gpHistogram, (C.GLenum)(target), (C.GLsizei)(width), (C.GLenum)(internalformat), (C.GLboolean)(boolToInt(sink)))
 }
 func HistogramEXT(target uint32, width int32, internalformat uint32, sink bool) {
   C.glowHistogramEXT(gpHistogramEXT, (C.GLenum)(target), (C.GLsizei)(width), (C.GLenum)(internalformat), (C.GLboolean)(boolToInt(sink)))
@@ -24974,10 +24316,6 @@ func MinSampleShading(value float32) {
 func MinSampleShadingARB(value float32) {
   C.glowMinSampleShadingARB(gpMinSampleShadingARB, (C.GLfloat)(value))
 }
-// define minmax table
-func Minmax(target uint32, internalformat uint32, sink bool) {
-  C.glowMinmax(gpMinmax, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLboolean)(boolToInt(sink)))
-}
 func MinmaxEXT(target uint32, internalformat uint32, sink bool) {
   C.glowMinmaxEXT(gpMinmaxEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLboolean)(boolToInt(sink)))
 }
@@ -25328,30 +24666,6 @@ func MultiTexCoord4xOES(texture uint32, s int32, t int32, r int32, q int32) {
 func MultiTexCoord4xvOES(texture uint32, coords *int32) {
   C.glowMultiTexCoord4xvOES(gpMultiTexCoord4xvOES, (C.GLenum)(texture), (*C.GLfixed)(unsafe.Pointer(coords)))
 }
-func MultiTexCoordP1ui(texture uint32, xtype uint32, coords uint32) {
-  C.glowMultiTexCoordP1ui(gpMultiTexCoordP1ui, (C.GLenum)(texture), (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func MultiTexCoordP1uiv(texture uint32, xtype uint32, coords *uint32) {
-  C.glowMultiTexCoordP1uiv(gpMultiTexCoordP1uiv, (C.GLenum)(texture), (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func MultiTexCoordP2ui(texture uint32, xtype uint32, coords uint32) {
-  C.glowMultiTexCoordP2ui(gpMultiTexCoordP2ui, (C.GLenum)(texture), (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func MultiTexCoordP2uiv(texture uint32, xtype uint32, coords *uint32) {
-  C.glowMultiTexCoordP2uiv(gpMultiTexCoordP2uiv, (C.GLenum)(texture), (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func MultiTexCoordP3ui(texture uint32, xtype uint32, coords uint32) {
-  C.glowMultiTexCoordP3ui(gpMultiTexCoordP3ui, (C.GLenum)(texture), (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func MultiTexCoordP3uiv(texture uint32, xtype uint32, coords *uint32) {
-  C.glowMultiTexCoordP3uiv(gpMultiTexCoordP3uiv, (C.GLenum)(texture), (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func MultiTexCoordP4ui(texture uint32, xtype uint32, coords uint32) {
-  C.glowMultiTexCoordP4ui(gpMultiTexCoordP4ui, (C.GLenum)(texture), (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func MultiTexCoordP4uiv(texture uint32, xtype uint32, coords *uint32) {
-  C.glowMultiTexCoordP4uiv(gpMultiTexCoordP4uiv, (C.GLenum)(texture), (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
 func MultiTexCoordPointerEXT(texunit uint32, size int32, xtype uint32, stride int32, pointer unsafe.Pointer) {
   C.glowMultiTexCoordPointerEXT(gpMultiTexCoordPointerEXT, (C.GLenum)(texunit), (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride), pointer)
 }
@@ -25566,12 +24880,6 @@ func Normal3xvOES(coords *int32) {
 }
 func NormalFormatNV(xtype uint32, stride int32) {
   C.glowNormalFormatNV(gpNormalFormatNV, (C.GLenum)(xtype), (C.GLsizei)(stride))
-}
-func NormalP3ui(xtype uint32, coords uint32) {
-  C.glowNormalP3ui(gpNormalP3ui, (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func NormalP3uiv(xtype uint32, coords *uint32) {
-  C.glowNormalP3uiv(gpNormalP3uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
 }
 // define an array of normals
 func NormalPointer(xtype uint32, stride int32, pointer unsafe.Pointer) {
@@ -26733,16 +26041,8 @@ func ReplacementCodeusvSUN(code *uint16) {
 func RequestResidentProgramsNV(n int32, programs *uint32) {
   C.glowRequestResidentProgramsNV(gpRequestResidentProgramsNV, (C.GLsizei)(n), (*C.GLuint)(unsafe.Pointer(programs)))
 }
-// reset histogram table entries to zero
-func ResetHistogram(target uint32) {
-  C.glowResetHistogram(gpResetHistogram, (C.GLenum)(target))
-}
 func ResetHistogramEXT(target uint32) {
   C.glowResetHistogramEXT(gpResetHistogramEXT, (C.GLenum)(target))
-}
-// reset minmax table entries to initial values
-func ResetMinmax(target uint32) {
-  C.glowResetMinmax(gpResetMinmax, (C.GLenum)(target))
 }
 func ResetMinmaxEXT(target uint32) {
   C.glowResetMinmaxEXT(gpResetMinmaxEXT, (C.GLenum)(target))
@@ -26947,12 +26247,6 @@ func SecondaryColor3usvEXT(v *uint16) {
 func SecondaryColorFormatNV(size int32, xtype uint32, stride int32) {
   C.glowSecondaryColorFormatNV(gpSecondaryColorFormatNV, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride))
 }
-func SecondaryColorP3ui(xtype uint32, color uint32) {
-  C.glowSecondaryColorP3ui(gpSecondaryColorP3ui, (C.GLenum)(xtype), (C.GLuint)(color))
-}
-func SecondaryColorP3uiv(xtype uint32, color *uint32) {
-  C.glowSecondaryColorP3uiv(gpSecondaryColorP3uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(color)))
-}
 // define an array of secondary colors
 func SecondaryColorPointer(size int32, xtype uint32, stride int32, pointer unsafe.Pointer) {
   C.glowSecondaryColorPointer(gpSecondaryColorPointer, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride), pointer)
@@ -26969,10 +26263,6 @@ func SelectBuffer(size int32, buffer *uint32) {
 }
 func SelectPerfMonitorCountersAMD(monitor uint32, enable bool, group uint32, numCounters int32, counterList *uint32) {
   C.glowSelectPerfMonitorCountersAMD(gpSelectPerfMonitorCountersAMD, (C.GLuint)(monitor), (C.GLboolean)(boolToInt(enable)), (C.GLuint)(group), (C.GLint)(numCounters), (*C.GLuint)(unsafe.Pointer(counterList)))
-}
-// define a separable two-dimensional convolution filter
-func SeparableFilter2D(target uint32, internalformat uint32, width int32, height int32, format uint32, xtype uint32, row unsafe.Pointer, column unsafe.Pointer) {
-  C.glowSeparableFilter2D(gpSeparableFilter2D, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLenum)(format), (C.GLenum)(xtype), row, column)
 }
 func SeparableFilter2DEXT(target uint32, internalformat uint32, width int32, height int32, format uint32, xtype uint32, row unsafe.Pointer, column unsafe.Pointer) {
   C.glowSeparableFilter2DEXT(gpSeparableFilter2DEXT, (C.GLenum)(target), (C.GLenum)(internalformat), (C.GLsizei)(width), (C.GLsizei)(height), (C.GLenum)(format), (C.GLenum)(xtype), row, column)
@@ -27390,30 +26680,6 @@ func TexCoord4xvOES(coords *int32) {
 }
 func TexCoordFormatNV(size int32, xtype uint32, stride int32) {
   C.glowTexCoordFormatNV(gpTexCoordFormatNV, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride))
-}
-func TexCoordP1ui(xtype uint32, coords uint32) {
-  C.glowTexCoordP1ui(gpTexCoordP1ui, (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func TexCoordP1uiv(xtype uint32, coords *uint32) {
-  C.glowTexCoordP1uiv(gpTexCoordP1uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func TexCoordP2ui(xtype uint32, coords uint32) {
-  C.glowTexCoordP2ui(gpTexCoordP2ui, (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func TexCoordP2uiv(xtype uint32, coords *uint32) {
-  C.glowTexCoordP2uiv(gpTexCoordP2uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func TexCoordP3ui(xtype uint32, coords uint32) {
-  C.glowTexCoordP3ui(gpTexCoordP3ui, (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func TexCoordP3uiv(xtype uint32, coords *uint32) {
-  C.glowTexCoordP3uiv(gpTexCoordP3uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
-}
-func TexCoordP4ui(xtype uint32, coords uint32) {
-  C.glowTexCoordP4ui(gpTexCoordP4ui, (C.GLenum)(xtype), (C.GLuint)(coords))
-}
-func TexCoordP4uiv(xtype uint32, coords *uint32) {
-  C.glowTexCoordP4uiv(gpTexCoordP4uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(coords)))
 }
 // define an array of texture coordinates
 func TexCoordPointer(size int32, xtype uint32, stride int32, pointer unsafe.Pointer) {
@@ -29058,24 +28324,6 @@ func VertexBlendEnviATI(pname uint32, param int32) {
 func VertexFormatNV(size int32, xtype uint32, stride int32) {
   C.glowVertexFormatNV(gpVertexFormatNV, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride))
 }
-func VertexP2ui(xtype uint32, value uint32) {
-  C.glowVertexP2ui(gpVertexP2ui, (C.GLenum)(xtype), (C.GLuint)(value))
-}
-func VertexP2uiv(xtype uint32, value *uint32) {
-  C.glowVertexP2uiv(gpVertexP2uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(value)))
-}
-func VertexP3ui(xtype uint32, value uint32) {
-  C.glowVertexP3ui(gpVertexP3ui, (C.GLenum)(xtype), (C.GLuint)(value))
-}
-func VertexP3uiv(xtype uint32, value *uint32) {
-  C.glowVertexP3uiv(gpVertexP3uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(value)))
-}
-func VertexP4ui(xtype uint32, value uint32) {
-  C.glowVertexP4ui(gpVertexP4ui, (C.GLenum)(xtype), (C.GLuint)(value))
-}
-func VertexP4uiv(xtype uint32, value *uint32) {
-  C.glowVertexP4uiv(gpVertexP4uiv, (C.GLenum)(xtype), (*C.GLuint)(unsafe.Pointer(value)))
-}
 // define an array of vertex data
 func VertexPointer(size int32, xtype uint32, stride int32, pointer unsafe.Pointer) {
   C.glowVertexPointer(gpVertexPointer, (C.GLint)(size), (C.GLenum)(xtype), (C.GLsizei)(stride), pointer)
@@ -30284,22 +29532,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpColorMaterial = (C.GPCOLORMATERIAL)(getProcAddr("glColorMaterial")); gpColorMaterial == nil {
     HasColorMaterial = false
   }
-  if gpColorP3ui = (C.GPCOLORP3UI)(getProcAddr("glColorP3ui")); gpColorP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasColorP3ui = false
-  }
-  if gpColorP3uiv = (C.GPCOLORP3UIV)(getProcAddr("glColorP3uiv")); gpColorP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasColorP3uiv = false
-  }
-  if gpColorP4ui = (C.GPCOLORP4UI)(getProcAddr("glColorP4ui")); gpColorP4ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasColorP4ui = false
-  }
-  if gpColorP4uiv = (C.GPCOLORP4UIV)(getProcAddr("glColorP4uiv")); gpColorP4uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasColorP4uiv = false
-  }
   if gpColorPointer = (C.GPCOLORPOINTER)(getProcAddr("glColorPointer")); gpColorPointer == nil {
     HasColorPointer = false
   }
@@ -30315,33 +29547,17 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     INTEL_parallel_arrays = false
     HasColorPointervINTEL = false
   }
-  if gpColorSubTable = (C.GPCOLORSUBTABLE)(getProcAddr("glColorSubTable")); gpColorSubTable == nil {
-    ARB_imaging = false
-    HasColorSubTable = false
-  }
   if gpColorSubTableEXT = (C.GPCOLORSUBTABLEEXT)(getProcAddr("glColorSubTableEXT")); gpColorSubTableEXT == nil {
     EXT_color_subtable = false
     HasColorSubTableEXT = false
-  }
-  if gpColorTable = (C.GPCOLORTABLE)(getProcAddr("glColorTable")); gpColorTable == nil {
-    ARB_imaging = false
-    HasColorTable = false
   }
   if gpColorTableEXT = (C.GPCOLORTABLEEXT)(getProcAddr("glColorTableEXT")); gpColorTableEXT == nil {
     EXT_paletted_texture = false
     HasColorTableEXT = false
   }
-  if gpColorTableParameterfv = (C.GPCOLORTABLEPARAMETERFV)(getProcAddr("glColorTableParameterfv")); gpColorTableParameterfv == nil {
-    ARB_imaging = false
-    HasColorTableParameterfv = false
-  }
   if gpColorTableParameterfvSGI = (C.GPCOLORTABLEPARAMETERFVSGI)(getProcAddr("glColorTableParameterfvSGI")); gpColorTableParameterfvSGI == nil {
     SGI_color_table = false
     HasColorTableParameterfvSGI = false
-  }
-  if gpColorTableParameteriv = (C.GPCOLORTABLEPARAMETERIV)(getProcAddr("glColorTableParameteriv")); gpColorTableParameteriv == nil {
-    ARB_imaging = false
-    HasColorTableParameteriv = false
   }
   if gpColorTableParameterivSGI = (C.GPCOLORTABLEPARAMETERIVSGI)(getProcAddr("glColorTableParameterivSGI")); gpColorTableParameterivSGI == nil {
     SGI_color_table = false
@@ -30480,49 +29696,25 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     EXT_direct_state_access = false
     HasCompressedTextureSubImage3DEXT = false
   }
-  if gpConvolutionFilter1D = (C.GPCONVOLUTIONFILTER1D)(getProcAddr("glConvolutionFilter1D")); gpConvolutionFilter1D == nil {
-    ARB_imaging = false
-    HasConvolutionFilter1D = false
-  }
   if gpConvolutionFilter1DEXT = (C.GPCONVOLUTIONFILTER1DEXT)(getProcAddr("glConvolutionFilter1DEXT")); gpConvolutionFilter1DEXT == nil {
     EXT_convolution = false
     HasConvolutionFilter1DEXT = false
-  }
-  if gpConvolutionFilter2D = (C.GPCONVOLUTIONFILTER2D)(getProcAddr("glConvolutionFilter2D")); gpConvolutionFilter2D == nil {
-    ARB_imaging = false
-    HasConvolutionFilter2D = false
   }
   if gpConvolutionFilter2DEXT = (C.GPCONVOLUTIONFILTER2DEXT)(getProcAddr("glConvolutionFilter2DEXT")); gpConvolutionFilter2DEXT == nil {
     EXT_convolution = false
     HasConvolutionFilter2DEXT = false
   }
-  if gpConvolutionParameterf = (C.GPCONVOLUTIONPARAMETERF)(getProcAddr("glConvolutionParameterf")); gpConvolutionParameterf == nil {
-    ARB_imaging = false
-    HasConvolutionParameterf = false
-  }
   if gpConvolutionParameterfEXT = (C.GPCONVOLUTIONPARAMETERFEXT)(getProcAddr("glConvolutionParameterfEXT")); gpConvolutionParameterfEXT == nil {
     EXT_convolution = false
     HasConvolutionParameterfEXT = false
-  }
-  if gpConvolutionParameterfv = (C.GPCONVOLUTIONPARAMETERFV)(getProcAddr("glConvolutionParameterfv")); gpConvolutionParameterfv == nil {
-    ARB_imaging = false
-    HasConvolutionParameterfv = false
   }
   if gpConvolutionParameterfvEXT = (C.GPCONVOLUTIONPARAMETERFVEXT)(getProcAddr("glConvolutionParameterfvEXT")); gpConvolutionParameterfvEXT == nil {
     EXT_convolution = false
     HasConvolutionParameterfvEXT = false
   }
-  if gpConvolutionParameteri = (C.GPCONVOLUTIONPARAMETERI)(getProcAddr("glConvolutionParameteri")); gpConvolutionParameteri == nil {
-    ARB_imaging = false
-    HasConvolutionParameteri = false
-  }
   if gpConvolutionParameteriEXT = (C.GPCONVOLUTIONPARAMETERIEXT)(getProcAddr("glConvolutionParameteriEXT")); gpConvolutionParameteriEXT == nil {
     EXT_convolution = false
     HasConvolutionParameteriEXT = false
-  }
-  if gpConvolutionParameteriv = (C.GPCONVOLUTIONPARAMETERIV)(getProcAddr("glConvolutionParameteriv")); gpConvolutionParameteriv == nil {
-    ARB_imaging = false
-    HasConvolutionParameteriv = false
   }
   if gpConvolutionParameterivEXT = (C.GPCONVOLUTIONPARAMETERIVEXT)(getProcAddr("glConvolutionParameterivEXT")); gpConvolutionParameterivEXT == nil {
     EXT_convolution = false
@@ -30540,33 +29732,17 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     ARB_copy_buffer = false
     HasCopyBufferSubData = false
   }
-  if gpCopyColorSubTable = (C.GPCOPYCOLORSUBTABLE)(getProcAddr("glCopyColorSubTable")); gpCopyColorSubTable == nil {
-    ARB_imaging = false
-    HasCopyColorSubTable = false
-  }
   if gpCopyColorSubTableEXT = (C.GPCOPYCOLORSUBTABLEEXT)(getProcAddr("glCopyColorSubTableEXT")); gpCopyColorSubTableEXT == nil {
     EXT_color_subtable = false
     HasCopyColorSubTableEXT = false
-  }
-  if gpCopyColorTable = (C.GPCOPYCOLORTABLE)(getProcAddr("glCopyColorTable")); gpCopyColorTable == nil {
-    ARB_imaging = false
-    HasCopyColorTable = false
   }
   if gpCopyColorTableSGI = (C.GPCOPYCOLORTABLESGI)(getProcAddr("glCopyColorTableSGI")); gpCopyColorTableSGI == nil {
     SGI_color_table = false
     HasCopyColorTableSGI = false
   }
-  if gpCopyConvolutionFilter1D = (C.GPCOPYCONVOLUTIONFILTER1D)(getProcAddr("glCopyConvolutionFilter1D")); gpCopyConvolutionFilter1D == nil {
-    ARB_imaging = false
-    HasCopyConvolutionFilter1D = false
-  }
   if gpCopyConvolutionFilter1DEXT = (C.GPCOPYCONVOLUTIONFILTER1DEXT)(getProcAddr("glCopyConvolutionFilter1DEXT")); gpCopyConvolutionFilter1DEXT == nil {
     EXT_convolution = false
     HasCopyConvolutionFilter1DEXT = false
-  }
-  if gpCopyConvolutionFilter2D = (C.GPCOPYCONVOLUTIONFILTER2D)(getProcAddr("glCopyConvolutionFilter2D")); gpCopyConvolutionFilter2D == nil {
-    ARB_imaging = false
-    HasCopyConvolutionFilter2D = false
   }
   if gpCopyConvolutionFilter2DEXT = (C.GPCOPYCONVOLUTIONFILTER2DEXT)(getProcAddr("glCopyConvolutionFilter2DEXT")); gpCopyConvolutionFilter2DEXT == nil {
     EXT_convolution = false
@@ -31927,17 +31103,9 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     OES_fixed_point = false
     HasGetClipPlanexOES = false
   }
-  if gpGetColorTable = (C.GPGETCOLORTABLE)(getProcAddr("glGetColorTable")); gpGetColorTable == nil {
-    ARB_imaging = false
-    HasGetColorTable = false
-  }
   if gpGetColorTableEXT = (C.GPGETCOLORTABLEEXT)(getProcAddr("glGetColorTableEXT")); gpGetColorTableEXT == nil {
     EXT_paletted_texture = false
     HasGetColorTableEXT = false
-  }
-  if gpGetColorTableParameterfv = (C.GPGETCOLORTABLEPARAMETERFV)(getProcAddr("glGetColorTableParameterfv")); gpGetColorTableParameterfv == nil {
-    ARB_imaging = false
-    HasGetColorTableParameterfv = false
   }
   if gpGetColorTableParameterfvEXT = (C.GPGETCOLORTABLEPARAMETERFVEXT)(getProcAddr("glGetColorTableParameterfvEXT")); gpGetColorTableParameterfvEXT == nil {
     EXT_paletted_texture = false
@@ -31946,10 +31114,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpGetColorTableParameterfvSGI = (C.GPGETCOLORTABLEPARAMETERFVSGI)(getProcAddr("glGetColorTableParameterfvSGI")); gpGetColorTableParameterfvSGI == nil {
     SGI_color_table = false
     HasGetColorTableParameterfvSGI = false
-  }
-  if gpGetColorTableParameteriv = (C.GPGETCOLORTABLEPARAMETERIV)(getProcAddr("glGetColorTableParameteriv")); gpGetColorTableParameteriv == nil {
-    ARB_imaging = false
-    HasGetColorTableParameteriv = false
   }
   if gpGetColorTableParameterivEXT = (C.GPGETCOLORTABLEPARAMETERIVEXT)(getProcAddr("glGetColorTableParameterivEXT")); gpGetColorTableParameterivEXT == nil {
     EXT_paletted_texture = false
@@ -31998,25 +31162,13 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     EXT_direct_state_access = false
     HasGetCompressedTextureImageEXT = false
   }
-  if gpGetConvolutionFilter = (C.GPGETCONVOLUTIONFILTER)(getProcAddr("glGetConvolutionFilter")); gpGetConvolutionFilter == nil {
-    ARB_imaging = false
-    HasGetConvolutionFilter = false
-  }
   if gpGetConvolutionFilterEXT = (C.GPGETCONVOLUTIONFILTEREXT)(getProcAddr("glGetConvolutionFilterEXT")); gpGetConvolutionFilterEXT == nil {
     EXT_convolution = false
     HasGetConvolutionFilterEXT = false
   }
-  if gpGetConvolutionParameterfv = (C.GPGETCONVOLUTIONPARAMETERFV)(getProcAddr("glGetConvolutionParameterfv")); gpGetConvolutionParameterfv == nil {
-    ARB_imaging = false
-    HasGetConvolutionParameterfv = false
-  }
   if gpGetConvolutionParameterfvEXT = (C.GPGETCONVOLUTIONPARAMETERFVEXT)(getProcAddr("glGetConvolutionParameterfvEXT")); gpGetConvolutionParameterfvEXT == nil {
     EXT_convolution = false
     HasGetConvolutionParameterfvEXT = false
-  }
-  if gpGetConvolutionParameteriv = (C.GPGETCONVOLUTIONPARAMETERIV)(getProcAddr("glGetConvolutionParameteriv")); gpGetConvolutionParameteriv == nil {
-    ARB_imaging = false
-    HasGetConvolutionParameteriv = false
   }
   if gpGetConvolutionParameterivEXT = (C.GPGETCONVOLUTIONPARAMETERIVEXT)(getProcAddr("glGetConvolutionParameterivEXT")); gpGetConvolutionParameterivEXT == nil {
     EXT_convolution = false
@@ -32154,25 +31306,13 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     ARB_shader_objects = false
     HasGetHandleARB = false
   }
-  if gpGetHistogram = (C.GPGETHISTOGRAM)(getProcAddr("glGetHistogram")); gpGetHistogram == nil {
-    ARB_imaging = false
-    HasGetHistogram = false
-  }
   if gpGetHistogramEXT = (C.GPGETHISTOGRAMEXT)(getProcAddr("glGetHistogramEXT")); gpGetHistogramEXT == nil {
     EXT_histogram = false
     HasGetHistogramEXT = false
   }
-  if gpGetHistogramParameterfv = (C.GPGETHISTOGRAMPARAMETERFV)(getProcAddr("glGetHistogramParameterfv")); gpGetHistogramParameterfv == nil {
-    ARB_imaging = false
-    HasGetHistogramParameterfv = false
-  }
   if gpGetHistogramParameterfvEXT = (C.GPGETHISTOGRAMPARAMETERFVEXT)(getProcAddr("glGetHistogramParameterfvEXT")); gpGetHistogramParameterfvEXT == nil {
     EXT_histogram = false
     HasGetHistogramParameterfvEXT = false
-  }
-  if gpGetHistogramParameteriv = (C.GPGETHISTOGRAMPARAMETERIV)(getProcAddr("glGetHistogramParameteriv")); gpGetHistogramParameteriv == nil {
-    ARB_imaging = false
-    HasGetHistogramParameteriv = false
   }
   if gpGetHistogramParameterivEXT = (C.GPGETHISTOGRAMPARAMETERIVEXT)(getProcAddr("glGetHistogramParameterivEXT")); gpGetHistogramParameterivEXT == nil {
     EXT_histogram = false
@@ -32333,25 +31473,13 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     OES_fixed_point = false
     HasGetMaterialxvOES = false
   }
-  if gpGetMinmax = (C.GPGETMINMAX)(getProcAddr("glGetMinmax")); gpGetMinmax == nil {
-    ARB_imaging = false
-    HasGetMinmax = false
-  }
   if gpGetMinmaxEXT = (C.GPGETMINMAXEXT)(getProcAddr("glGetMinmaxEXT")); gpGetMinmaxEXT == nil {
     EXT_histogram = false
     HasGetMinmaxEXT = false
   }
-  if gpGetMinmaxParameterfv = (C.GPGETMINMAXPARAMETERFV)(getProcAddr("glGetMinmaxParameterfv")); gpGetMinmaxParameterfv == nil {
-    ARB_imaging = false
-    HasGetMinmaxParameterfv = false
-  }
   if gpGetMinmaxParameterfvEXT = (C.GPGETMINMAXPARAMETERFVEXT)(getProcAddr("glGetMinmaxParameterfvEXT")); gpGetMinmaxParameterfvEXT == nil {
     EXT_histogram = false
     HasGetMinmaxParameterfvEXT = false
-  }
-  if gpGetMinmaxParameteriv = (C.GPGETMINMAXPARAMETERIV)(getProcAddr("glGetMinmaxParameteriv")); gpGetMinmaxParameteriv == nil {
-    ARB_imaging = false
-    HasGetMinmaxParameteriv = false
   }
   if gpGetMinmaxParameterivEXT = (C.GPGETMINMAXPARAMETERIVEXT)(getProcAddr("glGetMinmaxParameterivEXT")); gpGetMinmaxParameterivEXT == nil {
     EXT_histogram = false
@@ -32862,10 +31990,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     ARB_sampler_objects = false
     HasGetSamplerParameteriv = false
   }
-  if gpGetSeparableFilter = (C.GPGETSEPARABLEFILTER)(getProcAddr("glGetSeparableFilter")); gpGetSeparableFilter == nil {
-    ARB_imaging = false
-    HasGetSeparableFilter = false
-  }
   if gpGetSeparableFilterEXT = (C.GPGETSEPARABLEFILTEREXT)(getProcAddr("glGetSeparableFilterEXT")); gpGetSeparableFilterEXT == nil {
     EXT_convolution = false
     HasGetSeparableFilterEXT = false
@@ -33272,57 +32396,9 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     NV_present_video = false
     HasGetVideouivNV = false
   }
-  if gpGetnColorTableARB = (C.GPGETNCOLORTABLEARB)(getProcAddr("glGetnColorTableARB")); gpGetnColorTableARB == nil {
-    ARB_robustness = false
-    HasGetnColorTableARB = false
-  }
   if gpGetnCompressedTexImageARB = (C.GPGETNCOMPRESSEDTEXIMAGEARB)(getProcAddr("glGetnCompressedTexImageARB")); gpGetnCompressedTexImageARB == nil {
     ARB_robustness = false
     HasGetnCompressedTexImageARB = false
-  }
-  if gpGetnConvolutionFilterARB = (C.GPGETNCONVOLUTIONFILTERARB)(getProcAddr("glGetnConvolutionFilterARB")); gpGetnConvolutionFilterARB == nil {
-    ARB_robustness = false
-    HasGetnConvolutionFilterARB = false
-  }
-  if gpGetnHistogramARB = (C.GPGETNHISTOGRAMARB)(getProcAddr("glGetnHistogramARB")); gpGetnHistogramARB == nil {
-    ARB_robustness = false
-    HasGetnHistogramARB = false
-  }
-  if gpGetnMapdvARB = (C.GPGETNMAPDVARB)(getProcAddr("glGetnMapdvARB")); gpGetnMapdvARB == nil {
-    ARB_robustness = false
-    HasGetnMapdvARB = false
-  }
-  if gpGetnMapfvARB = (C.GPGETNMAPFVARB)(getProcAddr("glGetnMapfvARB")); gpGetnMapfvARB == nil {
-    ARB_robustness = false
-    HasGetnMapfvARB = false
-  }
-  if gpGetnMapivARB = (C.GPGETNMAPIVARB)(getProcAddr("glGetnMapivARB")); gpGetnMapivARB == nil {
-    ARB_robustness = false
-    HasGetnMapivARB = false
-  }
-  if gpGetnMinmaxARB = (C.GPGETNMINMAXARB)(getProcAddr("glGetnMinmaxARB")); gpGetnMinmaxARB == nil {
-    ARB_robustness = false
-    HasGetnMinmaxARB = false
-  }
-  if gpGetnPixelMapfvARB = (C.GPGETNPIXELMAPFVARB)(getProcAddr("glGetnPixelMapfvARB")); gpGetnPixelMapfvARB == nil {
-    ARB_robustness = false
-    HasGetnPixelMapfvARB = false
-  }
-  if gpGetnPixelMapuivARB = (C.GPGETNPIXELMAPUIVARB)(getProcAddr("glGetnPixelMapuivARB")); gpGetnPixelMapuivARB == nil {
-    ARB_robustness = false
-    HasGetnPixelMapuivARB = false
-  }
-  if gpGetnPixelMapusvARB = (C.GPGETNPIXELMAPUSVARB)(getProcAddr("glGetnPixelMapusvARB")); gpGetnPixelMapusvARB == nil {
-    ARB_robustness = false
-    HasGetnPixelMapusvARB = false
-  }
-  if gpGetnPolygonStippleARB = (C.GPGETNPOLYGONSTIPPLEARB)(getProcAddr("glGetnPolygonStippleARB")); gpGetnPolygonStippleARB == nil {
-    ARB_robustness = false
-    HasGetnPolygonStippleARB = false
-  }
-  if gpGetnSeparableFilterARB = (C.GPGETNSEPARABLEFILTERARB)(getProcAddr("glGetnSeparableFilterARB")); gpGetnSeparableFilterARB == nil {
-    ARB_robustness = false
-    HasGetnSeparableFilterARB = false
   }
   if gpGetnTexImageARB = (C.GPGETNTEXIMAGEARB)(getProcAddr("glGetnTexImageARB")); gpGetnTexImageARB == nil {
     ARB_robustness = false
@@ -33382,10 +32458,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpHintPGI = (C.GPHINTPGI)(getProcAddr("glHintPGI")); gpHintPGI == nil {
     PGI_misc_hints = false
     HasHintPGI = false
-  }
-  if gpHistogram = (C.GPHISTOGRAM)(getProcAddr("glHistogram")); gpHistogram == nil {
-    ARB_imaging = false
-    HasHistogram = false
   }
   if gpHistogramEXT = (C.GPHISTOGRAMEXT)(getProcAddr("glHistogramEXT")); gpHistogramEXT == nil {
     EXT_histogram = false
@@ -34101,10 +33173,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     ARB_sample_shading = false
     HasMinSampleShadingARB = false
   }
-  if gpMinmax = (C.GPMINMAX)(getProcAddr("glMinmax")); gpMinmax == nil {
-    ARB_imaging = false
-    HasMinmax = false
-  }
   if gpMinmaxEXT = (C.GPMINMAXEXT)(getProcAddr("glMinmaxEXT")); gpMinmaxEXT == nil {
     EXT_histogram = false
     HasMinmaxEXT = false
@@ -34527,38 +33595,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     OES_fixed_point = false
     HasMultiTexCoord4xvOES = false
   }
-  if gpMultiTexCoordP1ui = (C.GPMULTITEXCOORDP1UI)(getProcAddr("glMultiTexCoordP1ui")); gpMultiTexCoordP1ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP1ui = false
-  }
-  if gpMultiTexCoordP1uiv = (C.GPMULTITEXCOORDP1UIV)(getProcAddr("glMultiTexCoordP1uiv")); gpMultiTexCoordP1uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP1uiv = false
-  }
-  if gpMultiTexCoordP2ui = (C.GPMULTITEXCOORDP2UI)(getProcAddr("glMultiTexCoordP2ui")); gpMultiTexCoordP2ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP2ui = false
-  }
-  if gpMultiTexCoordP2uiv = (C.GPMULTITEXCOORDP2UIV)(getProcAddr("glMultiTexCoordP2uiv")); gpMultiTexCoordP2uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP2uiv = false
-  }
-  if gpMultiTexCoordP3ui = (C.GPMULTITEXCOORDP3UI)(getProcAddr("glMultiTexCoordP3ui")); gpMultiTexCoordP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP3ui = false
-  }
-  if gpMultiTexCoordP3uiv = (C.GPMULTITEXCOORDP3UIV)(getProcAddr("glMultiTexCoordP3uiv")); gpMultiTexCoordP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP3uiv = false
-  }
-  if gpMultiTexCoordP4ui = (C.GPMULTITEXCOORDP4UI)(getProcAddr("glMultiTexCoordP4ui")); gpMultiTexCoordP4ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP4ui = false
-  }
-  if gpMultiTexCoordP4uiv = (C.GPMULTITEXCOORDP4UIV)(getProcAddr("glMultiTexCoordP4uiv")); gpMultiTexCoordP4uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasMultiTexCoordP4uiv = false
-  }
   if gpMultiTexCoordPointerEXT = (C.GPMULTITEXCOORDPOINTEREXT)(getProcAddr("glMultiTexCoordPointerEXT")); gpMultiTexCoordPointerEXT == nil {
     EXT_direct_state_access = false
     HasMultiTexCoordPointerEXT = false
@@ -34831,14 +33867,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpNormalFormatNV = (C.GPNORMALFORMATNV)(getProcAddr("glNormalFormatNV")); gpNormalFormatNV == nil {
     NV_vertex_buffer_unified_memory = false
     HasNormalFormatNV = false
-  }
-  if gpNormalP3ui = (C.GPNORMALP3UI)(getProcAddr("glNormalP3ui")); gpNormalP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasNormalP3ui = false
-  }
-  if gpNormalP3uiv = (C.GPNORMALP3UIV)(getProcAddr("glNormalP3uiv")); gpNormalP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasNormalP3uiv = false
   }
   if gpNormalPointer = (C.GPNORMALPOINTER)(getProcAddr("glNormalPointer")); gpNormalPointer == nil {
     HasNormalPointer = false
@@ -36292,17 +35320,9 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     NV_vertex_program = false
     HasRequestResidentProgramsNV = false
   }
-  if gpResetHistogram = (C.GPRESETHISTOGRAM)(getProcAddr("glResetHistogram")); gpResetHistogram == nil {
-    ARB_imaging = false
-    HasResetHistogram = false
-  }
   if gpResetHistogramEXT = (C.GPRESETHISTOGRAMEXT)(getProcAddr("glResetHistogramEXT")); gpResetHistogramEXT == nil {
     EXT_histogram = false
     HasResetHistogramEXT = false
-  }
-  if gpResetMinmax = (C.GPRESETMINMAX)(getProcAddr("glResetMinmax")); gpResetMinmax == nil {
-    ARB_imaging = false
-    HasResetMinmax = false
   }
   if gpResetMinmaxEXT = (C.GPRESETMINMAXEXT)(getProcAddr("glResetMinmaxEXT")); gpResetMinmaxEXT == nil {
     EXT_histogram = false
@@ -36546,14 +35566,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
     NV_vertex_buffer_unified_memory = false
     HasSecondaryColorFormatNV = false
   }
-  if gpSecondaryColorP3ui = (C.GPSECONDARYCOLORP3UI)(getProcAddr("glSecondaryColorP3ui")); gpSecondaryColorP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasSecondaryColorP3ui = false
-  }
-  if gpSecondaryColorP3uiv = (C.GPSECONDARYCOLORP3UIV)(getProcAddr("glSecondaryColorP3uiv")); gpSecondaryColorP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasSecondaryColorP3uiv = false
-  }
   if gpSecondaryColorPointer = (C.GPSECONDARYCOLORPOINTER)(getProcAddr("glSecondaryColorPointer")); gpSecondaryColorPointer == nil {
     HasSecondaryColorPointer = false
   }
@@ -36571,10 +35583,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpSelectPerfMonitorCountersAMD = (C.GPSELECTPERFMONITORCOUNTERSAMD)(getProcAddr("glSelectPerfMonitorCountersAMD")); gpSelectPerfMonitorCountersAMD == nil {
     AMD_performance_monitor = false
     HasSelectPerfMonitorCountersAMD = false
-  }
-  if gpSeparableFilter2D = (C.GPSEPARABLEFILTER2D)(getProcAddr("glSeparableFilter2D")); gpSeparableFilter2D == nil {
-    ARB_imaging = false
-    HasSeparableFilter2D = false
   }
   if gpSeparableFilter2DEXT = (C.GPSEPARABLEFILTER2DEXT)(getProcAddr("glSeparableFilter2DEXT")); gpSeparableFilter2DEXT == nil {
     EXT_convolution = false
@@ -37070,38 +36078,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpTexCoordFormatNV = (C.GPTEXCOORDFORMATNV)(getProcAddr("glTexCoordFormatNV")); gpTexCoordFormatNV == nil {
     NV_vertex_buffer_unified_memory = false
     HasTexCoordFormatNV = false
-  }
-  if gpTexCoordP1ui = (C.GPTEXCOORDP1UI)(getProcAddr("glTexCoordP1ui")); gpTexCoordP1ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP1ui = false
-  }
-  if gpTexCoordP1uiv = (C.GPTEXCOORDP1UIV)(getProcAddr("glTexCoordP1uiv")); gpTexCoordP1uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP1uiv = false
-  }
-  if gpTexCoordP2ui = (C.GPTEXCOORDP2UI)(getProcAddr("glTexCoordP2ui")); gpTexCoordP2ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP2ui = false
-  }
-  if gpTexCoordP2uiv = (C.GPTEXCOORDP2UIV)(getProcAddr("glTexCoordP2uiv")); gpTexCoordP2uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP2uiv = false
-  }
-  if gpTexCoordP3ui = (C.GPTEXCOORDP3UI)(getProcAddr("glTexCoordP3ui")); gpTexCoordP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP3ui = false
-  }
-  if gpTexCoordP3uiv = (C.GPTEXCOORDP3UIV)(getProcAddr("glTexCoordP3uiv")); gpTexCoordP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP3uiv = false
-  }
-  if gpTexCoordP4ui = (C.GPTEXCOORDP4UI)(getProcAddr("glTexCoordP4ui")); gpTexCoordP4ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP4ui = false
-  }
-  if gpTexCoordP4uiv = (C.GPTEXCOORDP4UIV)(getProcAddr("glTexCoordP4uiv")); gpTexCoordP4uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasTexCoordP4uiv = false
   }
   if gpTexCoordPointer = (C.GPTEXCOORDPOINTER)(getProcAddr("glTexCoordPointer")); gpTexCoordPointer == nil {
     HasTexCoordPointer = false
@@ -39114,30 +38090,6 @@ func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   if gpVertexFormatNV = (C.GPVERTEXFORMATNV)(getProcAddr("glVertexFormatNV")); gpVertexFormatNV == nil {
     NV_vertex_buffer_unified_memory = false
     HasVertexFormatNV = false
-  }
-  if gpVertexP2ui = (C.GPVERTEXP2UI)(getProcAddr("glVertexP2ui")); gpVertexP2ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP2ui = false
-  }
-  if gpVertexP2uiv = (C.GPVERTEXP2UIV)(getProcAddr("glVertexP2uiv")); gpVertexP2uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP2uiv = false
-  }
-  if gpVertexP3ui = (C.GPVERTEXP3UI)(getProcAddr("glVertexP3ui")); gpVertexP3ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP3ui = false
-  }
-  if gpVertexP3uiv = (C.GPVERTEXP3UIV)(getProcAddr("glVertexP3uiv")); gpVertexP3uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP3uiv = false
-  }
-  if gpVertexP4ui = (C.GPVERTEXP4UI)(getProcAddr("glVertexP4ui")); gpVertexP4ui == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP4ui = false
-  }
-  if gpVertexP4uiv = (C.GPVERTEXP4UIV)(getProcAddr("glVertexP4uiv")); gpVertexP4uiv == nil {
-    ARB_vertex_type_2_10_10_10_rev = false
-    HasVertexP4uiv = false
   }
   if gpVertexPointer = (C.GPVERTEXPOINTER)(getProcAddr("glVertexPointer")); gpVertexPointer == nil {
     HasVertexPointer = false

@@ -57,7 +57,7 @@ func generate(name string, args []string) {
 	flags.Parse(args)
 
 	version, err := ParseVersion(*ver)
-	if err != nil && *profile != "all" {
+	if err != nil {
 		log.Fatal("error parsing version:", err)
 	}
 

@@ -61,7 +61,7 @@ package {{.Name}}
 // 
 import "C"
 import (
-  {{if ne .Profile "all"}}
+  {{if .HasRequiredFunctions}}
   "errors"
   {{end}}
   "github.com/errcw/glow/procaddr"

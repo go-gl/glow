@@ -35,16 +35,13 @@ func (pkg *Package) Dir() string {
 	if pkg.Profile != "" {
 		apiPrefix = pkg.API + "-" + pkg.Profile
 	}
-	version := pkg.Version.String()
-	if pkg.Profile == "all" {
-		version = ""
-	}
-	return filepath.Join(apiPrefix, version, pkg.Name)
+	return filepath.Join(apiPrefix, pkg.Version.String(), pkg.Name)
 }
 
 // UniqueName returns a globally unique Go-compatible name for thie package.
 func (pkg *Package) UniqueName() string {
-	return fmt.Sprintf("%s%s%d%d", pkg.API, pkg.Profile, pkg.Version.Major, pkg.Version.Minor)
+	version := strings.Replace(pkg.Version.String(), ".", "", -1)
+	return fmt.Sprintf("%s%s%s", pkg.API, pkg.Profile, version)
 }
 
 // GeneratePackage writes a Go package file.
@@ -110,6 +107,17 @@ func (pkg *Package) HasDebugCallbackFeature() bool {
 			if param.Type.IsDebugProc() {
 				return true
 			}
+		}
+	}
+	return false
+}
+
+// HasRequiredFunctions returns true if at least one function in this package
+// is required.
+func (pkg *Package) HasRequiredFunctions() bool {
+	for _, fn := range pkg.Functions {
+		if fn.Required {
+			return true
 		}
 	}
 	return false

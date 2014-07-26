@@ -419,7 +419,7 @@ func (feature SpecificationFeature) shouldInclude(pkgSpec *PackageSpec) bool {
 		return false
 	}
 	// Ignore future versions (unless the version is not relevant)
-	if pkgSpec.Version.Compare(feature.Version) < 0 && pkgSpec.Profile != "all" {
+	if pkgSpec.Version.Compare(feature.Version) < 0 {
 		return false
 	}
 	return true
@@ -445,7 +445,7 @@ func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool
 
 func (addRem *specAddRemSet) shouldInclude(pkgSpec *PackageSpec) bool {
 	// Ignore mismatched profiles (unless the profile is not relevant)
-	if addRem.profile != pkgSpec.Profile && addRem.profile != "" && pkgSpec.Profile != "all" {
+	if addRem.profile != pkgSpec.Profile && addRem.profile != "" {
 		return false
 	}
 	return true
@@ -496,8 +496,7 @@ func NewSpecification(file string) (*Specification, error) {
 // HasPackage determines whether the specification can generate the specified package.
 func (spec *Specification) HasPackage(pkgSpec *PackageSpec) bool {
 	for _, feature := range spec.Features {
-		if pkgSpec.API == feature.API &&
-			(pkgSpec.Version.Compare(feature.Version) == 0 || pkgSpec.Profile == "all") {
+		if pkgSpec.API == feature.API && pkgSpec.Version.Compare(feature.Version) == 0 {
 			return true
 		}
 	}
@@ -528,14 +527,14 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 			for _, cmd := range addRem.addedCommands {
 				pkg.Functions[cmd] = &PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.API),
-					Required:   pkgSpec.Profile != "all", // Only required if building a versioned package
+					Required:   !pkg.Version.IsAll(), // Only required if building a versioned package
 					Extensions: make([]string, 0),
 				}
 			}
 			for _, enum := range addRem.addedEnums {
 				pkg.Enums[enum] = spec.Enums.get(enum, pkg.API)
 			}
-			if pkgSpec.Profile != "all" {
+			if !pkg.Version.IsAll() {
 				for _, cmd := range addRem.removedCommands {
 					delete(pkg.Functions, cmd)
 				}
