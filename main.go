@@ -57,7 +57,7 @@ func generate(name string, args []string) {
 	flags.Parse(args)
 
 	version, err := ParseVersion(*ver)
-	if err != nil {
+	if err != nil && *profile != "all" {
 		log.Fatal("error parsing version:", err)
 	}
 
@@ -142,7 +142,7 @@ func parseDocumentation(xmlDir string) Documentation {
 type PackageSpec struct {
 	API          string
 	Version      Version
-	Profile      string
+	Profile      string // If "all" overrides the version spec
 	AddExtRegexp *regexp.Regexp
 	RemExtRegexp *regexp.Regexp
 }

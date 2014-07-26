@@ -10,6 +10,7 @@ bindings:
 	./glow generate -api=gl -version=3.3 -profile=compatibility
 	./glow generate -api=gl -version=4.1 -profile=compatibility
 	./glow generate -api=gl -version=4.4 -profile=compatibility
+	./glow generate -api=gl -profile=all
 
 install: bindings
 	go install ./gl/2.1/gl
@@ -21,3 +22,4 @@ install: bindings
 	go install ./gl-compatibility/3.3/gl
 	go install ./gl-compatibility/4.1/gl
 	go install ./gl-compatibility/4.4/gl
+	go install ./gl-all/gl

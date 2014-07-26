@@ -413,6 +413,18 @@ func (typedefs specTypedefs) selectRequired(name, api string, requiredTypedefs [
 	}
 }
 
+func (feature SpecificationFeature) shouldInclude(pkgSpec *PackageSpec) bool {
+	// Ignore mismatched APIs
+	if pkgSpec.API != feature.API {
+		return false
+	}
+	// Ignore future versions (unless the version is not relevant)
+	if pkgSpec.Version.Compare(feature.Version) < 0 && pkgSpec.Profile != "all" {
+		return false
+	}
+	return true
+}
+
 func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool {
 	if !pkgSpec.AddExtRegexp.MatchString(extension.Name) {
 		return false
@@ -426,6 +438,14 @@ func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool
 		extensionAPI = "glcore"
 	}
 	if !extension.APIRegexp.MatchString(extensionAPI) {
+		return false
+	}
+	return true
+}
+
+func (addRem *specAddRemSet) shouldInclude(pkgSpec *PackageSpec) bool {
+	// Ignore mismatched profiles (unless the profile is not relevant)
+	if addRem.profile != pkgSpec.Profile && addRem.profile != "" && pkgSpec.Profile != "all" {
 		return false
 	}
 	return true
@@ -476,7 +496,8 @@ func NewSpecification(file string) (*Specification, error) {
 // HasPackage determines whether the specification can generate the specified package.
 func (spec *Specification) HasPackage(pkgSpec *PackageSpec) bool {
 	for _, feature := range spec.Features {
-		if pkgSpec.API == feature.API && pkgSpec.Version.Compare(feature.Version) == 0 {
+		if pkgSpec.API == feature.API &&
+			(pkgSpec.Version.Compare(feature.Version) == 0 || pkgSpec.Profile == "all") {
 			return true
 		}
 	}
@@ -497,29 +518,30 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 
 	// Select the commands and enums relevant to the specified API version
 	for _, feature := range spec.Features {
-		// Skip features from a different API or future version
-		if pkg.API != feature.API || pkg.Version.Compare(feature.Version) < 0 {
+		if !feature.shouldInclude(pkgSpec) {
 			continue
 		}
 		for _, addRem := range feature.AddRem {
-			if !(addRem.profile == pkgSpec.Profile || addRem.profile == "") {
+			if !addRem.shouldInclude(pkgSpec) {
 				continue
 			}
 			for _, cmd := range addRem.addedCommands {
 				pkg.Functions[cmd] = &PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.API),
-					Required:   true,
+					Required:   pkgSpec.Profile != "all", // Only required if building a versioned package
 					Extensions: make([]string, 0),
 				}
 			}
 			for _, enum := range addRem.addedEnums {
 				pkg.Enums[enum] = spec.Enums.get(enum, pkg.API)
 			}
-			for _, cmd := range addRem.removedCommands {
-				delete(pkg.Functions, cmd)
-			}
-			for _, enum := range addRem.removedEnums {
-				delete(pkg.Enums, enum)
+			if pkgSpec.Profile != "all" {
+				for _, cmd := range addRem.removedCommands {
+					delete(pkg.Functions, cmd)
+				}
+				for _, enum := range addRem.removedEnums {
+					delete(pkg.Enums, enum)
+				}
 			}
 		}
 	}
@@ -530,7 +552,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 			continue
 		}
 		for _, addRem := range extension.AddRem {
-			if !(addRem.profile == pkgSpec.Profile || addRem.profile == "") {
+			if !addRem.shouldInclude(pkgSpec) {
 				continue
 			}
 			for _, cmd := range addRem.addedCommands {

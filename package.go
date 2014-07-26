@@ -35,7 +35,11 @@ func (pkg *Package) Dir() string {
 	if pkg.Profile != "" {
 		apiPrefix = pkg.API + "-" + pkg.Profile
 	}
-	return filepath.Join(apiPrefix, pkg.Version.String(), pkg.Name)
+	version := pkg.Version.String()
+	if pkg.Profile == "all" {
+		version = ""
+	}
+	return filepath.Join(apiPrefix, version, pkg.Name)
 }
 
 // UniqueName returns a globally unique Go-compatible name for thie package.
