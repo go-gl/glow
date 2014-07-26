@@ -1,7 +1,7 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sort"
@@ -40,7 +40,7 @@ func (pkg *Package) Dir() string {
 
 // UniqueName returns a globally unique Go-compatible name for thie package.
 func (pkg *Package) UniqueName() string {
-  return fmt.Sprintf("%s%s%d%d", pkg.API, pkg.Profile, pkg.Version.Major, pkg.Version.Minor)
+	return fmt.Sprintf("%s%s%d%d", pkg.API, pkg.Profile, pkg.Version.Major, pkg.Version.Minor)
 }
 
 // GeneratePackage writes a Go package file.
