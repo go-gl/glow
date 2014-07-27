@@ -63,7 +63,8 @@ If the prebuilt, go-gettable packages are not suitable for your needs you can bu
 
 A few notes about the flags to `generate`:
 - `api`: One of `gl`, `egl`, `wgl`, or `glx`.
-- `version`: The API version to generate.
+- `version`: The API version to generate. The `all` pseudo-version includes all functions and enumerations for the specified API.
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).
 - `addext`: A regular expression describing which extensions to include. `.*` by default, including everything.
 - `remext`: A regular expression describing which extensions to exclude. Empty by default, excluding nothing. Takes precedence over explicitly added regular expressions.
+- `lenientInit`: Flag to disable strict function availability checks at `Init` time. By default if any non-extension function pointer cannot be loaded then initialization fails; when this flag is set initialization will succeed with missing functions. The generated package exposes `Has` markers to indicate which functions were successfully loaded. For example if `Init` cannot load the `glAccum` function pointer then `gl.HasAccum` will be false.
