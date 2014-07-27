@@ -54,6 +54,7 @@ func generate(name string, args []string) {
 	profile := flags.String("profile", "", "API profile to generate (e.g., core)")
 	addext := flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
 	remext := flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
+	lenientInit := flags.Bool("lenientInit", false, "When true missing functions do not fail Init")
 	flags.Parse(args)
 
 	version, err := ParseVersion(*ver)
@@ -77,6 +78,7 @@ func generate(name string, args []string) {
 		Profile:      *profile,
 		AddExtRegexp: addExtRegexp,
 		RemExtRegexp: remExtRegexp,
+		LenientInit:  *lenientInit,
 	}
 
 	specs := parseSpecifications(*xmlDir)
@@ -145,6 +147,7 @@ type PackageSpec struct {
 	Profile      string // If "all" overrides the version spec
 	AddExtRegexp *regexp.Regexp
 	RemExtRegexp *regexp.Regexp
+	LenientInit  bool
 }
 
 func printUsage(name string) {

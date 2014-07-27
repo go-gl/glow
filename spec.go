@@ -527,7 +527,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 			for _, cmd := range addRem.addedCommands {
 				pkg.Functions[cmd] = &PackageFunction{
 					Function:   *spec.Functions.get(cmd, pkg.API),
-					Required:   !pkg.Version.IsAll(), // Only required if building a versioned package
+					Required:   !pkgSpec.LenientInit,
 					Extensions: make([]string, 0),
 				}
 			}

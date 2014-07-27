@@ -6,7 +6,7 @@ bindings:
 	./glow generate -api=gl -version=3.3 -profile=core
 	./glow generate -api=gl -version=4.1 -profile=core
 	./glow generate -api=gl -version=4.4 -profile=core
-	./glow generate -api=gl -version=all -profile=core
+	./glow generate -api=gl -version=all -profile=core -lenientInit
 	./glow generate -api=gl -version=3.2 -profile=compatibility
 	./glow generate -api=gl -version=3.3 -profile=compatibility
 	./glow generate -api=gl -version=4.1 -profile=compatibility
