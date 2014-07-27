@@ -23,3 +23,16 @@ install: bindings
 	go install ./gl-compatibility/3.3/gl
 	go install ./gl-compatibility/4.1/gl
 	go install ./gl-compatibility/4.4/gl
+
+# Optionally format the generated bindings
+format:
+	go fmt ./gl/2.1/gl
+	go fmt ./gl-core/3.2/gl
+	go fmt ./gl-core/3.3/gl
+	go fmt ./gl-core/4.1/gl
+	go fmt ./gl-core/4.4/gl
+	go fmt ./gl-core/all/gl
+	go fmt ./gl-compatibility/3.2/gl
+	go fmt ./gl-compatibility/3.3/gl
+	go fmt ./gl-compatibility/4.1/gl
+	go fmt ./gl-compatibility/4.4/gl
