@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
@@ -117,6 +118,9 @@ func parseSpecifications(xmlDir string) ([]*Specification, string) {
 
 	specs := make([]*Specification, 0, len(specFiles))
 	for _, specFile := range specFiles {
+		if !strings.HasSuffix(specFile.Name(), "xml") {
+			continue
+		}
 		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
 		if err != nil {
 			log.Fatal("error parsing specification:", specFile.Name(), err)
