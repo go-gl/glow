@@ -1,4 +1,4 @@
-// Glow automatically generated OpenGL binding: http://github.com/errcw/glow
+// Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
 //
 // Copyright (c) 2010 Khronos Group.
 // This material may be distributed subject to the terms and conditions
@@ -64,8 +64,8 @@ import (
   {{if .HasRequiredFunctions}}
   "errors"
   {{end}}
-  "github.com/errcw/glow/procaddr"
-  "github.com/errcw/glow/procaddr/auto"
+  "github.com/go-gl/glow/procaddr"
+  "github.com/go-gl/glow/procaddr/auto"
   "unsafe"
 )
 
@@ -78,20 +78,6 @@ const (
 var (
   {{range .Functions}}
   gp{{.GoName}} C.GP{{toUpper .GoName}}
-  {{end}}
-)
-
-var (
-  {{range .Extensions}}
-  {{.}} = true
-  {{end}}
-)
-
-var (
-  {{range .Functions}}
-  {{if not .Required}}
-  Has{{.GoName}} = true
-  {{end}}
   {{end}}
 )
 
@@ -122,16 +108,12 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}")); gp{{.GoName}} == nil {
-    {{range .Extensions}}
-    {{.}} = false
-    {{end}}
-    {{if .Required}}
+  gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}"))
+  {{if .Required}}
+  if gp{{.GoName}} == nil {
     return errors.New("{{.Name}}")
-    {{else}}
-    Has{{.GoName}} = false
-    {{end}}
   }
+  {{end}}
   {{end}}
 	return nil
 }
