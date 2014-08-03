@@ -4,9 +4,9 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/errcw/glow/gl-core/3.3/gl"
-	gl4 "github.com/errcw/glow/gl-core/4.4/gl"
 	glfw "github.com/go-gl/glfw3"
+	"github.com/go-gl/glow/gl-core/3.3/gl"
+	gl4 "github.com/go-gl/glow/gl-core/4.4/gl"
 	"github.com/go-gl/mathgl/mgl32"
 	"image"
 	"image/draw"
@@ -65,10 +65,10 @@ func main() {
 		panic(err)
 	}
 
-  // Note that it is possible to use GL functions spanning multiple versions
-  if err := gl4.Init(); err != nil {
-    fmt.Printf("Could not initialize GL 4.4 (non-fatal)")
-  }
+	// Note that it is possible to use GL functions spanning multiple versions
+	if err := gl4.Init(); err != nil {
+		fmt.Printf("Could not initialize GL 4.4 (non-fatal)")
+	}
 
 	if gl.ARB_debug_output {
 		gl.Enable(gl.DEBUG_OUTPUT_SYNCHRONOUS_ARB)

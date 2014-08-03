@@ -4,8 +4,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/errcw/glow/gl/2.1/gl"
 	glfw "github.com/go-gl/glfw3"
+	"github.com/go-gl/glow/gl/2.1/gl"
 	"image"
 	"image/draw"
 	_ "image/png"
