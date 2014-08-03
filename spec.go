@@ -526,9 +526,8 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 			}
 			for _, cmd := range addRem.addedCommands {
 				pkg.Functions[cmd] = &PackageFunction{
-					Function:   *spec.Functions.get(cmd, pkg.API),
-					Required:   !pkgSpec.LenientInit,
-					Extensions: make([]string, 0),
+					Function: *spec.Functions.get(cmd, pkg.API),
+					Required: !pkgSpec.LenientInit,
 				}
 			}
 			for _, enum := range addRem.addedEnums {
@@ -556,13 +555,10 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 			}
 			for _, cmd := range addRem.addedCommands {
 				fn, ok := pkg.Functions[cmd]
-				if ok {
-					fn.Extensions = append(fn.Extensions, TrimAPIPrefix(extension.Name))
-				} else {
+				if !ok {
 					pkg.Functions[cmd] = &PackageFunction{
-						Function:   *spec.Functions.get(cmd, pkg.API),
-						Required:   false,
-						Extensions: []string{TrimAPIPrefix(extension.Name)},
+						Function: *spec.Functions.get(cmd, pkg.API),
+						Required: false,
 					}
 				}
 			}

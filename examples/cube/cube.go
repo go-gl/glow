@@ -67,18 +67,28 @@ func main() {
 
 	// Note that it is possible to use GL functions spanning multiple versions
 	if err := gl4.Init(); err != nil {
-		fmt.Printf("Could not initialize GL 4.4 (non-fatal)")
+		fmt.Println("Could not initialize GL 4.4 (non-fatal)")
 	}
 
-	if gl.ARB_debug_output {
+	version := gl.GoStr(gl.GetString(gl.VERSION))
+	fmt.Println("OpenGL version", version)
+
+	// Query the extensions to determine if we can enable the debug callback
+	var numExtensions int32
+	gl.GetIntegerv(gl.NUM_EXTENSIONS, &numExtensions)
+
+	extensions := make(map[string]bool)
+	for i := int32(0); i < numExtensions; i++ {
+		extension := gl.GoStr(gl.GetStringi(gl.EXTENSIONS, uint32(i)))
+		extensions[extension] = true
+	}
+
+	if _, ok := extensions["GL_ARB_debug_output"]; ok {
 		gl.Enable(gl.DEBUG_OUTPUT_SYNCHRONOUS_ARB)
 		gl.DebugMessageCallbackARB(gl.DebugProc(glDebugCallback), gl.Ptr(nil))
 		// Trigger an error to demonstrate debug output
 		gl.Enable(gl.CONTEXT_FLAGS)
 	}
-
-	version := gl.GoStr(gl.GetString(gl.VERSION))
-	fmt.Println("OpenGL version", version)
 
 	// Configure the vertex and fragment shaders
 	program, err := newProgram(vertexShader, fragmentShader)

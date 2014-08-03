@@ -39,11 +39,6 @@ Examples
 
 A simple example illustrating how to use the bindings is available in the [examples](https://github.com/errcw/glow/tree/master/examples) directory.
 
-Extensions
-----------
-
-If the bindings are generated with extensions included (true by default, or otherwise configured via the `-addext` and `-remext` flags) package-global booleans (e.g., `gl.ARB_cl_event`) indicate whether an extension is available. Availability is determined at `Init` time based on the ability to load the relevant functions (_not_ via `glGetString(GL_EXTENSIONS)`).
-
 Function Loading
 ----------------
 
@@ -67,4 +62,4 @@ A few notes about the flags to `generate`:
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).
 - `addext`: A regular expression describing which extensions to include. `.*` by default, including everything.
 - `remext`: A regular expression describing which extensions to exclude. Empty by default, excluding nothing. Takes precedence over explicitly added regular expressions.
-- `lenientInit`: Flag to disable strict function availability checks at `Init` time. By default if any non-extension function pointer cannot be loaded then initialization fails; when this flag is set initialization will succeed with missing functions. The generated package exposes `Has` markers to indicate which functions were successfully loaded. For example if `Init` cannot load the `glAccum` function pointer then `gl.HasAccum` will be false.
+- `lenientInit`: Flag to disable strict function availability checks at `Init` time. By default if any non-extension function pointer cannot be loaded then initialization fails; when this flag is set initialization will succeed with missing functions. Note that on some platforms unavailable functions will load successfully even but fail upon invocation so check against the OpenGL context what is supported.

@@ -24,9 +24,8 @@ type Package struct {
 // A PackageFunction is a package-specific Function wrapper.
 type PackageFunction struct {
 	Function
-	Required   bool
-	Extensions []string
-	Doc        string
+	Required bool
+	Doc      string
 }
 
 // Dir returns the directory to which the Go package files are written.
@@ -80,22 +79,6 @@ func (pkg *Package) generateFile(file, dir string) error {
 	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(file + ".tmpl"))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
-}
-
-// Extensions returns the set of unique extension names exposed by the package.
-func (pkg *Package) Extensions() []string {
-	extensionSet := make(map[string]bool)
-	for _, fn := range pkg.Functions {
-		for _, extension := range fn.Extensions {
-			extensionSet[extension] = true
-		}
-	}
-	extensions := make([]string, 0, len(extensionSet))
-	for extension := range extensionSet {
-		extensions = append(extensions, extension)
-	}
-	sort.Sort(sort.StringSlice(extensions)) // Sort to guarantee a stable declaration order
-	return extensions
 }
 
 // HasDebugCallbackFeature returns whether this package exposes the ability to

@@ -81,20 +81,6 @@ var (
   {{end}}
 )
 
-var (
-  {{range .Extensions}}
-  {{.}} = true
-  {{end}}
-)
-
-var (
-  {{range .Functions}}
-  {{if not .Required}}
-  Has{{.GoName}} = true
-  {{end}}
-  {{end}}
-)
-
 // Helper functions
 func boolToInt(b bool) int {
 	if b { return 1 }
@@ -122,16 +108,12 @@ func Init() error {
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
   {{range .Functions}}
-  if gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}")); gp{{.GoName}} == nil {
-    {{range .Extensions}}
-    {{.}} = false
-    {{end}}
-    {{if .Required}}
+  gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}"))
+  {{if .Required}}
+  if gp{{.GoName}} == nil {
     return errors.New("{{.Name}}")
-    {{else}}
-    Has{{.GoName}} = false
-    {{end}}
   }
+  {{end}}
   {{end}}
 	return nil
 }
