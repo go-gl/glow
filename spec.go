@@ -554,7 +554,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 				continue
 			}
 			for _, cmd := range addRem.addedCommands {
-				fn, ok := pkg.Functions[cmd]
+				_, ok := pkg.Functions[cmd]
 				if !ok {
 					pkg.Functions[cmd] = &PackageFunction{
 						Function: *spec.Functions.get(cmd, pkg.API),
