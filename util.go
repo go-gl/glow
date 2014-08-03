@@ -74,7 +74,7 @@ func (w BlankLineStrippingWriter) Write(p []byte) (n int, err error) {
 			w.buf.Write([]byte(line))
 			return 0, nil
 		default:
-			return 0, err
+			break
 		}
 	}
 	return n, err
