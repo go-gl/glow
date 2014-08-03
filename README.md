@@ -8,20 +8,20 @@ Features:
 - Support for multiple OpenGL APIs (GL/GLES/EGL/WGL/GLX/EGL), versions, and profiles.
 - Support for extensions (including debug callbacks).
 
-See the [open issues](https://github.com/errcw/glow/issues) for caveats about the current state of the implementation.
+See the [open issues](https://github.com/go-gl/glow/issues) for caveats about the current state of the implementation.
 
 Usage
 -----
 
 Use `go get` to download and install one of the prebuilt packages. The prebuilt packages support OpenGL versions 3.2, 3.3, 4.1, and 4.4 across both the core and compatibility profiles and include all extensions.
 
-    go get github.com/errcw/glow/gl-{core,compatibility}/{3.2,3.3,4.1,4.4}/gl
-    go get github.com/errcw/glow/gl-core/3.3/gl
+    go get github.com/go-gl/glow/gl-{core,compatibility}/{3.2,3.3,4.1,4.4}/gl
+    go get github.com/go-gl/glow/gl-core/3.3/gl
 
 Once the bindings are installed you can use them with the appropriate import statements.
 
 ```Go
-import "github.com/errcw/glow/gl-core/3.3/gl"
+import "github.com/go-gl/glow/gl-core/3.3/gl"
 
 func main() {
   if err := gl.Init(); err != nil {
@@ -37,7 +37,7 @@ A note about threading and goroutines. The bindings do not expose a mechanism to
 Examples
 --------
 
-A simple example illustrating how to use the bindings is available in the [examples](https://github.com/errcw/glow/tree/master/examples) directory.
+A simple example illustrating how to use the bindings is available in the [examples](https://github.com/go-gl/glow/tree/master/examples) directory.
 
 Function Loading
 ----------------
@@ -49,8 +49,8 @@ Custom Packages
 
 If the prebuilt, go-gettable packages are not suitable for your needs you can build your own. For example,
 
-    go get github.com/errcw/glow
-    cd $GOPATH/src/github.com/errcw/glow
+    go get github.com/go-gl/glow
+    cd $GOPATH/src/github.com/go-gl/glow
     go build
     ./glow download
     ./glow generate -api=gl -version=3.3 -profile=core -remext=GL_ARB_cl_event
