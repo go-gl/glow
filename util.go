@@ -51,31 +51,25 @@ func isBlank(line string) bool {
 	return blank
 }
 
-func (w BlankLineStrippingWriter) Write(p []byte) (n int, err error) {
+func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
 	// Buffer the current write
-	nn, err := w.buf.Write(p)
-	if nn != len(p) || err != nil {
-		return 0, err
-	}
+	// Error is always nil.
+	w.buf.Write(p)
+	n := 0
+
 	// Write non-empty lines from the buffer
 	for {
 		line, err := w.buf.ReadString('\n')
-		switch err {
-		case nil:
-			if !isBlank(line) {
-				nn, e := w.output.Write([]byte(line))
-				if nn != len(line) || e != nil {
-					return n, err
-				}
-			}
-			n += len(line)
-		case io.EOF:
+		if err != nil {
 			// Did not have a whole line to read, rebuffer the unconsumed data
+			// Error is always nil.
 			w.buf.Write([]byte(line))
 			return 0, nil
-		default:
-			return 0, err
 		}
+		if !isBlank(line) {
+			// Error is always nil.
+			w.output.Write([]byte(line))
+		}
+		n += len(line)
 	}
-	return n, err
 }
