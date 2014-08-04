@@ -56,11 +56,13 @@ func TestBlankLineStrippingWriter(t *testing.T) {
 		var out bytes.Buffer
 		//w := &out
 		w := NewBlankLineStrippingWriter(&out)
-		_, err := w.Write(test.in)
+		l, err := w.Write(test.in)
 		if err != nil {
 			t.Errorf("BlankLineStrippingWriter[%d](%v): %s", n, test.in, err)
 		}
-
+		if l != len(test.in) {
+			t.Errorf("BlankLineStrippingWriter[%d]:lenght: got %d, want %d", n, l, len(test.in))
+		}
 		b, err := ioutil.ReadAll(&out)
 		if err != nil {
 			t.Errorf("BlankLineStrippingWriter[%d](%v): %s", n, test.in, err)
@@ -88,10 +90,13 @@ func TestBlankLineStrippingWriter2(t *testing.T) {
 		Mauris aliquam metus id sagittis scelerisque.
 `), repeat)
 
-	_, err := w.Write(in)
+	l, err := w.Write(in)
 	b, err := ioutil.ReadAll(&out)
 	if err != nil {
 		t.Errorf("BlankLineStrippingWriter2: %s", err)
+	}
+	if l != len(in) {
+		t.Errorf("BlankLineStrippingWriter2:lenght: got %d, want %d", l, len(in))
 	}
 	if !bytes.Equal(b, want) {
 		t.Errorf("BlankLineStrippingWriter2: got \n'%s'...\nwant \n'%s'...\n",
