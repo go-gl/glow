@@ -67,8 +67,9 @@ func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
 			return 0, nil
 		}
 		if !isBlank(line) {
-			// Error is always nil.
-			w.output.Write([]byte(line))
+			if _, err := w.output.Write([]byte(line)); err != nil {
+				return 0, err
+			}
 		}
 	}
 }
