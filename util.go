@@ -30,6 +30,7 @@ func TrimAPIPrefix(name string) string {
 
 // BlankLineStrippingWriter removes whitespace- or comment-only lines delimited
 // by \n. A necessary evil to work around how text/template handles whitespace.
+// The template needs a new line at the end.
 type BlankLineStrippingWriter struct {
 	output io.Writer
 	buf    *bytes.Buffer
