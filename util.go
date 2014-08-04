@@ -55,7 +55,6 @@ func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
 	// Buffer the current write
 	// Error is always nil.
 	w.buf.Write(p)
-	n := 0
 
 	// Write non-empty lines from the buffer
 	for {
@@ -70,6 +69,5 @@ func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
 			// Error is always nil.
 			w.output.Write([]byte(line))
 		}
-		n += len(line)
 	}
 }
