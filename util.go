@@ -30,6 +30,7 @@ func TrimAPIPrefix(name string) string {
 
 // BlankLineStrippingWriter removes whitespace- or comment-only lines delimited
 // by \n. A necessary evil to work around how text/template handles whitespace.
+// The template needs a new line at the end.
 type BlankLineStrippingWriter struct {
 	output io.Writer
 	buf    *bytes.Buffer
@@ -51,31 +52,26 @@ func isBlank(line string) bool {
 	return blank
 }
 
-func (w BlankLineStrippingWriter) Write(p []byte) (n int, err error) {
-	// Buffer the current write
-	nn, err := w.buf.Write(p)
-	if nn != len(p) || err != nil {
-		return 0, err
-	}
-	// Write non-empty lines from the buffer
+// Write appends the contents of p to the BlankLineStrippingWriter.
+// The return values are the length of p and the error of the underlaying io.Writer.
+func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
+	// Buffer the current write.
+	// Error is always nil.
+	w.buf.Write(p)
+	n := len(p)
 	for {
 		line, err := w.buf.ReadString('\n')
-		switch err {
-		case nil:
-			if !isBlank(line) {
-				nn, e := w.output.Write([]byte(line))
-				if nn != len(line) || e != nil {
-					return n, err
-				}
-			}
-			n += len(line)
-		case io.EOF:
-			// Did not have a whole line to read, rebuffer the unconsumed data
+		if err != nil {
+			// Did not have a whole line to read, rebuffer the unconsumed data.
+			// Error is always nil.
 			w.buf.Write([]byte(line))
-			return 0, nil
-		default:
-			return 0, err
+			return n, nil
+		}
+		// Write non-empty lines from the buffer.
+		if !isBlank(line) {
+			if _, err := w.output.Write([]byte(line)); err != nil {
+				return n, err
+			}
 		}
 	}
-	return n, err
 }
