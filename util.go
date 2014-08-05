@@ -53,21 +53,21 @@ func isBlank(line string) bool {
 }
 
 // Write appends the contents of p to the BlankLineStrippingWriter.
-// The return value n is the length of p; err is error of the underlaying io.Writer.
+// The return values are the length of p and the error of the underlaying io.Writer.
 func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
-	// Buffer the current write
+	// Buffer the current write.
 	// Error is always nil.
 	w.buf.Write(p)
 	n := len(p)
-	// Write non-empty lines from the buffer
 	for {
 		line, err := w.buf.ReadString('\n')
 		if err != nil {
-			// Did not have a whole line to read, rebuffer the unconsumed data
+			// Did not have a whole line to read, rebuffer the unconsumed data.
 			// Error is always nil.
 			w.buf.Write([]byte(line))
 			return n, nil
 		}
+		// Write non-empty lines from the buffer.
 		if !isBlank(line) {
 			if _, err := w.output.Write([]byte(line)); err != nil {
 				return n, err
