@@ -75,31 +75,34 @@ func TestBlankLineStrippingWriter(t *testing.T) {
 }
 
 func TestBlankLineStrippingWriter2(t *testing.T) {
-	const repeat = 1000
+	const repeat = 20
 	var out bytes.Buffer
 	w := NewBlankLineStrippingWriter(&out)
-	in := bytes.Repeat([]byte(`Lorem ipsum dolor sit amet,
+	in := []byte(`Lorem ipsum dolor sit amet,
 		consectetur adipiscing elit.
 
 
-		Mauris aliquam metus id sagittis scelerisque.
-`), repeat)
+		Mauris aliquam metus id sagittis scelerisque. `)
 
 	want := bytes.Repeat([]byte(`Lorem ipsum dolor sit amet,
 		consectetur adipiscing elit.
-		Mauris aliquam metus id sagittis scelerisque.
-`), repeat)
+		Mauris aliquam metus id sagittis scelerisque. `), repeat)
+	want = append(want, '\n')
 
-	l, err := w.Write(in)
+	for i := 0; i < repeat; i++ {
+		if _, err := w.Write(in); err != nil {
+			t.Errorf("BlankLineStrippingWriter2: %s", err)
+		}
+	}
+	if _, err := w.Write([]byte("\n")); err != nil {
+		t.Errorf("BlankLineStrippingWriter2: %s", err)
+	}
 	b, err := ioutil.ReadAll(&out)
 	if err != nil {
 		t.Errorf("BlankLineStrippingWriter2: %s", err)
 	}
-	if l != len(in) {
-		t.Errorf("BlankLineStrippingWriter2:lenght: got %d, want %d", l, len(in))
-	}
 	if !bytes.Equal(b, want) {
-		t.Errorf("BlankLineStrippingWriter2: got \n'%s'...\nwant \n'%s'...\n",
+		t.Errorf("BlankLineStrippingWriter2: got\n'%s'...\nwant\n'%s'...\n",
 			string(b[:50]), string(want[:50]))
 	}
 }
