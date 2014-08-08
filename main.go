@@ -42,7 +42,7 @@ func download(name string, args []string) {
 	}
 
 	specVersionFile := filepath.Join(specDir, "REVISION")
-	if err := ioutil.WriteFile(specVersionFile, []byte(rev), os.ModeAppend); err != nil {
+	if err := ioutil.WriteFile(specVersionFile, []byte(rev), 0644); err != nil {
 		log.Fatal("error writing spec revision metadata file:", err)
 	}
 

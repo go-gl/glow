@@ -578,7 +578,12 @@
             <unused start="0x3220" end="0x322A"/>
         <enum value="0x322B" name="EGL_BAD_DEVICE_EXT"/>
         <enum value="0x322C" name="EGL_DEVICE_EXT"/>
-            <unused start="0x322D" end="0x325F"/>
+            <unused start="0x322D" end="0x3239"/>
+        <enum value="0x323A" name="EGL_CUDA_DEVICE_NV"/>
+        <enum value="0x323B" name="EGL_CUDA_EVENT_HANDLE_NV"/>
+        <enum value="0x323C" name="EGL_SYNC_CUDA_EVENT_NV"/>
+        <enum value="0x323D" name="EGL_SYNC_CUDA_EVENT_COMPLETE_NV"/>
+            <unused start="0x323E" end="0x325F"/>
     </enums>
 
     <enums namespace="EGL" start="0x3260" end="0x326F" vendor="BCOM" comment="Reserved for Gary Sweet, Broadcom (Public bug 620)">
@@ -1947,11 +1952,23 @@
                 <enum name="EGL_COVERAGE_SAMPLE_RESOLVE_NONE_NV"/>
             </require>
         </extension>
+        <extension name="EGL_NV_cude_event" supported="egl">
+            <require>
+                <enum name="EGL_CUDA_EVENT_HANDLE_NV"/>
+                <enum name="EGL_SYNC_CUDA_EVENT_NV"/>
+                <enum name="EGL_SYNC_CUDA_EVENT_COMPLETE_NV"/>
+            </require>
+        </extension>
         <extension name="EGL_NV_depth_nonlinear" supported="egl">
             <require>
                 <enum name="EGL_DEPTH_ENCODING_NV"/>
                 <enum name="EGL_DEPTH_ENCODING_NONE_NV"/>
                 <enum name="EGL_DEPTH_ENCODING_NONLINEAR_NV"/>
+            </require>
+        </extension>
+        <extension name="EGL_NV_device_cuda" supported="egl">
+            <require>
+                <enum name="EGL_CUDA_DEVICE_NV"/>
             </require>
         </extension>
         <extension name="EGL_NV_native_query" supported="egl">

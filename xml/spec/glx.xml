@@ -88,7 +88,9 @@ typedef unsigned __int64 uint64_t;
         <type name="GLenum"/>
         <type name="GLfloat"/>
         <type name="GLint"/>
+        <type name="GLintptr"/>
         <type name="GLsizei"/>
+        <type name="GLsizeiptr"/>
         <type name="GLubyte"/>
         <type name="GLuint"/>
         <type name="DMbuffer"/>
@@ -713,6 +715,28 @@ typedef unsigned __int64 uint64_t;
             <param><ptype>Display</ptype> *<name>dpy</name></param>
             <param>int <name>screen</name></param>
             <param>int *<name>attribList</name></param>
+        </command>
+        <command>
+            <proto>void <name>glXCopyBufferSubDataNV</name></proto>
+            <param><ptype>Display</ptype> *<name>dpy</name></param>
+            <param><ptype>GLXContext</ptype> <name>readCtx</name></param>
+            <param><ptype>GLXContext</ptype> <name>writeCtx</name></param>
+            <param><ptype>GLenum</ptype> <name>readTarget</name></param>
+            <param><ptype>GLenum</ptype> <name>writeTarget</name></param>
+            <param><ptype>GLintptr</ptype> <name>readOffset</name></param>
+            <param><ptype>GLintptr</ptype> <name>writeOffset</name></param>
+            <param><ptype>GLsizeiptr</ptype> <name>size</name></param>
+        </command>
+        <command>
+            <proto>void <name>glXNamedCopyBufferSubDataNV</name></proto>
+            <param><ptype>Display</ptype> *<name>dpy</name></param>
+            <param><ptype>GLXContext</ptype> <name>readCtx</name></param>
+            <param><ptype>GLXContext</ptype> <name>writeCtx</name></param>
+            <param><ptype>GLuint</ptype> <name>readBuffer</name></param>
+            <param><ptype>GLuint</ptype> <name>writeBuffer</name></param>
+            <param><ptype>GLintptr</ptype> <name>readOffset</name></param>
+            <param><ptype>GLintptr</ptype> <name>writeOffset</name></param>
+            <param><ptype>GLsizeiptr</ptype> <name>size</name></param>
         </command>
         <command>
             <proto>void <name>glXCopyContext</name></proto>
@@ -1802,6 +1826,12 @@ typedef unsigned __int64 uint64_t;
                 <enum name="GLX_3DFX_WINDOW_MODE_MESA"/>
                 <enum name="GLX_3DFX_FULLSCREEN_MODE_MESA"/>
                 <command name="glXSet3DfxModeMESA"/>
+            </require>
+        </extension>
+        <extension name="GLX_NV_copy_buffer" supported="glx">
+            <require>
+                <command name="glXCopyBufferSubDataNV"/>
+                <command name="glXNamedCopyBufferSubDataNV"/>
             </require>
         </extension>
         <extension name="GLX_NV_copy_image" supported="glx">
