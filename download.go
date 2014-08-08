@@ -10,9 +10,13 @@ import (
 	"sync"
 )
 
+type svnRoot struct {
+	Index svnIndex `xml:"index"`
+}
+
 type svnIndex struct {
-	XMLName xml.Name   `xml:"svn"`
-	Entries []svnEntry `xml:"index>file"`
+	Revision string     `xml:"rev,attr"`
+	Entries  []svnEntry `xml:"file"`
 }
 
 type svnEntry struct {
@@ -21,18 +25,20 @@ type svnEntry struct {
 
 const maxRequests = 10
 
-// DownloadSvnDir reads an SVN XML directory index and downloads all the listed (filtered) files
-func DownloadSvnDir(svnDirURL string, filter *regexp.Regexp, outDir string) error {
+// DownloadSvnDir reads an SVN XML directory index and downloads all the listed (filtered) files. It
+// returns the SVN revision at which the files were downloaded.
+func DownloadSvnDir(svnDirURL string, filter *regexp.Regexp, outDir string) (string, error) {
 	response, err := http.Get(svnDirURL)
 	if err != nil {
-		return err
+		return "", err
 	}
 	defer response.Body.Close()
 
-	var index svnIndex
-	if err := xml.NewDecoder(response.Body).Decode(&index); err != nil {
-		return err
+	var root svnRoot
+	if err := xml.NewDecoder(response.Body).Decode(&root); err != nil {
+		return "", err
 	}
+	index := root.Index
 
 	var downloadErr error
 
@@ -55,7 +61,7 @@ func DownloadSvnDir(svnDirURL string, filter *regexp.Regexp, outDir string) erro
 	}
 	wg.Wait()
 
-	return downloadErr
+	return index.Revision, downloadErr
 }
 
 func downloadFile(url, file string) error {

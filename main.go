@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
@@ -35,12 +36,18 @@ func download(name string, args []string) {
 		log.Fatal("error creating documentation output directory:", err)
 	}
 
-	if err := DownloadSvnDir(specURL, specRegexp, specDir); err != nil {
+	rev, err := DownloadSvnDir(specURL, specRegexp, specDir)
+	if err != nil {
 		log.Fatal("error downloading specification files:", err)
 	}
 
+	specVersionFile := filepath.Join(specDir, "REVISION")
+	if err := ioutil.WriteFile(specVersionFile, []byte(rev), os.ModeAppend); err != nil {
+		log.Fatal("error writing spec revision metadata file:", err)
+	}
+
 	for _, url := range docURLs {
-		if err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
+		if _, err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
 			log.Fatal("error downloading documentation files:", err)
 		}
 	}
@@ -81,13 +88,14 @@ func generate(name string, args []string) {
 		LenientInit:  *lenientInit,
 	}
 
-	specs := parseSpecifications(*xmlDir)
+	specs, rev := parseSpecifications(*xmlDir)
 	docs := parseDocumentation(*xmlDir)
 
 	var pkg *Package
 	for _, spec := range specs {
 		if spec.HasPackage(packageSpec) {
 			pkg = spec.ToPackage(packageSpec)
+			pkg.SpecRev = rev
 			docs.AddDocs(pkg)
 			if err := pkg.GeneratePackage(); err != nil {
 				log.Fatal("error generating package:", err)
@@ -101,7 +109,7 @@ func generate(name string, args []string) {
 	log.Println("generated package in", pkg.Dir())
 }
 
-func parseSpecifications(xmlDir string) []*Specification {
+func parseSpecifications(xmlDir string) ([]*Specification, string) {
 	specDir := filepath.Join(xmlDir, "spec")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
@@ -110,6 +118,9 @@ func parseSpecifications(xmlDir string) []*Specification {
 
 	specs := make([]*Specification, 0, len(specFiles))
 	for _, specFile := range specFiles {
+		if !strings.HasSuffix(specFile.Name(), "xml") {
+			continue
+		}
 		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
 		if err != nil {
 			log.Fatal("error parsing specification:", specFile.Name(), err)
@@ -117,7 +128,12 @@ func parseSpecifications(xmlDir string) []*Specification {
 		specs = append(specs, spec)
 	}
 
-	return specs
+	rev, err := ioutil.ReadFile(filepath.Join(specDir, "REVISION"))
+	if err != nil {
+		log.Fatal("error reading spec revision file:", err)
+	}
+
+	return specs, string(rev)
 }
 
 func parseDocumentation(xmlDir string) Documentation {
