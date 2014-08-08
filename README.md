@@ -37,7 +37,7 @@ A note about threading and goroutines. The bindings do not expose a mechanism to
 Examples
 --------
 
-A simple example illustrating how to use the bindings is available in the [examples](https://github.com/go-gl/glow/tree/master/examples) directory.
+Examples illustrating how to use the bindings are available in the [examples](https://github.com/go-gl/examples/tree/master/glow) repo.
 
 Function Loading
 ----------------
