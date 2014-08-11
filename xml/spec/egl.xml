@@ -1952,7 +1952,7 @@
                 <enum name="EGL_COVERAGE_SAMPLE_RESOLVE_NONE_NV"/>
             </require>
         </extension>
-        <extension name="EGL_NV_cude_event" supported="egl">
+        <extension name="EGL_NV_cuda_event" supported="egl">
             <require>
                 <enum name="EGL_CUDA_EVENT_HANDLE_NV"/>
                 <enum name="EGL_SYNC_CUDA_EVENT_NV"/>

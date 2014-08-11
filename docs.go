@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/xml"
 	"os"
+	"strings"
 )
 
 type xmlDoc struct {
@@ -38,7 +39,8 @@ func (d Documentation) AddDocs(pkg *Package) {
 	for _, fn := range pkg.Functions {
 		doc, ok := d[fn.Name]
 		if ok {
-			fn.Doc = doc
+			// Let the template handle line-wrapping if it chooses
+			fn.Doc = strings.Replace(doc, "\n", " ", -1)
 		}
 	}
 }

@@ -333,6 +333,7 @@ typedef unsigned __int64 uint64_t;
     <enums namespace="GLX" start="0x0000" end="0x2FFF" vendor="ARB"           comment="Miscellaneous OpenGL 1.0/1.1 enums. Most parts of this range are unused and should remain unused."/>
 
     <enums namespace="GLX" group="SpecialNumbers"  vendor="ARB" comment="Tokens whose numeric value is intrinsically meaningful">
+        <enum value="0"             name="GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB"/>
         <enum value="0xFFFFFFFF"    name="GLX_DONT_CARE"                            comment="For ChooseFBConfig attributes"/>
     </enums>
 
@@ -387,7 +388,8 @@ typedef unsigned __int64 uint64_t;
             <!-- 0x2095 collides with WGL_ERROR_INVALID_VERSION_ARB! -->
         <enum value="0x2095"        name="GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB"/>
             <!-- 0x2096 used for WGL_ERROR_INVALID_PROFILE_ARB -->
-            <!-- 0x2097-0x2098 reserved for future WGL/GLX extensions -->
+        <enum value="0x2097"        name="GLX_CONTEXT_RELEASE_BEHAVIOR_ARB"/>
+        <enum value="0x2098"        name="GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB"/>
             <unused start="0x2099" end="0x209F"/>
     </enums>
 
@@ -1584,6 +1586,13 @@ typedef unsigned __int64 uint64_t;
                 <enum name="GLX_GPU_NUM_SIMD_AMD"/>
                 <enum name="GLX_GPU_NUM_RB_AMD"/>
                 <enum name="GLX_GPU_NUM_SPI_AMD"/>
+            </require>
+        </extension>
+        <extension name="GLX_ARB_context_flush_control" supported="glx">
+            <require>
+                <enum name="GLX_CONTEXT_RELEASE_BEHAVIOR_ARB"/>
+                <enum name="GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB"/>
+                <enum name="GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB"/>
             </require>
         </extension>
         <extension name="GLX_ARB_create_context" supported="glx">

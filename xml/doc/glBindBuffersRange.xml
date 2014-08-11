@@ -5,7 +5,7 @@
 <refentry xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="glBindBuffersRange">
     <info>
         <copyright>
-            <year>2013</year>
+            <year>2013-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -119,6 +119,19 @@
             parameters for the specified target.
         </para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glBindBuffersRange</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='44']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
             <citerefentry><refentrytitle>glGenBuffers</refentrytitle></citerefentry>,
@@ -130,9 +143,10 @@
             <citerefentry><refentrytitle>glMapBuffer</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glUnmapBuffer</refentrytitle></citerefentry>
         </para>
-    </refsect1>    <refsect1 xml:id="Copyright"><title>Copyright</title>
+    </refsect1>    
+    <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
-            Copyright <trademark class="copyright"/> 2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2013-2014 Khronos Group.
             This material may be distributed subject to the terms and conditions set forth in
             the Open Publication License, v 1.0, 8 June 1999.
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://opencontent.org/openpub/">http://opencontent.org/openpub/</link>.
