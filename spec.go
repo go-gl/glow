@@ -232,6 +232,16 @@ func parseSignature(signature xmlSignature) (name string, ctype Type, err error)
 		ctype.Name = cTypeName
 	}
 
+	// Convert statically sized arrays to pointers
+	// FIXME: Preserve this type information
+	arrayRegexp := regexp.MustCompile("\\[.*]")
+	ctype.CDefinition = arrayRegexp.ReplaceAllStringFunc(
+		ctype.CDefinition,
+		func(_ string) string {
+			ctype.PointerLevel += 1
+			return "*"
+		})
+
 	return name, ctype, nil
 }
 
