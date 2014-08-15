@@ -2,33 +2,12 @@ package main
 
 import (
 	"fmt"
+	"go/build"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
 )
-
-// This package's directory (relative to $GOPATH).
-const pkgDir = "src/github.com/go-gl/glow"
-
-// Cached absolute path to this package's directory (determined in the pkgPath
-// function below).
-var absPkgDir string
-
-// pkgPath resolves a path relative to the package directory (see above).
-func pkgPath(relPath string) string {
-	if len(absPkgDir) == 0 {
-		// Find absolute path to this package's directory.
-		for _, path := range filepath.SplitList(os.ExpandEnv("$GOPATH")) {
-			path = filepath.Join(path, pkgDir)
-			if _, err := os.Stat(path); err == nil {
-				absPkgDir = path
-				break
-			}
-		}
-	}
-	return filepath.Join(absPkgDir, relPath)
-}
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
@@ -128,4 +107,26 @@ func (pkg *Package) HasRequiredFunctions() bool {
 		}
 	}
 	return false
+}
+
+// This package's directory (relative to $GOPATH).
+const pkgDir = "src/github.com/go-gl/glow"
+
+// Cached absolute path to this package's directory (determined in the pkgPath
+// function below).
+var absPkgDir string
+
+// pkgPath resolves a path relative to the package directory (see above).
+func pkgPath(relPath string) string {
+	if len(absPkgDir) == 0 {
+		// Find absolute path to this package's directory.
+		for _, path := range filepath.SplitList(build.Default.GOPATH) {
+			path = filepath.Join(path, pkgDir)
+			if _, err := os.Stat(path); err == nil {
+				absPkgDir = path
+				break
+			}
+		}
+	}
+	return filepath.Join(absPkgDir, relPath)
 }
