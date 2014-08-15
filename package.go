@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go/build"
 	"os"
 	"path/filepath"
 	"strings"
@@ -77,7 +78,8 @@ func (pkg *Package) generateFile(file, dir string) error {
 		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
 	}
-	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(file + ".tmpl"))
+	filePath := pkgPath(file + ".tmpl")
+	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filePath))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
@@ -105,4 +107,26 @@ func (pkg *Package) HasRequiredFunctions() bool {
 		}
 	}
 	return false
+}
+
+// This package's directory (relative to $GOPATH).
+const pkgDir = "src/github.com/go-gl/glow"
+
+// Cached absolute path to this package's directory (determined in the pkgPath
+// function below).
+var absPkgDir string
+
+// pkgPath resolves a path relative to the package directory (see above).
+func pkgPath(relPath string) string {
+	if len(absPkgDir) == 0 {
+		// Find absolute path to this package's directory.
+		for _, path := range filepath.SplitList(build.Default.GOPATH) {
+			path = filepath.Join(path, pkgDir)
+			if _, err := os.Stat(path); err == nil {
+				absPkgDir = path
+				break
+			}
+		}
+	}
+	return filepath.Join(absPkgDir, relPath)
 }
