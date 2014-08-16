@@ -9,7 +9,7 @@
             <holder>3Dlabs Inc. Ltd.</holder>
         </copyright>
         <copyright>
-            <year>2010-2013</year>
+            <year>2010-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -652,6 +652,287 @@
     with arguments <constant>GL_CURRENT_VERTEX_ATTRIB</constant> and
     <parameter>index</parameter></para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glVertexAttrib1d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib1dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib1f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib1fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib1s</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib1sv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2s</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib2sv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3s</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib3sv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nbv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Niv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nsv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nub</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nubv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nuiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4Nusv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4bv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4s</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4sv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4ubv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttrib4usv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI1i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI1iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI1ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI1uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI2i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI2iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI2ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI2uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI3i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI3iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI3ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI3uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4bv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4sv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4ubv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribI4usv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='30']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL1d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL1dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL2d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL2dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL3d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL3dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL4d</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribL4dv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribP1ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='32']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribP2ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='32']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribP3ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='32']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glVertexAttribP4ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='32']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
     <para><citerefentry><refentrytitle>glBindAttribLocation</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry></para>
@@ -659,7 +940,7 @@
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
             Copyright <trademark class="copyright"/> 2003-2005 3Dlabs Inc. Ltd.
-            Copyright <trademark class="copyright"/> 2010-2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2010-2014 Khronos Group.
             This material may be distributed subject to the terms and conditions set forth in
             the Open Publication License, v 1.0, 8 June 1999.
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://opencontent.org/openpub/">http://opencontent.org/openpub/</link>.

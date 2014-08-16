@@ -9,7 +9,7 @@
             <holder>3Dlabs Inc. Ltd.</holder>
         </copyright>
         <copyright>
-            <year>2010-2013</year>
+            <year>2010-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -228,6 +228,19 @@
 
     <para><citerefentry><refentrytitle>glIsProgram</refentrytitle></citerefentry></para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glGetActiveAttrib</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
     <para><citerefentry><refentrytitle>glBindAttribLocation</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glLinkProgram</refentrytitle></citerefentry>,
@@ -237,7 +250,7 @@
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
             Copyright <trademark class="copyright"/> 2003-2005 3Dlabs Inc. Ltd.
-            Copyright <trademark class="copyright"/> 2010-2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2010-2014 Khronos Group.
             This material may be distributed subject to the terms and conditions set forth in
             the Open Publication License, v 1.0, 8 June 1999.
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://opencontent.org/openpub/">http://opencontent.org/openpub/</link>.

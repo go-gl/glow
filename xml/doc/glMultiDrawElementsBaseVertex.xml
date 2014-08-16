@@ -5,7 +5,7 @@
 <refentry xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="glMultiDrawElementsBaseVertex">
     <info>
         <copyright>
-            <year>2010-2013</year>
+            <year>2010-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -136,6 +136,19 @@
             <constant>GL_INVALID_OPERATION</constant> is generated if a non-zero buffer object name is bound to an
             enabled array or the element array and the buffer object's data store is currently mapped.
         </para>
+    </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glMultiDrawElementsBaseVertex</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='32']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
     </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>

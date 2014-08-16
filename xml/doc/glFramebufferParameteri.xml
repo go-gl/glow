@@ -1,11 +1,9 @@
 <!DOCTYPE refentry [ <!ENTITY % mathent SYSTEM "math.ent"> %mathent; ]>
 
-<!-- Converted by db4-upgrade version 1.1 -->
-
 <refentry xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="glFramebufferParameteri">
     <info>
         <copyright>
-            <year>2013</year>
+            <year>2013-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -15,13 +13,20 @@
     </refmeta>
     <refnamediv>
         <refname>glFramebufferParameteri</refname>
-        <refpurpose>set a named parameter of a framebuffer</refpurpose>
+        <refname>glNamedFramebufferParameteri</refname>
+        <refpurpose>set a named parameter of a framebuffer object</refpurpose>
     </refnamediv>
     <refsynopsisdiv><title>C Specification</title>
         <funcsynopsis>
             <funcprototype>
                 <funcdef>void <function>glFramebufferParameteri</function></funcdef>
                 <paramdef>GLenum <parameter>target</parameter></paramdef>
+                <paramdef>GLenum <parameter>pname</parameter></paramdef>
+                <paramdef>GLint <parameter>param</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>void <function>glNamedFramebufferParameteri</function></funcdef>
+                <paramdef>GLuint <parameter>framebuffer</parameter></paramdef>
                 <paramdef>GLenum <parameter>pname</parameter></paramdef>
                 <paramdef>GLint <parameter>param</parameter></paramdef>
             </funcprototype>
@@ -33,8 +38,17 @@
             <term><parameter>target</parameter></term>
             <listitem>
                 <para>
-                    The target of the operation, which must be <constant>GL_READ_FRAMEBUFFER</constant>,
-                    <constant>GL_DRAW_FRAMEBUFFER</constant> or <constant>GL_FRAMEBUFFER</constant>.
+                    Specifies the target to which the framebuffer is bound
+                    for <function>glFramebufferParameteri</function>.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>framebuffer</parameter></term>
+            <listitem>
+                <para>
+                    Specifies the name of the framebuffer object for
+                    <function>glNamedFramebufferParameteri</function>.
                 </para>
             </listitem>
         </varlistentry>
@@ -42,7 +56,7 @@
             <term><parameter>pname</parameter></term>
             <listitem>
                 <para>
-                    A token indicating the parameter to be modified.
+                    Specifies the framebuffer parameter to be modified.
                 </para>
             </listitem>
         </varlistentry>
@@ -50,7 +64,8 @@
             <term><parameter>param</parameter></term>
             <listitem>
                 <para>
-                    The new value for the parameter named <parameter>pname</parameter>.
+                    The new value for the parameter named
+                    <parameter>pname</parameter>.
                 </para>
             </listitem>
         </varlistentry>
@@ -58,16 +73,31 @@
     </refsect1>
     <refsect1 xml:id="description"><title>Description</title>
         <para>
-            <function>glFramebufferParameteri</function> modifies the current value of the parameter
-            named <parameter>pname</parameter> in the framebuffer bound to <parameter>target</parameter>.
-            <parameter>target</parameter> must be <constant>GL_READ_FRAMEBFUFFER</constant>,
-            <constant>GL_DRAW_FRAMEBUFFER</constant> or <constant>GL_FRAMEBUFFER</constant>. The
-            token <constant>GL_FRAMEBUFFER</constant> is treated as <constant>GL_DRAW_FRAMEBUFFER</constant>.
-            A non-default framebuffer must be bound to <parameter>target</parameter>.
+            <function>glFramebufferParameteri</function> and
+            <function>glNamedFramebufferParameteri</function> modify the
+            value of the parameter named <parameter>pname</parameter> in the
+            specified framebuffer object. There are no modifiable parameters
+            of the default draw and read framebuffer, so they are not valid
+            targets of these commands.
         </para>
         <para>
-            <parameter>pname</parameter> specifies the parameter to be modified. The following symbols
-            are accepted in <parameter>pname</parameter>:
+            For <function>glFramebufferParameteri</function>, 
+            the framebuffer object is that bound to
+            <parameter>target</parameter>, which must be
+            <constant>GL_DRAW_FRAMEBUFFER</constant>,
+            <constant>GL_READ_FRAMEBUFFER</constant> or
+            <constant>GL_FRAMEBUFFER</constant>.
+            <constant>GL_FRAMEBUFFER</constant> is equivalent to
+            <constant>GL_DRAW_FRAMEBUFFER</constant>.
+        </para>
+        <para>
+            For <function>glNamedFramebufferParameteri</function>,
+            <parameter>framebuffer</parameter> is the name of the
+            framebuffer object.
+        </para>
+        <para>
+            <parameter>pname</parameter> specifies the parameter to be
+            modified. The following values are accepted: 
         </para>
         <variablelist>
             <varlistentry>
@@ -133,27 +163,49 @@
     </refsect1>
     <refsect1 xml:id="errors"><title>Errors</title>
         <para>
-            <constant>GL_INVALID_ENUM</constant> is generated if <parameter>target</parameter> is not one of the accepted
+            <constant>GL_INVALID_ENUM</constant> is generated by
+            <function>glFramebufferParameteri</function> if
+            <parameter>target</parameter> is not one of the accepted
             framebuffer targets.
         </para>
         <para>
-            <constant>GL_INVAILD_VALUE</constant> is generated if <parameter>pname</parameter> is <constant>GL_FRAMEBUFFER_DEFAULT_WIDTH</constant>
-            and <parameter>param</parameter> is less than zero or greater than the value of <constant>GL_MAX_FRAMEBUFFER_WIDTH</constant>.
+            <constant>GL_INVALID_OPERATION</constant> is generated by
+            <function>glFramebufferParameteri</function> if the default
+            framebuffer is bound to <parameter>target</parameter>.
         </para>
         <para>
-            <constant>GL_INVAILD_VALUE</constant> is generated if <parameter>pname</parameter> is <constant>GL_FRAMEBUFFER_DEFAULT_HEIGHT</constant>
-            and <parameter>param</parameter> is less than zero or greater than the value of <constant>GL_MAX_FRAMEBUFFER_HEIGHT</constant>.
+            <constant>GL_INVALID_OPERATION</constant> is generated by
+            <function>glNamedFramebufferParameteri</function> if
+            <parameter>framebuffer</parameter> is not the name of an
+            existing framebuffer object.
         </para>
         <para>
-            <constant>GL_INVAILD_VALUE</constant> is generated if <parameter>pname</parameter> is <constant>GL_FRAMEBUFFER_DEFAULT_LAYERS</constant>
-            and <parameter>param</parameter> is less than zero or greater than the value of <constant>GL_MAX_FRAMEBUFFER_LAYERS</constant>.
+            <constant>GL_INVALID_VALUE</constant> is generated if
+            <parameter>pname</parameter> is
+            <constant>GL_FRAMEBUFFER_DEFAULT_WIDTH</constant> and
+            <parameter>param</parameter> is less than zero or greater than
+            the value of <constant>GL_MAX_FRAMEBUFFER_WIDTH</constant>.
         </para>
         <para>
-            <constant>GL_INVAILD_VALUE</constant> is generated if <parameter>pname</parameter> is <constant>GL_FRAMEBUFFER_DEFAULT_SAMPLES</constant>
-            and <parameter>param</parameter> is less than zero or greater than the value of <constant>GL_MAX_FRAMEBUFFER_SAMPLES</constant>.
+            <constant>GL_INVALID_VALUE</constant> is generated if
+            <parameter>pname</parameter> is
+            <constant>GL_FRAMEBUFFER_DEFAULT_HEIGHT</constant> and
+            <parameter>param</parameter> is less than zero or greater than
+            the value of <constant>GL_MAX_FRAMEBUFFER_HEIGHT</constant>.
         </para>
         <para>
-            <constant>GL_INVALID_OPERATION</constant> is generated if the default framebuffer is bound to <parameter>target</parameter>.
+            <constant>GL_INVALID_VALUE</constant> is generated if
+            <parameter>pname</parameter> is
+            <constant>GL_FRAMEBUFFER_DEFAULT_LAYERS</constant> and
+            <parameter>param</parameter> is less than zero or greater than
+            the value of <constant>GL_MAX_FRAMEBUFFER_LAYERS</constant>.
+        </para>
+        <para>
+            <constant>GL_INVALID_VALUE</constant> is generated if
+            <parameter>pname</parameter> is
+            <constant>GL_FRAMEBUFFER_DEFAULT_SAMPLES</constant> and
+            <parameter>param</parameter> is less than zero or greater than
+            the value of <constant>GL_MAX_FRAMEBUFFER_SAMPLES</constant>.
         </para>
     </refsect1>
     <refsect1 xml:id="associatedgets"><title>Associated Gets</title>
@@ -161,17 +213,36 @@
             <citerefentry><refentrytitle>glGetFramebufferParameteriv</refentrytitle></citerefentry>.
         </para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glFramebufferParameteri</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='43']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glNamedFramebufferParameteri</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='45']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
-            <citerefentry><refentrytitle>glVertexAttribBinding</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glVertexAttribFormat</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glVertexBindingDivisor</refentrytitle></citerefentry>.
+            <citerefentry><refentrytitle>glBindFramebuffer</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glCreateFramebuffers</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glFramebufferRenderbuffer</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glFramebufferTexture</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGenFramebuffers</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGetFramebufferParameter</refentrytitle></citerefentry>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
-            Copyright <trademark class="copyright"/> 2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2013-2014 Khronos Group.
             This material may be distributed subject to the terms and conditions set forth in
             the Open Publication License, v 1.0, 8 June 1999.
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://opencontent.org/openpub/">http://opencontent.org/openpub/</link>.

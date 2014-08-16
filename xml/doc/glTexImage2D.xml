@@ -608,6 +608,19 @@
             <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry> with argument <constant>GL_PIXEL_UNPACK_BUFFER_BINDING</constant>
         </para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glTexImage2D</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
             <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>,
@@ -628,7 +641,7 @@
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
             Copyright <trademark class="copyright"/> 1991-2006 Silicon Graphics, Inc.
-            Copyright <trademark class="copyright"/> 2011-2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2011-2014 Khronos Group.
             This document is licensed under the SGI
             Free Software B License. For details, see
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://oss.sgi.com/projects/FreeB/">http://oss.sgi.com/projects/FreeB/</link>.

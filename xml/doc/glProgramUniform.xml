@@ -9,7 +9,7 @@
             <holder>3Dlabs Inc. Ltd.</holder>
         </copyright>
         <copyright>
-            <year>2010-2013</year>
+            <year>2010-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -560,6 +560,147 @@
     with the handle of a program object and the name of a uniform
     variable</para>
     </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glProgramUniform1f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform1fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform1i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform1iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform1ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform1uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform2uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform3uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4f</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4i</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4iv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4ui</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniform4uiv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix2fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix2x3fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix2x4fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix3fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix3x2fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix3x4fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix4fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix4x2fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glProgramUniformMatrix4x3fv</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='41']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
     <para><citerefentry><refentrytitle>glLinkProgram</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glUseProgram</refentrytitle></citerefentry></para>
@@ -567,7 +708,7 @@
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
             Copyright <trademark class="copyright"/> 2003-2005 3Dlabs Inc. Ltd.
-            Copyright <trademark class="copyright"/> 2010-2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2010-2014 Khronos Group.
             This material may be distributed subject to the terms and conditions set forth in
             the Open Publication License, v 1.0, 8 June 1999.
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://opencontent.org/openpub/">http://opencontent.org/openpub/</link>.

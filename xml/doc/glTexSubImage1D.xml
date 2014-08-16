@@ -9,7 +9,7 @@
             <holder>Silicon Graphics, Inc.</holder>
         </copyright>
         <copyright>
-            <year>2010-2013</year>
+            <year>2010-2014</year>
             <holder>Khronos Group</holder>
         </copyright>
     </info>
@@ -19,6 +19,7 @@
     </refmeta>
     <refnamediv>
         <refname>glTexSubImage1D</refname>
+        <refname>glTextureSubImage1D</refname>
         <refpurpose>specify a one-dimensional texture subimage</refpurpose>
     </refnamediv>
     <refsynopsisdiv><title>C Specification</title>
@@ -31,7 +32,17 @@
                 <paramdef>GLsizei <parameter>width</parameter></paramdef>
                 <paramdef>GLenum <parameter>format</parameter></paramdef>
                 <paramdef>GLenum <parameter>type</parameter></paramdef>
-                <paramdef>const GLvoid * <parameter>data</parameter></paramdef>
+                <paramdef>const GLvoid * <parameter>pixels</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>void <function>glTextureSubImage1D</function></funcdef>
+                <paramdef>GLuint <parameter>texture</parameter></paramdef>
+                <paramdef>GLint <parameter>level</parameter></paramdef>
+                <paramdef>GLint <parameter>xoffset</parameter></paramdef>
+                <paramdef>GLsizei <parameter>width</parameter></paramdef>
+                <paramdef>GLenum <parameter>format</parameter></paramdef>
+                <paramdef>GLenum <parameter>type</parameter></paramdef>
+                <paramdef>const void *<parameter>pixels</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -41,8 +52,20 @@
             <term><parameter>target</parameter></term>
             <listitem>
                 <para>
-                    Specifies the target texture.
+                    Specifies the target to which the texture is bound for
+                    <function>glTexSubImage1D</function>.
                     Must be <constant>GL_TEXTURE_1D</constant>.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><parameter>texture</parameter></term>
+            <listitem>
+                <para>
+                    Specifies the texture object name for
+                    <function>glTextureSubImage1D</function>. The effective
+                    target of <parameter>texture</parameter> must be one of
+                    the valid <parameter>target</parameter> values above.
                 </para>
             </listitem>
         </varlistentry>
@@ -117,7 +140,7 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><parameter>data</parameter></term>
+            <term><parameter>pixels</parameter></term>
             <listitem>
                 <para>
                     Specifies a pointer to the image data in memory.
@@ -134,9 +157,10 @@
             and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> with argument <constant>GL_TEXTURE_1D</constant>.
         </para>
         <para>
-            <function>glTexSubImage1D</function> redefines a contiguous subregion of an existing one-dimensional
-            texture image.
-            The texels referenced by <parameter>data</parameter> replace the portion of the
+            <function>glTexSubImage1D</function> and
+            <function>glTextureSubImage1D</function> redefine a contiguous
+            subregion of an existing one-dimensional texture image.
+            The texels referenced by <parameter>pixels</parameter> replace the portion of the
             existing texture array with x indices <parameter>xoffset</parameter> and
             <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" overflow="scroll">
                 <!-- eqn: xoffset + width - 1: -->
@@ -157,7 +181,7 @@
         <para>
             If a non-zero named buffer object is bound to the <constant>GL_PIXEL_UNPACK_BUFFER</constant> target
             (see <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>) while a texture image is
-            specified, <parameter>data</parameter> is treated as a byte offset into the buffer object's data store.
+            specified, <parameter>pixels</parameter> is treated as a byte offset into the buffer object's data store.
         </para>
     </refsect1>
     <refsect1 xml:id="notes"><title>Notes</title>
@@ -165,8 +189,11 @@
             <citerefentry><refentrytitle>glPixelStore</refentrytitle></citerefentry> modes affect texture images.
         </para>
         <para>
-            <function>glTexSubImage1D</function> specifies a one-dimensional subtexture for the current texture unit,
-            specified with <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>.
+            <function>glTexSubImage1D</function> and
+            <function>glTextureSubImage1D</function> specify a
+            one-dimensional subtexture for the current texture unit,
+            specified with
+            <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>.
         </para>
         <para>
             <constant>GL_STENCIL_INDEX</constant> is accepted for <parameter>format</parameter> only if the GL version
@@ -175,8 +202,16 @@
     </refsect1>
     <refsect1 xml:id="errors"><title>Errors</title>
         <para>
-            <constant>GL_INVALID_ENUM</constant> is generated if <parameter>target</parameter> is not one of the
-            allowable values.
+            <constant>GL_INVALID_ENUM</constant> is generated if
+            <parameter>target</parameter> or the effective target of
+            <parameter>texture</parameter> is not one of the allowable
+            values.
+        </para>
+        <para>
+            <constant>GL_INVALID_OPERATION</constant> is generated by
+            <function>glTextureSubImage1D</function> if
+            <parameter>texture</parameter> is not the name of an existing
+            texture object.
         </para>
         <para>
             <constant>GL_INVALID_ENUM</constant> is generated if <parameter>format</parameter> is not an accepted
@@ -287,7 +322,7 @@
         </para>
         <para>
             <constant>GL_INVALID_OPERATION</constant> is generated if a non-zero buffer object name is bound to the
-            <constant>GL_PIXEL_UNPACK_BUFFER</constant> target and <parameter>data</parameter> is not evenly divisible
+            <constant>GL_PIXEL_UNPACK_BUFFER</constant> target and <parameter>pixels</parameter> is not evenly divisible
             into the number of bytes needed to store in memory a datum indicated by <parameter>type</parameter>.
         </para>
     </refsect1>
@@ -298,6 +333,23 @@
         <para>
             <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry> with argument <constant>GL_PIXEL_UNPACK_BUFFER_BINDING</constant>
         </para>
+    </refsect1>
+    <refsect1 xml:id="versions"><title>Version Support</title>
+        <informaltable>
+            <tgroup cols="13" align="left">
+                <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
+                <tbody>
+                    <row>
+                        <entry><function>glTexSubImage1D</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='20']/*)"/>
+                    </row>
+                    <row>
+                        <entry><function>glTextureSubImage1D</function></entry>
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apiversion.xml" xpointer="xpointer(/*/*[@role='45']/*)"/>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
     </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
@@ -319,7 +371,7 @@
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
             Copyright <trademark class="copyright"/> 1991-2006 Silicon Graphics, Inc.
-            Copyright <trademark class="copyright"/> 2010-2013 Khronos Group.
+            Copyright <trademark class="copyright"/> 2010-2014 Khronos Group.
             This document is licensed under the SGI Free Software B License.
             For details, see
             <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://oss.sgi.com/projects/FreeB/">http://oss.sgi.com/projects/FreeB/</link>.
