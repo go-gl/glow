@@ -1,22 +1,28 @@
-// Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
-// Generated based on XML spec SVN revision {{.SpecRev}}.
-//
-// Copyright (c) 2010 Khronos Group.
+{{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}{{/*
+*/}}{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{$p.CName}}{{end}}{{end}}{{end}}{{/*
+*/}}{{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}{{/*
+*/}}{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}{{/*
+
+*/}}{{define "bridgeCall"}}C.glow{{.GoName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}{{/*
+
+
+*/}}// Copyright (c) 2010 Khronos Group.
 // This material may be distributed subject to the terms and conditions
 // set forth in the Open Publication License, v 1.0, 8 June 1999.
 // http://opencontent.org/openpub/.
-// 
+//
 // Copyright (c) 1991-2006 Silicon Graphics, Inc.
 // This document is licensed under the SGI Free Software B License.
 // For details, see http://oss.sgi.com/projects/FreeB.
 
+// Package {{.Name}} implements Go bindings to OpenGL.
+//
+// This package was automatically generated using Glow:
+// http://github.com/go-gl/glow
+//
+// Generated based on the OpenGL XML specification:
+// SVN revision {{.SpecRev}}
 package {{.Name}}
-
-{{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
-{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{$p.CName}}{{end}}{{end}}{{end}}
-
-{{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
-{{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
@@ -38,83 +44,82 @@ package {{.Name}}
 // #ifndef GLAPI
 // #define GLAPI extern
 // #endif
-//
-// {{range .Typedefs}}
-// {{replace .CDefinition "\n" "\n// " -1}}
-// {{end}}
-//
-// {{if .HasDebugCallbackFeature}}
+// /* part A */
+// {{range .Typedefs}}{{replace .CDefinition "\n" "\n// "}}{{end}}{{/*
+
+*/}}/* part B */{{if .HasDebugCallbackFeature}}
 // extern void glowDebugCallback_{{.UniqueName}}(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 // static void APIENTRY glowCDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 //   glowDebugCallback_{{.UniqueName}}(source, type, id, severity, length, message, userParam);
 // }
-// {{end}}
-//
-// {{range .Functions}}
-// typedef {{.Return.CType}} (APIENTRYP GP{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});
-// {{end}}
-//
-// {{range .Functions}}
+// {{end}}{{/*
+
+*/}}/* part C */{{range .Functions}}
+// typedef {{.Return.CType}} (APIENTRYP GP{{toUpper .GoName}})({{template "paramsCDecl" .Parameters}});{{end}}{{/*
+
+*/}}
+///* part D */{{range .Functions}}
 // static {{.Return.CType}} glow{{.GoName}}(GP{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
-//   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
-// }
-// {{end}}
-// 
+//	{{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
+// }{{end}}
 import "C"
 import (
-  {{if .HasRequiredFunctions}}
-  "errors"
-  {{end}}
-  "github.com/go-gl/glow/procaddr"
-  "github.com/go-gl/glow/procaddr/auto"
-  "unsafe"
+{{if .HasRequiredFunctions}}	"errors"{{end}}
+	"unsafe"
+
+	"github.com/go-gl/glow/procaddr"
+	"github.com/go-gl/glow/procaddr/auto"
 )
 
 const (
-  {{range .Enums}}
-  {{.GoName}} = {{.Value}}
-  {{end}}
-)
+{{range .Enums}}	{{.GoName}} = {{.Value}}
+{{end}})
 
 var (
-  {{range .Functions}}
-  gp{{.GoName}} C.GP{{toUpper .GoName}}
-  {{end}}
-)
+{{range .Functions}}	gp{{.GoName}} C.GP{{toUpper .GoName}}
+{{end}})
 
 // Helper functions
 func boolToInt(b bool) int {
-	if b { return 1 }
+	if b {
+		return 1
+	}
 	return 0
 }
 
-{{define "bridgeCall"}}C.glow{{.GoName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
-{{range .Functions}}
-{{with .Doc}}// {{.}}{{end}}
-func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
-  {{range .Parameters}}
-  {{if .Type.IsDebugProc}}userDebugCallback = {{.GoName}}{{end}}
-  {{end}}
-  {{if .Return.IsVoid}}{{template "bridgeCall" .}}
-  {{else}}
-  ret := {{template "bridgeCall" .}}
-  return {{.Return.ConvertCToGo "ret"}}
-  {{end}}
-}
-{{end}}
+/* part E */
 
-func Init() error {
-  return InitWithProcAddrFunc(auto.GetProcAddress)
+{{range .Functions}}{{/*
+
+	*/}}{{with .Doc}}// {{.}}
+{{/*	*/}}{{end}}{{/*
+
+	*/}}func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{/*
+	*/}}{{if not .Return.IsVoid}} {{.Return.GoType}}{{/*
+	*/}}{{end}} {
+	{{range .Parameters}}{{/*
+		*/}}{{if .Type.IsDebugProc}}userDebugCallback = {{.GoName}}
+	{{/*   	*/}}{{end}}{{/*
+	*/}}{{end}}{{/*
+	*/}}{{if .Return.IsVoid}}{{template "bridgeCall" .}}{{/*
+	*/}}{{else}}ret := {{template "bridgeCall" .}}
+	return {{.Return.ConvertCToGo "ret"}}{{/*
+	*/}}{{end}}
 }
+
+{{end}}
+func Init() error {
+	return InitWithProcAddrFunc(auto.GetProcAddress)
+}
+
+/* part F */
 
 func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
-  {{range .Functions}}
-  gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}"))
-  {{if .Required}}
-  if gp{{.GoName}} == nil {
-    return errors.New("{{.Name}}")
-  }
-  {{end}}
-  {{end}}
-	return nil
+{{range .Functions}}{{/*
+	*/}}	gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}"))
+{{/*	*/}}{{if .Required}}	if gp{{.GoName}} == nil {
+		return errors.New("{{.Name}}")
+	}
+{{/*	*/}}{{end}}{{/*
+*/}}{{end}}	return nil
 }

@@ -25,7 +25,7 @@ func glowDebugCallback_{{.UniqueName}}(
 	length int32,
 	message *uint8,
 	userParam unsafe.Pointer) {
-  if userDebugCallback != nil {
-    userDebugCallback(source, gltype, id, severity, length, GoStr(message), userParam)
-  }
+	if userDebugCallback != nil {
+		userDebugCallback(source, gltype, id, severity, length, GoStr(message), userParam)
+	}
 }
