@@ -109,6 +109,31 @@ func (pkg *Package) HasRequiredFunctions() bool {
 	return false
 }
 
+// Filter removes any enums, or functions found in this package that are not
+// listed in the given lookup maps. If either of the maps has a length of zero,
+// filtering does not occur for that type (e.g. all functions are left intact).
+func (pkg *Package) Filter(enums, functions map[string]struct{}) {
+	if len(enums) > 0 {
+		// Remove any enum not listed in the enums lookup map.
+		for name := range pkg.Enums {
+			_, valid := enums[name]
+			if !valid {
+				delete(pkg.Enums, name)
+			}
+		}
+	}
+
+	if len(functions) > 0 {
+		// Remove any function not listed in the functions lookup map.
+		for name := range pkg.Functions {
+			_, valid := functions[name]
+			if !valid {
+				delete(pkg.Functions, name)
+			}
+		}
+	}
+}
+
 // This package's directory (relative to $GOPATH).
 const pkgDir = "src/github.com/go-gl/glow"
 
