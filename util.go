@@ -32,13 +32,20 @@ func TrimAPIPrefix(name string) string {
 // by \n. A necessary evil to work around how text/template handles whitespace.
 // The template needs a new line at the end.
 type BlankLineStrippingWriter struct {
-	output io.Writer
-	buf    *bytes.Buffer
+	output                   io.Writer
+	buf                      *bytes.Buffer
+	currentLine, startOffset int
 }
 
 // NewBlankLineStrippingWriter creates a new BlankLineStrippingWriter.
-func NewBlankLineStrippingWriter(wrapped io.Writer) *BlankLineStrippingWriter {
-	return &BlankLineStrippingWriter{wrapped, new(bytes.Buffer)}
+//
+// startOffset is the number of lines to ignore before stripping blank lines.
+func NewBlankLineStrippingWriter(wrapped io.Writer, startOffset int) *BlankLineStrippingWriter {
+	return &BlankLineStrippingWriter{
+		output:      wrapped,
+		buf:         new(bytes.Buffer),
+		startOffset: startOffset,
+	}
 }
 
 func isBlank(line string) bool {
@@ -54,7 +61,7 @@ func isBlank(line string) bool {
 
 // Write appends the contents of p to the BlankLineStrippingWriter.
 // The return values are the length of p and the error of the underlaying io.Writer.
-func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
+func (w *BlankLineStrippingWriter) Write(p []byte) (int, error) {
 	// Buffer the current write.
 	// Error is always nil.
 	w.buf.Write(p)
@@ -67,8 +74,10 @@ func (w BlankLineStrippingWriter) Write(p []byte) (int, error) {
 			w.buf.Write([]byte(line))
 			return n, nil
 		}
-		// Write non-empty lines from the buffer.
-		if !isBlank(line) {
+		// Write non-empty lines (or ones that are before the start offset)
+		// from the buffer.
+		w.currentLine++
+		if !isBlank(line) || w.currentLine < w.startOffset {
 			if _, err := w.output.Write([]byte(line)); err != nil {
 				return n, err
 			}

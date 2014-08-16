@@ -52,14 +52,14 @@ func (pkg *Package) GeneratePackage() error {
 		return err
 	}
 
-	if err := pkg.generateFile("package", dir); err != nil {
+	if err := pkg.generateFile("package", dir, 17); err != nil {
 		return err
 	}
-	if err := pkg.generateFile("conversions", dir); err != nil {
+	if err := pkg.generateFile("conversions", dir, 3); err != nil {
 		return err
 	}
 	if pkg.HasDebugCallbackFeature() {
-		if err := pkg.generateFile("debug", dir); err != nil {
+		if err := pkg.generateFile("debug", dir, 3); err != nil {
 			return err
 		}
 	}
@@ -67,7 +67,7 @@ func (pkg *Package) GeneratePackage() error {
 	return nil
 }
 
-func (pkg *Package) generateFile(file, dir string) error {
+func (pkg *Package) generateFile(file, dir string, linesToPkgStmt int) error {
 	out, err := os.Create(filepath.Join(dir, file+".go"))
 	if err != nil {
 		return err
@@ -81,7 +81,7 @@ func (pkg *Package) generateFile(file, dir string) error {
 	filePath := pkgPath(file + ".tmpl")
 	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filePath))
 
-	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
+	return tmpl.Execute(NewBlankLineStrippingWriter(out, linesToPkgStmt), pkg)
 }
 
 // HasDebugCallbackFeature returns whether this package exposes the ability to
