@@ -49,6 +49,7 @@ var BlankLineTests = []ByteSliceTest{
 	{[]byte("\nä\n\n"), []byte("ä\n")},
 	{[]byte("\n\nä\n"), []byte("ä\n")},
 	{[]byte("\n\n\nä"), []byte("")},
+	{[]byte("\n//glow:keepspace\n\nä\n\n//glow:rmspace\n\n"), []byte("\nä\n\n")},
 }
 
 func TestBlankLineStrippingWriter(t *testing.T) {

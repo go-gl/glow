@@ -1,12 +1,19 @@
-// Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
-// Generated based on XML spec SVN revision 27695.
 // Copyright (c) 2010 Khronos Group.
 // This material may be distributed subject to the terms and conditions
 // set forth in the Open Publication License, v 1.0, 8 June 1999.
 // http://opencontent.org/openpub/.
+//
 // Copyright (c) 1991-2006 Silicon Graphics, Inc.
 // This document is licensed under the SGI Free Software B License.
 // For details, see http://oss.sgi.com/projects/FreeB.
+
+// Package gl implements Go bindings to OpenGL.
+//
+// This package was automatically generated using Glow:
+//  http://github.com/go-gl/glow
+//
+// Generated based on the OpenGL XML specification:
+//  SVN revision 27695
 package gl
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
@@ -11241,9 +11248,10 @@ package gl
 import "C"
 import (
 	"errors"
+	"unsafe"
+
 	"github.com/go-gl/glow/procaddr"
 	"github.com/go-gl/glow/procaddr/auto"
-	"unsafe"
 )
 
 const (
