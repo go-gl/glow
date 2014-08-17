@@ -1,3 +1,4 @@
+//glow:keepspace
 // Copyright (c) 2010 Khronos Group.
 // This material may be distributed subject to the terms and conditions
 // set forth in the Open Publication License, v 1.0, 8 June 1999.
@@ -15,6 +16,7 @@
 // Generated based on the OpenGL XML specification:
 //  SVN revision {{.SpecRev}}
 package {{.Name}}
+//glow:rmspace
 
 {{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
 {{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{$p.CName}}{{end}}{{end}}{{end}}
