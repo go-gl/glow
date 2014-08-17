@@ -132,7 +132,7 @@ func pkgPath(relPath string) string {
 
 func Replace(s, old, new string) string {
 	if s[:len(s)] != "\n" {
-		s+="\n"
+		s += "\n"
 	}
 	return strings.Replace(s, old, new, -1)
 }
