@@ -136,8 +136,7 @@ func performRestriction(pkg *Package, jsonPath string) {
 		log.Fatal("error reading JSON restriction file:", err)
 	}
 	var r jsonRestriction
-	err = json.Unmarshal(data, &r)
-	if err != nil {
+	if err = json.Unmarshal(data, &r); err != nil {
 		log.Fatal("error parsing JSON restriction file:", err)
 	}
 	pkg.Filter(lookupMap(r.Enums), lookupMap(r.Functions))
