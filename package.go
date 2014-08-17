@@ -75,12 +75,13 @@ func (pkg *Package) generateFile(file, dir string) error {
 	defer out.Close()
 
 	fns := template.FuncMap{
-		"replace": Replace,
+		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
 	}
 	filePath := pkgPath(file + ".tmpl")
 	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filePath))
-	return tmpl.Execute(out, pkg)
+
+	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
 
 // HasDebugCallbackFeature returns whether this package exposes the ability to
@@ -136,3 +137,4 @@ func Replace(s, old, new string) string {
 	}
 	return strings.Replace(s, old, new, -1)
 }
+
