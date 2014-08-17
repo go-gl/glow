@@ -115,10 +115,10 @@ func generate(name string, args []string) {
 }
 
 // Converts a slice string into a simple lookup map.
-func lookupMap(s []string) map[string]struct{} {
-	lookup := make(map[string]struct{}, len(s))
+func lookupMap(s []string) map[string]bool {
+	lookup := make(map[string]bool, len(s))
 	for _, str := range s {
-		lookup[str] = struct{}{}
+		lookup[str] = true
 	}
 	return lookup
 }

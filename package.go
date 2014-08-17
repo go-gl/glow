@@ -112,7 +112,7 @@ func (pkg *Package) HasRequiredFunctions() bool {
 // Filter removes any enums, or functions found in this package that are not
 // listed in the given lookup maps. If either of the maps has a length of zero,
 // filtering does not occur for that type (e.g. all functions are left intact).
-func (pkg *Package) Filter(enums, functions map[string]struct{}) {
+func (pkg *Package) Filter(enums, functions map[string]bool) {
 	if len(enums) > 0 {
 		// Remove any enum not listed in the enums lookup map.
 		for name := range pkg.Enums {
