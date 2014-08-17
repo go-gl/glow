@@ -33,7 +33,7 @@ func TrimAPIPrefix(name string) string {
 // The template needs a new line at the end.
 //
 // Comment-based annotations are accepted to define sections of code that
-// should have their blank lines kept in-tact, like so:
+// should have their blank lines kept intact, like so:
 //
 //  //
 //  //glow:keepspace
