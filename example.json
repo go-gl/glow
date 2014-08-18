@@ -1,0 +1,11 @@
+{
+	"Enums": [
+		"GL_CCW",
+		"GL_COLOR_ATTACHMENT0",
+		"GL_COMPRESSED_RGB"
+	],
+	"Functions": [
+		"glBindTextures",
+		"glBindVertexArray"
+	]
+}

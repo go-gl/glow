@@ -61,5 +61,6 @@ A few notes about the flags to `generate`:
 - `version`: The API version to generate. The `all` pseudo-version includes all functions and enumerations for the specified API.
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).
 - `addext`: A regular expression describing which extensions to include. `.*` by default, including everything.
+- `restrict`: A JSON file that explicitly lists what enumerations / functions that Glow should generate (see example.json).
 - `remext`: A regular expression describing which extensions to exclude. Empty by default, excluding nothing. Takes precedence over explicitly added regular expressions.
 - `lenientInit`: Flag to disable strict function availability checks at `Init` time. By default if any non-extension function pointer cannot be loaded then initialization fails; when this flag is set initialization will succeed with missing functions. Note that on some platforms unavailable functions will load successfully even but fail upon invocation so check against the OpenGL context what is supported.

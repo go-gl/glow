@@ -2,6 +2,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -61,6 +62,7 @@ func generate(name string, args []string) {
 	profile := flags.String("profile", "", "API profile to generate (e.g., core)")
 	addext := flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
 	remext := flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
+	restrict := flags.String("restrict", "", "JSON file of symbols to restrict symbol generation")
 	lenientInit := flags.Bool("lenientInit", false, "When true missing functions do not fail Init")
 	flags.Parse(args)
 
@@ -97,6 +99,9 @@ func generate(name string, args []string) {
 			pkg = spec.ToPackage(packageSpec)
 			pkg.SpecRev = rev
 			docs.AddDocs(pkg)
+			if len(*restrict) > 0 {
+				performRestriction(pkg, *restrict)
+			}
 			if err := pkg.GeneratePackage(); err != nil {
 				log.Fatal("error generating package:", err)
 			}
@@ -107,6 +112,34 @@ func generate(name string, args []string) {
 		log.Fatal("unable to generate package:", packageSpec)
 	}
 	log.Println("generated package in", pkg.Dir())
+}
+
+// Converts a slice string into a simple lookup map.
+func lookupMap(s []string) map[string]bool {
+	lookup := make(map[string]bool, len(s))
+	for _, str := range s {
+		lookup[str] = true
+	}
+	return lookup
+}
+
+type jsonRestriction struct {
+	Enums     []string
+	Functions []string
+}
+
+// Reads the given JSON file path into jsonRestriction and filters the package
+// accordingly.
+func performRestriction(pkg *Package, jsonPath string) {
+	data, err := ioutil.ReadFile(jsonPath)
+	if err != nil {
+		log.Fatal("error reading JSON restriction file:", err)
+	}
+	var r jsonRestriction
+	if err = json.Unmarshal(data, &r); err != nil {
+		log.Fatal("error parsing JSON restriction file:", err)
+	}
+	pkg.Filter(lookupMap(r.Enums), lookupMap(r.Functions))
 }
 
 func parseSpecifications(xmlDir string) ([]*Specification, string) {
