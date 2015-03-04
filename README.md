@@ -1,3 +1,12 @@
+OpenGL bindings moving notice
+-----------------------------
+
+**WARNING:** As of a recent overhaul of go-gl packages, import paths for glow generated gl bindings have changed.
+
+Please see [the announcement](https://docs.google.com/document/d/1zORKEEFPsJ5AujtPbtQYQquvAopuXb3whWud1sA7nAE). It contains full details on how to update to new import paths.
+
+The gl bindings in this repo have a **new, better home and will be removed from this repo in 30 days (on March 22nd, 2015).** Please use the new import paths by then.
+
 Glow
 ====
 
