@@ -14,7 +14,7 @@
 //
 // Generated based on the OpenGL XML specification:
 //  SVN revision 27695
-package gl
+package gl // import "github.com/go-gl/gl/v3.2-compatibility/gl"
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
