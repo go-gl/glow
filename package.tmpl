@@ -3,7 +3,7 @@
 // This material may be distributed subject to the terms and conditions
 // set forth in the Open Publication License, v 1.0, 8 June 1999.
 // http://opencontent.org/openpub/.
-// 
+//
 // Copyright (c) 1991-2006 Silicon Graphics, Inc.
 // This document is licensed under the SGI Free Software B License.
 // For details, see http://oss.sgi.com/projects/FreeB.
@@ -65,14 +65,12 @@ package {{.Name}}
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
 // {{end}}
-// 
+//
 import "C"
 import (
   {{if .HasRequiredFunctions}}
   "errors"
   {{end}}
-  "github.com/go-gl/glow/procaddr"
-  "github.com/go-gl/glow/procaddr/auto"
   "unsafe"
 )
 
@@ -110,10 +108,13 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
 {{end}}
 
 func Init() error {
-  return InitWithProcAddrFunc(auto.GetProcAddress)
+  return InitWithProcAddrFunc(getProcAddress)
 }
 
-func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
+// InitWithProcAddrFunc intializes the package with the given getProcAddr
+// function. It is for advanced clients who wish to provide their own OpenGL
+// function pointers. For most cases Init will be used instead.
+func InitWithProcAddrFunc(getProcAddr func(name string) unsafe.Pointer) error {
   {{range .Functions}}
   gp{{.GoName}} = (C.GP{{toUpper .GoName}})(getProcAddr("{{.Name}}"))
   {{if .Required}}
