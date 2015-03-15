@@ -48,11 +48,6 @@ Examples
 
 Examples illustrating how to use the bindings are available in the [examples](https://github.com/go-gl/examples/tree/master/glow) repo.
 
-Function Loading
-----------------
-
-The `procaddr` package contains platform-specific functions for [loading OpenGL functions](https://www.opengl.org/wiki/Load_OpenGL_Functions). Calling `gl.Init()` uses the `auto` subpackage to automatically select an appropriate implementation based on the build environment. If you want to select a specific implementation you can use the `noauto` build tag and the `gl.InitWithProcAddrFunc` initialization function.
-
 Custom Packages
 ---------------
 
