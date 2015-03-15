@@ -57,6 +57,8 @@ func download(name string, args []string) {
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
 	xmlDir := flags.String("xml", "xml", "XML directory")
+	outDir := flags.String("out", "gl", "Output directory")
+	prefix := flags.String("prefix", "github.com/go-gl/glow", "Import path prefix")
 	api := flags.String("api", "", "API to generate (e.g., gl)")
 	ver := flags.String("version", "", "API version to generate (e.g., 4.1)")
 	profile := flags.String("profile", "", "API profile to generate (e.g., core)")
@@ -97,12 +99,13 @@ func generate(name string, args []string) {
 	for _, spec := range specs {
 		if spec.HasPackage(packageSpec) {
 			pkg = spec.ToPackage(packageSpec)
+			pkg.Prefix = *prefix
 			pkg.SpecRev = rev
 			docs.AddDocs(pkg)
 			if len(*restrict) > 0 {
 				performRestriction(pkg, *restrict)
 			}
-			if err := pkg.GeneratePackage(); err != nil {
+			if err := pkg.GeneratePackage(*outDir); err != nil {
 				log.Fatal("error generating package:", err)
 			}
 			break
@@ -111,7 +114,7 @@ func generate(name string, args []string) {
 	if pkg == nil {
 		log.Fatal("unable to generate package:", packageSpec)
 	}
-	log.Println("generated package in", pkg.Dir())
+	log.Println("generated package in", *outDir)
 }
 
 // Converts a slice string into a simple lookup map.
