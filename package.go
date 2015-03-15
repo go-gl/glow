@@ -58,7 +58,7 @@ func (pkg *Package) GeneratePackage(dir string) error {
 
 	// gofmt the generated .go files.
 	if err := exec.Command("go", "fmt", dir).Run(); err != nil {
-		return nil
+		return err
 	}
 
 	return nil
