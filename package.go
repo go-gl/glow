@@ -12,7 +12,6 @@ import (
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
-	Prefix  string
 	Name    string
 	API     string
 	Version Version
