@@ -32,7 +32,7 @@ type PackageFunction struct {
 	Doc      string
 }
 
-// UniqueName returns a globally unique Go-compatible name for thie package.
+// UniqueName returns a globally unique Go-compatible name for this package.
 func (pkg *Package) UniqueName() string {
 	version := strings.Replace(pkg.Version.String(), ".", "", -1)
 	return fmt.Sprintf("%s%s%s", pkg.API, pkg.Profile, version)
