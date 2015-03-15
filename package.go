@@ -50,6 +50,9 @@ func (pkg *Package) GeneratePackage(dir string) error {
 	if err := pkg.generateFile("conversions", dir); err != nil {
 		return err
 	}
+	if err := pkg.generateFile("procaddr", dir); err != nil {
+		return err
+	}
 	if pkg.HasDebugCallbackFeature() {
 		if err := pkg.generateFile("debug", dir); err != nil {
 			return err
