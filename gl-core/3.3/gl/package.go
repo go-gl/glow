@@ -14,7 +14,7 @@
 //
 // Generated based on the OpenGL XML specification:
 //  SVN revision 27695
-package gl // import "github.com/go-gl/gl/v3.3-core/gl"
+package gl
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
@@ -3823,8 +3823,6 @@ package gl // import "github.com/go-gl/gl/v3.3-core/gl"
 import "C"
 import (
 	"errors"
-	"github.com/go-gl/glow/procaddr"
-	"github.com/go-gl/glow/procaddr/auto"
 	"unsafe"
 )
 
@@ -10068,9 +10066,13 @@ func WaitSync(sync unsafe.Pointer, flags uint32, timeout uint64) {
 	C.glowWaitSync(gpWaitSync, (C.GLsync)(sync), (C.GLbitfield)(flags), (C.GLuint64)(timeout))
 }
 func Init() error {
-	return InitWithProcAddrFunc(auto.GetProcAddress)
+	return InitWithProcAddrFunc(getProcAddress)
 }
-func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
+
+// InitWithProcAddrFunc intializes the package with the given getProcAddr
+// function. It is for advanced clients who wish to provide their own OpenGL
+// function pointers. For most cases Init will be used instead.
+func InitWithProcAddrFunc(getProcAddr func(name string) unsafe.Pointer) error {
 	gpAccumxOES = (C.GPACCUMXOES)(getProcAddr("glAccumxOES"))
 	gpActiveProgramEXT = (C.GPACTIVEPROGRAMEXT)(getProcAddr("glActiveProgramEXT"))
 	gpActiveShaderProgram = (C.GPACTIVESHADERPROGRAM)(getProcAddr("glActiveShaderProgram"))

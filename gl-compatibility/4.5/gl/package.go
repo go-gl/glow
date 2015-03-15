@@ -14,7 +14,7 @@
 //
 // Generated based on the OpenGL XML specification:
 //  SVN revision 27695
-package gl // import "github.com/go-gl/gl/v4.5-compatibility/gl"
+package gl
 
 // #cgo darwin  LDFLAGS: -framework OpenGL
 // #cgo linux   LDFLAGS: -lGL
@@ -11332,8 +11332,6 @@ package gl // import "github.com/go-gl/gl/v4.5-compatibility/gl"
 import "C"
 import (
 	"errors"
-	"github.com/go-gl/glow/procaddr"
-	"github.com/go-gl/glow/procaddr/auto"
 	"unsafe"
 )
 
@@ -28368,9 +28366,13 @@ func WriteMaskEXT(res uint32, in uint32, outX uint32, outY uint32, outZ uint32, 
 	C.glowWriteMaskEXT(gpWriteMaskEXT, (C.GLuint)(res), (C.GLuint)(in), (C.GLenum)(outX), (C.GLenum)(outY), (C.GLenum)(outZ), (C.GLenum)(outW))
 }
 func Init() error {
-	return InitWithProcAddrFunc(auto.GetProcAddress)
+	return InitWithProcAddrFunc(getProcAddress)
 }
-func InitWithProcAddrFunc(getProcAddr procaddr.GetProcAddressFunc) error {
+
+// InitWithProcAddrFunc intializes the package with the given getProcAddr
+// function. It is for advanced clients who wish to provide their own OpenGL
+// function pointers. For most cases Init will be used instead.
+func InitWithProcAddrFunc(getProcAddr func(name string) unsafe.Pointer) error {
 	gpAccum = (C.GPACCUM)(getProcAddr("glAccum"))
 	if gpAccum == nil {
 		return errors.New("glAccum")
