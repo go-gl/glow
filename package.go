@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go/build"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -11,6 +12,7 @@ import (
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
+	Prefix  string
 	Name    string
 	API     string
 	Version Version
@@ -30,24 +32,14 @@ type PackageFunction struct {
 	Doc      string
 }
 
-// Dir returns the directory to which the Go package files are written.
-func (pkg *Package) Dir() string {
-	apiPrefix := pkg.API
-	if pkg.Profile != "" {
-		apiPrefix = pkg.API + "-" + pkg.Profile
-	}
-	return filepath.Join(apiPrefix, pkg.Version.String(), pkg.Name)
-}
-
 // UniqueName returns a globally unique Go-compatible name for thie package.
 func (pkg *Package) UniqueName() string {
 	version := strings.Replace(pkg.Version.String(), ".", "", -1)
 	return fmt.Sprintf("%s%s%s", pkg.API, pkg.Profile, version)
 }
 
-// GeneratePackage writes a Go package file.
-func (pkg *Package) GeneratePackage() error {
-	dir := pkg.Dir()
+// GeneratePackage writes a Go package to specified directory.
+func (pkg *Package) GeneratePackage(dir string) error {
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
 	}
@@ -62,6 +54,11 @@ func (pkg *Package) GeneratePackage() error {
 		if err := pkg.generateFile("debug", dir); err != nil {
 			return err
 		}
+	}
+
+	// gofmt the generated .go files.
+	if err := exec.Command("go", "fmt", dir).Run(); err != nil {
+		return nil
 	}
 
 	return nil
