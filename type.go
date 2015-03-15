@@ -75,7 +75,7 @@ func (t Type) GoType() string {
 	case "GLfixed":
 		return t.pointers() + "int32"
 	case "GLchar", "GLcharARB":
-    // Chosen (vs. byte) for compatibility where GL uses GLubyte for strings (e.g., glGetString)
+		// Chosen (vs. byte) for compatibility where GL uses GLubyte for strings (e.g., glGetString)
 		return t.pointers() + "uint8"
 	case "GLboolean":
 		return t.pointers() + "bool"
