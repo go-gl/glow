@@ -12,7 +12,6 @@ import (
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
 type Package struct {
-	Prefix  string
 	Name    string
 	API     string
 	Version Version
@@ -48,6 +47,9 @@ func (pkg *Package) GeneratePackage(dir string) error {
 		return err
 	}
 	if err := pkg.generateFile("conversions", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("procaddr", dir); err != nil {
 		return err
 	}
 	if pkg.HasDebugCallbackFeature() {
