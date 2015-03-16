@@ -33,14 +33,14 @@ package {{.Name}}
 	#include <stdlib.h>
 	static HMODULE ogl32dll = NULL;
 	void* GlowGetProcAddress(const char* name) {
-		void* pf = wglGetProcAddress((LPCSTR)name);
-		if(pf) {
+		void* pf = wglGetProcAddress((LPCSTR) name);
+		if (pf) {
 			return pf;
 		}
-		if(ogl32dll == NULL) {
+		if (ogl32dll == NULL) {
 			ogl32dll = LoadLibraryA("opengl32.dll");
 		}
-		return GetProcAddress(ogl32dll, (LPCSTR)name);
+		return GetProcAddress(ogl32dll, (LPCSTR) name);
 	}
 
 #elif defined(TAG_DARWIN)
