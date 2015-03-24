@@ -1,12 +1,3 @@
-OpenGL bindings moving notice
------------------------------
-
-**WARNING:** As of a recent overhaul of go-gl packages, import paths for glow generated gl bindings have changed.
-
-Please see [the announcement](https://docs.google.com/document/d/1zORKEEFPsJ5AujtPbtQYQquvAopuXb3whWud1sA7nAE). It contains full details on how to update to new import paths.
-
-The gl bindings in this repo have a **new, better home and will be removed from this repo in 30 days (on March 22nd, 2015).** Please use the new import paths by then.
-
 Glow
 ====
 
@@ -19,34 +10,10 @@ Features:
 
 See the [open issues](https://github.com/go-gl/glow/issues) for caveats about the current state of the implementation.
 
-Usage
------
+Generated Packages
+------------------
 
-Use `go get` to download and install one of the prebuilt packages. The prebuilt packages support OpenGL versions 3.2, 3.3, 4.1, and 4.4 across both the core and compatibility profiles and include all extensions.
-
-    go get github.com/go-gl/glow/gl-{core,compatibility}/{3.2,3.3,4.1,4.4}/gl
-    go get github.com/go-gl/glow/gl-core/3.3/gl
-
-Once the bindings are installed you can use them with the appropriate import statements.
-
-```Go
-import "github.com/go-gl/glow/gl-core/3.3/gl"
-
-func main() {
-  if err := gl.Init(); err != nil {
-    panic(err)
-  }
-}
-```
-
-The `gl` package contains the OpenGL functions and enumeration values for the imported version. It also contains helper functions for working with the API. Of note is `gl.Ptr` which takes a Go array or slice or pointer and returns a corresponding `uintptr` to use with functions expecting data pointers. Also of note is `gl.Str` which takes a null-terminated Go string and returns a corresponding `*int8` to use with functions expecting character pointers.
-
-A note about threading and goroutines. The bindings do not expose a mechanism to make an OpenGL context current on a different thread so you must restrict your usage to the thread on which you called `gl.Init()`. To do so you should use [LockOSThread](https://code.google.com/p/go-wiki/wiki/LockOSThread).
-
-Examples
---------
-
-Examples illustrating how to use the bindings are available in the [examples](https://github.com/go-gl/examples/tree/master/glow) repo.
+Generated OpenGL binding packages are available in the [go-gl/gl](https://github.com/go-gl/gl) repository.
 
 Custom Packages
 ---------------
