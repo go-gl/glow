@@ -29,27 +29,27 @@ func download(name string, args []string) {
 
 	specDir := filepath.Join(*xmlDir, "spec")
 	if err := os.MkdirAll(specDir, 0755); err != nil {
-		log.Fatal("error creating specification output directory:", err)
+		log.Fatalln("error creating specification output directory:", err)
 	}
 
 	docDir := filepath.Join(*xmlDir, "doc")
 	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatal("error creating documentation output directory:", err)
+		log.Fatalln("error creating documentation output directory:", err)
 	}
 
 	rev, err := DownloadSvnDir(specURL, specRegexp, specDir)
 	if err != nil {
-		log.Fatal("error downloading specification files:", err)
+		log.Fatalln("error downloading specification files:", err)
 	}
 
 	specVersionFile := filepath.Join(specDir, "REVISION")
 	if err := ioutil.WriteFile(specVersionFile, []byte(rev), 0644); err != nil {
-		log.Fatal("error writing spec revision metadata file:", err)
+		log.Fatalln("error writing spec revision metadata file:", err)
 	}
 
 	for _, url := range docURLs {
 		if _, err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
-			log.Fatal("error downloading documentation files:", err)
+			log.Fatalln("error downloading documentation files:", err)
 		}
 	}
 }
@@ -69,17 +69,17 @@ func generate(name string, args []string) {
 
 	version, err := ParseVersion(*ver)
 	if err != nil {
-		log.Fatal("error parsing version:", err)
+		log.Fatalln("error parsing version:", err)
 	}
 
 	addExtRegexp, err := regexp.Compile(*addext)
 	if err != nil {
-		log.Fatal("error parsing extension inclusion regexp:", err)
+		log.Fatalln("error parsing extension inclusion regexp:", err)
 	}
 
 	remExtRegexp, err := regexp.Compile(*remext)
 	if err != nil {
-		log.Fatal("error parsing extension exclusion regexp:", err)
+		log.Fatalln("error parsing extension exclusion regexp:", err)
 	}
 
 	packageSpec := &PackageSpec{
@@ -104,13 +104,13 @@ func generate(name string, args []string) {
 				performRestriction(pkg, *restrict)
 			}
 			if err := pkg.GeneratePackage(*outDir); err != nil {
-				log.Fatal("error generating package:", err)
+				log.Fatalln("error generating package:", err)
 			}
 			break
 		}
 	}
 	if pkg == nil {
-		log.Fatal("unable to generate package:", packageSpec)
+		log.Fatalln("unable to generate package:", packageSpec)
 	}
 	log.Println("generated package in", *outDir)
 }
@@ -134,11 +134,11 @@ type jsonRestriction struct {
 func performRestriction(pkg *Package, jsonPath string) {
 	data, err := ioutil.ReadFile(jsonPath)
 	if err != nil {
-		log.Fatal("error reading JSON restriction file:", err)
+		log.Fatalln("error reading JSON restriction file:", err)
 	}
 	var r jsonRestriction
 	if err = json.Unmarshal(data, &r); err != nil {
-		log.Fatal("error parsing JSON restriction file:", err)
+		log.Fatalln("error parsing JSON restriction file:", err)
 	}
 	pkg.Filter(lookupMap(r.Enums), lookupMap(r.Functions))
 }
@@ -147,7 +147,7 @@ func parseSpecifications(xmlDir string) ([]*Specification, string) {
 	specDir := filepath.Join(xmlDir, "spec")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
-		log.Fatal("error reading spec file entries:", err)
+		log.Fatalln("error reading spec file entries:", err)
 	}
 
 	specs := make([]*Specification, 0, len(specFiles))
@@ -157,14 +157,14 @@ func parseSpecifications(xmlDir string) ([]*Specification, string) {
 		}
 		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
 		if err != nil {
-			log.Fatal("error parsing specification:", specFile.Name(), err)
+			log.Fatalln("error parsing specification:", specFile.Name(), err)
 		}
 		specs = append(specs, spec)
 	}
 
 	rev, err := ioutil.ReadFile(filepath.Join(specDir, "REVISION"))
 	if err != nil {
-		log.Fatal("error reading spec revision file:", err)
+		log.Fatalln("error reading spec revision file:", err)
 	}
 
 	return specs, string(rev)
@@ -174,7 +174,7 @@ func parseDocumentation(xmlDir string) Documentation {
 	docDir := filepath.Join(xmlDir, "doc")
 	docFiles, err := ioutil.ReadDir(docDir)
 	if err != nil {
-		log.Fatal("error reading doc file entries:", err)
+		log.Fatalln("error reading doc file entries:", err)
 	}
 
 	docs := make([]string, 0, len(docFiles))
@@ -184,7 +184,7 @@ func parseDocumentation(xmlDir string) Documentation {
 
 	doc, err := NewDocumentation(docs)
 	if err != nil {
-		log.Fatal("error parsing documentation:", err)
+		log.Fatalln("error parsing documentation:", err)
 	}
 
 	return doc
