@@ -520,6 +520,7 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 		Name:      pkgSpec.API,
 		Version:   pkgSpec.Version,
 		Profile:   pkgSpec.Profile,
+		TmplDir:   pkgSpec.TmplDir,
 		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
 		Enums:     make(map[string]*Enum),
 		Functions: make(map[string]*PackageFunction),

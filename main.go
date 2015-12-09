@@ -56,7 +56,8 @@ func download(name string, args []string) {
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("xml", "xml", "XML directory")
+	xmlDir := flags.String("xml", pkgPath("xml"), "XML directory")
+	tmplDir := flags.String("tmpl", pkgPath("tmpl"), "Template directory")
 	outDir := flags.String("out", "gl", "Output directory")
 	api := flags.String("api", "", "API to generate (e.g., gl)")
 	ver := flags.String("version", "", "API version to generate (e.g., 4.1)")
@@ -86,6 +87,7 @@ func generate(name string, args []string) {
 		API:          *api,
 		Version:      version,
 		Profile:      *profile,
+		TmplDir:      *tmplDir,
 		AddExtRegexp: addExtRegexp,
 		RemExtRegexp: remExtRegexp,
 		LenientInit:  *lenientInit,
@@ -195,6 +197,7 @@ type PackageSpec struct {
 	API          string
 	Version      Version
 	Profile      string // If "all" overrides the version spec
+	TmplDir      string
 	AddExtRegexp *regexp.Regexp
 	RemExtRegexp *regexp.Regexp
 	LenientInit  bool

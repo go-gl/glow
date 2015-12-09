@@ -16,6 +16,7 @@ type Package struct {
 	API     string
 	Version Version
 	Profile string
+	TmplDir string
 
 	Typedefs  []*Typedef
 	Enums     map[string]*Enum
@@ -67,7 +68,7 @@ func (pkg *Package) GeneratePackage(dir string) error {
 }
 
 func (pkg *Package) generateFile(file, dir string) error {
-	out, err := os.Create(filepath.Join(dir, file+".go"))
+	out, err := os.Create(filepath.Join(dir, file + ".go"))
 	if err != nil {
 		return err
 	}
@@ -77,8 +78,8 @@ func (pkg *Package) generateFile(file, dir string) error {
 		"replace": strings.Replace,
 		"toUpper": strings.ToUpper,
 	}
-	filePath := pkgPath(file + ".tmpl")
-	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filePath))
+
+	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filepath.Join(pkg.TmplDir, file + ".tmpl")))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
