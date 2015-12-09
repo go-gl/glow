@@ -56,16 +56,18 @@ func download(name string, args []string) {
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("xml", importPathToDir("github.com/go-gl/glow/xml"), "XML directory")
-	tmplDir := flags.String("tmpl", importPathToDir("github.com/go-gl/glow/tmpl"), "Template directory")
-	outDir := flags.String("out", "gl", "Output directory")
-	api := flags.String("api", "", "API to generate (e.g., gl)")
-	ver := flags.String("version", "", "API version to generate (e.g., 4.1)")
-	profile := flags.String("profile", "", "API profile to generate (e.g., core)")
-	addext := flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
-	remext := flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
-	restrict := flags.String("restrict", "", "JSON file of symbols to restrict symbol generation")
-	lenientInit := flags.Bool("lenientInit", false, "When true missing functions do not fail Init")
+	var (
+		xmlDir      = flags.String("xml", importPathToDir("github.com/go-gl/glow/xml"), "XML directory")
+		tmplDir     = flags.String("tmpl", importPathToDir("github.com/go-gl/glow/tmpl"), "Template directory")
+		outDir      = flags.String("out", "gl", "Output directory")
+		api         = flags.String("api", "", "API to generate (e.g., gl)")
+		ver         = flags.String("version", "", "API version to generate (e.g., 4.1)")
+		profile     = flags.String("profile", "", "API profile to generate (e.g., core)")
+		addext      = flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
+		remext      = flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
+		restrict    = flags.String("restrict", "", "JSON file of symbols to restrict symbol generation")
+		lenientInit = flags.Bool("lenientInit", false, "When true missing functions do not fail Init")
+	)
 	flags.Parse(args)
 
 	version, err := ParseVersion(*ver)
