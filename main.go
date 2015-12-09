@@ -56,8 +56,8 @@ func download(name string, args []string) {
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("xml", pkgPath("xml"), "XML directory")
-	tmplDir := flags.String("tmpl", pkgPath("tmpl"), "Template directory")
+	xmlDir := flags.String("xml", importPathToDir("github.com/go-gl/glow/xml"), "XML directory")
+	tmplDir := flags.String("tmpl", importPathToDir("github.com/go-gl/glow/tmpl"), "Template directory")
 	outDir := flags.String("out", "gl", "Output directory")
 	api := flags.String("api", "", "API to generate (e.g., gl)")
 	ver := flags.String("version", "", "API version to generate (e.g., 4.1)")

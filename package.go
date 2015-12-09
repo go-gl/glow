@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go/build"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -68,7 +69,7 @@ func (pkg *Package) GeneratePackage(dir string) error {
 }
 
 func (pkg *Package) generateFile(file, dir string) error {
-	out, err := os.Create(filepath.Join(dir, file + ".go"))
+	out, err := os.Create(filepath.Join(dir, file+".go"))
 	if err != nil {
 		return err
 	}
@@ -79,7 +80,7 @@ func (pkg *Package) generateFile(file, dir string) error {
 		"toUpper": strings.ToUpper,
 	}
 
-	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filepath.Join(pkg.TmplDir, file + ".tmpl")))
+	tmpl := template.Must(template.New(file + ".tmpl").Funcs(fns).ParseFiles(filepath.Join(pkg.TmplDir, file+".tmpl")))
 
 	return tmpl.Execute(NewBlankLineStrippingWriter(out), pkg)
 }
@@ -134,24 +135,13 @@ func (pkg *Package) Filter(enums, functions map[string]bool) {
 	}
 }
 
-// This package's directory (relative to $GOPATH).
-const pkgDir = "src/github.com/go-gl/glow"
-
-// Cached absolute path to this package's directory (determined in the pkgPath
-// function below).
-var absPkgDir string
-
-// pkgPath resolves a path relative to the package directory (see above).
-func pkgPath(relPath string) string {
-	if len(absPkgDir) == 0 {
-		// Find absolute path to this package's directory.
-		for _, path := range filepath.SplitList(build.Default.GOPATH) {
-			path = filepath.Join(path, pkgDir)
-			if _, err := os.Stat(path); err == nil {
-				absPkgDir = path
-				break
-			}
-		}
+// importPathToDir resolves the absolute path to an import path.
+// There doesn't need to be a valid Go package inside that import path,
+// but the directory must exist.
+func importPathToDir(importPath string) string {
+	p, err := build.Import(importPath, "", build.FindOnly)
+	if err != nil {
+		log.Fatalln(err)
 	}
-	return filepath.Join(absPkgDir, relPath)
+	return p.Dir
 }
