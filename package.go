@@ -135,9 +135,9 @@ func (pkg *Package) Filter(enums, functions map[string]bool) {
 	}
 }
 
-// importPathToDir resolves the absolute path to an import path.
+// importPathToDir resolves the absolute path from importPath.
 // There doesn't need to be a valid Go package inside that import path,
-// but the directory must exist.
+// but the directory must exist. It calls log.Fatalln if it fails.
 func importPathToDir(importPath string) string {
 	p, err := build.Import(importPath, "", build.FindOnly)
 	if err != nil {
