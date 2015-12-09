@@ -31,6 +31,9 @@ A few notes about the flags to `generate`:
 - `api`: One of `gl`, `egl`, `wgl`, or `glx`.
 - `version`: The API version to generate. The `all` pseudo-version includes all functions and enumerations for the specified API.
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).
+- `xml`: The XML directory.
+- `tmpl`: The template directory.
+- `out`: The output directory for generated files.
 - `addext`: A regular expression describing which extensions to include. `.*` by default, including everything.
 - `restrict`: A JSON file that explicitly lists what enumerations / functions that Glow should generate (see example.json).
 - `remext`: A regular expression describing which extensions to exclude. Empty by default, excluding nothing. Takes precedence over explicitly added regular expressions.
