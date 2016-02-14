@@ -28,7 +28,7 @@ If the prebuilt, go-gettable packages are not suitable for your needs you can bu
     go install ./gl-core/3.3/gl
 
 A few notes about the flags to `generate`:
-- `api`: One of `gl`, `egl`, `wgl`, or `glx`.
+- `api`: One of `gl`, `gles1`, `gles2`, `egl`, `wgl`, or `glx`.
 - `version`: The API version to generate. The `all` pseudo-version includes all functions and enumerations for the specified API.
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).
 - `xml`: The XML directory.
