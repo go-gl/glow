@@ -386,7 +386,7 @@ func parseExtensions(xmlExtensions []xmlExtension) ([]SpecificationExtension, er
 		}
 		extension := SpecificationExtension{
 			Name:      xmlExtension.Name,
-			APIRegexp: regexp.MustCompile("^" + xmlExtension.Supported + "$"),
+			APIRegexp: regexp.MustCompile("^(" + xmlExtension.Supported + ")$"),
 			AddRem:    parseAddRem(xmlExtension.Requires, xmlExtension.Removes),
 		}
 		extensions = append(extensions, extension)
