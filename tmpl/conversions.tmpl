@@ -2,12 +2,10 @@
 // Glow automatically generated OpenGL binding: http://github.com/go-gl/glow
 
 package {{.Name}}
-//glow:rmspace
 
 import (
 	"C"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 	"unsafe"
@@ -53,7 +51,7 @@ func PtrOffset(offset int) unsafe.Pointer {
 // must ensure the string is not garbage collected.
 func Str(str string) *uint8 {
 	if !strings.HasSuffix(str, "\x00") {
-		log.Fatalln("str argument missing null terminator:", str)
+		panic("str argument missing null terminator: " + str)
 	}
 	header := (*reflect.StringHeader)(unsafe.Pointer(&str))
 	return (*uint8)(unsafe.Pointer(header.Data))
