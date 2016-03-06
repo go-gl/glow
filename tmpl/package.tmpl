@@ -107,6 +107,7 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
 }
 {{end}}
 
+//glow:keepspace
 // Init initializes the OpenGL bindings by loading the function pointers (for
 // each OpenGL function) from the active OpenGL context.
 //
@@ -126,6 +127,7 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
 //
 // For information about caveats of Init, you should read the "Platform Specific
 // Function Retrieval" section of https://www.opengl.org/wiki/Load_OpenGL_Functions.
+//glow:rmspace
 func Init() error {
   return InitWithProcAddrFunc(getProcAddress)
 }
