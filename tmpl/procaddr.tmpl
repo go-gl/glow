@@ -3,7 +3,7 @@
 //
 // windows: WGL
 // darwin: CGL
-// linux: GLX
+// (the other POSIX): GLX
 //
 // Use of EGL instead of the platform's default (listed above) is made possible
 // via the "egl" build tag.
@@ -20,8 +20,8 @@ package {{.Name}}
 #cgo darwin CFLAGS: -DTAG_DARWIN
 #cgo darwin LDFLAGS: -framework OpenGL
 
-#cgo linux CFLAGS: -DTAG_LINUX
-#cgo linux LDFLAGS: -lGL
+#cgo freebsd linux CFLAGS: -DTAG_POSIX
+#cgo freebsd linux LDFLAGS: -lGL
 
 #cgo egl CFLAGS: -DTAG_EGL
 #cgo egl LDFLAGS: -lEGL
@@ -62,7 +62,7 @@ package {{.Name}}
 		return dlsym(RTLD_DEFAULT, name);
 	}
 
-#elif defined(TAG_LINUX)
+#elif defined(TAG_POSIX)
 
 	#include <stdlib.h>
 	#include <GL/glx.h>
