@@ -106,10 +106,7 @@ func (t Type) GoType() string {
 		// an integer type.
 		return t.pointers() + "uintptr"
 	case "GLsync":
-		// GLsync is an opaque pointer type and may not contain actual
-		// pointers but arbitrary numbers. Use uintptr instead of
-		// unsafe.Pointer, as the latter requires valid pointers.
-		return t.pointers() + "uintptr"
+		return t.pointers() + "unsafe.Pointer"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
