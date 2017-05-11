@@ -3,7 +3,7 @@
 //
 // windows: WGL
 // darwin: CGL
-// (the other POSIX): GLX
+// linux freebsd: GLX
 //
 // Use of EGL instead of the platform's default (listed above) is made possible
 // via the "egl" build tag.
@@ -20,8 +20,8 @@ package {{.Name}}
 #cgo darwin CFLAGS: -DTAG_DARWIN
 #cgo darwin LDFLAGS: -framework OpenGL
 
-#cgo freebsd linux CFLAGS: -DTAG_POSIX
-#cgo freebsd linux LDFLAGS: -lGL
+#cgo linux freebsd CFLAGS: -DTAG_POSIX
+#cgo linux freebsd LDFLAGS: -lGL
 
 #cgo egl CFLAGS: -DTAG_EGL
 #cgo egl LDFLAGS: -lEGL

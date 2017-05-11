@@ -25,7 +25,7 @@ package {{.Name}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo darwin        LDFLAGS: -framework OpenGL
-// #cgo freebsd linux LDFLAGS: -lGL
+// #cgo linux freebsd LDFLAGS: -lGL
 // #cgo windows       LDFLAGS: -lopengl32
 //
 // #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
@@ -122,7 +122,7 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
 //
 // On macOS and the other POSIX systems, the behavior is different, but code
 // written compatible with the Windows behavior is compatible with macOS and the
-// other POSIX systems. That is, always  Init under an active OpenGL context, and
+// other POSIX systems. That is, always Init under an active OpenGL context, and
 // always re-init after switching graphics contexts.
 //
 // For information about caveats of Init, you should read the "Platform Specific
