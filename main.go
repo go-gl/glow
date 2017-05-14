@@ -63,8 +63,8 @@ func generate(name string, args []string) {
 		api         = flags.String("api", "", "API to generate (e.g., gl)")
 		ver         = flags.String("version", "", "API version to generate (e.g., 4.1)")
 		profile     = flags.String("profile", "", "API profile to generate (e.g., core)")
-		addext      = flags.String("addext", ".*", "Regular expression of extensions to include (e.g., .*)")
-		remext      = flags.String("remext", "$^", "Regular expression of extensions to exclude (e.g., .*)")
+		addext      = flags.String("addext", "", "Regular expression of extensions to include (e.g., .*)")
+		remext      = flags.String("remext", "", "Regular expression of extensions to exclude (e.g., .*)")
 		restrict    = flags.String("restrict", "", "JSON file of symbols to restrict symbol generation")
 		lenientInit = flags.Bool("lenientInit", false, "When true missing functions do not fail Init")
 	)
@@ -75,14 +75,20 @@ func generate(name string, args []string) {
 		log.Fatalln("error parsing version:", err)
 	}
 
-	addExtRegexp, err := regexp.Compile(*addext)
-	if err != nil {
-		log.Fatalln("error parsing extension inclusion regexp:", err)
+	var addExtRegexp *regexp.Regexp = nil
+	if *addext != "" {
+		addExtRegexp, err = regexp.Compile(*addext)
+		if err != nil {
+			log.Fatalln("error parsing extension inclusion regexp:", err)
+		}
 	}
 
-	remExtRegexp, err := regexp.Compile(*remext)
-	if err != nil {
-		log.Fatalln("error parsing extension exclusion regexp:", err)
+	var remExtRegexp *regexp.Regexp = nil
+	if *remext != "" {
+		remExtRegexp, err = regexp.Compile(*remext)
+		if err != nil {
+			log.Fatalln("error parsing extension exclusion regexp:", err)
+		}
 	}
 
 	packageSpec := &PackageSpec{
