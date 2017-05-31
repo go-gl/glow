@@ -436,10 +436,11 @@ func (feature SpecificationFeature) shouldInclude(pkgSpec *PackageSpec) bool {
 }
 
 func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool {
-	if !pkgSpec.AddExtRegexp.MatchString(extension.Name) {
-		return false
+	// User extension overrides take precedence
+	if pkgSpec.AddExtRegexp != nil && pkgSpec.AddExtRegexp.MatchString(extension.Name) {
+		return true
 	}
-	if pkgSpec.RemExtRegexp.MatchString(extension.Name) {
+	if pkgSpec.RemExtRegexp != nil && pkgSpec.RemExtRegexp.MatchString(extension.Name) {
 		return false
 	}
 	extensionAPI := pkgSpec.API
@@ -447,10 +448,7 @@ func (extension SpecificationExtension) shouldInclude(pkgSpec *PackageSpec) bool
 	if pkgSpec.API == "gl" && pkgSpec.Profile == "core" {
 		extensionAPI = "glcore"
 	}
-	if !extension.APIRegexp.MatchString(extensionAPI) {
-		return false
-	}
-	return true
+	return extension.APIRegexp.MatchString(extensionAPI)
 }
 
 func (addRem *specAddRemSet) shouldInclude(pkgSpec *PackageSpec) bool {
