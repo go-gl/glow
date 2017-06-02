@@ -34,7 +34,7 @@ A few notes about the flags to `generate`:
 - `xml`: The XML directory.
 - `tmpl`: The template directory.
 - `out`: The output directory for generated files.
-- `addext`: A regular expression describing which extensions to include _in addition_ to those supported by the selected profile. Empty by default, including nothing additional. Takes precedence over explicit removal.
-- `remext`: A regular expression describing which extensions to exclude. Empty by default, excluding nothing.
+- `addext`: If non-empty, a regular expression describing which extensions to include _in addition_ to those supported by the selected profile. Empty by default, including nothing additional. Takes precedence over explicit removal.
+- `remext`: If non-empty, A regular expression describing which extensions to exclude. Empty by default, excluding nothing.
 - `restrict`: A JSON file that explicitly lists what enumerations / functions that Glow should generate (see example.json).
 - `lenientInit`: Flag to disable strict function availability checks at `Init` time. By default if any non-extension function pointer cannot be loaded then initialization fails; when this flag is set initialization will succeed with missing functions. Note that on some platforms unavailable functions will load successfully even but fail upon invocation so check against the OpenGL context what is supported.
