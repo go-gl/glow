@@ -33,7 +33,7 @@ package {{.Name}}
 
 	#include <stdlib.h>
 	#include <EGL/egl.h>
-	void* GlowGetProcAddress(const char* name) {
+	void* GlowGetProcAddress_{{.UniqueName}}(const char* name) {
 		return eglGetProcAddress(name);
 	}
 
@@ -43,7 +43,7 @@ package {{.Name}}
 	#include <windows.h>
 	#include <stdlib.h>
 	static HMODULE ogl32dll = NULL;
-	void* GlowGetProcAddress(const char* name) {
+	void* GlowGetProcAddress_{{.UniqueName}}(const char* name) {
 		void* pf = wglGetProcAddress((LPCSTR) name);
 		if (pf) {
 			return pf;
@@ -58,7 +58,7 @@ package {{.Name}}
 
 	#include <stdlib.h>
 	#include <dlfcn.h>
-	void* GlowGetProcAddress(const char* name) {
+	void* GlowGetProcAddress_{{.UniqueName}}(const char* name) {
 		return dlsym(RTLD_DEFAULT, name);
 	}
 
@@ -66,7 +66,7 @@ package {{.Name}}
 
 	#include <stdlib.h>
 	#include <GL/glx.h>
-	void* GlowGetProcAddress(const char* name) {
+	void* GlowGetProcAddress_{{.UniqueName}}(const char* name) {
 		return glXGetProcAddress(name);
 	}
 
@@ -79,5 +79,5 @@ import "unsafe"
 func getProcAddress(namea string) unsafe.Pointer {
 	cname := C.CString(namea)
 	defer C.free(unsafe.Pointer(cname))
-	return C.GlowGetProcAddress(cname)
+	return C.GlowGetProcAddress_{{.UniqueName}}(cname)
 }
