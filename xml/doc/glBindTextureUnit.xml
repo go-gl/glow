@@ -55,10 +55,20 @@ Specifies the name of a texture.                    </para>
   </refsect1>
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument <constant>GL_TEXTURE_BINDING_1D</constant>, <constant>GL_TEXTURE_BINDING_2D</constant>, <constant>GL_TEXTURE_BINDING_3D</constant>, <constant>GL_TEXTURE_BINDING_1D_ARRAY</constant>, <constant>GL_TEXTURE_BINDING_2D_ARRAY</constant>, <constant>GL_TEXTURE_BINDING_RECTANGLE</constant>, <constant>GL_TEXTURE_BINDING_BUFFER</constant>, <constant>GL_TEXTURE_BINDING_CUBE_MAP</constant>, <constant>GL_TEXTURE_BINDING_CUBE_MAP_ARRAY</constant>, <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE</constant> or <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY</constant>.
-        </para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_TEXTURE_BINDING_1D</constant>,
+        <constant>GL_TEXTURE_BINDING_2D</constant>,
+        <constant>GL_TEXTURE_BINDING_3D</constant>,
+        <constant>GL_TEXTURE_BINDING_1D_ARRAY</constant>,
+        <constant>GL_TEXTURE_BINDING_2D_ARRAY</constant>,
+        <constant>GL_TEXTURE_BINDING_RECTANGLE</constant>,
+        <constant>GL_TEXTURE_BINDING_BUFFER</constant>,
+        <constant>GL_TEXTURE_BINDING_CUBE_MAP</constant>,
+        <constant>GL_TEXTURE_BINDING_CUBE_MAP_ARRAY</constant>,
+        <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE</constant> or
+        <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY</constant>.
+    </para>
   </refsect1>
   <refsect1 xml:id="errors">
     <title>Errors</title>
@@ -80,42 +90,19 @@ Specifies the name of a texture.                    </para>
     </refsect1>
     <refsect1 xml:id="seealso">
     <title>See Also</title>
-    <para><citerefentry>
-        <refentrytitle>glDeleteTextures</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glGenTextures</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glGetTexParameter</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glIsTexture</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexImage2DMultisample</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexImage3DMultisample</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexBuffer</refentrytitle>
-      </citerefentry>,
-            <citerefentry>
-        <refentrytitle>glTexParameter</refentrytitle>
-      </citerefentry>
+        <para>
+            <citerefentry><refentrytitle>glDeleteTextures</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGenTextures</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGetTexParameter</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glIsTexture</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage2DMultisample</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage3DMultisample</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexBuffer</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright">

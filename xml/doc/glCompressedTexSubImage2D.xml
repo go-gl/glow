@@ -193,17 +193,16 @@
     image format (such as <constant>GL_RGTC</constant>) or an
     extension-specified compressed-texture format. The
     <parameter>format</parameter> of the compressed texture image is selected
-    by the GL implementation that compressed it (see <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>) and should be queried at the time the texture was
-    compressed with <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry>.</para>
+    by the GL implementation that compressed it (see
+    <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>)
+    and should be queried at the time the texture was
+    compressed with
+    <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry>.</para>
 
     <para>If a non-zero named buffer object is bound to the
-    <constant>GL_PIXEL_UNPACK_BUFFER</constant> target (see <citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>) while a texture image is specified,
+    <constant>GL_PIXEL_UNPACK_BUFFER</constant> target (see
+    <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>)
+    while a texture image is specified,
     <parameter>data</parameter> is treated as a byte offset into the buffer
     object's data store.</para>
   </refsect1>

@@ -107,9 +107,9 @@
     <function>glCopyTextureSubImage1D</function> replace a portion of a
     one-dimensional texture image with pixels from the current
     <constant>GL_READ_BUFFER</constant> (rather than from main memory, as is
-    the case for <citerefentry>
-        <refentrytitle>glTexSubImage1D</refentrytitle>
-      </citerefentry>). For <function>glCopyTexSubImage1D</function>, the
+    the case for
+    <citerefentry><refentrytitle>glTexSubImage1D</refentrytitle></citerefentry>).
+    For <function>glCopyTexSubImage1D</function>, the
     texture object that is bound to <parameter>target</parameter> will be used
     for the process. For <function>glCopyTextureSubImage1D</function>,
     <parameter>texture</parameter> tells which texture object should be used
@@ -138,9 +138,9 @@
     not include any texels outside the texture array as it was originally
     specified.</para>
 
-    <para>The pixels in the row are processed exactly as if <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry> had been called, but the process stops just before final
+    <para>The pixels in the row are processed exactly as if
+    <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>
+    had been called, but the process stops just before final
     conversion. At this point, all pixel component values are clamped to the
     range <inlineequation><mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" overflow="scroll">
           <!-- eqn: [0,1]: -->
@@ -168,9 +168,9 @@
   <refsect1 xml:id="notes">
     <title>Notes</title>
 
-    <para>The <citerefentry>
-        <refentrytitle>glPixelStore</refentrytitle>
-      </citerefentry> mode affects texture images.</para>
+    <para>The
+        <citerefentry><refentrytitle>glPixelStore</refentrytitle></citerefentry>
+        mode affects texture images.</para>
   </refsect1>
 
   <refsect1 xml:id="errors">
@@ -191,13 +191,12 @@
     not <constant>GL_TEXTURE_1D</constant>.</para>
 
     <para><constant>GL_INVALID_OPERATION</constant> is generated if the
-    texture array has not been defined by a previous <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage1D</refentrytitle>
-      </citerefentry>, or <citerefentry>
-        <refentrytitle>glTexStorage1D</refentrytitle>
-      </citerefentry> operation.</para>
+    texture array has not been defined by a previous
+    <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexImage1D</refentrytitle></citerefentry>,
+    or
+    <citerefentry><refentrytitle>glTexStorage1D</refentrytitle></citerefentry>
+    operation.</para>
 
     <para><constant>GL_INVALID_VALUE</constant> is generated if
     <parameter>level</parameter> is less than 0.</para>

@@ -174,9 +174,9 @@
     <para>Except for <constant>GL_NONE</constant>, the preceding symbolic
     constants may not appear more than once in <parameter>bufs</parameter>.
     The maximum number of draw buffers supported is implementation dependent
-    and can be queried by calling <citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with the argument
+    and can be queried by calling
+    <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+    with the argument
     <constant>GL_MAX_DRAW_BUFFERS</constant>.</para>
   </refsect1>
 
@@ -244,17 +244,18 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_MAX_DRAW_BUFFERS</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_MAX_DRAW_BUFFERS</constant>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_DRAW_BUFFER</constant><emphasis>i</emphasis> where
-    <emphasis><code>i</code></emphasis> indicates the number of the draw
-    buffer whose value is to be queried</para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument
+        <constant>GL_DRAW_BUFFER</constant><emphasis>i</emphasis> where
+        <emphasis><code>i</code></emphasis> indicates the number of the draw
+        buffer whose value is to be queried.
+    </para>
   </refsect1>
 
   <refsect1 xml:id="versions">

@@ -175,19 +175,19 @@
     (<parameter>x</parameter>, <parameter>y</parameter>), into client memory
     starting at location <parameter>data</parameter>. Several parameters
     control the processing of the pixel data before it is placed into client
-    memory. These parameters are set with <citerefentry>
-        <refentrytitle>glPixelStore</refentrytitle>
-      </citerefentry>. This reference page describes the effects on
+    memory. These parameters are set with
+    <citerefentry><refentrytitle>glPixelStore</refentrytitle></citerefentry>.
+    This reference page describes the effects on
     <function>glReadPixels</function> and <function>glReadnPixels</function>
     of most, but not all of the parameters specified by these three
     commands.</para>
 
     <para>If a non-zero named buffer object is bound to the
-    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see <citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>) while a block of pixels is requested,
-    <parameter>data</parameter> is treated as a byte offset into the buffer
-    object's data store rather than a pointer to client memory.</para>
+    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see
+    <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>)
+    while a block of pixels is requested, <parameter>data</parameter> is
+    treated as a byte offset into the buffer object's data store rather than
+    a pointer to client memory.</para>
 
     <para><function>glReadPixels</function> and
     <function>glReadnPixels</function> return values from each pixel with
@@ -322,8 +322,8 @@
                 <colspec align="center"/>
                 <thead>
                     <row>
-                        <entry> 
-                            <parameter>type</parameter> 
+                        <entry>
+                            <parameter>type</parameter>
                         </entry>
                         <entry>
                             <emphasis role="bold"> Index Mask </emphasis>
@@ -1108,13 +1108,13 @@
     <constant>GL_RGBA</constant> and <constant>GL_BGRA</constant> return four
     values for each pixel, with all values corresponding to a single pixel
     occupying contiguous space in <parameter>data</parameter>. Storage
-    parameters set by <citerefentry>
-        <refentrytitle>glPixelStore</refentrytitle>
-      </citerefentry>, such as <constant>GL_PACK_LSB_FIRST</constant> and
+    parameters set by
+    <citerefentry><refentrytitle>glPixelStore</refentrytitle></citerefentry>,
+    such as <constant>GL_PACK_LSB_FIRST</constant> and
     <constant>GL_PACK_SWAP_BYTES</constant>, affect the way that data is
-    written into memory. See <citerefentry>
-        <refentrytitle>glPixelStore</refentrytitle>
-      </citerefentry> for a description.</para>
+    written into memory. See
+    <citerefentry><refentrytitle>glPixelStore</refentrytitle>
+    </citerefentry> for a description.</para>
 
     <para><function>glReadnPixels</function> function will only handle the
     call if <parameter>bufSize</parameter> is at least of the size required to
@@ -1214,10 +1214,9 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_PIXEL_PACK_BUFFER_BINDING</constant></para>
+    <para><citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_PIXEL_PACK_BUFFER_BINDING</constant>
+    </para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

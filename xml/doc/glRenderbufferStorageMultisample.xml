@@ -209,19 +209,14 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGenRenderbuffers</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glBindRenderbuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glNamedRenderbufferStorage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glRenderbufferStorage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glFramebufferRenderbuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glDeleteRenderbuffers</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGenRenderbuffers</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glBindRenderbuffer</refentrytitle></citerefentry>,
+        <!-- FIX: link to glRenderbufferStorage --> <function>glNamedRenderbufferStorage</function>,
+        <citerefentry><refentrytitle>glRenderbufferStorage</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glFramebufferRenderbuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glDeleteRenderbuffers</refentrytitle></citerefentry>
+    </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

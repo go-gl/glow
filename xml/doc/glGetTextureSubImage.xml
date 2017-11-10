@@ -348,25 +348,17 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexImage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glGetTextureImage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage3D</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGetTexImage</refentrytitle></citerefentry>,
+        <!-- FIX: link to glGetTexImage --> <function>glGetTextureImage</function>,
+        <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage3D</refentrytitle></citerefentry>
+    </para>
   </refsect1>
 
     <refsect1 xml:id="Copyright"><title>Copyright</title>

@@ -69,7 +69,7 @@
         <para>
             <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteQueries</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function>,
             <citerefentry><refentrytitle>glGenQueries</refentrytitle></citerefentry>
         </para>
     </refsect1>

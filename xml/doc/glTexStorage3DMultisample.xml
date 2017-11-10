@@ -190,7 +190,7 @@
     </refsect1>
     <refsect1 xml:id="associatedgets"><title>Associated Gets</title>
         <para>
-            <citerefentry><refentrytitle>glGetInteger</refentrytitle></citerefentry> with arguments <constant>GL_MAX_TEXTURE_SIZE</constant>,
+            <!-- FIX: link to glGet --> <function>glGetInteger</function> with arguments <constant>GL_MAX_TEXTURE_SIZE</constant>,
             <constant>GL_MAX_ARRAY_TEXTURE_LEVELS</constant>, <constant>GL_TEXTURE_VIEW_MIN_LAYER</constant>,
             <constant>GL_TEXTURE_VIEW_NUM_LAYERS</constant>, or <constant>GL_TEXTURE_IMMUTABLE_LEVELS</constant>.
         </para>

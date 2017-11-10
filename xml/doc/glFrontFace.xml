@@ -50,7 +50,7 @@
             Eliminating these invisible polygons has the obvious benefit
             of speeding up the rendering of the image.
             To enable and disable elimination of back-facing polygons, call <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry>
-            and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> with argument <constant>GL_CULL_FACE</constant>.
+            and <!-- FIX: link to glEnable --> <function>glDisable</function> with argument <constant>GL_CULL_FACE</constant>.
         </para>
         <para>
             The projection of a polygon to window coordinates is said to have

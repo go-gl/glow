@@ -92,7 +92,7 @@
     </refsect1>
     <refsect1 xml:id="errors"><title>Errors</title>
         <para>
-            <constant>GL_INVALID_ENUM</constant> is generated if if <parameter>type</parameter> is not
+            <constant>GL_INVALID_ENUM</constant> is generated if <parameter>type</parameter> is not
             an accepted shader type.
         </para>
         <para>

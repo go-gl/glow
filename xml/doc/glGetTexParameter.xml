@@ -202,24 +202,25 @@
     <title>Description</title>
 
     <para><function>glGetTexParameter</function> and
-    <function>glGetTextureParameter</function> return in
-    <parameter>params</parameter> the value or values of the texture parameter
-    specified as <parameter>pname</parameter>. <parameter>target</parameter>
-    defines the target texture. <constant>GL_TEXTURE_1D</constant>,
-    <constant>GL_TEXTURE_2D</constant>, <constant>GL_TEXTURE_3D</constant>,
-    <constant>GL_TEXTURE_1D_ARRAY</constant>,
-    <constant>GL_TEXTURE_2D_ARRAY</constant>,
-    <constant>GL_TEXTURE_RECTANGLE</constant>,
-    <constant>GL_TEXTURE_CUBE_MAP</constant>,
-    <constant>GL_TEXTURE_CUBE_MAP_ARRAY</constant>,
-    <constant>GL_TEXTURE_2D_MULTISAMPLE</constant>, or
-    <constant>GL_TEXTURE_2D_MULTISAMPLE_ARRAY</constant> specify one-, two-,
-    or three-dimensional, one-dimensional array, two-dimensional array,
-    rectangle, cube-mapped or cube-mapped array, two-dimensional multisample,
-    or two-dimensional multisample array texturing, respectively.
-    <parameter>pname</parameter> accepts the same symbols as <citerefentry>
-        <refentrytitle>glTexParameter</refentrytitle>
-      </citerefentry>, with the same interpretations:</para>
+        <function>glGetTextureParameter</function> return in
+        <parameter>params</parameter> the value or values of the texture parameter
+        specified as <parameter>pname</parameter>. <parameter>target</parameter>
+        defines the target texture. <constant>GL_TEXTURE_1D</constant>,
+        <constant>GL_TEXTURE_2D</constant>, <constant>GL_TEXTURE_3D</constant>,
+        <constant>GL_TEXTURE_1D_ARRAY</constant>,
+        <constant>GL_TEXTURE_2D_ARRAY</constant>,
+        <constant>GL_TEXTURE_RECTANGLE</constant>,
+        <constant>GL_TEXTURE_CUBE_MAP</constant>,
+        <constant>GL_TEXTURE_CUBE_MAP_ARRAY</constant>,
+        <constant>GL_TEXTURE_2D_MULTISAMPLE</constant>, or
+        <constant>GL_TEXTURE_2D_MULTISAMPLE_ARRAY</constant> specify one-, two-,
+        or three-dimensional, one-dimensional array, two-dimensional array,
+        rectangle, cube-mapped or cube-mapped array, two-dimensional multisample,
+        or two-dimensional multisample array texturing, respectively.
+        <parameter>pname</parameter> accepts the same symbols as
+        <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>,
+        with the same interpretations:
+    </para>
 
     <variablelist>
       <varlistentry>
@@ -405,10 +406,9 @@
 
         <listitem>
           <para>Returns a single-valued texture comparison mode, a symbolic
-          constant. The initial value is <constant>GL_NONE</constant>. See
-          <citerefentry>
-              <refentrytitle>glTexParameter</refentrytitle>
-            </citerefentry>.</para>
+            constant. The initial value is <constant>GL_NONE</constant>. See
+            <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -417,10 +417,10 @@
 
         <listitem>
           <para>Returns a single-valued texture comparison function, a
-          symbolic constant. The initial value is
-          <constant>GL_LEQUAL</constant>. See <citerefentry>
-              <refentrytitle>glTexParameter</refentrytitle>
-            </citerefentry>.</para>
+            symbolic constant. The initial value is
+            <constant>GL_LEQUAL</constant>. See
+            <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -428,10 +428,10 @@
         <term><constant>GL_TEXTURE_VIEW_MIN_LEVEL</constant></term>
 
         <listitem>
-          <para>Returns a single-valued base level of a texture view relative
-          to its parent. The initial value is 0. See <citerefentry>
-              <refentrytitle>glTextureView</refentrytitle>
-            </citerefentry>.</para>
+          <para>Returns a single-valued base level of a texture view
+            relative to its parent. The initial value is 0. See
+            <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -440,9 +440,9 @@
 
         <listitem>
           <para>Returns a single-valued number of levels of detail of a
-          texture view. See <citerefentry>
-              <refentrytitle>glTextureView</refentrytitle>
-            </citerefentry>.</para>
+            texture view. See
+            <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -451,9 +451,9 @@
 
         <listitem>
           <para>Returns a single-valued first level of a texture array view
-          relative to its parent. See <citerefentry>
-              <refentrytitle>glTextureView</refentrytitle>
-            </citerefentry>.</para>
+            relative to its parent. See
+            <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -462,9 +462,9 @@
 
         <listitem>
           <para>Returns a single-valued number of layers in a texture array
-          view. See <citerefentry>
-              <refentrytitle>glTextureView</refentrytitle>
-            </citerefentry>.</para>
+            view. See
+            <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -472,19 +472,19 @@
         <term><constant>GL_TEXTURE_IMMUTABLE_LEVELS</constant></term>
 
         <listitem>
-          <para>Returns a single-valued number of immutable texture levels in
-          a texture view. See <citerefentry>
-              <refentrytitle>glTextureView</refentrytitle>
-            </citerefentry>.</para>
+          <para>Returns a single-valued number of immutable texture levels
+            in a texture view. See
+            <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>In addition to the parameters that may be set with <citerefentry>
-        <refentrytitle>glTexParameter</refentrytitle>
-      </citerefentry>, <function>glGetTexParameter</function> and
-    <function>glGetTextureParameter</function> accept the following read-only
-    parameters:</para>
+    <para>In addition to the parameters that may be set with
+    <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>,
+    <function>glGetTexParameter</function> and
+    <function>glGetTextureParameter</function> accept the following
+    read-only parameters:</para>
 
     <variablelist>
       <varlistentry>
@@ -505,14 +505,12 @@
         <listitem>
           <para>Returns non-zero if the texture has an immutable format.
           Textures become immutable if their storage is specified with
-          <citerefentry>
-              <refentrytitle>glTexStorage1D</refentrytitle>
-            </citerefentry>, <citerefentry>
-              <refentrytitle>glTexStorage2D</refentrytitle>
-            </citerefentry> or <citerefentry>
-              <refentrytitle>glTexStorage3D</refentrytitle>
-            </citerefentry>. The initial value is
-          <constant>GL_FALSE</constant>.</para>
+          <citerefentry><refentrytitle>glTexStorage1D</refentrytitle></citerefentry>,
+          <citerefentry><refentrytitle>glTexStorage2D</refentrytitle></citerefentry>
+          or
+          <citerefentry><refentrytitle>glTexStorage3D</refentrytitle></citerefentry>.
+          The initial value is <constant>GL_FALSE</constant>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -614,25 +612,17 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glTexParameter</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTextureParameter</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexStorage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexStorage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexStorage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTextureStorage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTextureStorage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTextureStorage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTextureView</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>,
+        <!-- FIX: link to glTexParameter --> <function>glTextureParameter</function>,
+        <citerefentry><refentrytitle>glTexStorage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexStorage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexStorage3D</refentrytitle></citerefentry>,
+        <!-- FIX: link to glTexStorage1D --> <function>glTextureStorage1D</function>,
+        <!-- FIX: link to glTexStorage2D --> <function>glTextureStorage2D</function>,
+        <!-- FIX: link to glTexStorage3D --> <function>glTextureStorage3D</function>,
+        <citerefentry><refentrytitle>glTextureView</refentrytitle></citerefentry>
+    </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

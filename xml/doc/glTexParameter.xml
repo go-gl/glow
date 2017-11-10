@@ -1423,33 +1423,28 @@
     <para>Suppose that a program attempts to sample from a texture and has set
     <constant>GL_TEXTURE_MIN_FILTER</constant> to one of the functions that
     requires a mipmap. If either the dimensions of the texture images
-    currently defined (with previous calls to <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage1D</refentrytitle>
-      </citerefentry>, or <citerefentry>
-        <refentrytitle>glCopyTexImage2D</refentrytitle>
-      </citerefentry>) do not follow the proper sequence for mipmaps
-    (described above), or there are fewer texture images defined than are
-    needed, or the set of texture images have differing numbers of texture
-    components, then the texture is considered
-    <emphasis>incomplete</emphasis>.</para>
+    currently defined (with previous calls to
+    <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexImage1D</refentrytitle></citerefentry>,
+    or
+    <citerefentry><refentrytitle>glCopyTexImage2D</refentrytitle></citerefentry>)
+    do not follow the proper sequence for mipmaps (described above), or
+    there are fewer texture images defined than are needed, or the set of
+    texture images have differing numbers of texture components, then the
+    texture is considered <emphasis>incomplete</emphasis>.</para>
 
     <para>Linear filtering accesses the four nearest texture elements only in
     2D textures. In 1D textures, linear filtering accesses the two nearest
     texture elements. In 3D textures, linear filtering accesses the eight
     nearest texture elements.</para>
 
-    <para><function>glTexParameter</function> specifies the texture parameters
-    for the active texture unit, specified by calling <citerefentry>
-        <refentrytitle>glActiveTexture</refentrytitle>
-      </citerefentry>. <function>glTextureParameter</function> specifies the
-    texture parameters for the texture object with ID
-    <parameter>texture</parameter>.</para>
+    <para><function>glTexParameter</function> specifies the texture
+    parameters for the active texture unit, specified by calling
+    <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>.
+    <function>glTextureParameter</function> specifies the texture parameters
+    for the texture object with ID <parameter>texture</parameter>.</para>
 
     <para><constant>GL_DEPTH_STENCIL_TEXTURE_MODE</constant> is available only
     if the GL version is 4.3 or greater.</para>
@@ -1525,21 +1520,14 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexParameter</refentrytitle>
-      </citerefentry></para>
+    <para><citerefentry><refentrytitle>glGetTexParameter</refentrytitle></citerefentry></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTextureParameter</refentrytitle>
-      </citerefentry></para>
+    <para><!-- FIX: link to glGetTexParameter --> <function>glGetTextureParameter</function></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry></para>
+    <para><citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTextureLevelParameter</refentrytitle>
-      </citerefentry></para>
+    <para><!-- FIX: link to glGetTexLevelParameter --> <function>glGetTextureLevelParameter</function></para>
+
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>
@@ -1602,37 +1590,23 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glActiveTexture</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glBindTexture</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexSubImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glPixelStore</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glSamplerParameter</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage3D</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glBindTexture</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCopyTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCopyTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCopyTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCopyTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCopyTexSubImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glPixelStore</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glSamplerParameter</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage3D</refentrytitle></citerefentry>
+    </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

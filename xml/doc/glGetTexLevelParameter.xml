@@ -282,20 +282,18 @@
         <listitem>
           <para/>
 
-          <para>The internal storage resolution of an individual component.
-          The resolution chosen by the GL will be a close match for the
-          resolution requested by the user with the component argument of
-          <citerefentry>
-              <refentrytitle>glTexImage1D</refentrytitle>
-            </citerefentry>, <citerefentry>
-              <refentrytitle>glTexImage2D</refentrytitle>
-            </citerefentry>, <citerefentry>
-              <refentrytitle>glTexImage3D</refentrytitle>
-            </citerefentry>, <citerefentry>
-              <refentrytitle>glCopyTexImage1D</refentrytitle>
-            </citerefentry>, and <citerefentry>
-              <refentrytitle>glCopyTexImage2D</refentrytitle>
-            </citerefentry>. The initial value is 0.</para>
+          <para>
+            The internal storage resolution of an individual component. The
+            resolution chosen by the GL will be a close match for the
+            resolution requested by the user with the component argument of
+            <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glCopyTexImage1D</refentrytitle></citerefentry>,
+            and
+            <citerefentry><refentrytitle>glCopyTexImage2D</refentrytitle></citerefentry>.
+            The initial value is 0.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -317,11 +315,12 @@
         <listitem>
           <para/>
 
-          <para><parameter>params</parameter> returns a single integer value,
-          the number of unsigned bytes of the compressed texture image that
-          would be returned from <citerefentry>
-              <refentrytitle>glGetCompressedTexImage</refentrytitle>
-            </citerefentry>.</para>
+          <para>
+            <parameter>params</parameter> returns a single integer value,
+            the number of unsigned bytes of the compressed texture image
+            that would be returned from
+            <citerefentry><refentrytitle>glGetCompressedTexImage</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -332,10 +331,10 @@
           <para/>
 
           <para><parameter>params</parameter> returns a single integer value,
-          the offset into the data store of the buffer bound to a buffer
-          texture. <citerefentry>
-              <refentrytitle>glTexBufferRange</refentrytitle>
-            </citerefentry>.</para>
+            the offset into the data store of the buffer bound to a buffer
+            texture.
+            <citerefentry><refentrytitle>glTexBufferRange</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
 
@@ -346,10 +345,10 @@
           <para/>
 
           <para><parameter>params</parameter> returns a single integer value,
-          the size of the range of a data store of the buffer bound to a
-          buffer texture. <citerefentry>
-              <refentrytitle>glTexBufferRange</refentrytitle>
-            </citerefentry>.</para>
+            the size of the range of a data store of the buffer bound to a
+            buffer texture.
+            <citerefentry><refentrytitle>glTexBufferRange</refentrytitle></citerefentry>.
+          </para>
         </listitem>
       </varlistentry>
     </variablelist>

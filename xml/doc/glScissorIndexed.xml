@@ -87,7 +87,7 @@
         </para>
         <para>
             To enable and disable the scissor test, call
-            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> with argument
+            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function> with argument
             <constant>GL_SCISSOR_TEST</constant>. The test is initially disabled for all viewports.
             While the test is enabled, only pixels that lie within the scissor box
             can be modified by drawing commands.

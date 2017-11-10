@@ -193,7 +193,7 @@
         </informaltable>
     </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
-    <para><citerefentry><refentrytitle>glDisableVertexAttribArray</refentrytitle></citerefentry>,
+    <para><!-- FIX: link to glEnableVertexAttribArray --> <function>glDisableVertexAttribArray</function>,
     <citerefentry><refentrytitle>glEnableVertexAttribArray</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glUseProgram</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glVertexAttrib</refentrytitle></citerefentry>,

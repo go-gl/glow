@@ -140,19 +140,19 @@
 
           <listitem>
             <para>The contents of the data store may be updated after creation
-            through calls to <citerefentry>
-                <refentrytitle>glBufferSubData</refentrytitle>
-              </citerefentry>. If this bit is not set, the buffer content may
+            through calls to
+            <citerefentry><refentrytitle>glBufferSubData</refentrytitle></citerefentry>.
+            If this bit is not set, the buffer content may
             not be directly updated by the client. The data argument may be
             used to specify the initial content of the buffer's data store
             regardless of the presence of the
             <constant>GL_DYNAMIC_STORAGE_BIT</constant>. Regardless of the
             presence of this bit, buffers may always be updated with
-            server-side calls such as <citerefentry>
-                <refentrytitle>glCopyBufferSubData</refentrytitle>
-              </citerefentry> and <citerefentry>
-                <refentrytitle>glClearBufferSubData</refentrytitle>
-              </citerefentry>.</para>
+            server-side calls such as
+            <citerefentry><refentrytitle>glCopyBufferSubData</refentrytitle></citerefentry>
+            and
+            <citerefentry><refentrytitle>glClearBufferSubData</refentrytitle></citerefentry>.
+            </para>
           </listitem>
         </varlistentry>
 
@@ -193,9 +193,9 @@
           <listitem>
             <para>Shared access to buffers that are simultaneously mapped for
             client access and are used by the server will be coherent, so long
-            as that mapping is performed using <citerefentry>
-                <refentrytitle>glMapBufferRange</refentrytitle>
-              </citerefentry>. That is, data written to the store by either
+            as that mapping is performed using
+            <citerefentry><refentrytitle>glMapBufferRange</refentrytitle></citerefentry>.
+            That is, data written to the store by either
             the client or server will be immediately visible to the other with
             no further action taken by the application. In particular,</para>
 
@@ -203,9 +203,8 @@
               <listitem>
                 <para>If <constant>GL_MAP_COHERENT_BIT</constant> is not set
                 and the client performs a write followed by a call to the
-                <citerefentry>
-                    <refentrytitle>glMemoryBarrier</refentrytitle>
-                  </citerefentry> command with the
+                <citerefentry><refentrytitle>glMemoryBarrier</refentrytitle></citerefentry>
+                command with the
                 <constant>GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT</constant> set,
                 then in subsequent commands the server will see the
                 writes.</para>
@@ -220,25 +219,19 @@
               <listitem>
                 <para>If <constant>GL_MAP_COHERENT_BIT</constant> is not set
                 and the server performs a write, the application must call
-                <citerefentry>
-                    <refentrytitle>glMemoryBarrier</refentrytitle>
-                  </citerefentry> with the
-                <constant>GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT</constant> set
-                and then call <citerefentry>
-                    <refentrytitle>glFenceSync</refentrytitle>
-                  </citerefentry> with
-                <constant>GL_SYNC_GPU_COMMANDS_COMPLETE</constant> (or
-                <function>glFinish</function>). Then the CPU will see the
-                writes after the sync is complete.</para>
+                <citerefentry><refentrytitle>glMemoryBarrier</refentrytitle></citerefentry>
+                with the <constant>GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT</constant> set
+                and then call
+                <citerefentry><refentrytitle>glFenceSync</refentrytitle></citerefentry>
+                with <constant>GL_SYNC_GPU_COMMANDS_COMPLETE</constant> (or <function>glFinish</function>). Then the CPU will see the writes after the sync is complete.</para>
               </listitem>
 
               <listitem>
                 <para>If <constant>GL_MAP_COHERENT_BIT</constant> is set and
-                the server does a write, the app must call FenceSync with
+                the server does a write, the app must call <function>glFenceSync</function> with
                 <constant>GL_SYNC_GPU_COMMANDS_COMPLETE</constant> (or
-                <citerefentry>
-                    <refentrytitle>glFinish</refentrytitle>
-                  </citerefentry>). Then the CPU will see the writes after the
+                <citerefentry><refentrytitle>glFinish</refentrytitle></citerefentry>).
+                Then the CPU will see the writes after the
                 sync is complete.</para>
               </listitem>
             </itemizedlist>
@@ -334,13 +327,12 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetBufferSubData</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGetBufferSubData</refentrytitle></citerefentry>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetBufferParameter</refentrytitle>
-      </citerefentry> with argument <constant>GL_BUFFER_SIZE</constant> or
+    <para><citerefentry><refentrytitle>glGetBufferParameter</refentrytitle></citerefentry>
+    with argument <constant>GL_BUFFER_SIZE</constant> or
     <constant>GL_BUFFER_USAGE</constant></para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
@@ -364,15 +356,12 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glBufferSubData</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glMapBuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glUnmapBuffer</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glBufferSubData</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glMapBuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glUnmapBuffer</refentrytitle></citerefentry>
+    </para>
   </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

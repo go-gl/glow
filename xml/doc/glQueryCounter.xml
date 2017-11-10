@@ -52,7 +52,7 @@
             <parameter>target</parameter> must be <constant>GL_TIMESTAMP</constant>. The time is recorded after all previous commands on the
             GL client and server state and the framebuffer have been fully realized. When the time is recorded, the query result for that object
             is marked available. <function>glQueryCounter</function> timer queries can be used within a <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry> /
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry> block where the target is <constant>GL_TIME_ELAPSED</constant> and it does
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function> block where the target is <constant>GL_TIME_ELAPSED</constant> and it does
             not affect the result of that query object.
         </para>
     </refsect1>
@@ -65,7 +65,7 @@
         <para>
             <constant>GL_INVALID_OPERATION</constant> is generated if <parameter>id</parameter> is the name
             of a query object that is already in use within a <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry> /
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry> block.
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function> block.
         </para>
         <para>
             <constant>GL_INVALID_VALUE</constant> is generated if <parameter>id</parameter> is not the name of a query object returned
@@ -92,7 +92,7 @@
         <para>
             <citerefentry><refentrytitle>glGenQueries</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function>,
             <citerefentry><refentrytitle>glDeleteQueries</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryObject</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryiv</refentrytitle></citerefentry>,
