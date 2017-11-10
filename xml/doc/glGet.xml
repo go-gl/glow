@@ -1002,7 +1002,7 @@
                     <para>
                         <parameter>data</parameter> returns one value,
                         the maximum width for a framebuffer that has no attachments, which must be at least 16384.
-                        See <citerefentry><refentrytitle>glFramebufferParameter</refentrytitle></citerefentry>.
+                        See <!-- FIX: link to glFramebufferParameteri --> <function>glFramebufferParameter</function>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1012,7 +1012,7 @@
                     <para>
                         <parameter>data</parameter> returns one value,
                         the maximum height for a framebuffer that has no attachments, which must be at least 16384.
-                        See <citerefentry><refentrytitle>glFramebufferParameter</refentrytitle></citerefentry>.
+                        See <!-- FIX: link to glFramebufferParameteri --> <function>glFramebufferParameter</function>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1022,7 +1022,7 @@
                     <para>
                         <parameter>data</parameter> returns one value,
                         the maximum number of layers for a framebuffer that has no attachments, which must be at least 2048.
-                        See <citerefentry><refentrytitle>glFramebufferParameter</refentrytitle></citerefentry>.
+                        See <!-- FIX: link to glFramebufferParameteri --> <function>glFramebufferParameter</function>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1032,7 +1032,7 @@
                     <para>
                         <parameter>data</parameter> returns one value,
                         the maximum samples in a framebuffer that has no attachments, which must be at least 4.
-                        See <citerefentry><refentrytitle>glFramebufferParameter</refentrytitle></citerefentry>.
+                        See <!-- FIX: link to glFramebufferParameteri --> <function>glFramebufferParameter</function>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -1911,7 +1911,7 @@
                     <para>
                         <parameter>data</parameter> returns a single value, the minimum required alignment
                         for shader storage buffer sizes and offset.  The initial value is 1.
-                        See <citerefentry><refentrytitle>glShaderStorateBlockBinding</refentrytitle></citerefentry>.
+                        See <citerefentry><refentrytitle>glShaderStorageBlockBinding</refentrytitle></citerefentry>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -2577,7 +2577,7 @@
                         window coordinates are both set to 0,
                         and the width and height are set to the width and height of the window into
                         which the GL will do its rendering.
-                        See <citerefentry><refentrytitle>glViewportIndexedf</refentrytitle></citerefentry>.
+                        See <!-- FIX: link to glViewportIndexed --> <function>glViewportIndexedf</function>.
                     </para>
                 </listitem>
             </varlistentry>

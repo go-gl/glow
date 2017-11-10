@@ -67,7 +67,7 @@
         <para>
             <citerefentry><refentrytitle>glGenProgramPipelines</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBindProgramPipeline</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glDeleteProgramPipeline</refentrytitle></citerefentry>
+            <citerefentry><refentrytitle>glDeleteProgramPipelines</refentrytitle></citerefentry>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>

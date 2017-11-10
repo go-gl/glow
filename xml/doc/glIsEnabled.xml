@@ -333,7 +333,7 @@
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
             <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry>,
+            <!-- FIX: link to glEnable --> <function>glDisable</function>,
             <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
         </para>
     </refsect1>

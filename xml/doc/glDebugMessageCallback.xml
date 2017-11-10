@@ -1,7 +1,5 @@
 <!DOCTYPE refentry [ <!ENTITY % mathent SYSTEM "math.ent"> %mathent; ]>
 
-<!-- Converted by db4-upgrade version 1.1 -->
-
 <refentry xmlns="http://docbook.org/ns/docbook" version="5.0" xml:id="glDebugMessageCallback">
     <info>
         <copyright>
@@ -48,7 +46,7 @@
     </refsect1>
     <refsect1 xml:id="description"><title>Description</title>
         <para>
-            <function>glDebugMessageInsert</function> sets the current debug output callback function to
+            <function>glDebugMessageCallback</function> sets the current debug output callback function to
             the function whose address is given in <parameter>callback</parameter>. The callback function
             should have the following prototype (in C), or be otherwise compatible with such a prototype:
         </para>
@@ -60,24 +58,32 @@
             const GLchar *message,
             void *userParam);</programlisting>
         <para>
-            This function is defined to have the same calling convention as the GL API functions. In
-            most cases this is defined as <code>APIENTRY</code>, although it will vary depending
-            on platform, language and compiler.
+            This function is defined to have the same calling convention as
+            the GL API functions. In most cases this is defined as
+            <code>APIENTRY</code>, although it will vary depending on
+            platform, language and compiler.
         </para>
         <para>
-            Each time a debug message is generated the debug callback function will be invoked
-            with <parameter>source</parameter>, <parameter>type</parameter>, <parameter>id</parameter>, and
-            <parameter>severity</parameter> associated with the message, and <parameter>length</parameter> set to
-            the length of debug message whose character string is in the array pointed to by <parameter>message</parameter>
-            <parameter>userParam</parameter> will be set to the value passed in the
-            <parameter>userParam</parameter> parameter to the most recent call to <function>glDebugMessageInsert</function>.
+            Each time a debug message is generated the debug callback
+            function will be invoked with <parameter>source</parameter>,
+            <parameter>type</parameter>, <parameter>id</parameter>, and
+            <parameter>severity</parameter> associated with the message, and
+            <parameter>length</parameter> set to the length of debug message
+            whose character string is in the array pointed to by
+            <parameter>message</parameter> <parameter>userParam</parameter>
+            will be set to the value passed in the
+            <parameter>userParam</parameter> parameter to the most recent
+            call to <function>glDebugMessageCallback</function>.
         </para>
     </refsect1>
     <refsect1 xml:id="notes"><title>Notes</title>
         <para>
-            When the GL is in use remotely, the server may not be able to call functions in the client's address space.
-            In such cases, the callback function may not be invoked and the user should retrieve debug messages from
-            the context's debug message log by calling <citerefentry><refentrytitle>glGetDebugMessageLog</refentrytitle></citerefentry>.
+            When the GL is in use remotely, the server may not be able to
+            call functions in the client's address space. In such cases, the
+            callback function may not be invoked and the user should
+            retrieve debug messages from the context's debug message log by
+            calling
+            <citerefentry><refentrytitle>glGetDebugMessageLog</refentrytitle></citerefentry>.
         </para>
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>

@@ -86,7 +86,7 @@
         <para>
             <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glEnableVertexAttribArray</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glDisableVertexAttribArray</refentrytitle></citerefentry>
+            <!-- FIX: link to glEnableVertexAttribArray --> <function>glDisableVertexAttribArray</function>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>

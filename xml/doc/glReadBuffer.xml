@@ -85,30 +85,26 @@
     <title>Description</title>
 
     <para><function>glReadBuffer</function> specifies a color buffer as the
-    source for subsequent <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCopyTexSubImage2D</refentrytitle>
-      </citerefentry>, and <citerefentry>
-        <refentrytitle>glCopyTexSubImage3D</refentrytitle>
-      </citerefentry> commands. <parameter>mode</parameter> accepts one of
-    twelve or more predefined values. In a fully configured system,
+    source for subsequent
+    <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexImage1D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexImage2D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexSubImage1D</refentrytitle></citerefentry>,
+    <citerefentry><refentrytitle>glCopyTexSubImage2D</refentrytitle></citerefentry>,
+    and
+    <citerefentry><refentrytitle>glCopyTexSubImage3D</refentrytitle></citerefentry>
+    commands. <parameter>mode</parameter> accepts one of twelve or more
+    predefined values. In a fully configured system,
     <constant>GL_FRONT</constant>, <constant>GL_LEFT</constant>, and
     <constant>GL_FRONT_LEFT</constant> all name the front left buffer,
-    <constant>GL_FRONT_RIGHT</constant> and <constant>GL_RIGHT</constant> name
-    the front right buffer, and <constant>GL_BACK_LEFT</constant> and
-    <constant>GL_BACK</constant> name the back left buffer. Further more, the
-    constants <constant>GL_COLOR_ATTACHMENT</constant><emphasis>i</emphasis>
-    may be used to indicate the
-    <emphasis>i</emphasis><superscript>th</superscript> color attachment where
-    <emphasis>i</emphasis> ranges from zero to the value of
-    <constant>GL_MAX_COLOR_ATTACHMENTS</constant> minus one.</para>
+    <constant>GL_FRONT_RIGHT</constant> and <constant>GL_RIGHT</constant>
+    name the front right buffer, and <constant>GL_BACK_LEFT</constant> and
+    <constant>GL_BACK</constant> name the back left buffer. Further more,
+    the constants
+    <constant>GL_COLOR_ATTACHMENT</constant><emphasis>i</emphasis> may be
+    used to indicate the <emphasis>i</emphasis><superscript>th</superscript>
+    color attachment where <emphasis>i</emphasis> ranges from zero to the
+    value of <constant>GL_MAX_COLOR_ATTACHMENTS</constant> minus one.</para>
 
     <para>Nonstereo double-buffered configurations have only a front left and
     a back left buffer. Single-buffered configurations have a front left and a
@@ -147,9 +143,9 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument <constant>GL_READ_BUFFER</constant></para>
+    <para><citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+    with argument <constant>GL_READ_BUFFER</constant></para>
+
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

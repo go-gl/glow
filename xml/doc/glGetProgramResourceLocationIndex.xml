@@ -138,7 +138,7 @@
         <para>
             <citerefentry><refentrytitle>glGetProgramResourceName</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetProgramResourceIndex</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glGetGetProgramResource</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGetProgramResource</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetProgramResourceLocationIndex</refentrytitle></citerefentry>.
         </para>
     </refsect1>

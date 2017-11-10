@@ -48,7 +48,7 @@
         <para>
             Transform feedback mode captures the values of varying variables written by the vertex shader (or, if active, the geometry shader).
             Transform feedback is said to be active after a call to <function>glBeginTransformFeedback</function>
-            until a subsequent call to <citerefentry><refentrytitle>glEndTransformFeedback</refentrytitle></citerefentry>.
+            until a subsequent call to <!-- FIX: link to glBeginTransformFeedback --> <function>glEndTransformFeedback</function>.
             Transform feedback commands must be paired.
         </para>
         <para>

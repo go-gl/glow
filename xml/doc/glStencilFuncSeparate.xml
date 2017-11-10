@@ -115,7 +115,7 @@
             The stencil test conditionally eliminates a pixel based on the outcome
             of a comparison between the reference value
             and the value in the stencil buffer.
-            To enable and disable the test, call <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry>
+            To enable and disable the test, call <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function>
             with argument <constant>GL_STENCIL_TEST</constant>.
             To specify actions based on the outcome of the stencil test, call
             <citerefentry><refentrytitle>glStencilOp</refentrytitle></citerefentry> or

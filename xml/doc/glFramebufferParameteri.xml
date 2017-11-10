@@ -210,7 +210,7 @@
     </refsect1>
     <refsect1 xml:id="associatedgets"><title>Associated Gets</title>
         <para>
-            <citerefentry><refentrytitle>glGetFramebufferParameteriv</refentrytitle></citerefentry>.
+            <!-- FIX: link to glGetFramebufferParameter --> <function>glGetFramebufferParameteriv</function>.
         </para>
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>

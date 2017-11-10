@@ -69,15 +69,6 @@
             </listitem>
         </varlistentry>
         <varlistentry>
-            <term><parameter>size</parameter></term>
-            <listitem>
-                <para>
-                    The size, in basic machine units of the range of the
-                    data store to fill.
-                </para>
-            </listitem>
-        </varlistentry>
-        <varlistentry>
             <term><parameter>format</parameter></term>
             <listitem>
                 <para>

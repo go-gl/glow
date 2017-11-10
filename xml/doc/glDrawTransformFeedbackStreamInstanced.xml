@@ -118,7 +118,7 @@
             and no tessellation control shader is active.
         </para>
         <para>
-            <constant>GL_INVALID_OPERATION</constant> is generated if <citerefentry><refentrytitle>glEndTransformFeedback</refentrytitle></citerefentry>
+            <constant>GL_INVALID_OPERATION</constant> is generated if <!-- FIX: link to glBeginTransformFeedback --> <function>glEndTransformFeedback</function>
             has never been called while the transform feedback object named by <parameter>id</parameter> was bound.
         </para>
     </refsect1>

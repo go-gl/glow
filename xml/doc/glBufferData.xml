@@ -280,14 +280,14 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetBufferSubData</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGetBufferSubData</refentrytitle></citerefentry>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetBufferParameter</refentrytitle>
-      </citerefentry> with argument <constant>GL_BUFFER_SIZE</constant> or
-    <constant>GL_BUFFER_USAGE</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGetBufferParameter</refentrytitle></citerefentry>
+        with argument <constant>GL_BUFFER_SIZE</constant> or <constant>GL_BUFFER_USAGE</constant>
+    </para>
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

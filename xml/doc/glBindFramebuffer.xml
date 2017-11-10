@@ -87,10 +87,9 @@
             <citerefentry><refentrytitle>glGenFramebuffers</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glFramebufferRenderbuffer</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glFramebufferTexture</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture1D</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture2D</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture3D</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTextureFace</refentrytitle></citerefentry>,
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture1D</function>,
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture2D</function>,
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture3D</function>,
             <citerefentry><refentrytitle>glFramebufferTextureLayer</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteFramebuffers</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glIsFramebuffer</refentrytitle></citerefentry>

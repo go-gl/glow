@@ -284,7 +284,7 @@
             Texture commands that take a <parameter>level</parameter> or <parameter>layer</parameter> parameter, such as
             <citerefentry><refentrytitle>glTexSubImage2D</refentrytitle></citerefentry>, interpret that parameter to be relative to the view of the
             texture. i.e. the mipmap level of the data store that would be updated via
-            <citerefentry><refentrytitle>TexSubImage2D</refentrytitle></citerefentry> would be the sum of <parameter>level</parameter> and the value of
+            <citerefentry><refentrytitle>glTexSubImage2D</refentrytitle></citerefentry> would be the sum of <parameter>level</parameter> and the value of
             <constant>GL_TEXTURE_VIEW_MIN_LEVEL</constant>.
         </para>
     </refsect1>
