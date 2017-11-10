@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <registry>
     <!--
-    Copyright (c) 2013-2016 The Khronos Group Inc.
-
+    Copyright (c) 2013-2014 The Khronos Group Inc.
+    
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and/or associated documentation files (the
     "Materials"), to deal in the Materials without restriction, including
@@ -10,10 +10,10 @@
     distribute, sublicense, and/or sell copies of the Materials, and to
     permit persons to whom the Materials are furnished to do so, subject to
     the following conditions:
-
+    
     The above copyright notice and this permission notice shall be included
     in all copies or substantial portions of the Materials.
-
+    
     THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -454,12 +454,6 @@
      lowest available point in this block. -->
     <enums namespace="WGL" start="0x21C0" end="0x2FFF" vendor="ARB">
             <unused start="0x21C0" end="0x2FFF" comment="Reserved for future use"/>
-    </enums>
-
-    <enums namespace="EGL" start="0x3080" end="0x30AF" vendor="KHR" comment="Values shared with EGL. Do not allocate additional values in this range.">
-        <enum value="0x3087" name="WGL_COLORSPACE_EXT"/>
-        <enum value="0x3089" name="WGL_COLORSPACE_SRGB_EXT"/>
-        <enum value="0x308A" name="WGL_COLORSPACE_LINEAR_EXT"/>
     </enums>
 
     <enums namespace="GL" start="0x8250" end="0x826F" vendor="ARB" comment="Values shared with GL. Do not allocate additional values in this range.">
@@ -1622,13 +1616,6 @@
         <extension name="WGL_ATI_pixel_format_float" supported="wgl">
             <require>
                 <enum name="WGL_TYPE_RGBA_FLOAT_ATI"/>
-            </require>
-        </extension>
-        <extension name="WGL_EXT_colorspace" supported="wgl">
-            <require>
-                <enum name="WGL_COLORSPACE_EXT"/>
-                <enum name="WGL_COLORSPACE_SRGB_EXT"/>
-                <enum name="WGL_COLORSPACE_LINEAR_EXT"/>
             </require>
         </extension>
         <extension name="WGL_EXT_create_context_es_profile" supported="wgl">

@@ -226,11 +226,11 @@
         <para>
             If <parameter>pname</parameter> is <constant>GL_GET_TEXTURE_IMAGE_FORMAT</constant> or <constant>GL_GET_TEXTURE_IMAGE_TYPE</constant> then
             <parameter>params</parameter> is filled with the implementation-recommended format or type to be used in calls to
-            <citerefentry><refentrytitle>glGetTexImage</refentrytitle></citerefentry> and other similar functions. For <constant>GL_GET_TEXTURE_IMAGE_FORMAT</constant>,
+            <citerefentry><refentrytitle>glGetTexImage2D</refentrytitle></citerefentry> and other similar functions. For <constant>GL_GET_TEXTURE_IMAGE_FORMAT</constant>,
             <parameter>params</parameter> is filled with a token suitable for use as the <parameter>format</parameter> argument to
-            <citerefentry><refentrytitle>glGetTexImage</refentrytitle></citerefentry>. For <constant>GL_GET_TEXTURE_IMAGE_TYPE</constant>,
+            <citerefentry><refentrytitle>glGetTexImage2D</refentrytitle></citerefentry>. For <constant>GL_GET_TEXTURE_IMAGE_TYPE</constant>,
             <parameter>params</parameter> is filled with a token suitable for use as the <parameter>type</parameter> argument to
-            <citerefentry><refentrytitle>glGetTexImage</refentrytitle></citerefentry>.
+            <citerefentry><refentrytitle>glGetTexImage2D</refentrytitle></citerefentry>.
         </para>
         <para>
             If <parameter>pname</parameter> is <constant>GL_MIPMAP</constant> then <parameter>pname</parameter> is set to <constant>GL_TRUE</constant>

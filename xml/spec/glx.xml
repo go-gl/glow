@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <registry>
     <!--
-    Copyright (c) 2013-2016 The Khronos Group Inc.
+    Copyright (c) 2013-2014 The Khronos Group Inc.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and/or associated documentation files (the
@@ -84,7 +84,6 @@ typedef unsigned __int64 uint64_t;
         <type name="Status"/>
         <type name="Window"/>
         <type name="XVisualInfo"/>
-        <type name="GLbitfield"/>
         <type name="GLboolean"/>
         <type name="GLenum"/>
         <type name="GLfloat"/>
@@ -453,9 +452,7 @@ typedef unsigned __int64 uint64_t;
         <enum value="0x20F3"        name="GLX_LATE_SWAPS_TEAR_EXT"/>
         <enum value="0x20F4"        name="GLX_BACK_BUFFER_AGE_EXT"/>
         <enum value="0x20F5"        name="GLX_STEREO_TREE_EXT"/>
-        <enum value="0x20F6"        name="GLX_VENDOR_NAMES_EXT"/>
-        <enum value="0x20F7"        name="GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV"/>
-            <unused start="0x20F8" end="0x219F"/>
+            <unused start="0x20F6" end="0x219F"/>
     </enums>
 
     <enums namespace="GLX" start="0x21A0" end="0x21AF" vendor="AMD" comment="Shared with WGL; synchronize create_context enums">
@@ -685,20 +682,6 @@ typedef unsigned __int64 uint64_t;
             <param>int <name>iVideoBuffer</name></param>
         </command>
         <command>
-            <proto>void <name>glXBlitContextFramebufferAMD</name></proto>
-            <param><ptype>GLXContext</ptype> <name>dstCtx</name></param>
-            <param><ptype>GLint</ptype> <name>srcX0</name></param>
-            <param><ptype>GLint</ptype> <name>srcY0</name></param>
-            <param><ptype>GLint</ptype> <name>srcX1</name></param>
-            <param><ptype>GLint</ptype> <name>srcY1</name></param>
-            <param><ptype>GLint</ptype> <name>dstX0</name></param>
-            <param><ptype>GLint</ptype> <name>dstY0</name></param>
-            <param><ptype>GLint</ptype> <name>dstX1</name></param>
-            <param><ptype>GLint</ptype> <name>dstY1</name></param>
-            <param><ptype>GLbitfield</ptype> <name>mask</name></param>
-            <param><ptype>GLenum</ptype> <name>filter</name></param>
-        </command>
-        <command>
             <proto>int <name>glXChannelRectSGIX</name></proto>
             <param><ptype>Display</ptype> *<name>display</name></param>
             <param>int <name>screen</name></param>
@@ -793,17 +776,6 @@ typedef unsigned __int64 uint64_t;
             <param>int <name>y</name></param>
             <param>int <name>width</name></param>
             <param>int <name>height</name></param>
-        </command>
-        <command>
-            <proto><ptype>GLXContext</ptype> <name>glXCreateAssociatedContextAMD</name></proto>
-            <param>unsigned int <name>id</name></param>
-            <param><ptype>GLXContext</ptype> <name>share_list</name></param>
-        </command>
-        <command>
-            <proto><ptype>GLXContext</ptype> <name>glXCreateAssociatedContextAttribsAMD</name></proto>
-            <param>unsigned int <name>id</name></param>
-            <param><ptype>GLXContext</ptype> <name>share_context</name></param>
-            <param>const int *<name>attribList</name></param>
         </command>
         <command>
             <proto><ptype>GLXContext</ptype> <name>glXCreateContextAttribsARB</name></proto>
@@ -905,10 +877,6 @@ typedef unsigned __int64 uint64_t;
             <param><ptype>GLfloat</ptype> <name>seconds</name></param>
         </command>
         <command>
-            <proto><ptype>Bool</ptype> <name>glXDeleteAssociatedContextAMD</name></proto>
-            <param><ptype>GLXContext</ptype> <name>ctx</name></param>
-        </command>
-        <command>
             <proto>void <name>glXDestroyContext</name></proto>
             <param><ptype>Display</ptype> *<name>dpy</name></param>
             <param><ptype>GLXContext</ptype> <name>ctx</name></param>
@@ -955,19 +923,9 @@ typedef unsigned __int64 uint64_t;
             <param>int *<name>nelements</name></param>
         </command>
         <command>
-            <proto>unsigned int *<name>glXEnumerateVideoDevicesNV</name></proto>
-            <param><ptype>Display</ptype> *<name>dpy</name></param>
-            <param>int <name>screen</name></param>
-            <param>int *<name>nelements</name></param>
-        </command>
-        <command>
             <proto>void <name>glXFreeContextEXT</name></proto>
             <param><ptype>Display</ptype> *<name>dpy</name></param>
             <param><ptype>GLXContext</ptype> <name>context</name></param>
-        </command>
-        <command>
-            <proto>unsigned int <name>glXGetAGPOffsetMESA</name></proto>
-            <param>const void *<name>pointer</name></param>
         </command>
         <command>
             <proto>const char *<name>glXGetClientString</name></proto>
@@ -982,15 +940,8 @@ typedef unsigned __int64 uint64_t;
             <param>int *<name>value</name></param>
         </command>
         <command>
-            <proto>unsigned int <name>glXGetContextGPUIDAMD</name></proto>
-            <param><ptype>GLXContext</ptype> <name>ctx</name></param>
-        </command>
-        <command>
             <proto><ptype>GLXContextID</ptype> <name>glXGetContextIDEXT</name></proto>
             <param>const <ptype>GLXContext</ptype> <name>context</name></param>
-        </command>
-        <command>
-            <proto><ptype>GLXContext</ptype> <name>glXGetCurrentAssociatedContextAMD</name></proto>
         </command>
         <command>
             <proto><ptype>GLXContext</ptype> <name>glXGetCurrentContext</name></proto>
@@ -1034,19 +985,6 @@ typedef unsigned __int64 uint64_t;
             <param><ptype>Display</ptype> *<name>dpy</name></param>
             <param>int <name>screen</name></param>
             <param>int *<name>nelements</name></param>
-        </command>
-        <command>
-            <proto>unsigned int <name>glXGetGPUIDsAMD</name></proto>
-            <param>unsigned int <name>maxCount</name></param>
-            <param>unsigned int *<name>ids</name></param>
-        </command>
-        <command>
-            <proto>int <name>glXGetGPUInfoAMD</name></proto>
-            <param>unsigned int <name>id</name></param>
-            <param>int <name>property</name></param>
-            <param><ptype>GLenum</ptype> <name>dataType</name></param>
-            <param>unsigned int <name>size</name></param>
-            <param>void *<name>data</name></param>
         </command>
         <command>
             <proto><ptype>Bool</ptype> <name>glXGetMscRateOML</name></proto>
@@ -1161,10 +1099,6 @@ typedef unsigned __int64 uint64_t;
             <proto>void <name>glXLockVideoCaptureDeviceNV</name></proto>
             <param><ptype>Display</ptype> *<name>dpy</name></param>
             <param><ptype>GLXVideoCaptureDeviceNV</ptype> <name>device</name></param>
-        </command>
-        <command>
-            <proto><ptype>Bool</ptype> <name>glXMakeAssociatedContextCurrentAMD</name></proto>
-            <param><ptype>GLXContext</ptype> <name>ctx</name></param>
         </command>
         <command>
             <proto><ptype>Bool</ptype> <name>glXMakeContextCurrent</name></proto>
@@ -1460,6 +1394,16 @@ typedef unsigned __int64 uint64_t;
         <command>
             <proto>void <name>glXWaitX</name></proto>
         </command>
+        <command>
+            <proto>unsigned int *<name>glXEnumerateVideoDevicesNV</name></proto>
+            <param><ptype>Display</ptype> *<name>dpy</name></param>
+            <param>int <name>screen</name></param>
+            <param>int *<name>nelements</name></param>
+        </command>
+        <command>
+            <proto>unsigned int <name>glXGetAGPOffsetMESA</name></proto>
+            <param>const void *<name>pointer</name></param>
+        </command>
     </commands>
 
     <!-- SECTION: GLX API interface definitions. -->
@@ -1642,15 +1586,6 @@ typedef unsigned __int64 uint64_t;
                 <enum name="GLX_GPU_NUM_SIMD_AMD"/>
                 <enum name="GLX_GPU_NUM_RB_AMD"/>
                 <enum name="GLX_GPU_NUM_SPI_AMD"/>
-                <command name="glXGetGPUIDsAMD"/>
-                <command name="glXGetGPUInfoAMD"/>
-                <command name="glXGetContextGPUIDAMD"/>
-                <command name="glXCreateAssociatedContextAMD"/>
-                <command name="glXCreateAssociatedContextAttribsAMD"/>
-                <command name="glXDeleteAssociatedContextAMD"/>
-                <command name="glXMakeAssociatedContextCurrentAMD"/>
-                <command name="glXGetCurrentAssociatedContextAMD"/>
-                <command name="glXBlitContextFramebufferAMD"/>
             </require>
         </extension>
         <extension name="GLX_ARB_context_flush_control" supported="glx">
@@ -1758,11 +1693,6 @@ typedef unsigned __int64 uint64_t;
                 <command name="glXGetContextIDEXT"/>
                 <command name="glXImportContextEXT"/>
                 <command name="glXFreeContextEXT"/>
-            </require>
-        </extension>
-        <extension name="GLX_EXT_libglvnd" supported="glx">
-            <require>
-                <enum name="GLX_VENDOR_NAMES_EXT"/>
             </require>
         </extension>
         <extension name="GLX_EXT_stereo_tree" supported="glx">
@@ -1939,11 +1869,6 @@ typedef unsigned __int64 uint64_t;
                 <enum name="GLX_NUM_VIDEO_SLOTS_NV"/>
                 <command name="glXEnumerateVideoDevicesNV"/>
                 <command name="glXBindVideoDeviceNV"/>
-            </require>
-        </extension>
-        <extension name="GLX_NV_robustness_video_memory_purge" supported="glx">
-            <require>
-                <enum name="GLX_GENERATE_RESET_ON_VIDEO_MEMORY_PURGE_NV"/>
             </require>
         </extension>
         <extension name="GLX_NV_swap_group" supported="glx">

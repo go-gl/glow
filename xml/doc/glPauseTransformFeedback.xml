@@ -57,7 +57,7 @@
             <citerefentry><refentrytitle>glBindTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBeginTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glResumeTransformFeedback</refentrytitle></citerefentry>,
-            <!-- FIX: link to glBeginTransformFeedback --> <function>glEndTransformFeedback</function>,
+            <citerefentry><refentrytitle>glEndTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteTransformFeedbacks</refentrytitle></citerefentry>
         </para>
     </refsect1>
