@@ -13,13 +13,22 @@ import (
 	"strings"
 )
 
-var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
-var specRegexp = regexp.MustCompile(`^(gl|glx|egl|wgl)\.xml$`)
-
-var docURLs = []string{
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man2",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man3",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man4"}
+var specRepoName = "OpenGL-Registry"
+var specRepoFolder = "xml"
+var specRegexp = regexp.MustCompile(`^(gl|glx|wgl)\.xml$`)
+var eglRepoName = "EGL-Registry"
+var eglRepoFolder = "api"
+var eglRegexp = regexp.MustCompile(`^(egl)\.xml$`)
+var docRepoName = "OpenGL-Refpages"
+var docRepoFolders = []string{
+	"es1.1",
+	"es2.0",
+	"es3.0",
+	"es3.1",
+	"es3",
+	"gl2.1",
+	"gl4",
+}
 var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
 
 func download(name string, args []string) {
@@ -37,18 +46,18 @@ func download(name string, args []string) {
 		log.Fatalln("error creating documentation output directory:", err)
 	}
 
-	rev, err := DownloadSvnDir(specURL, specRegexp, specDir)
+	err := DownloadGitDir(specRepoName, specRepoFolder, specRegexp, specDir)
 	if err != nil {
 		log.Fatalln("error downloading specification files:", err)
 	}
 
-	specVersionFile := filepath.Join(specDir, "REVISION")
-	if err := ioutil.WriteFile(specVersionFile, []byte(rev), 0644); err != nil {
-		log.Fatalln("error writing spec revision metadata file:", err)
+	err = DownloadGitDir(eglRepoName, eglRepoFolder, specRegexp, specDir)
+	if err != nil {
+		log.Fatalln("error downloading egl file:", err)
 	}
 
-	for _, url := range docURLs {
-		if _, err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
+	for _, folder := range docRepoFolders {
+		if err := DownloadGitDir(docRepoName, folder, docRegexp, docDir); err != nil {
 			log.Fatalln("error downloading documentation files:", err)
 		}
 	}
