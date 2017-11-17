@@ -1,8 +1,9 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -114,18 +115,12 @@ func downloadFile(authStr, url, filePath string) error {
 		return err
 	}
 
-	// TODO: Fix hourly rate limit issue
-	fmt.Printf("%v\n", file.Size)
+	data, err := base64.StdEncoding.DecodeString(file.Content)
 
-	// body, err := ioutil.ReadAll(response.Body)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// err = ioutil.WriteFile(filePath, body, 0644)
-	// if err != nil {
-	// 	return err
-	// }
+	err = ioutil.WriteFile(filePath, data, 0644)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
