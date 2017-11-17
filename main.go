@@ -2,11 +2,14 @@
 package main
 
 import (
+	"bufio"
+	"encoding/base64"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -31,6 +34,26 @@ var docRepoFolders = []string{
 }
 var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
 
+func auth(username string, password string) (string, error) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
+
+	if err != nil {
+		return "", err
+	}
+
+	autStr := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password))))
+	req.Header.Add("Authorization", autStr)
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	return autStr, nil
+}
+
 func download(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
 	xmlDir := flags.String("d", "xml", "XML directory")
@@ -46,18 +69,32 @@ func download(name string, args []string) {
 		log.Fatalln("error creating documentation output directory:", err)
 	}
 
-	err := DownloadGitDir(specRepoName, specRepoFolder, specRegexp, specDir)
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter GitHub username: ")
+	input, _ := reader.ReadString('\n')
+	username := strings.Replace(input, "\n", "", -1)
+	fmt.Print("Enter GitHub password: ")
+	input, _ = reader.ReadString('\n')
+	password := strings.Replace(input, "\n", "", -1)
+
+	authStr, err := auth(username, password)
+
+	if err != nil {
+		panic("GitHub auth failure.")
+	}
+
+	err = DownloadGitDir(authStr, specRepoName, specRepoFolder, specRegexp, specDir)
 	if err != nil {
 		log.Fatalln("error downloading specification files:", err)
 	}
 
-	err = DownloadGitDir(eglRepoName, eglRepoFolder, specRegexp, specDir)
+	err = DownloadGitDir(authStr, eglRepoName, eglRepoFolder, specRegexp, specDir)
 	if err != nil {
 		log.Fatalln("error downloading egl file:", err)
 	}
 
 	for _, folder := range docRepoFolders {
-		if err := DownloadGitDir(docRepoName, folder, docRegexp, docDir); err != nil {
+		if err := DownloadGitDir(authStr, docRepoName, folder, docRegexp, docDir); err != nil {
 			log.Fatalln("error downloading documentation files:", err)
 		}
 	}

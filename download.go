@@ -48,10 +48,11 @@ const maxRequests = 10
 const repoOwnerName = "KhronosGroup"
 
 // DownloadGitDir reads an Git repo and downloads all the listed (filtered) files.
-func DownloadGitDir(repoName string, repoFolder string, filter *regexp.Regexp, outDir string) error {
+func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *regexp.Regexp, outDir string) error {
 	client := &http.Client{}
 	rootURL := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/contents/" + repoFolder
 	req, err := http.NewRequest("GET", rootURL, nil)
+	req.Header.Add("Authorization", authStr)
 	req.Header.Add("User-Agent", "go-gl/glow")
 	resp, err := client.Do(req)
 
@@ -77,7 +78,7 @@ func DownloadGitDir(repoName string, repoFolder string, filter *regexp.Regexp, o
 			file := filepath.Join(outDir, e.Name)
 			go func(url, file string) {
 				defer wg.Done()
-				if err := downloadFile(url, file); err != nil && downloadErr == nil {
+				if err := downloadFile(authStr, url, file); err != nil && downloadErr == nil {
 					downloadErr = err
 				}
 				<-c
@@ -89,11 +90,17 @@ func DownloadGitDir(repoName string, repoFolder string, filter *regexp.Regexp, o
 	return downloadErr
 }
 
-func downloadFile(url, filePath string) error {
+func downloadFile(authStr, url, filePath string) error {
 	log.Println("Downloading", url)
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
+
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Authorization", authStr)
 	req.Header.Add("User-Agent", "go-gl/glow")
 	resp, err := client.Do(req)
 
