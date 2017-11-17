@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -50,6 +51,10 @@ func auth(username string, password string) (string, error) {
 		return "", err
 	}
 
+	if resp.StatusCode != 200 {
+		return "", errors.New("GitHub authorization failed")
+	}
+
 	defer resp.Body.Close()
 	return autStr, nil
 }
@@ -80,7 +85,7 @@ func download(name string, args []string) {
 	authStr, err := auth(username, password)
 
 	if err != nil {
-		panic("GitHub auth failure.")
+		panic(err)
 	}
 
 	err = DownloadGitDir(authStr, specRepoName, specRepoFolder, specRegexp, specDir)
@@ -88,7 +93,7 @@ func download(name string, args []string) {
 		log.Fatalln("error downloading specification files:", err)
 	}
 
-	err = DownloadGitDir(authStr, eglRepoName, eglRepoFolder, specRegexp, specDir)
+	err = DownloadGitDir(authStr, eglRepoName, eglRepoFolder, eglRegexp, specDir)
 	if err != nil {
 		log.Fatalln("error downloading egl file:", err)
 	}
