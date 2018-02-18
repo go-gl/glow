@@ -92,7 +92,6 @@ func generate(name string, args []string) {
 	for _, spec := range specs {
 		if spec.HasPackage(packageSpec) {
 			pkg = spec.ToPackage(packageSpec)
-			pkg.SpecRev = rev
 			docs.AddDocs(pkg)
 			if len(*restrict) > 0 {
 				performRestriction(pkg, *restrict)
