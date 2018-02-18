@@ -46,7 +46,7 @@ package {{.Name}}
 // #endif
 //
 // {{range .Typedefs}}
-// {{replace .CDefinition "\n" "\n// " -1}}
+// {{replace .CTypedef "\n" "\n// " -1}}
 // {{end}}
 //
 // {{if .HasDebugCallbackFeature}}

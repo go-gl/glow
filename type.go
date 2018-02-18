@@ -106,7 +106,9 @@ func (t Type) GoType() string {
 		// an integer type.
 		return t.pointers() + "uintptr"
 	case "GLsync":
-		return t.pointers() + "unsafe.Pointer"
+		// GLsync is treated as an opaque, pointer-width type. Additional special
+		// case handling is required for the corresponding typedef, see CTypedef.
+		return t.pointers() + "uintptr"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
@@ -142,4 +144,16 @@ func (t Type) ConvertCToGo(name string) string {
 
 func (t Type) pointers() string {
 	return strings.Repeat("*", t.PointerLevel)
+}
+
+// CTypedef returns the C definition of the typedef.
+func (t Typedef) CTypedef() string {
+	// GLsync is defined as an opaque struct pointer, but some OpenGL drivers
+	// store a non-pointer numeric handle in the type, which is incompatible with
+	// Go pointer semantics. As a workaround we redefined GLsync to be an opaque
+	// pointer-width type.
+	if strings.Contains(t.CDefinition, "GLsync") {
+		return "typedef uintptr_t GLsync;"
+	}
+	return t.CDefinition
 }
