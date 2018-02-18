@@ -22,8 +22,6 @@ type Package struct {
 	Typedefs  []*Typedef
 	Enums     map[string]*Enum
 	Functions map[string]*PackageFunction
-
-	SpecRev string
 }
 
 // A PackageFunction is a package-specific Function wrapper.
