@@ -8,19 +8,17 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"regexp"
 	"strings"
 )
 
-var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
-var specRegexp = regexp.MustCompile(`^(gl|glx|egl|wgl)\.xml$`)
-
-var docURLs = []string{
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man2",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man3",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man4"}
-var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
+var specURLs = []string{
+	"https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/master/xml/gl.xml",
+	"https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/master/xml/glx.xml",
+	"https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/master/xml/wgl.xml",
+	"https://raw.githubusercontent.com/KhronosGroup/EGL-Registry/master/api/egl.xml"}
 
 func download(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
@@ -32,24 +30,10 @@ func download(name string, args []string) {
 		log.Fatalln("error creating specification output directory:", err)
 	}
 
-	docDir := filepath.Join(*xmlDir, "doc")
-	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatalln("error creating documentation output directory:", err)
-	}
-
-	rev, err := DownloadSvnDir(specURL, specRegexp, specDir)
-	if err != nil {
-		log.Fatalln("error downloading specification files:", err)
-	}
-
-	specVersionFile := filepath.Join(specDir, "REVISION")
-	if err := ioutil.WriteFile(specVersionFile, []byte(rev), 0644); err != nil {
-		log.Fatalln("error writing spec revision metadata file:", err)
-	}
-
-	for _, url := range docURLs {
-		if _, err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
-			log.Fatalln("error downloading documentation files:", err)
+	for _, url := range specURLs {
+		specFile := path.Join(specDir, path.Base(url))
+		if err := DownloadFile(url, specFile); err != nil {
+			log.Fatalln("error downloading specification files:", err)
 		}
 	}
 }
