@@ -107,7 +107,7 @@ func (t Type) GoType() string {
 		return t.pointers() + "uintptr"
 	case "GLsync":
 		// GLsync is treated as an opaque, pointer-width type. Additional special
-		// case handling is required for the corresponding typedef, see below.
+		// case handling is required for the corresponding typedef, see CTypedef.
 		return t.pointers() + "uintptr"
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		// Special case mapping to the type defined in debug.tmpl
