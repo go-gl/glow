@@ -67,7 +67,7 @@ package {{.Name}}
 	#include <stdlib.h>
 	#include <GL/glx.h>
 	void* GlowGetProcAddress_{{.UniqueName}}(const char* name) {
-		return glXGetProcAddress(name);
+		return glXGetProcAddress((const GLubyte *) name);
 	}
 
 #endif
