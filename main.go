@@ -2,108 +2,16 @@
 package main
 
 import (
-	"bufio"
-	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
 )
-
-var specRepoName = "OpenGL-Registry"
-var specRepoFolder = "xml"
-var specRegexp = regexp.MustCompile(`^(gl|glx|wgl)\.xml$`)
-var eglRepoName = "EGL-Registry"
-var eglRepoFolder = "api"
-var eglRegexp = regexp.MustCompile(`^(egl)\.xml$`)
-var docRepoName = "OpenGL-Refpages"
-var docRepoFolders = []string{
-	"es1.1",
-	"es2.0",
-	"es3.0",
-	"es3.1",
-	"es3",
-	"gl2.1",
-	"gl4",
-}
-var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
-
-func auth(username string, password string) (string, error) {
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
-
-	if err != nil {
-		return "", err
-	}
-
-	autStr := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password))))
-	req.Header.Add("Authorization", autStr)
-	resp, err := client.Do(req)
-
-	if err != nil {
-		return "", err
-	}
-
-	if resp.StatusCode != 200 {
-		return "", errors.New("GitHub authorization failed")
-	}
-
-	defer resp.Body.Close()
-	return autStr, nil
-}
-
-func download(name string, args []string) {
-	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("d", "xml", "XML directory")
-	flags.Parse(args)
-
-	specDir := filepath.Join(*xmlDir, "spec")
-	if err := os.MkdirAll(specDir, 0755); err != nil {
-		log.Fatalln("error creating specification output directory:", err)
-	}
-
-	docDir := filepath.Join(*xmlDir, "doc")
-	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatalln("error creating documentation output directory:", err)
-	}
-
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter GitHub username: ")
-	input, _ := reader.ReadString('\n')
-	username := strings.Replace(input, "\n", "", -1)
-	fmt.Print("Enter GitHub password: ")
-	input, _ = reader.ReadString('\n')
-	password := strings.Replace(input, "\n", "", -1)
-
-	authStr, err := auth(username, password)
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = DownloadGitDir(authStr, specRepoName, specRepoFolder, specRegexp, specDir)
-	if err != nil {
-		log.Fatalln("error downloading specification files:", err)
-	}
-
-	err = DownloadGitDir(authStr, eglRepoName, eglRepoFolder, eglRegexp, specDir)
-	if err != nil {
-		log.Fatalln("error downloading egl file:", err)
-	}
-
-	for _, folder := range docRepoFolders {
-		if err := DownloadGitDir(authStr, docRepoName, folder, docRegexp, docDir); err != nil {
-			log.Fatalln("error downloading documentation files:", err)
-		}
-	}
-}
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)

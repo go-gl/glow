@@ -27,7 +27,7 @@ If the prebuilt, go-gettable packages are not suitable for your needs you can bu
     ./glow generate -api=gl -version=3.3 -profile=core -remext=GL_ARB_cl_event
     go install ./gl-core/3.3/gl
 
-**NOTE:** You will have to provide your GitHub account credentials.
+**NOTE:** You will have to provide your GitHub account credentials to update the XML specification files.
 
 A few notes about the flags to `generate`:
 - `api`: One of `gl`, `gles1`, `gles2`, `egl`, `wgl`, or `glx`.
