@@ -51,6 +51,14 @@ type fileContent struct {
 	Links       linkUrls `json:"_links"`
 }
 
+type blobContent struct {
+	Content  string `json:"content"`
+	Encoding string `json:"encoding"`
+	URL      string `json:"url"`
+	SHA      string `json:"sha"`
+	Size     uint   `json:"size"`
+}
+
 const maxRequests = 10
 const repoOwnerName = "KhronosGroup"
 
@@ -170,15 +178,26 @@ func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *
 		if filter.MatchString(e.Name) {
 			c <- 1
 			wg.Add(1)
-			url := rootURL + "/" + e.Name
 			file := filepath.Join(outDir, e.Name)
-			go func(url, file string) {
-				defer wg.Done()
-				if err := downloadFile(authStr, url, file); err != nil && downloadErr == nil {
-					downloadErr = err
-				}
-				<-c
-			}(url, file)
+			if e.Size < 1024*1024 {
+				url := rootURL + "/" + e.Name
+				go func(url, file string) {
+					defer wg.Done()
+					if err := downloadFile(authStr, url, file); err != nil && downloadErr == nil {
+						downloadErr = err
+					}
+					<-c
+				}(url, file)
+			} else {
+				url := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/git/blobs/" + e.SHA
+				go func(url, file string) {
+					defer wg.Done()
+					if err := downloadBlob(authStr, url, file); err != nil && downloadErr == nil {
+						downloadErr = err
+					}
+					<-c
+				}(url, file)
+			}
 		}
 	}
 	wg.Wait()
@@ -211,6 +230,40 @@ func downloadFile(authStr, url, filePath string) error {
 	}
 
 	data, err := base64.StdEncoding.DecodeString(file.Content)
+
+	err = ioutil.WriteFile(filePath, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func downloadBlob(authStr, url, filePath string) error {
+	log.Println("Downloading", url)
+
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Authorization", authStr)
+	req.Header.Add("User-Agent", "go-gl/glow")
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var blob blobContent
+	if err := json.NewDecoder(resp.Body).Decode(&blob); err != nil {
+		return err
+	}
+
+	data, err := base64.StdEncoding.DecodeString(blob.Content)
 
 	err = ioutil.WriteFile(filePath, data, 0644)
 	if err != nil {
