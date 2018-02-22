@@ -1,7 +1,7 @@
 Glow
 ====
 
-Glow is an OpenGL binding generator for Go. Glow parses the [OpenGL XML API registry](https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api/) to produce a machine-generated cgo bridge between Go functions and native OpenGL functions. Glow is a fork of [GoGL2](https://github.com/chsc/gogl2).
+Glow is an OpenGL binding generator for Go. Glow parses the [OpenGL XML API registry](https://github.com/KhronosGroup/OpenGL-Registry/tree/master/xml) and the [EGL XML API registry](https://github.com/KhronosGroup/EGL-Registry/tree/master/api) to produce a machine-generated cgo bridge between Go functions and native OpenGL functions. Glow is a fork of [GoGL2](https://github.com/chsc/gogl2).
 
 Features:
 - Go functions that mirror the C specification using Go types.
@@ -26,6 +26,8 @@ If the prebuilt, go-gettable packages are not suitable for your needs you can bu
     ./glow download
     ./glow generate -api=gl -version=3.3 -profile=core -remext=GL_ARB_cl_event
     go install ./gl-core/3.3/gl
+
+**NOTE:** You will have to provide your GitHub account credentials to update the XML specification files.
 
 A few notes about the flags to `generate`:
 - `api`: One of `gl`, `gles1`, `gles2`, `egl`, `wgl`, or `glx`.

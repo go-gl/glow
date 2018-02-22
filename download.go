@@ -1,58 +1,180 @@
 package main
 
 import (
-	"encoding/xml"
+	"bufio"
+	"encoding/base64"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"sync"
 )
 
-type svnRoot struct {
-	Index svnIndex `xml:"index"`
+type linkUrls struct {
+	Self string `json:"self"`
+	Git  string `json:"git"`
+	HTML string `json:"html"`
 }
 
-type svnIndex struct {
-	Revision string     `xml:"rev,attr"`
-	Entries  []svnEntry `xml:"file"`
+type dirContent struct {
+	Type        string   `json:"type"`
+	Size        uint     `json:"size"`
+	Name        string   `json:"name"`
+	Path        string   `json:"path"`
+	SHA         string   `json:"sha"`
+	URL         string   `json:"url"`
+	GitURL      string   `json:"git_url"`
+	HTMLURL     string   `json:"html_url"`
+	DownloadURL string   `json:"download_url"`
+	Links       linkUrls `json:"_links"`
 }
 
-type svnEntry struct {
-	Name string `xml:"href,attr"`
+type fileContent struct {
+	Type        string   `json:"type"`
+	Encoding    string   `json:"encoding"`
+	Size        uint     `json:"size"`
+	Name        string   `json:"name"`
+	Path        string   `json:"path"`
+	Content     string   `json:"content"`
+	SHA         string   `json:"sha"`
+	URL         string   `json:"url"`
+	GitURL      string   `json:"git_url"`
+	HTMLURL     string   `json:"html_url"`
+	DownloadURL string   `json:"download_url"`
+	Links       linkUrls `json:"_links"`
 }
 
 const maxRequests = 10
+const repoOwnerName = "KhronosGroup"
 
-// DownloadSvnDir reads an SVN XML directory index and downloads all the listed (filtered) files. It
-// returns the SVN revision at which the files were downloaded.
-func DownloadSvnDir(svnDirURL string, filter *regexp.Regexp, outDir string) (string, error) {
-	response, err := http.Get(svnDirURL)
+var specRepoName = "OpenGL-Registry"
+var specRepoFolder = "xml"
+var specRegexp = regexp.MustCompile(`^(gl|glx|wgl)\.xml$`)
+var eglRepoName = "EGL-Registry"
+var eglRepoFolder = "api"
+var eglRegexp = regexp.MustCompile(`^(egl)\.xml$`)
+var docRepoName = "OpenGL-Refpages"
+var docRepoFolders = []string{
+	"es1.1",
+	"es2.0",
+	"es3.0",
+	"es3.1",
+	"es3",
+	"gl2.1",
+	"gl4",
+}
+var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
+
+func validatedAuthHeader(username string, password string) (string, error) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
+
 	if err != nil {
 		return "", err
 	}
-	defer response.Body.Close()
 
-	var root svnRoot
-	if err := xml.NewDecoder(response.Body).Decode(&root); err != nil {
+	autStr := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password))))
+	req.Header.Add("Authorization", autStr)
+	resp, err := client.Do(req)
+
+	if err != nil {
 		return "", err
 	}
-	index := root.Index
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return "", errors.New("GitHub authorization failed")
+	}
+
+	return autStr, nil
+}
+
+func download(name string, args []string) {
+	flags := flag.NewFlagSet(name, flag.ExitOnError)
+	xmlDir := flags.String("d", "xml", "XML directory")
+	flags.Parse(args)
+
+	specDir := filepath.Join(*xmlDir, "spec")
+	if err := os.MkdirAll(specDir, 0755); err != nil {
+		log.Fatalln("error creating specification output directory:", err)
+	}
+
+	docDir := filepath.Join(*xmlDir, "doc")
+	if err := os.MkdirAll(docDir, 0755); err != nil {
+		log.Fatalln("error creating documentation output directory:", err)
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter GitHub username: ")
+	input, _ := reader.ReadString('\n')
+	username := strings.Trim(input, "\n")
+	fmt.Print("Enter GitHub password: ")
+	input, _ = reader.ReadString('\n')
+	password := strings.Trim(input, "\n")
+
+	authHeader, err := validatedAuthHeader(username, password)
+
+	if err != nil {
+		log.Fatalln("error with user authorization:", err)
+	}
+
+	err = DownloadGitDir(authHeader, specRepoName, specRepoFolder, specRegexp, specDir)
+	if err != nil {
+		log.Fatalln("error downloading specification files:", err)
+	}
+
+	err = DownloadGitDir(authHeader, eglRepoName, eglRepoFolder, eglRegexp, specDir)
+	if err != nil {
+		log.Fatalln("error downloading egl file:", err)
+	}
+
+	for _, folder := range docRepoFolders {
+		if err := DownloadGitDir(authHeader, docRepoName, folder, docRegexp, docDir); err != nil {
+			log.Fatalln("error downloading documentation files:", err)
+		}
+	}
+}
+
+// DownloadGitDir reads an Git repo and downloads all the listed (filtered) files.
+func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *regexp.Regexp, outDir string) error {
+	client := &http.Client{}
+	rootURL := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/contents/" + repoFolder
+	req, err := http.NewRequest("GET", rootURL, nil)
+	req.Header.Add("Authorization", authStr)
+	req.Header.Add("User-Agent", "go-gl/glow")
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var repoContent []dirContent
+	if err := json.NewDecoder(resp.Body).Decode(&repoContent); err != nil {
+		return err
+	}
 
 	var downloadErr error
 
 	wg := new(sync.WaitGroup)
 	c := make(chan int, maxRequests)
-	for _, e := range index.Entries {
+	for _, e := range repoContent {
 		if filter.MatchString(e.Name) {
 			c <- 1
 			wg.Add(1)
-			url := svnDirURL + "/" + e.Name
+			url := rootURL + "/" + e.Name
 			file := filepath.Join(outDir, e.Name)
 			go func(url, file string) {
 				defer wg.Done()
-				if err := downloadFile(url, file); err != nil && downloadErr == nil {
+				if err := downloadFile(authStr, url, file); err != nil && downloadErr == nil {
 					downloadErr = err
 				}
 				<-c
@@ -61,24 +183,36 @@ func DownloadSvnDir(svnDirURL string, filter *regexp.Regexp, outDir string) (str
 	}
 	wg.Wait()
 
-	return index.Revision, downloadErr
+	return downloadErr
 }
 
-func downloadFile(url, file string) error {
+func downloadFile(authStr, url, filePath string) error {
 	log.Println("Downloading", url)
 
-	response, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	defer response.Body.Close()
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
 
-	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(file, body, 0644)
+	req.Header.Add("Authorization", authStr)
+	req.Header.Add("User-Agent", "go-gl/glow")
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var file fileContent
+	if err := json.NewDecoder(resp.Body).Decode(&file); err != nil {
+		return err
+	}
+
+	data, err := base64.StdEncoding.DecodeString(file.Content)
+
+	err = ioutil.WriteFile(filePath, data, 0644)
 	if err != nil {
 		return err
 	}

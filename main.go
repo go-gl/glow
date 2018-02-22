@@ -13,47 +13,6 @@ import (
 	"strings"
 )
 
-var specURL = "https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api"
-var specRegexp = regexp.MustCompile(`^(gl|glx|egl|wgl)\.xml$`)
-
-var docURLs = []string{
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man2",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man3",
-	"https://cvs.khronos.org/svn/repos/ogl/trunk/ecosystem/public/sdk/docs/man4"}
-var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
-
-func download(name string, args []string) {
-	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	xmlDir := flags.String("d", "xml", "XML directory")
-	flags.Parse(args)
-
-	specDir := filepath.Join(*xmlDir, "spec")
-	if err := os.MkdirAll(specDir, 0755); err != nil {
-		log.Fatalln("error creating specification output directory:", err)
-	}
-
-	docDir := filepath.Join(*xmlDir, "doc")
-	if err := os.MkdirAll(docDir, 0755); err != nil {
-		log.Fatalln("error creating documentation output directory:", err)
-	}
-
-	rev, err := DownloadSvnDir(specURL, specRegexp, specDir)
-	if err != nil {
-		log.Fatalln("error downloading specification files:", err)
-	}
-
-	specVersionFile := filepath.Join(specDir, "REVISION")
-	if err := ioutil.WriteFile(specVersionFile, []byte(rev), 0644); err != nil {
-		log.Fatalln("error writing spec revision metadata file:", err)
-	}
-
-	for _, url := range docURLs {
-		if _, err := DownloadSvnDir(url, docRegexp, docDir); err != nil {
-			log.Fatalln("error downloading documentation files:", err)
-		}
-	}
-}
-
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
 	var (
