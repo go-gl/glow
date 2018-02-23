@@ -154,8 +154,9 @@ func download(name string, args []string) {
 // DownloadGitDir reads an Git repo and downloads all the listed (filtered) files.
 func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *regexp.Regexp, outDir string) error {
 	client := &http.Client{}
-	rootURL := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/contents/" + repoFolder
-	req, err := http.NewRequest("GET", rootURL, nil)
+	rootDirURL := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/contents/" + repoFolder
+	rootBlobURL := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/git/blobs/"
+	req, err := http.NewRequest("GET", rootDirURL, nil)
 	req.Header.Add("Authorization", authStr)
 	req.Header.Add("User-Agent", "go-gl/glow")
 	resp, err := client.Do(req)
@@ -179,25 +180,14 @@ func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *
 			c <- 1
 			wg.Add(1)
 			file := filepath.Join(outDir, e.Name)
-			if e.Size < 1024*1024 {
-				url := rootURL + "/" + e.Name
-				go func(url, file string) {
-					defer wg.Done()
-					if err := downloadFile(authStr, url, file); err != nil && downloadErr == nil {
-						downloadErr = err
-					}
-					<-c
-				}(url, file)
-			} else {
-				url := "https://api.github.com/repos/" + repoOwnerName + "/" + repoName + "/git/blobs/" + e.SHA
-				go func(url, file string) {
-					defer wg.Done()
-					if err := downloadBlob(authStr, url, file); err != nil && downloadErr == nil {
-						downloadErr = err
-					}
-					<-c
-				}(url, file)
-			}
+			url := rootBlobURL + e.SHA
+			go func(url, file string) {
+				defer wg.Done()
+				if err := downloadBlob(authStr, url, file); err != nil && downloadErr == nil {
+					downloadErr = err
+				}
+				<-c
+			}(url, file)
 		}
 	}
 	wg.Wait()
@@ -205,42 +195,8 @@ func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *
 	return downloadErr
 }
 
-func downloadFile(authStr, url, filePath string) error {
-	log.Println("Downloading", url)
-
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-
-	if err != nil {
-		return err
-	}
-
-	req.Header.Add("Authorization", authStr)
-	req.Header.Add("User-Agent", "go-gl/glow")
-	resp, err := client.Do(req)
-
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	var file fileContent
-	if err := json.NewDecoder(resp.Body).Decode(&file); err != nil {
-		return err
-	}
-
-	data, err := base64.StdEncoding.DecodeString(file.Content)
-
-	err = ioutil.WriteFile(filePath, data, 0644)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func downloadBlob(authStr, url, filePath string) error {
-	log.Println("Downloading", url)
+	log.Println("Downloading", filePath)
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
