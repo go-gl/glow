@@ -36,21 +36,6 @@ type dirContent struct {
 	Links       linkUrls `json:"_links"`
 }
 
-type fileContent struct {
-	Type        string   `json:"type"`
-	Encoding    string   `json:"encoding"`
-	Size        uint     `json:"size"`
-	Name        string   `json:"name"`
-	Path        string   `json:"path"`
-	Content     string   `json:"content"`
-	SHA         string   `json:"sha"`
-	URL         string   `json:"url"`
-	GitURL      string   `json:"git_url"`
-	HTMLURL     string   `json:"html_url"`
-	DownloadURL string   `json:"download_url"`
-	Links       linkUrls `json:"_links"`
-}
-
 type blobContent struct {
 	Content  string `json:"content"`
 	Encoding string `json:"encoding"`
