@@ -60,14 +60,13 @@ func generate(name string, args []string) {
 		LenientInit:  *lenientInit,
 	}
 
-	specs, rev := parseSpecifications(*xmlDir)
+	specs := parseSpecifications(*xmlDir)
 	docs := parseDocumentation(*xmlDir)
 
 	var pkg *Package
 	for _, spec := range specs {
 		if spec.HasPackage(packageSpec) {
 			pkg = spec.ToPackage(packageSpec)
-			pkg.SpecRev = rev
 			docs.AddDocs(pkg)
 			if len(*restrict) > 0 {
 				performRestriction(pkg, *restrict)
@@ -112,7 +111,7 @@ func performRestriction(pkg *Package, jsonPath string) {
 	pkg.Filter(lookupMap(r.Enums), lookupMap(r.Functions))
 }
 
-func parseSpecifications(xmlDir string) ([]*Specification, string) {
+func parseSpecifications(xmlDir string) []*Specification {
 	specDir := filepath.Join(xmlDir, "spec")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
@@ -131,12 +130,7 @@ func parseSpecifications(xmlDir string) ([]*Specification, string) {
 		specs = append(specs, spec)
 	}
 
-	rev, err := ioutil.ReadFile(filepath.Join(specDir, "REVISION"))
-	if err != nil {
-		log.Fatalln("error reading spec revision file:", err)
-	}
-
-	return specs, string(rev)
+	return specs
 }
 
 func parseDocumentation(xmlDir string) Documentation {
