@@ -68,7 +68,6 @@ var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
 func validatedAuthHeader(username string, password string) (string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
-
 	if err != nil {
 		return "", err
 	}
@@ -76,7 +75,6 @@ func validatedAuthHeader(username string, password string) (string, error) {
 	autStr := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password))))
 	req.Header.Add("Authorization", autStr)
 	resp, err := client.Do(req)
-
 	if err != nil {
 		return "", err
 	}
@@ -114,7 +112,6 @@ func download(name string, args []string) {
 	password := strings.Trim(input, "\n")
 
 	authHeader, err := validatedAuthHeader(username, password)
-
 	if err != nil {
 		log.Fatalln("error with user authorization:", err)
 	}
@@ -145,7 +142,6 @@ func DownloadGitDir(authStr string, repoName string, repoFolder string, filter *
 	req.Header.Add("Authorization", authStr)
 	req.Header.Add("User-Agent", "go-gl/glow")
 	resp, err := client.Do(req)
-
 	if err != nil {
 		return err
 	}
@@ -185,7 +181,6 @@ func downloadBlob(authStr, url, filePath string) error {
 
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
-
 	if err != nil {
 		return err
 	}
@@ -193,7 +188,6 @@ func downloadBlob(authStr, url, filePath string) error {
 	req.Header.Add("Authorization", authStr)
 	req.Header.Add("User-Agent", "go-gl/glow")
 	resp, err := client.Do(req)
-
 	if err != nil {
 		return err
 	}
