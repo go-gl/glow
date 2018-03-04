@@ -49,7 +49,7 @@
             Using a line width other than 1 has different effects,
             depending on whether line antialiasing is enabled.
             To enable and disable line antialiasing, call
-            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry>
+            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function>
             with argument <constant>GL_LINE_SMOOTH</constant>. Line antialiasing is initially
             disabled.
         </para>

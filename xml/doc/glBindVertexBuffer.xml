@@ -166,10 +166,10 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>.</para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>.
+    </para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>
@@ -192,15 +192,12 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glVertexAttribBinding</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexAttribFormat</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexAttribPointer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexBindingDivisor</refentrytitle>
-      </citerefentry>.</para>
+    <para>
+        <citerefentry><refentrytitle>glVertexAttribBinding</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexAttribFormat</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexBindingDivisor</refentrytitle></citerefentry>.
+    </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

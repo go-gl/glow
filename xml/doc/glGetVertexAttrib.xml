@@ -321,7 +321,7 @@
     <refsect1 xml:id="seealso"><title>See Also</title>
     <para><citerefentry><refentrytitle>glBindAttribLocation</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>,
-    <citerefentry><refentrytitle>glDisableVertexAttribArray</refentrytitle></citerefentry>,
+    <!-- FIX: link to glEnableVertexAttribArray --> <function>glDisableVertexAttribArray</function>,
     <citerefentry><refentrytitle>glEnableVertexAttribArray</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glVertexAttrib</refentrytitle></citerefentry>,
     <citerefentry><refentrytitle>glVertexAttribDivisor</refentrytitle></citerefentry>,

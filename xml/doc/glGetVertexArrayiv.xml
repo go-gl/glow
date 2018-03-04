@@ -112,13 +112,11 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glBindVertexArray</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glBindVertexArray</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+    </para>
   </refsect1>
 
   <refsect1 xml:id="Copyright">

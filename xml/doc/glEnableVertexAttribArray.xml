@@ -118,20 +118,17 @@
     <function>glDisableVertexArrayAttrib</function> updates state of the
     vertex array object with ID <parameter>vaobj</parameter>.</para>
 
-    <para>By default, all client-side capabilities are disabled, including all
-    generic vertex attribute arrays. If enabled, the values in the generic
-    vertex attribute array will be accessed and used for rendering when calls
-    are made to vertex array commands such as <citerefentry>
-        <refentrytitle>glDrawArrays</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glDrawElements</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glDrawRangeElements</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glMultiDrawElements</refentrytitle>
-      </citerefentry>, or <citerefentry>
-        <refentrytitle>glMultiDrawArrays</refentrytitle>
-      </citerefentry>.</para>
+    <para>
+        By default, all client-side capabilities are disabled, including all
+        generic vertex attribute arrays. If enabled, the values in the generic
+        vertex attribute array will be accessed and used for rendering when calls
+        are made to vertex array commands such as
+        <citerefentry><refentrytitle>glDrawArrays</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glDrawElements</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glDrawRangeElements</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glMultiDrawElements</refentrytitle></citerefentry>, or
+        <citerefentry><refentrytitle>glMultiDrawArrays</refentrytitle></citerefentry>.
+    </para>
   </refsect1>
 
   <refsect1 xml:id="errors">
@@ -156,20 +153,19 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_MAX_VERTEX_ATTRIBS</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry> with argument
+        <constant>GL_MAX_VERTEX_ATTRIBS</constant>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetVertexAttrib</refentrytitle>
-      </citerefentry> with arguments <parameter>index</parameter> and
-    <constant>GL_VERTEX_ATTRIB_ARRAY_ENABLED</constant> <parameter/></para>
+    <para><citerefentry><refentrytitle>glGetVertexAttrib</refentrytitle></citerefentry> with arguments <parameter>index</parameter> and
+        <constant>GL_VERTEX_ATTRIB_ARRAY_ENABLED</constant> <parameter/>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetVertexAttribPointerv</refentrytitle>
-      </citerefentry> with arguments <parameter>index</parameter> and
-    <constant>GL_VERTEX_ATTRIB_ARRAY_POINTER</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGetVertexAttribPointerv</refentrytitle></citerefentry> with arguments <parameter>index</parameter> and
+        <constant>GL_VERTEX_ATTRIB_ARRAY_POINTER</constant>
+    </para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

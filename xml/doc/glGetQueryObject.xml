@@ -201,7 +201,7 @@
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
             <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function>,
             <citerefentry><refentrytitle>glGetQueryiv</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glIsQuery</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glQueryCounter</refentrytitle></citerefentry>

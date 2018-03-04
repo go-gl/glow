@@ -323,25 +323,17 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glCompressedTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glGetCompressedTexImage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glGetCompressedTextureImage</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glCompressedTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glGetCompressedTexImage</refentrytitle></citerefentry>,
+        <!-- FIX: link to glGetCompressedTexImage --> <function>glGetCompressedTextureImage</function>,
+        <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>
+    </para>
   </refsect1>
 
     <refsect1 xml:id="Copyright"><title>Copyright</title>

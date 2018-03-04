@@ -167,7 +167,7 @@
         <para>
             To enable and disable a generic vertex attribute array, call
             <citerefentry><refentrytitle>glEnableVertexAttribArray</refentrytitle></citerefentry> and
-            <citerefentry><refentrytitle>glDisableVertexAttribArray</refentrytitle></citerefentry> with <parameter>index</parameter>.
+            <!-- FIX: link to glEnableVertexAttribArray --> <function>glDisableVertexAttribArray</function> with <parameter>index</parameter>.
             If enabled, the generic vertex attribute array is used when <citerefentry><refentrytitle>glDrawArrays</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glMultiDrawArrays</refentrytitle></citerefentry>, <citerefentry><refentrytitle>glDrawElements</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glMultiDrawElements</refentrytitle></citerefentry>, or  <citerefentry><refentrytitle>glDrawRangeElements</refentrytitle></citerefentry>
@@ -275,7 +275,7 @@
         <para>
         <citerefentry><refentrytitle>glBindAttribLocation</refentrytitle></citerefentry>,
         <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>,
-        <citerefentry><refentrytitle>glDisableVertexAttribArray</refentrytitle></citerefentry>,
+        <!-- FIX: link to glEnableVertexAttribArray --> <function>glDisableVertexAttribArray</function>,
         <citerefentry><refentrytitle>glDrawArrays</refentrytitle></citerefentry>,
         <citerefentry><refentrytitle>glDrawElements</refentrytitle></citerefentry>,
         <citerefentry><refentrytitle>glDrawRangeElements</refentrytitle></citerefentry>,

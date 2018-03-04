@@ -180,22 +180,22 @@
   <refsect1 xml:id="description">
     <title>Description</title>
 
-    <para><function>glGetTexImage</function>,
-    <function>glGetnTexImage</function> and
-    <function>glGetTextureImage</function> functions return a texture image
-    into <parameter>pixels</parameter>. For <function>glGetTexImage</function>
-    and <function>glGetnTexImage</function>, <parameter>target</parameter>
+    <para>
+    <function>glGetTexImage</function>, <function>glGetnTexImage</function>
+    and <function>glGetTextureImage</function> functions return a texture
+    image into <parameter>pixels</parameter>. For
+    <function>glGetTexImage</function> and
+    <function>glGetnTexImage</function>, <parameter>target</parameter>
     specifies whether the desired texture image is one specified by
-    <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry> (<constant>GL_TEXTURE_1D</constant>), <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry> (<constant>GL_TEXTURE_1D_ARRAY</constant>,
+    <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>
+    (<constant>GL_TEXTURE_1D</constant>),
+    <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>
+    (<constant>GL_TEXTURE_1D_ARRAY</constant>,
     <constant>GL_TEXTURE_RECTANGLE</constant>,
     <constant>GL_TEXTURE_2D</constant> or any of
-    <constant>GL_TEXTURE_CUBE_MAP_*</constant>), or <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry> (<constant>GL_TEXTURE_2D_ARRAY</constant>,
+    <constant>GL_TEXTURE_CUBE_MAP_*</constant>), or
+    <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>
+    (<constant>GL_TEXTURE_2D_ARRAY</constant>,
     <constant>GL_TEXTURE_3D</constant>,
     <constant>GL_TEXTURE_CUBE_MAP_ARRAY</constant>). For
     <function>glGetTextureImage</function>, <parameter>texture</parameter>
@@ -205,38 +205,35 @@
     texture objects (with effective target
     <constant>GL_TEXTURE_CUBE_MAP</constant>). <parameter>level</parameter>
     specifies the level-of-detail number of the desired image.
-    <parameter>format</parameter> and <parameter>type</parameter> specify the
-    format and type of the desired image array. See the reference page for
-    <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry> for a description of the acceptable values for the
-    <parameter>format</parameter> and <parameter>type</parameter> parameters,
-    respectively. For glGetnTexImage and glGetTextureImage functions, bufSize
-    tells the size of the buffer to receive the retrieved pixel data.
-    <function>glGetnTexImage</function> and
+    <parameter>format</parameter> and <parameter>type</parameter> specify
+    the format and type of the desired image array. See the reference page
+    for <citerefentry><refentrytitle>glTexImage1D</refentrytitle>
+    </citerefentry> for a description of the acceptable values for the
+    <parameter>format</parameter> and <parameter>type</parameter>
+    parameters, respectively. For glGetnTexImage and glGetTextureImage
+    functions, bufSize tells the size of the buffer to receive the retrieved
+    pixel data. <function>glGetnTexImage</function> and
     <function>glGetTextureImage</function> do not write more than
     <parameter>bufSize</parameter> bytes into
     <parameter>pixels</parameter>.</para>
 
     <para>If a non-zero named buffer object is bound to the
-    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see <citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>) while a texture image is requested,
-    <parameter>pixels</parameter> is treated as a byte offset into the buffer
-    object's data store.</para>
+    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see
+    <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>)
+    while a texture image is requested, <parameter>pixels</parameter> is
+    treated as a byte offset into the buffer object's data store.</para>
 
     <para>To understand the operation of <function>glGetTexImage</function>,
     consider the selected internal four-component texture image to be an RGBA
     color buffer the size of the image. The semantics of
     <function>glGetTexImage</function> are then identical to those of
-    <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry>, with the exception that no pixel transfer operations
-    are performed, when called with the same <parameter>format</parameter> and
+    <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
+    with the exception that no pixel transfer operations are performed, when
+    called with the same <parameter>format</parameter> and
     <parameter>type</parameter>, with <emphasis>x</emphasis> and
     <emphasis>y</emphasis> set to 0, <emphasis>width</emphasis> set to the
-    width of the texture image and <emphasis>height</emphasis> set to 1 for 1D
-    images, or to the height of the texture image for 2D images.</para>
+    width of the texture image and <emphasis>height</emphasis> set to 1 for
+    1D images, or to the height of the texture image for 2D images.</para>
 
     <para>If the selected texture image does not contain four components, the
     following mappings are applied. Single-component textures are treated as
@@ -249,13 +246,12 @@
     alpha set to 1.</para>
 
     <para>To determine the required size of <parameter>pixels</parameter>, use
-    <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> to determine the dimensions of the internal texture
-    image, then scale the required number of pixels by the storage required
-    for each pixel, based on <parameter>format</parameter> and
-    <parameter>type</parameter>. Be sure to take the pixel storage parameters
-    into account, especially <constant>GL_PACK_ALIGNMENT</constant>.</para>
+    <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry>
+    to determine the dimensions of the internal texture image, then scale
+    the required number of pixels by the storage required for each pixel,
+    based on <parameter>format</parameter> and <parameter>type</parameter>.
+    Be sure to take the pixel storage parameters into account, especially
+    <constant>GL_PACK_ALIGNMENT</constant>.</para>
 
     <para>If <function>glGetTextureImage</function> is used against a cube map
     texture object, the texture is treated as a three-dimensional image of a

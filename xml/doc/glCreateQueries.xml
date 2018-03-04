@@ -100,7 +100,7 @@
             <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBeginQueryIndexed</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteQueries</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function>,
             <citerefentry><refentrytitle>glGenQueries</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryObject</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryiv</refentrytitle></citerefentry>,

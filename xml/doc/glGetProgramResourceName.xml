@@ -238,7 +238,7 @@
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
             <citerefentry><refentrytitle>glGetProgramResourceIndex</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glGetGetProgramResource</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGetProgramResource</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetProgramResourceLocation</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetProgramResourceLocationIndex</refentrytitle></citerefentry>.
         </para>

@@ -48,17 +48,19 @@
     </refsect1>
     <refsect1 id="description"><title>Description</title>
         <para>
-            <function>glXFreeContextEXT</function> frees the client-side part of a GLXContext that 
-            was created with <citerefentry><refentrytitle>glXImportContextEXT</refentrytitle></citerefentry>. <function>glXFreeContextEXT</function> does not 
-            free the server-side context information or the XID 
+            <function>glXFreeContextEXT</function> frees the client-side part of a GLXContext that
+            was created with <citerefentry><refentrytitle>glXImportContextEXT</refentrytitle></citerefentry>. <function>glXFreeContextEXT</function> does not
+            free the server-side context information or the XID
             associated with the server-side context.
         </para>
         <para>
-            <function>glXFreeContextEXT</function> is part of the <code>EXT_import_context</code> extension,
-            not part of the core GLX command set. If _glxextstring(EXT_import_context)
-            is included in the string returned by <citerefentry><refentrytitle>glXQueryExtensionsString</refentrytitle></citerefentry>,
-            when called with argument <constant>GLX_EXTENSIONS</constant>,
-            extension <code>EXT_vertex_array</code> is supported.
+            <function>glXFreeContextEXT</function> is part of the
+            <code>GLX_EXT_import_context</code> extension, not part of
+            the core GLX command set. If
+            <code>GLX_EXT_import_context</code> is included in the
+            string returned by
+            <citerefentry><refentrytitle>glXQueryExtensionsString</refentrytitle></citerefentry>,
+            the extension is supported.
         </para>
     </refsect1>
     <refsect1 id="errors"><title>Errors</title>

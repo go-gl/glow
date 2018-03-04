@@ -90,7 +90,7 @@
             the incoming (source) RGBA values with the RGBA values
             that are already in the frame buffer (the destination values).
             Blending is initially disabled.
-            Use <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> with argument <constant>GL_BLEND</constant>
+            Use <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function> with argument <constant>GL_BLEND</constant>
             to enable and disable blending.
         </para>
         <para>
@@ -1389,7 +1389,7 @@
             Polygon antialiasing is optimized using blend function
             (<constant>GL_SRC_ALPHA_SATURATE</constant>, <constant>GL_ONE</constant>)
             with polygons sorted from nearest to farthest.
-            (See the <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry>, <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> reference page and the
+            (See the <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry>, <!-- FIX: link to glEnable --> <function>glDisable</function> reference page and the
             <constant>GL_POLYGON_SMOOTH</constant> argument for information on polygon antialiasing.)
             Destination alpha bitplanes,
             which must be present for this blend function to operate correctly,

@@ -160,25 +160,18 @@
     number of the desired image.</para>
 
     <para>If a non-zero named buffer object is bound to the
-    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see <citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>) while a texture image is requested,
+    <constant>GL_PIXEL_PACK_BUFFER</constant> target (see
+    <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>) while a texture image is requested,
     <parameter>pixels</parameter> is treated as a byte offset into the buffer
     object's data store.</para>
 
     <para>To minimize errors, first verify that the texture is compressed by
-    calling <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    calling <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_COMPRESSED</constant>. If the texture is compressed,
     you can determine the amount of memory required to store the compressed
-    texture by calling <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    texture by calling <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_COMPRESSED_IMAGE_SIZE</constant>. Finally, retrieve
-    the internal format of the texture by calling <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    the internal format of the texture by calling <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_INTERNAL_FORMAT</constant>. To store the texture for
     later use, associate the internal format and size with the retrieved
     texture image. These data can be used by the respective texture or
@@ -221,24 +214,16 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    <para><citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_COMPRESSED</constant></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    <para><citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_COMPRESSED_IMAGE_SIZE</constant></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with argument
+    <para><citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry> with argument
     <constant>GL_TEXTURE_INTERNAL_FORMAT</constant></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
+    <para><citerefentry><refentrytitle>glGet</refentrytitle></citerefentry> with argument
     <constant>GL_PIXEL_PACK_BUFFER_BINDING</constant></para>
   </refsect1>
 
@@ -278,37 +263,23 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glActiveTexture</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glCompressedTexSubImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glReadPixels</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexImage3D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexParameter</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage1D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage2D</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glTexSubImage3D</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glActiveTexture</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glCompressedTexSubImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexImage3D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexParameter</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage1D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage2D</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glTexSubImage3D</refentrytitle></citerefentry>
+    </para>
   </refsect1>
 
   <refsect1 xml:id="Copyright">
