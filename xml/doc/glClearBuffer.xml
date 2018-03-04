@@ -68,7 +68,8 @@
                 <funcdef>void <function>glClearNamedFramebufferfi</function></funcdef>
                 <paramdef>GLuint <parameter>framebuffer</parameter></paramdef>
                 <paramdef>GLenum <parameter>buffer</parameter></paramdef>
-                <paramdef>const GLfloat <parameter>depth</parameter></paramdef>
+                <paramdef>GLint <parameter>drawbuffer</parameter></paramdef>
+                <paramdef>GLfloat <parameter>depth</parameter></paramdef>
                 <paramdef>GLint <parameter>stencil</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>

@@ -41,7 +41,7 @@
             <listitem>
                 <para>
                     Specifies the target type of query object established between
-                    <function>glBeginQueryIndexed</function> and the subsequent <citerefentry><refentrytitle>glEndQueryIndexed</refentrytitle></citerefentry>.
+                    <function>glBeginQueryIndexed</function> and the subsequent <!-- FIX: link to glBeginQueryIndexed --> <function>glEndQueryIndexed</function>.
                     The symbolic constant must be one of <constant>GL_SAMPLES_PASSED</constant>, <constant>GL_ANY_SAMPLES_PASSED</constant>,
                     <constant>GL_PRIMITIVES_GENERATED</constant>, <constant>GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN</constant>, or
                     <constant>GL_TIME_ELAPSED</constant>.
@@ -91,7 +91,7 @@
     </refsect1>
     <refsect1 xml:id="description"><title>Description</title>
         <para>
-            <function>glBeginQueryIndexed</function> and <citerefentry><refentrytitle>glEndQueryIndexed</refentrytitle></citerefentry> delimit the
+            <function>glBeginQueryIndexed</function> and <!-- FIX: link to glBeginQueryIndexed --> <function>glEndQueryIndexed</function> delimit the
             boundaries of a query object.  <parameter>query</parameter> must be a name previously returned from a call to
             <citerefentry><refentrytitle>glGenQueries</refentrytitle></citerefentry>. If a query object with name <parameter>id</parameter>
             does not yet exist it is created with the type determined by <parameter>target</parameter>. <parameter>target</parameter> must
@@ -186,9 +186,9 @@
         </para>
         <para>
             Calling <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry> or
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry> is equivalent to
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function> is equivalent to
             calling <citerefentry><refentrytitle>glBeginQueryIndexed</refentrytitle></citerefentry> or
-            <citerefentry><refentrytitle>glEndQueryIndexed</refentrytitle></citerefentry> with
+            <!-- FIX: link to glBeginQueryIndexed --> <function>glEndQueryIndexed</function> with
             <parameter>index</parameter> set to zero, respectively.
         </para>
     </refsect1>
@@ -205,7 +205,7 @@
             a query object of the same <parameter>target</parameter> is already active.
         </para>
         <para>
-            <constant>GL_INVALID_OPERATION</constant> is generated if <citerefentry><refentrytitle>glEndQueryIndexed</refentrytitle></citerefentry>
+            <constant>GL_INVALID_OPERATION</constant> is generated if <!-- FIX: link to glBeginQueryIndexed --> <function>glEndQueryIndexed</function>
             is executed when a query object of the same <parameter>target</parameter> is not active.
         </para>
         <para>
@@ -240,7 +240,7 @@
         <para>
             <citerefentry><refentrytitle>glBeginQuery</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteQueries</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndQuery</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginQuery --> <function>glEndQuery</function>,
             <citerefentry><refentrytitle>glGenQueries</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryObject</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGetQueryiv</refentrytitle></citerefentry>,

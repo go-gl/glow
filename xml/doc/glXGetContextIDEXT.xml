@@ -46,17 +46,21 @@
             return a value, <function>glXGetContextIDEXT</function> does not flush any pending events.
         </para>
         <para>
-            <function>glXGetContextIDEXT</function> is part of the <code>EXT_import_context</code> extension,
-            not part of the core GLX command set. If _glxextstring(EXT_import_context)
-            is included in the string returned by <citerefentry><refentrytitle>glXQueryExtensionsString</refentrytitle></citerefentry>,
-            when called with argument <constant>GLX_EXTENSIONS</constant>,
-            extension <code>EXT_import_context</code> is supported.
+            <function>glXGetContextIDEXT</function> is part of the
+            <code>GLX_EXT_import_context</code> extension, not part of
+            the core GLX command set. If
+            <code>GLX_EXT_import_context</code> is included in the
+            string returned by
+            <citerefentry><refentrytitle>glXQueryExtensionsString</refentrytitle></citerefentry>,
+            the extension is supported.
         </para>
     </refsect1>
     <refsect1 id="errors"><title>Errors</title>
         <para>
-            <constant>GLXBadContext</constant> is generated if <parameter>ctx</parameter> does not
-            refer to a valid context.
+            <constant>None</constant> is returned if
+            <parameter>ctx</parameter> is <constant>NULL</constant>.
+            Otherwise, if <parameter>ctx</parameter> does not refer to a
+            valid context, undefined behavior results.
         </para>
     </refsect1>
     <refsect1 id="seealso"><title>See Also</title>

@@ -153,13 +153,15 @@
         </listitem>
       </varlistentry>
 
-      <varlistentry>
-        <term><parameter>normalized</parameter></term>
-
-        <listitem>
-          <para>The distance between elements within the buffer.</para>
-        </listitem>
-      </varlistentry>
+        <varlistentry>
+            <term><parameter>normalized</parameter></term>
+            <listitem>
+                <para>
+                    Specifies whether fixed-point data values should be normalized (<constant>GL_TRUE</constant>) or 
+		    converted directly as fixed-point values (<constant>GL_FALSE</constant>) when they are accessed. This parameter is ignored if <parameter>type</parameter> is <constant>GL_FIXED</constant>.
+                </para>
+            </listitem>
+        </varlistentry>
 
       <varlistentry>
         <term><parameter>relativeoffset</parameter></term>
@@ -331,16 +333,13 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with arguments
-    <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>, or
+    <para><citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+    with arguments <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>, or
     <constant>GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET</constant>.</para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetVertexAttrib</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_VERTEX_ATTRIB_RELATIVE_OFFSET</constant>.</para>
+    <para><citerefentry><refentrytitle>glGetVertexAttrib</refentrytitle></citerefentry>
+        with argument <constant>GL_VERTEX_ATTRIB_RELATIVE_OFFSET</constant>.
+    </para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

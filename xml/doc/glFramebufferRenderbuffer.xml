@@ -216,9 +216,9 @@
             <citerefentry><refentrytitle>glBindFramebuffer</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glGenRenderbuffers</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glFramebufferTexture</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture1D</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture2D</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glFramebufferTexture3D</refentrytitle></citerefentry>
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture1D</function>,
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture2D</function>,
+            <!-- FIX: link to glFramebufferTexture --> <function>glFramebufferTexture3D</function>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>

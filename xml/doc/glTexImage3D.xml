@@ -181,7 +181,7 @@
             Texturing maps a portion of a specified texture image
             onto each graphical primitive for which texturing is enabled.
             To enable and disable three-dimensional texturing, call <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry>
-            and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> with argument <constant>GL_TEXTURE_3D</constant>.
+            and <!-- FIX: link to glEnable --> <function>glDisable</function> with argument <constant>GL_TEXTURE_3D</constant>.
         </para>
         <para>
             To define texture images, call <function>glTexImage3D</function>.

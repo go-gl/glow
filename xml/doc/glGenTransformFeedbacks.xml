@@ -83,7 +83,7 @@
             <citerefentry><refentrytitle>glBeginTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glPauseTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glResumeTransformFeedback</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndTransformFeedback</refentrytitle></citerefentry>
+            <!-- FIX: link to glBeginTransformFeedback --> <function>glEndTransformFeedback</function>
         </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>

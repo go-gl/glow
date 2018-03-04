@@ -78,7 +78,7 @@
             <citerefentry><refentrytitle>glBeginTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBindTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteTransformFeedbacks</refentrytitle></citerefentry>,
-            <citerefentry><refentrytitle>glEndTransformFeedback</refentrytitle></citerefentry>,
+            <!-- FIX: link to glBeginTransformFeedback --> <function>glEndTransformFeedback</function>,
             <citerefentry><refentrytitle>glGenTransformFeedbacks</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glIsTransformFeedback</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glPauseTransformFeedback</refentrytitle></citerefentry>,

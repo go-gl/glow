@@ -56,7 +56,7 @@
             <function>glDepthFunc</function> specifies the function used to compare each incoming pixel depth value
             with the depth value present in the depth buffer.
             The comparison is performed only if depth testing is enabled.
-            (See <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> of <constant>GL_DEPTH_TEST</constant>.)
+            (See <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function> of <constant>GL_DEPTH_TEST</constant>.)
         </para>
         <para>
             <parameter>func</parameter> specifies the conditions under which the pixel will be drawn.

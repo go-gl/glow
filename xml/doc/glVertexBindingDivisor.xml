@@ -122,11 +122,11 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with arguments
-    <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>,
-    <constant>GL_VERTEX_BINDING_DIVISOR</constant>.</para>
+    <para><citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with arguments <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant>,
+        <constant>GL_VERTEX_BINDING_DIVISOR</constant>.
+    </para>
+
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>
@@ -149,17 +149,13 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glBindVertexBuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexAttribBinding</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexAttribPointer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexBindingDivisor</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glVertexAttribPointer</refentrytitle>
-      </citerefentry>.</para>
+    <para>
+        <citerefentry><refentrytitle>glBindVertexBuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexAttribBinding</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexBindingDivisor</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glVertexAttribPointer</refentrytitle></citerefentry>.
+    </para>
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>

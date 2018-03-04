@@ -125,7 +125,7 @@
     </refsect1>
     <refsect1 xml:id="seealso"><title>See Also</title>
         <para>
-            <citerefentry><refentrytitle>glGetProgramPipelines</refentrytitle></citerefentry>,
+            <citerefentry><refentrytitle>glGenProgramPipelines</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glBindProgramPipeline</refentrytitle></citerefentry>,
             <citerefentry><refentrytitle>glDeleteProgramPipelines</refentrytitle></citerefentry>
         </para>

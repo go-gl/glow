@@ -189,16 +189,14 @@
 
     <para>The locations assigned to uniform variables are not known until the
     program object is linked. After linking has occurred, the command
-    <citerefentry>
-        <refentrytitle>glGetUniformLocation</refentrytitle>
-      </citerefentry> can be used to obtain the location of a uniform
-    variable. This location value can then be passed to
-    <function>glGetUniform</function> or <function>glGetnUniform</function> in
-    order to query the current value of the uniform variable. After a program
-    object has been linked successfully, the index values for uniform
-    variables remain fixed until the next link command occurs. The uniform
-    variable values can only be queried after a link if the link was
-    successful.</para>
+    <citerefentry><refentrytitle>glGetUniformLocation</refentrytitle></citerefentry>
+    can be used to obtain the location of a uniform variable. This location
+    value can then be passed to <function>glGetUniform</function> or
+    <function>glGetnUniform</function> in order to query the current value
+    of the uniform variable. After a program object has been linked
+    successfully, the index values for uniform variables remain fixed until
+    the next link command occurs. The uniform variable values can only be
+    queried after a link if the link was successful.</para>
 
     <para>The only difference between <function>glGetUniform</function> and
     <function>glGetnUniform</function> is that
@@ -239,25 +237,21 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetActiveUniform</refentrytitle>
-      </citerefentry> with arguments <parameter>program</parameter> and the
-    index of an active uniform variable</para>
+    <para><citerefentry><refentrytitle>glGetActiveUniform</refentrytitle></citerefentry>
+    with arguments <parameter>program</parameter> and the index of an active
+    uniform variable</para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetProgram</refentrytitle>
-      </citerefentry> with arguments <parameter>program</parameter> and
+    <para><citerefentry><refentrytitle>glGetProgram</refentrytitle></citerefentry>
+    with arguments <parameter>program</parameter> and
     <constant>GL_ACTIVE_UNIFORMS</constant> or
     <constant>GL_ACTIVE_UNIFORM_MAX_LENGTH</constant></para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetUniformLocation</refentrytitle>
-      </citerefentry> with arguments <parameter>program</parameter> and the
-    name of a uniform variable</para>
+    <para><citerefentry><refentrytitle>glGetUniformLocation</refentrytitle></citerefentry>
+    with arguments <parameter>program</parameter> and the name of a uniform
+    variable</para>
 
-    <para><citerefentry>
-        <refentrytitle>glIsProgram</refentrytitle>
-      </citerefentry></para>
+    <para><citerefentry><refentrytitle>glIsProgram</refentrytitle></citerefentry></para>
+
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

@@ -35,7 +35,7 @@
             <term><parameter>barriers</parameter></term>
             <listitem>
                 <para>
-                    Specifies the barriers to insert. 
+                    Specifies the barriers to insert.
                 </para>
                 <para>
                     For <function>glMemoryBarrier</function>, must be a
@@ -159,12 +159,16 @@
                     <listitem>
                     <para>
                         Reads and writes of buffer objects via the
-                        <constant>GL_PIXEL_PACK_BUFFER</constant> and <constant>GL_PIXEL_UNPACK_BUFFER</constant>
-                        bindings (via <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
-                        <citerefentry><refentrytitle>glTexSubImage</refentrytitle></citerefentry>, etc.) after the
-                        barrier will reflect data written by shaders prior to the barrier.
-                        Additionally, buffer object writes issued after the barrier will wait
-                        on the completion of all shader writes initiated prior to the barrier.
+                        <constant>GL_PIXEL_PACK_BUFFER</constant> and
+                        <constant>GL_PIXEL_UNPACK_BUFFER</constant> bindings
+                        (via
+                        <citerefentry><refentrytitle>glReadPixels</refentrytitle></citerefentry>,
+                        <citerefentry><refentrytitle>glTexSubImage1D</refentrytitle></citerefentry>,
+                        etc.) after the barrier will reflect data written by
+                        shaders prior to the barrier. Additionally, buffer
+                        object writes issued after the barrier will wait on
+                        the completion of all shader writes initiated prior
+                        to the barrier.
                     </para>
                     </listitem>
                 </varlistentry>
@@ -401,7 +405,7 @@
             and writes for scatter/gather-like algorithms may or may not be
             completed/reflected after a
             <function>glMemoryBarrierByRegion</function> command. However,
-            for uses such as deferred shading, where a linked list of 
+            for uses such as deferred shading, where a linked list of
             visible surfaces with the head at a framebuffer address may be
             constructed, and the entirety of the list is only dependent on
             previous executions at that framebuffer address,

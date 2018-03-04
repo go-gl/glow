@@ -179,21 +179,22 @@
     is not an error to specify a subtexture with width of 0, but such a
     specification has no effect.</para>
 
-    <para><parameter>internalformat</parameter> must be a known compressed
-    image format (such as <constant>GL_RGTC</constant>) or an
-    extension-specified compressed-texture format. The
-    <parameter>format</parameter> of the compressed texture image is selected
-    by the GL implementation that compressed it (see <citerefentry>
-        <refentrytitle>glTexImage1D</refentrytitle>
-      </citerefentry>), and should be queried at the time the texture was
-    compressed with <citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry>.</para>
+    <para>
+        <parameter>internalformat</parameter> must be a known compressed
+        image format (such as <constant>GL_RGTC</constant>) or an
+        extension-specified compressed-texture format. The
+        <parameter>format</parameter> of the compressed texture image is selected
+        by the GL implementation that compressed it (see
+        <citerefentry><refentrytitle>glTexImage1D</refentrytitle></citerefentry>),
+        and should be queried at the time the texture was
+        compressed with
+        <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry>.
+    </para>
 
     <para>If a non-zero named buffer object is bound to the
-    <constant>GL_PIXEL_UNPACK_BUFFER</constant> target (see <citerefentry>
-        <refentrytitle>glBindBuffer</refentrytitle>
-      </citerefentry>) while a texture image is specified,
+    <constant>GL_PIXEL_UNPACK_BUFFER</constant> target (see
+    <citerefentry><refentrytitle>glBindBuffer</refentrytitle></citerefentry>)
+    while a texture image is specified,
     <parameter>data</parameter> is treated as a byte offset into the buffer
     object's data store.</para>
   </refsect1>
@@ -242,25 +243,26 @@
   <refsect1 xml:id="associatedgets">
     <title>Associated Gets</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGetCompressedTexImage</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGetCompressedTexImage</refentrytitle></citerefentry>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_TEXTURE_COMPRESSED</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_TEXTURE_COMPRESSED</constant>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGet</refentrytitle>
-      </citerefentry> with argument
-    <constant>GL_PIXEL_UNPACK_BUFFER_BINDING</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry>
+        with argument <constant>GL_PIXEL_UNPACK_BUFFER_BINDING</constant>
+    </para>
 
-    <para><citerefentry>
-        <refentrytitle>glGetTexLevelParameter</refentrytitle>
-      </citerefentry> with arguments
-    <constant>GL_TEXTURE_INTERNAL_FORMAT</constant> and
-    <constant>GL_TEXTURE_COMPRESSED_IMAGE_SIZE</constant></para>
+    <para>
+        <citerefentry><refentrytitle>glGetTexLevelParameter</refentrytitle></citerefentry>
+        with arguments
+        <constant>GL_TEXTURE_INTERNAL_FORMAT</constant> and
+        <constant>GL_TEXTURE_COMPRESSED_IMAGE_SIZE</constant>
+    </para>
   </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>

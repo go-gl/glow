@@ -50,7 +50,7 @@
             (as specified by <emphasis>mode</emphasis>) when facet culling is enabled. Facet
             culling is initially disabled.
             To enable and disable facet culling, call the
-            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <citerefentry><refentrytitle>glDisable</refentrytitle></citerefentry> commands
+            <citerefentry><refentrytitle>glEnable</refentrytitle></citerefentry> and <!-- FIX: link to glEnable --> <function>glDisable</function> commands
             with the argument <constant>GL_CULL_FACE</constant>.
             Facets include triangles,
             quadrilaterals,

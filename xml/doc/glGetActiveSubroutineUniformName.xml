@@ -110,7 +110,7 @@
         </para>
         <para>
             <constant>GL_INVALID_VALUE</constant> is generated if <parameter>index</parameter> is greater than or equal to
-            the value of <constant>GL_ACTIVE_SUBROUTINES</constant>.
+            the value of <constant>GL_ACTIVE_SUBROUTINE_UNIFORMS</constant>.
         </para>
         <para>
             <constant>GL_INVALID_VALUE</constant> is generated if <parameter>program</parameter> is not the name of an

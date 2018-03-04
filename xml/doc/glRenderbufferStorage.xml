@@ -110,9 +110,8 @@
     <title>Description</title>
 
     <para><function>glRenderbufferStorage</function> is equivalent to calling
-    <citerefentry>
-        <refentrytitle>glRenderbufferStorageMultisample</refentrytitle>
-      </citerefentry> with the <parameter>samples</parameter> set to zero, and
+    <citerefentry><refentrytitle>glRenderbufferStorageMultisample</refentrytitle></citerefentry>
+    with the <parameter>samples</parameter> set to zero, and
     <function>glNamedRenderbufferStorage</function> is equivalent to calling
     <function>glNamedRenderbufferStorageMultisample</function> with the
     samples set to zero.</para>
@@ -182,19 +181,15 @@
   <refsect1 xml:id="seealso">
     <title>See Also</title>
 
-    <para><citerefentry>
-        <refentrytitle>glGenRenderbuffers</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glBindRenderbuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glNamedRenderbufferStorageMultisample</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glRenderbufferStorageMultisample</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glFramebufferRenderbuffer</refentrytitle>
-      </citerefentry>, <citerefentry>
-        <refentrytitle>glDeleteRenderbuffers</refentrytitle>
-      </citerefentry></para>
+    <para>
+        <citerefentry><refentrytitle>glGenRenderbuffers</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glBindRenderbuffer</refentrytitle></citerefentry>,
+        <!-- FIX: link to glRenderbufferStorageMultisample --> <function>glNamedRenderbufferStorageMultisample</function>,
+        <citerefentry><refentrytitle>glRenderbufferStorageMultisample</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glFramebufferRenderbuffer</refentrytitle></citerefentry>,
+        <citerefentry><refentrytitle>glDeleteRenderbuffers</refentrytitle></citerefentry>
+    </para>
+
     </refsect1>
     <refsect1 xml:id="Copyright"><title>Copyright</title>
         <para>
