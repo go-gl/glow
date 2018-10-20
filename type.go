@@ -134,10 +134,56 @@ func (t Type) ConvertGoToC(name string) string {
 	return fmt.Sprintf("(%s)(%s)", t.GoCType(), name)
 }
 
+// ConvertGoToUintptr returns an expression that converts a variable from the Go type to uintptr type for syscall.Syscall.
+func (t Type) ConvertGoToUintptr(name string) string {
+	switch t.Name {
+	case "GLboolean":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("boolToUintptr(%s)", name)
+		}
+	case "GLfloat", "GLclampf":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("uintptr(math.Float32bits(%s))", name)
+		}
+	case "GLdouble", "GLclampd":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("uintptr(math.Float64bits(%s))", name)
+		}
+	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
+		return fmt.Sprintf("syscall.NewCallback(%s)", name)
+	}
+	if t.PointerLevel >= 1 && t.GoType() != "unsafe.Pointer" {
+		return fmt.Sprintf("uintptr(unsafe.Pointer(%s))", name)
+	}
+	return fmt.Sprintf("uintptr(%s)", name)
+}
+
 // ConvertCToGo converts from the C type to the Go type.
 func (t Type) ConvertCToGo(name string) string {
-	if t.Name == "GLboolean" {
+	if t.Name == "GLboolean" && t.PointerLevel == 0 {
 		return fmt.Sprintf("%s == TRUE", name)
+	}
+	return fmt.Sprintf("(%s)(%s)", t.GoType(), name)
+}
+
+// ConvertUintptrToGo converts from the uintptr type to the Go type.
+func (t Type) ConvertUintptrToGo(name string) string {
+	switch t.Name {
+	case "GLboolean":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("%s != 0", name)
+		}
+	case "GLfloat", "GLclampf":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("math.Float32frombits(uint32(%s))", name)
+		}
+	case "GLdouble", "GLclampd":
+		if t.PointerLevel == 0 {
+			return fmt.Sprintf("math.Float64frombits(uint64(%s))", name)
+		}
+	}
+	if t.PointerLevel >= 1 && t.GoType() != "unsafe.Pointer" {
+		return fmt.Sprintf("(%s)(unsafe.Pointer(%s))", t.GoType(), name)
 	}
 	return fmt.Sprintf("(%s)(%s)", t.GoType(), name)
 }
