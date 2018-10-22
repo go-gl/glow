@@ -31,6 +31,30 @@ type PackageFunction struct {
 	Doc      string
 }
 
+// Comment returns the comment explaining the function.
+func (fn *PackageFunction) Comment() string {
+	lines := []string{}
+	if len(fn.Doc) > 0 {
+		lines = append(lines, "// " + fn.Doc)
+	}
+
+	// Adds explanations about C types that are unsafe.Pointer in Go world.
+	// See also https://github.com/go-gl/gl/issues/113.
+	for _, p := range fn.Function.Parameters {
+		t := p.Type
+		if t.GoType() == "unsafe.Pointer" && t.Name != "void" && t.Name != "GLvoid" {
+			lines = append(lines, fmt.Sprintf("// Param '%s' type: '%s'", p.Name, strings.TrimSpace(t.CType())))
+		}
+	}
+
+	r := fn.Function.Return
+	if r.GoType() == "unsafe.Pointer" && r.Name != "void" && r.Name != "GLvoid" {
+		lines = append(lines, fmt.Sprintf("// Return type: %s", strings.TrimSpace(r.CType())))
+	}
+
+	return strings.Join(lines, "\n//\n")
+}
+
 // UniqueName returns a globally unique Go-compatible name for this package.
 func (pkg *Package) UniqueName() string {
 	version := strings.Replace(pkg.Version.String(), ".", "", -1)

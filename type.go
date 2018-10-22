@@ -113,7 +113,7 @@ func (t Type) GoType() string {
 		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
 	}
-	return t.GoCType()
+	return "unsafe.Pointer"
 }
 
 // ConvertGoToC returns an expression that converts a variable from the Go type to the C type.
