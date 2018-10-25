@@ -43,13 +43,13 @@ func (f *PackageFunction) Comment() string {
 	for _, p := range f.Function.Parameters {
 		t := p.Type
 		if t.GoType() == "unsafe.Pointer" && t.Name != "void" && t.Name != "GLvoid" {
-			lines = append(lines, fmt.Sprintf("// Parameter %s has type %s.", p.Name, strings.TrimSpace(t.GoCType())))
+			lines = append(lines, fmt.Sprintf("// Parameter %s has type %s.", p.Name, t.GoCType()))
 		}
 	}
 
 	r := f.Function.Return
 	if r.GoType() == "unsafe.Pointer" && r.Name != "void" && r.Name != "GLvoid" {
-		lines = append(lines, fmt.Sprintf("// Return value has type %s.", strings.TrimSpace(r.GoCType())))
+		lines = append(lines, fmt.Sprintf("// Return value has type %s.", r.GoCType()))
 	}
 
 	return strings.Join(lines, "\n//\n")
