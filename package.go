@@ -78,7 +78,10 @@ func (pkg *Package) GeneratePackage(dir string) error {
 		return err
 	}
 	if pkg.HasDebugCallbackFeature() {
-		if err := pkg.generateFile("debug", dir); err != nil {
+		if err := pkg.generateFile("debug_notwindows", dir); err != nil {
+			return err
+		}
+		if err := pkg.generateFile("debug_windows", dir); err != nil {
 			return err
 		}
 	}
