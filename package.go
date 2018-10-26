@@ -41,18 +41,16 @@ func (f *PackageFunction) Comment() string {
 	// Adds explanations about C types that are unsafe.Pointer in Go world.
 	// See also https://github.com/go-gl/gl/issues/113.
 	for _, p := range f.Function.Parameters {
-		t := p.Type
-		if t.GoType() == "unsafe.Pointer" && t.Name != "void" && t.Name != "GLvoid" {
+		if t := p.Type; t.GoType() == "unsafe.Pointer" && t.Name != "void" && t.Name != "GLvoid" {
 			lines = append(lines, fmt.Sprintf("// Parameter %s has type %s.", p.Name, t.GoCType()))
 		}
 	}
 
-	r := f.Function.Return
-	if r.GoType() == "unsafe.Pointer" && r.Name != "void" && r.Name != "GLvoid" {
+	if r := f.Function.Return; r.GoType() == "unsafe.Pointer" && r.Name != "void" && r.Name != "GLvoid" {
 		lines = append(lines, fmt.Sprintf("// Return value has type %s.", r.GoCType()))
 	}
 
-	return strings.Join(lines, "\n//\n")
+	return strings.Join(lines, "\n")
 }
 
 // UniqueName returns a globally unique Go-compatible name for this package.
