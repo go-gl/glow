@@ -94,9 +94,7 @@ func boolToInt(b bool) int {
 
 {{define "bridgeCall"}}C.glow{{.GoName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
-//glow:keepspace
 {{.Comment}}
-//glow:rmspace
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
   {{range .Parameters}}
   {{if .Type.IsDebugProc}}userDebugCallback = {{.GoName}}{{end}}
