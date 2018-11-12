@@ -13,10 +13,9 @@ type Function struct {
 	Return     Type
 }
 
-// IsImplementedForSyscall returns a boolean value indicating whether the function is implemented for syscall or not.
+// IsImplementedForSyscall reports whether the function is implemented for syscall or not.
 func (f Function) IsImplementedForSyscall() bool {
-	// As there is no syscall.Syscall18 or more, more than 15 arguments cannot be accepted.
-	// See https://github.com/golang/go/issues/28434.
+	// TODO: Use syscall.Syscall18 when Go 1.12 is the minimum supported version.
 	if len(f.Parameters) > 15 {
 		return false
 	}
