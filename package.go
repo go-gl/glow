@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"go/build"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"golang.org/x/tools/go/packages"
 )
 
 // A Package holds the typedef, function, and enum definitions for a Go package.
@@ -156,12 +157,12 @@ func (pkg *Package) Filter(enums, functions map[string]bool) {
 }
 
 // importPathToDir resolves the absolute path from importPath.
-// There doesn't need to be a valid Go package inside that import path,
-// but the directory must exist. It calls log.Fatalln if it fails.
+// There needs to be a valid Go package inside that import path.
+// It calls log.Fatalln if it fails.
 func importPathToDir(importPath string) string {
-	p, err := build.Import(importPath, "", build.FindOnly)
+	pkgs, err := packages.Load(nil, importPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	return p.Dir
+	return filepath.Dir(pkgs[0].GoFiles[0])
 }
