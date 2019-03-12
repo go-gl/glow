@@ -150,7 +150,7 @@ func (t Type) ConvertGoToUintptr(name string) string {
 			return fmt.Sprintf("uintptr(math.Float64bits(%s))", name)
 		}
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
-		return fmt.Sprintf("syscall.NewCallback(%s)", name)
+		return fmt.Sprintf("syscall.NewCallbackCDecl(%s)", name)
 	}
 	if t.PointerLevel >= 1 && t.GoType() != "unsafe.Pointer" {
 		return fmt.Sprintf("uintptr(unsafe.Pointer(%s))", name)
