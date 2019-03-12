@@ -75,6 +75,9 @@ func (pkg *Package) GeneratePackage(dir string) error {
 	if err := pkg.generateFile("package_windows", dir); err != nil {
 		return err
 	}
+	if err := pkg.generateFile("conversions", dir); err != nil {
+		return err
+	}
 	if err := pkg.generateFile("conversions_notwindows", dir); err != nil {
 		return err
 	}
