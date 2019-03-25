@@ -23,10 +23,10 @@ package {{.Name}}
 #cgo darwin LDFLAGS: -framework OpenGL
 
 #cgo linux freebsd CFLAGS: -DTAG_POSIX
-#cgo linux freebsd LDFLAGS: -lGL
+#cgo !egl,linux !egl,freebsd pkg-config: gl
 
-#cgo egl CFLAGS: -DTAG_EGL
-#cgo egl LDFLAGS: -lEGL
+#cgo egl,linux egl,freebsd CFLAGS: -DTAG_EGL
+#cgo egl,linux egl,freebsd pkg-config: egl
 
 
 // Check the EGL tag first as it takes priority over the platform's default

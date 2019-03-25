@@ -13,7 +13,9 @@ package {{.Name}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo darwin        LDFLAGS: -framework OpenGL
-// #cgo linux freebsd LDFLAGS: -lGL
+//
+// #cgo !egl,linux !egl,freebsd pkg-config: gl
+// #cgo egl,linux egl,freebsd   pkg-config: egl
 //
 // #ifndef APIENTRY
 // #define APIENTRY
