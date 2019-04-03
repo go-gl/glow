@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // A Function definition.
 type Function struct {
@@ -8,6 +11,33 @@ type Function struct {
 	GoName     string // Go name of the function with the API prefix stripped
 	Parameters []Parameter
 	Return     Type
+}
+
+// IsImplementedForSyscall reports whether the function is implemented for syscall or not.
+func (f Function) IsImplementedForSyscall() bool {
+	// TODO: Use syscall.Syscall18 when Go 1.12 is the minimum supported version.
+	if len(f.Parameters) > 15 {
+		return false
+	}
+	return true
+}
+
+// Syscall returns a syscall expression for Windows.
+func (f Function) Syscall() string {
+	var ps []string
+	for _, p := range f.Parameters {
+		ps = append(ps, p.Type.ConvertGoToUintptr(p.GoName()))
+	}
+	for len(ps) == 0 || len(ps)%3 != 0 {
+		ps = append(ps, "0")
+	}
+
+	post := ""
+	if len(ps) > 3 {
+		post = fmt.Sprintf("%d", len(ps))
+	}
+
+	return fmt.Sprintf("syscall.Syscall%s(gp%s, %d, %s)", post, f.GoName, len(f.Parameters), strings.Join(ps, ", "))
 }
 
 // A Parameter to a Function.

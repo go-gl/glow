@@ -69,14 +69,32 @@ func (pkg *Package) GeneratePackage(dir string) error {
 	if err := pkg.generateFile("package", dir); err != nil {
 		return err
 	}
+	if err := pkg.generateFile("package_notwindows", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("package_windows", dir); err != nil {
+		return err
+	}
 	if err := pkg.generateFile("conversions", dir); err != nil {
 		return err
 	}
-	if err := pkg.generateFile("procaddr", dir); err != nil {
+	if err := pkg.generateFile("conversions_notwindows", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("conversions_windows", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("procaddr_notwindows", dir); err != nil {
+		return err
+	}
+	if err := pkg.generateFile("procaddr_windows", dir); err != nil {
 		return err
 	}
 	if pkg.HasDebugCallbackFeature() {
-		if err := pkg.generateFile("debug", dir); err != nil {
+		if err := pkg.generateFile("debug_notwindows", dir); err != nil {
+			return err
+		}
+		if err := pkg.generateFile("debug_windows", dir); err != nil {
 			return err
 		}
 	}
