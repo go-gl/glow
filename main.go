@@ -134,7 +134,6 @@ func parseSpecifications(xmlDir string) []*Specification {
 		if err != nil {
 			log.Fatalln("error reading XML overload file: ", specFile.Name(), err)
 		}
-		fmt.Printf("overloads: %v\n", overloads)
 		spec, err := NewSpecification(*registry, overloads)
 		if err != nil {
 			log.Fatalln("error parsing specification:", specFile.Name(), err)

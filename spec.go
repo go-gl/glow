@@ -222,7 +222,6 @@ func overloadFunction(function *Function, info xmlOverload) error {
 			param.Type.CDefinition = change.Type.Name + " " + param.Type.pointers()
 		}
 		if change.Name != nil {
-			fmt.Printf("name change\n")
 			param.Name = change.Name.Value
 		}
 	}
