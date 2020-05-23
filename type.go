@@ -10,6 +10,7 @@ type Type struct {
 	Name         string // Name of the type without modifiers
 	PointerLevel int    // Number of levels of declared indirection to the type
 	CDefinition  string // Raw C definition
+	Cast         string // Raw C cast in case conversion is necessary
 }
 
 // A Typedef describes a C typedef statement.
@@ -112,6 +113,8 @@ func (t Type) GoType() string {
 	case "GLDEBUGPROC", "GLDEBUGPROCARB", "GLDEBUGPROCKHR":
 		// Special case mapping to the type defined in debug.tmpl
 		return "DebugProc"
+	case "uintptr_t":
+		return t.pointers() + "uintptr"
 	}
 	return "unsafe.Pointer"
 }
