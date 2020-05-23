@@ -1,0 +1,24 @@
+<overloads>
+    <overload name="glDrawElements" overloadName="DrawElementsWithOffset">
+        <parameterChanges>
+            <change index="3">
+                <type name="uintptr_t" pointerLevel="0" cast="void *" />
+            </change>
+        </parameterChanges>
+    </overload>
+
+    <overload name="glVertexAttribPointer" overloadName="VertexAttribOffset">
+        <parameterChanges>
+            <change index="5">
+                <type name="uintptr_t" pointerLevel="0" cast="void *" />
+            </change>
+        </parameterChanges>
+    </overload>
+    <overload name="glGetVertexAttribPointerv" overloadName="GetVertexAttribOffsetv">
+        <parameterChanges>
+            <change index="2">
+                <type name="uintptr_t" pointerLevel="2" cast="void **" />
+            </change>
+        </parameterChanges>
+    </overload>
+</overloads>
