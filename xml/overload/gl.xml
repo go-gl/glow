@@ -2,7 +2,7 @@
     <overload name="glDrawElements" overloadName="DrawElementsWithOffset">
         <parameterChanges>
             <change index="3">
-                <type name="uintptr_t" pointerLevel="0" cast="void *" />
+                <type name="uintptr_t" pointerLevel="0" />
             </change>
         </parameterChanges>
     </overload>
@@ -11,7 +11,7 @@
         <parameterChanges>
             <change index="5">
                 <name value="offset" />
-                <type name="uintptr_t" pointerLevel="0" cast="void *" />
+                <type name="uintptr_t" pointerLevel="0" />
             </change>
         </parameterChanges>
     </overload>
@@ -19,7 +19,7 @@
         <parameterChanges>
             <change index="2">
                 <name value="offset" />
-                <type name="uintptr_t" pointerLevel="2" cast="void **" />
+                <type name="uintptr_t" pointerLevel="2" />
             </change>
         </parameterChanges>
     </overload>
