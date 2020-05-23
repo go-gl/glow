@@ -1,0 +1,47 @@
+package main
+
+import (
+	"encoding/xml"
+	"os"
+)
+
+type xmlOverloads struct {
+	List []xmlOverload `xml:"overload"`
+}
+
+type xmlOverload struct {
+	Name         string `xml:"name,attr"`
+	OverloadName string `xml:"overloadName,attr"`
+
+	ParameterChanges []xmlParameterChange `xml:"parameterChanges>change"`
+}
+
+type xmlParameterChange struct {
+	// Index is the zero-based index of the parameter list.
+	Index int `xml:"index,attr"`
+	// Type describes a change in the type of a parameter.
+	Type xmlTypeChange `xml:"type"`
+}
+
+type xmlTypeChange struct {
+	Name         string `xml:"name,attr"`
+	PointerLevel int    `xml:"pointerLevel,attr"`
+}
+
+func readOverloadFile(file string) (xmlOverloads, error) {
+	var overloads xmlOverloads
+
+	_, err := os.Stat(file)
+	if err != nil {
+		return overloads, nil
+	}
+
+	f, err := os.Open(file)
+	if err != nil {
+		return overloads, err
+	}
+	defer f.Close()
+
+	err = xml.NewDecoder(f).Decode(&overloads)
+	return overloads, err
+}
