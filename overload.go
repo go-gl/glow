@@ -19,8 +19,14 @@ type xmlOverload struct {
 type xmlParameterChange struct {
 	// Index is the zero-based index of the parameter list.
 	Index int `xml:"index,attr"`
-	// Type describes a change in the type of a parameter.
-	Type xmlTypeChange `xml:"type"`
+	// Name describes a change of the parameter name.
+	Name *xmlNameChange `xml:"name"`
+	// Type describes a change of the parameter type.
+	Type *xmlTypeChange `xml:"type"`
+}
+
+type xmlNameChange struct {
+	Value string `xml:"value,attr"`
 }
 
 type xmlTypeChange struct {

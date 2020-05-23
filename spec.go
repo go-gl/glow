@@ -214,11 +214,17 @@ func overloadFunction(function *Function, info xmlOverload) error {
 		}
 		param := &overload.Parameters[change.Index]
 
-		// store original type definition as a cast, as this most likely will be needed.
-		param.Type.Cast = param.Type.CDefinition
-		param.Type.PointerLevel = change.Type.PointerLevel
-		param.Type.Name = change.Type.Name
-		param.Type.CDefinition = change.Type.Name + " " + param.Type.pointers()
+		if change.Type != nil {
+			// store original type definition as a cast, as this most likely will be needed.
+			param.Type.Cast = param.Type.CDefinition
+			param.Type.PointerLevel = change.Type.PointerLevel
+			param.Type.Name = change.Type.Name
+			param.Type.CDefinition = change.Type.Name + " " + param.Type.pointers()
+		}
+		if change.Name != nil {
+			fmt.Printf("name change\n")
+			param.Name = change.Name.Value
+		}
 	}
 	function.Overloads = append(function.Overloads, overload)
 	return nil
