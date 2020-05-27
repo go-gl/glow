@@ -7,7 +7,7 @@
         </parameterChanges>
     </overload>
 
-    <overload name="glVertexAttribPointer" overloadName="VertexAttribOffset">
+    <overload name="glVertexAttribPointer" overloadName="VertexAttribPointerWithOffset">
         <parameterChanges>
             <change index="5">
                 <name value="offset" />
@@ -15,7 +15,7 @@
             </change>
         </parameterChanges>
     </overload>
-    <overload name="glGetVertexAttribPointerv" overloadName="GetVertexAttribOffsetv">
+    <overload name="glGetVertexAttribPointerv" overloadName="GetVertexAttribPointerWithOffsetv">
         <parameterChanges>
             <change index="2">
                 <name value="offset" />
