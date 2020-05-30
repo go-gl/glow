@@ -182,18 +182,13 @@ func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 
 func parseOverloads(functions specFunctions, overloads xmlOverloads) (specFunctions, error) {
 	for _, overloadInfo := range overloads.Overloads {
-		found := false
-		for key, function := range functions {
-			if key.name == overloadInfo.Name {
-				found = true
-				err := overloadFunction(function, overloadInfo)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !found {
+		function := functions.getByName(overloadInfo.Name)
+		if function == nil {
 			return nil, fmt.Errorf("function <%s> not found to overload", overloadInfo.Name)
+		}
+		err := overloadFunction(function, overloadInfo)
+		if err != nil {
+			return nil, err
 		}
 	}
 	return functions, nil
@@ -449,6 +444,15 @@ func (functions specFunctions) get(name, api string) *Function {
 		return function
 	}
 	return functions[specRef{name, ""}]
+}
+
+func (functions specFunctions) getByName(name string) *Function {
+	for key, function := range functions {
+		if key.name == name {
+			return function
+		}
+	}
+	return nil
 }
 
 func (enums specEnums) get(name, api string) *Enum {
