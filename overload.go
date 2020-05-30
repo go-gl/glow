@@ -30,8 +30,7 @@ type xmlNameChange struct {
 }
 
 type xmlTypeChange struct {
-	Name         string `xml:"name,attr"`
-	PointerLevel int    `xml:"pointerLevel,attr"`
+	Signature string `xml:"signature,attr"`
 }
 
 func readOverloadFile(file string) (xmlOverloads, error) {

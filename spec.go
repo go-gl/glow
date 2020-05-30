@@ -209,11 +209,15 @@ func overloadFunction(function *Function, info xmlOverload) error {
 		param := &overload.Parameters[change.Index]
 
 		if change.Type != nil {
+			_, ctype, err := parseSignature(xmlSignature(change.Type.Signature))
+			if err != nil {
+				return fmt.Errorf("failed to parse signature of overload for <%s>: %v", info.Name, err)
+			}
 			// store original type definition as a cast, as this most likely will be needed.
 			param.Type.Cast = param.Type.CDefinition
-			param.Type.PointerLevel = change.Type.PointerLevel
-			param.Type.Name = change.Type.Name
-			param.Type.CDefinition = change.Type.Name + " " + param.Type.pointers()
+			param.Type.PointerLevel = ctype.PointerLevel
+			param.Type.Name = ctype.Name
+			param.Type.CDefinition = ctype.CDefinition
 		}
 		if change.Name != nil {
 			param.Name = change.Name.Value

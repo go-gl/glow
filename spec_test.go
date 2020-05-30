@@ -44,6 +44,15 @@ func TestParseSignature(t *testing.T) {
 				CDefinition:  "GLuint *",
 			},
 		},
+		{
+			input:        "uintptr_t **",
+			expectedName: "",
+			expectedType: Type{
+				Name:         "uintptr_t",
+				PointerLevel: 2,
+				CDefinition:  "uintptr_t **",
+			},
+		},
 	}
 
 	for _, tc := range tt {
