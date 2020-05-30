@@ -13,7 +13,6 @@ type Function struct {
 
 // An Overload describes an alternative signature for the same function.
 type Overload struct {
-	Name         string // C name of the original function
 	GoName       string // Go name of the original function
 	OverloadName string // Go name of the overload
 	Parameters   []Parameter

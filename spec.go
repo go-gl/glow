@@ -196,7 +196,6 @@ func parseOverloads(functions specFunctions, overloads xmlOverloads) (specFuncti
 
 func overloadFunction(function *Function, info xmlOverload) error {
 	overload := Overload{
-		Name:         function.Name,
 		GoName:       function.GoName,
 		OverloadName: info.OverloadName,
 		Parameters:   make([]Parameter, len(function.Parameters)),
