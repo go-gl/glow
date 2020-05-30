@@ -6,7 +6,7 @@ import (
 )
 
 type xmlOverloads struct {
-	List []xmlOverload `xml:"overload"`
+	Overloads []xmlOverload `xml:"overload"`
 }
 
 type xmlOverload struct {

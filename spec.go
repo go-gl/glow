@@ -181,7 +181,7 @@ func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 }
 
 func parseOverloads(functions specFunctions, overloads xmlOverloads) (specFunctions, error) {
-	for _, overloadInfo := range overloads.List {
+	for _, overloadInfo := range overloads.Overloads {
 		found := false
 		for key, function := range functions {
 			if key.name == overloadInfo.Name {
