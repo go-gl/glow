@@ -7,6 +7,7 @@ Features:
 - Go functions that mirror the C specification using Go types.
 - Support for multiple OpenGL APIs (GL/GLES/EGL/WGL/GLX/EGL), versions, and profiles.
 - Support for extensions (including debug callbacks).
+- Support for overloads to provide Go functions with different parameter signatures.
 
 See the [open issues](https://github.com/go-gl/glow/issues) for caveats about the current state of the implementation.
 
@@ -14,6 +15,15 @@ Generated Packages
 ------------------
 
 Generated OpenGL binding packages are available in the [go-gl/gl](https://github.com/go-gl/gl) repository.
+
+Overloads
+---------
+
+See subdirectory `xml/overload` for examples. The motivation here is to provide Go functions with different parameter signatures of existing OpenGL functions.
+
+For example, `glVertexAttribPointer(..., void *)` cannot be used with `gl.VertexAttribPointer(..., unsafe.Pointer)` when using arbitrary offset values. The `checkptr` safeguard will abort the program when doing so.
+Overloads allow the creation of an additional `gl.VertexAttribPointerWithOffset(..., uintptr)`, which calls the original OpenGL function with appropriate casts.   
+
 
 Custom Packages
 ---------------

@@ -114,6 +114,7 @@ func performRestriction(pkg *Package, jsonPath string) {
 
 func parseSpecifications(xmlDir string) []*Specification {
 	specDir := filepath.Join(xmlDir, "spec")
+	overloadDir := filepath.Join(xmlDir, "overload")
 	specFiles, err := ioutil.ReadDir(specDir)
 	if err != nil {
 		log.Fatalln("error reading spec file entries:", err)
@@ -124,7 +125,16 @@ func parseSpecifications(xmlDir string) []*Specification {
 		if !strings.HasSuffix(specFile.Name(), "xml") {
 			continue
 		}
-		spec, err := NewSpecification(filepath.Join(specDir, specFile.Name()))
+
+		registry, err := readSpecFile(filepath.Join(specDir, specFile.Name()))
+		if err != nil {
+			log.Fatalln("error reading XML spec file: ", specFile.Name(), err)
+		}
+		overloads, err := readOverloadFile(filepath.Join(overloadDir, specFile.Name()))
+		if err != nil {
+			log.Fatalln("error reading XML overload file: ", specFile.Name(), err)
+		}
+		spec, err := NewSpecification(*registry, overloads)
 		if err != nil {
 			log.Fatalln("error parsing specification:", specFile.Name(), err)
 		}
