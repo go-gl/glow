@@ -22,7 +22,7 @@ Overloads
 See subdirectory `xml/overload` for examples. The motivation here is to provide Go functions with different parameter signatures of existing OpenGL functions.
 
 For example, `glVertexAttribPointer(..., void *)` cannot be used with `gl.VertexAttribPointer(..., unsafe.Pointer)` when using arbitrary offset values. The `checkptr` safeguard will abort the program when doing so.
-Overloads allow to create an additional `gl.VertexAttribPointerWithOffset(..., uintptr)`, which calls the original function with appropriate casts.   
+Overloads allow the creation of an additional `gl.VertexAttribPointerWithOffset(..., uintptr)`, which calls the original OpenGL function with appropriate casts.   
 
 
 Custom Packages
