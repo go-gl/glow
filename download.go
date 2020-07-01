@@ -10,10 +10,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
-	"strings"
 	"sync"
 )
 
@@ -65,14 +65,14 @@ var docRepoFolders = []string{
 }
 var docRegexp = regexp.MustCompile(`^[ew]?gl[^u_].*\.xml$`)
 
-func validatedAuthHeader(username string, password string) (string, error) {
+func validatedAuthHeader(token string) (string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
 	if err != nil {
 		return "", err
 	}
 
-	autStr := fmt.Sprintf("Basic %s", base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password))))
+	autStr := fmt.Sprintf("token %s", url.QueryEscape(token))
 	req.Header.Add("Authorization", autStr)
 	resp, err := client.Do(req)
 	if err != nil {
@@ -82,7 +82,8 @@ func validatedAuthHeader(username string, password string) (string, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return "", errors.New("GitHub authorization failed")
+		data, _ := ioutil.ReadAll(resp.Body)
+		return "", errors.New(string(data))
 	}
 
 	return autStr, nil
@@ -104,14 +105,12 @@ func download(name string, args []string) {
 	}
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter GitHub username: ")
+	fmt.Print("Enter GitHub token: ")
 	input, _ := reader.ReadString('\n')
-	username := strings.Trim(input, "\n")
-	fmt.Print("Enter GitHub password: ")
-	input, _ = reader.ReadString('\n')
-	password := strings.Trim(input, "\n")
+	re := regexp.MustCompile("\r?\n")
+	token := re.ReplaceAllString(input, "")
 
-	authHeader, err := validatedAuthHeader(username, password)
+	authHeader, err := validatedAuthHeader(token)
 	if err != nil {
 		log.Fatalln("error with user authorization:", err)
 	}
