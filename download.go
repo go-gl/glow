@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -72,7 +71,7 @@ func validatedAuthHeader(token string) (string, error) {
 		return "", err
 	}
 
-	autStr := fmt.Sprintf("token %s", url.QueryEscape(token))
+	autStr := fmt.Sprintf("token %s", token)
 	req.Header.Add("Authorization", autStr)
 	resp, err := client.Do(req)
 	if err != nil {
