@@ -27,8 +27,8 @@ package {{.Name}}
 // #cgo darwin        LDFLAGS: -framework OpenGL
 // #cgo windows       LDFLAGS: -lopengl32
 //
-// #cgo !egl,linux !egl,freebsd pkg-config: gl
-// #cgo egl,linux egl,freebsd   pkg-config: egl
+// #cgo !egl,linux !egl,freebsd !egl,openbsd pkg-config: gl
+// #cgo egl,linux egl,freebsd egl,openbsd    pkg-config: egl
 //
 // #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
 // #ifndef WIN32_LEAN_AND_MEAN
