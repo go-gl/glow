@@ -27,8 +27,9 @@ package {{.Name}}
 #cgo linux freebsd openbsd CFLAGS: -DTAG_POSIX
 #cgo !egl,linux !egl,freebsd !egl,openbsd pkg-config: gl
 
-#cgo egl,linux egl,freebsd egl,openbsd CFLAGS: -DTAG_EGL
+#cgo egl,linux egl,freebsd egl,openbsd egl,windows CFLAGS: -DTAG_EGL
 #cgo egl,linux egl,freebsd egl,openbsd pkg-config: egl
+#cgo egl,windows LDFLAGS: -lEGL
 
 
 // Check the EGL tag first as it takes priority over the platform's default
