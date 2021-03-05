@@ -25,7 +25,8 @@ package {{.Name}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo darwin        LDFLAGS: -framework OpenGL
-// #cgo windows       LDFLAGS: -lopengl32
+// #cgo !gles2,windows       LDFLAGS: -lopengl32
+// #cgo gles2,windows        LDFLAGS: -lGLESv2
 //
 // #cgo !egl,linux !egl,freebsd !egl,openbsd pkg-config: gl
 // #cgo egl,linux egl,freebsd egl,openbsd    pkg-config: egl
