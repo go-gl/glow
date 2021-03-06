@@ -19,7 +19,8 @@ package {{.Name}}
 
 /*
 #cgo windows CFLAGS: -DTAG_WINDOWS
-#cgo windows LDFLAGS: -lopengl32
+#cgo !gles2,windows       LDFLAGS: -lopengl32
+#cgo gles2,windows        LDFLAGS: -lGLESv2
 
 #cgo darwin CFLAGS: -DTAG_DARWIN
 #cgo darwin LDFLAGS: -framework OpenGL
