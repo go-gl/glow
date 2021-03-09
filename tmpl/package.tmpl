@@ -24,7 +24,8 @@ package {{.Name}}
 {{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
-// #cgo darwin        LDFLAGS: -framework OpenGL
+// #cgo !gles2,darwin        LDFLAGS: -framework OpenGL
+// #cgo gles2,darwin         LDFLAGS: -lGLESv2
 // #cgo !gles2,windows       LDFLAGS: -lopengl32
 // #cgo gles2,windows        LDFLAGS: -lGLESv2
 //
