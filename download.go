@@ -52,6 +52,9 @@ var specRegexp = regexp.MustCompile(`^(gl|glx|wgl)\.xml$`)
 var eglRepoName = "EGL-Registry"
 var eglRepoFolder = "api"
 var eglRegexp = regexp.MustCompile(`^(egl)\.xml$`)
+var khrRepoName = "EGL-Registry"
+var khrRepoFolder = "api/KHR"
+var khrRegexp = regexp.MustCompile(`^.*\.h$`)
 var docRepoName = "OpenGL-Refpages"
 var docRepoFolders = []string{
 	"es1.1",
@@ -103,6 +106,11 @@ func download(name string, args []string) {
 		log.Fatalln("error creating documentation output directory:", err)
 	}
 
+	khrDir := filepath.Join(*xmlDir, "include", "KHR")
+	if err := os.MkdirAll(khrDir, 0755); err != nil {
+		log.Fatalln("error creating include KHR output directory:", err)
+	}
+
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter GitHub token: ")
 	input, _ := reader.ReadString('\n')
@@ -122,6 +130,11 @@ func download(name string, args []string) {
 	err = DownloadGitDir(authHeader, eglRepoName, eglRepoFolder, eglRegexp, specDir)
 	if err != nil {
 		log.Fatalln("error downloading egl file:", err)
+	}
+
+	err = DownloadGitDir(authHeader, khrRepoName, khrRepoFolder, khrRegexp, khrDir)
+	if err != nil {
+		log.Fatalln("error downloading include KHR files:", err)
 	}
 
 	for _, folder := range docRepoFolders {
