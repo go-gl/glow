@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -74,6 +75,9 @@ func generate(name string, args []string) {
 			}
 			if err := pkg.GeneratePackage(*outDir); err != nil {
 				log.Fatalln("error generating package:", err)
+			}
+			if err := copyIncludes(filepath.Join(*xmlDir, "include"), *outDir); err != nil {
+				log.Fatalln("error copying includes:", err)
 			}
 			break
 		}
@@ -162,6 +166,50 @@ func parseDocumentation(xmlDir string) Documentation {
 	}
 
 	return doc
+}
+
+func copyIncludes(srcDir, dstDir string) error {
+	files, err := ioutil.ReadDir(srcDir)
+	if err != nil {
+		return err
+	}
+	for _, file := range files {
+		srcName := filepath.Join(srcDir, file.Name())
+		dstName := filepath.Join(dstDir, file.Name())
+		switch {
+		case file.IsDir():
+			if err := os.MkdirAll(dstName, 0755); err != nil {
+				return err
+			}
+			err := copyIncludes(srcName, dstName)
+			if err != nil {
+				return err
+			}
+		case file.Size() > 0:
+			err := copyFile(srcName, dstName)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func copyFile(srcFile, dstFile string) error {
+	out, err := os.Create(dstFile)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	in, err := os.Open(srcFile)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+
+	_, err = io.Copy(out, in)
+	return err
 }
 
 // PackageSpec describes a package to be generated.
