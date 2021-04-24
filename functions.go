@@ -8,6 +8,15 @@ type Function struct {
 	GoName     string // Go name of the function with the API prefix stripped
 	Parameters []Parameter
 	Return     Type
+	Overloads  []Overload
+}
+
+// An Overload describes an alternative signature for the same function.
+type Overload struct {
+	GoName       string // Go name of the original function
+	OverloadName string // Go name of the overload
+	Parameters   []Parameter
+	Return       Type
 }
 
 // A Parameter to a Function.

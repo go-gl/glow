@@ -32,3 +32,6 @@ wgl
 # Vim
 *.swp
 *.swo
+
+# GoLand
+.idea/

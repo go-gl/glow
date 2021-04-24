@@ -1,22 +1,28 @@
-Glow
-====
+# Glow
 
 Glow is an OpenGL binding generator for Go. Glow parses the [OpenGL XML API registry](https://github.com/KhronosGroup/OpenGL-Registry/tree/master/xml) and the [EGL XML API registry](https://github.com/KhronosGroup/EGL-Registry/tree/master/api) to produce a machine-generated cgo bridge between Go functions and native OpenGL functions. Glow is a fork of [GoGL2](https://github.com/chsc/gogl2).
 
 Features:
+
 - Go functions that mirror the C specification using Go types.
 - Support for multiple OpenGL APIs (GL/GLES/EGL/WGL/GLX/EGL), versions, and profiles.
 - Support for extensions (including debug callbacks).
+- Support for overloads to provide Go functions with different parameter signatures.
 
 See the [open issues](https://github.com/go-gl/glow/issues) for caveats about the current state of the implementation.
 
-Generated Packages
-------------------
+## Generated Packages
 
 Generated OpenGL binding packages are available in the [go-gl/gl](https://github.com/go-gl/gl) repository.
 
-Custom Packages
----------------
+## Overloads
+
+See subdirectory `xml/overload` for examples. The motivation here is to provide Go functions with different parameter signatures of existing OpenGL functions.
+
+For example, `glVertexAttribPointer(..., void *)` cannot be used with `gl.VertexAttribPointer(..., unsafe.Pointer)` when using arbitrary offset values. The `checkptr` safeguard will abort the program when doing so.
+Overloads allow the creation of an additional `gl.VertexAttribPointerWithOffset(..., uintptr)`, which calls the original OpenGL function with appropriate casts.
+
+## Custom Packages
 
 If the prebuilt, go-gettable packages are not suitable for your needs you can build your own. For example,
 
@@ -27,9 +33,10 @@ If the prebuilt, go-gettable packages are not suitable for your needs you can bu
     ./glow generate -api=gl -version=3.3 -profile=core -remext=GL_ARB_cl_event
     go install ./gl-core/3.3/gl
 
-**NOTE:** You will have to provide your GitHub account credentials to update the XML specification files.
+**NOTE:** You will have to provide a GitHub token ([personal access or OAuth2 token](https://developer.github.com/v3/auth/#basic-authentication)) to update the XML specification files.
 
 A few notes about the flags to `generate`:
+
 - `api`: One of `gl`, `gles1`, `gles2`, `egl`, `wgl`, or `glx`.
 - `version`: The API version to generate. The `all` pseudo-version includes all functions and enumerations for the specified API.
 - `profile`: For `gl` packages with version 3.2 or higher, `core` or `compatibility` ([explanation](http://www.opengl.org/wiki/Core_And_Compatibility_in_Contexts)).

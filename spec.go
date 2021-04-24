@@ -180,6 +180,53 @@ func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 	return functions, nil
 }
 
+func parseOverloads(functions specFunctions, overloads xmlOverloads) (specFunctions, error) {
+	for _, overloadInfo := range overloads.Overloads {
+		function := functions.getByName(overloadInfo.Name)
+		if function == nil {
+			return nil, fmt.Errorf("function <%s> not found to overload", overloadInfo.Name)
+		}
+		err := overloadFunction(function, overloadInfo)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return functions, nil
+}
+
+func overloadFunction(function *Function, info xmlOverload) error {
+	overload := Overload{
+		GoName:       function.GoName,
+		OverloadName: info.OverloadName,
+		Parameters:   make([]Parameter, len(function.Parameters)),
+		Return:       function.Return,
+	}
+	copy(overload.Parameters, function.Parameters)
+	for _, change := range info.ParameterChanges {
+		if (change.Index < 0) || (change.Index >= len(function.Parameters)) {
+			return fmt.Errorf("overload for <%s> has invalid parameter index", info.Name)
+		}
+		param := &overload.Parameters[change.Index]
+
+		if change.Type != nil {
+			_, ctype, err := parseSignature(xmlSignature(change.Type.Signature))
+			if err != nil {
+				return fmt.Errorf("failed to parse signature of overload for <%s>: %v", info.Name, err)
+			}
+			// store original type definition as a cast, as this most likely will be needed.
+			param.Type.Cast = param.Type.CDefinition
+			param.Type.PointerLevel = ctype.PointerLevel
+			param.Type.Name = ctype.Name
+			param.Type.CDefinition = ctype.CDefinition
+		}
+		if change.Name != nil {
+			param.Name = change.Name.Value
+		}
+	}
+	function.Overloads = append(function.Overloads, overload)
+	return nil
+}
+
 func parseSignature(signature xmlSignature) (name string, ctype Type, err error) {
 	readingName := false
 	readingType := false
@@ -402,6 +449,15 @@ func (functions specFunctions) get(name, api string) *Function {
 	return functions[specRef{name, ""}]
 }
 
+func (functions specFunctions) getByName(name string) *Function {
+	for key, function := range functions {
+		if key.name == name {
+			return function
+		}
+	}
+	return nil
+}
+
 func (enums specEnums) get(name, api string) *Enum {
 	enum, ok := enums[specRef{name, api}]
 	if ok {
@@ -459,14 +515,14 @@ func (addRem *specAddRemSet) shouldInclude(pkgSpec *PackageSpec) bool {
 	return true
 }
 
-// NewSpecification creates a new specification based on an XML file.
-func NewSpecification(file string) (*Specification, error) {
-	registry, err := readSpecFile(file)
+// NewSpecification creates a new specification based on an XML registry.
+func NewSpecification(registry xmlRegistry, overloads xmlOverloads) (*Specification, error) {
+	functions, err := parseFunctions(registry.Commands)
 	if err != nil {
 		return nil, err
 	}
 
-	functions, err := parseFunctions(registry.Commands)
+	functions, err = parseOverloads(functions, overloads)
 	if err != nil {
 		return nil, err
 	}

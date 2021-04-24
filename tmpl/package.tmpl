@@ -19,16 +19,18 @@ package {{.Name}}
 //glow:rmspace
 
 {{define "paramsCDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.CType}} {{$p.CName}}{{end}}{{end}}
-{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{$p.CName}}{{end}}{{end}}{{end}}
+{{define "paramsCCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{if $p.Type.IsDebugProc}}glowCDebugCallback{{else}}{{if ge (len $p.Type.Cast) 1}}({{$p.Type.Cast}})({{end}}{{$p.CName}}{{if ge (len $p.Type.Cast) 1}}){{end}}{{end}}{{end}}{{end}}
 
 {{define "paramsGoDecl"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.GoName}} {{$p.Type.GoType}}{{end}}{{end}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
-// #cgo darwin        LDFLAGS: -framework OpenGL
-// #cgo windows       LDFLAGS: -lopengl32
+// #cgo !gles2,darwin        LDFLAGS: -framework OpenGL
+// #cgo gles2,darwin         LDFLAGS: -lGLESv2
+// #cgo !gles2,windows       LDFLAGS: -lopengl32
+// #cgo gles2,windows        LDFLAGS: -lGLESv2
 //
-// #cgo !egl,linux !egl,freebsd pkg-config: gl
-// #cgo egl,linux egl,freebsd   pkg-config: egl
+// #cgo !egl,linux !egl,freebsd !egl,openbsd pkg-config: gl
+// #cgo egl,linux egl,freebsd egl,openbsd    pkg-config: egl
 //
 // #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
 // #ifndef WIN32_LEAN_AND_MEAN
@@ -66,6 +68,11 @@ package {{.Name}}
 // static {{.Return.CType}} glow{{.GoName}}(GP{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
 //   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
 // }
+// {{range .Overloads}}
+// static {{.Return.CType}} glow{{.OverloadName}}(GP{{toUpper .GoName}} fnptr{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsCDecl" .Parameters}}) {
+//   {{if not .Return.IsVoid}}return {{end}}(*fnptr)({{template "paramsCCall" .Parameters}});
+// }
+// {{end}}
 // {{end}}
 //
 import "C"
@@ -95,6 +102,7 @@ func boolToInt(b bool) int {
 }
 
 {{define "bridgeCall"}}C.glow{{.GoName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
+{{define "overloadCall"}}C.glow{{.OverloadName}}(gp{{.GoName}}{{if ge (len .Parameters) 1}}, {{end}}{{template "paramsGoCall" .Parameters}}){{end}}
 {{range .Functions}}
 {{.Comment}}
 func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
@@ -107,6 +115,19 @@ func {{.GoName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid
   return {{.Return.ConvertCToGo "ret"}}
   {{end}}
 }
+{{range .Overloads}}
+
+func {{.OverloadName}}({{template "paramsGoDecl" .Parameters}}){{if not .Return.IsVoid}} {{.Return.GoType}}{{end}} {
+  {{range .Parameters}}
+  {{if .Type.IsDebugProc}}userDebugCallback = {{.GoName}}{{end}}
+  {{end}}
+  {{if .Return.IsVoid}}{{template "overloadCall" .}}
+  {{else}}
+  ret := {{template "overloadCall" .}}
+  return {{.Return.ConvertCToGo "ret"}}
+  {{end}}
+}
+{{end}}
 {{end}}
 
 //glow:keepspace
