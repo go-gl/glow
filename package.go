@@ -1,8 +1,8 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -36,7 +36,7 @@ type PackageFunction struct {
 func (f *PackageFunction) Comment() string {
 	var lines []string
 	if f.Doc != "" {
-		lines = append(lines, "// " + f.Doc)
+		lines = append(lines, "// "+f.Doc)
 	}
 
 	// Adds explanations about C types that are unsafe.Pointer in Go world.
@@ -158,11 +158,13 @@ func (pkg *Package) Filter(enums, functions map[string]bool) {
 
 // importPathToDir resolves the absolute path from importPath.
 // There needs to be a valid Go package inside that import path.
-// It calls log.Fatalln if it fails.
-func importPathToDir(importPath string) string {
+func importPathToDir(importPath string) (string, error) {
 	pkgs, err := packages.Load(nil, importPath)
 	if err != nil {
-		log.Fatalln(err)
+		return "", err
 	}
-	return filepath.Dir(pkgs[0].GoFiles[0])
+	if len(pkgs[0].GoFiles) == 0 {
+		return "", errors.New("no Go file available")
+	}
+	return filepath.Dir(pkgs[0].GoFiles[0]), nil
 }

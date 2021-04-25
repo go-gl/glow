@@ -16,10 +16,10 @@ import (
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	dir := importPathToDir("github.com/go-gl/glow")
+	glowBaseDir := determineGlowBaseDir()
 	var (
-		xmlDir      = flags.String("xml", filepath.Join(dir, "xml"), "XML directory")
-		tmplDir     = flags.String("tmpl", filepath.Join(dir, "tmpl"), "Template directory")
+		xmlDir      = flags.String("xml", filepath.Join(glowBaseDir, "xml"), "XML directory")
+		tmplDir     = flags.String("tmpl", filepath.Join(glowBaseDir, "tmpl"), "Template directory")
 		outDir      = flags.String("out", "gl", "Output directory")
 		api         = flags.String("api", "", "API to generate (e.g., gl)")
 		ver         = flags.String("version", "", "API version to generate (e.g., 4.1)")
@@ -86,6 +86,21 @@ func generate(name string, args []string) {
 		log.Fatalln("unable to generate package:", packageSpec)
 	}
 	log.Println("generated package in", *outDir)
+}
+
+// Attempt to determine the base directory of go-gl/glow. This only works in case of non-module-aware
+// cases and acts as a backwards compatible way.
+//
+// In a module-only case, this function returns the current working directory.
+func determineGlowBaseDir() string {
+	glowBaseDir, err := importPathToDir("github.com/go-gl/glow")
+	if err != nil {
+		glowBaseDir, err = os.Getwd()
+	}
+	if err != nil {
+		return "."
+	}
+	return glowBaseDir
 }
 
 // Converts a slice string into a simple lookup map.
