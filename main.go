@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -15,10 +16,10 @@ import (
 
 func generate(name string, args []string) {
 	flags := flag.NewFlagSet(name, flag.ExitOnError)
-	dir := importPathToDir("github.com/go-gl/glow")
+	glowBaseDir := determineGlowBaseDir()
 	var (
-		xmlDir      = flags.String("xml", filepath.Join(dir, "xml"), "XML directory")
-		tmplDir     = flags.String("tmpl", filepath.Join(dir, "tmpl"), "Template directory")
+		xmlDir      = flags.String("xml", filepath.Join(glowBaseDir, "xml"), "XML directory")
+		tmplDir     = flags.String("tmpl", filepath.Join(glowBaseDir, "tmpl"), "Template directory")
 		outDir      = flags.String("out", "gl", "Output directory")
 		api         = flags.String("api", "", "API to generate (e.g., gl)")
 		ver         = flags.String("version", "", "API version to generate (e.g., 4.1)")
@@ -75,6 +76,9 @@ func generate(name string, args []string) {
 			if err := pkg.GeneratePackage(*outDir); err != nil {
 				log.Fatalln("error generating package:", err)
 			}
+			if err := copyIncludes(filepath.Join(*xmlDir, "include"), *outDir); err != nil {
+				log.Fatalln("error copying includes:", err)
+			}
 			break
 		}
 	}
@@ -82,6 +86,21 @@ func generate(name string, args []string) {
 		log.Fatalln("unable to generate package:", packageSpec)
 	}
 	log.Println("generated package in", *outDir)
+}
+
+// Attempt to determine the base directory of go-gl/glow. This only works in case of non-module-aware
+// cases and acts as a backwards compatible way.
+//
+// In a module-only case, this function returns the current working directory.
+func determineGlowBaseDir() string {
+	glowBaseDir, err := importPathToDir("github.com/go-gl/glow")
+	if err != nil {
+		glowBaseDir, err = os.Getwd()
+	}
+	if err != nil {
+		return "."
+	}
+	return glowBaseDir
 }
 
 // Converts a slice string into a simple lookup map.
@@ -162,6 +181,50 @@ func parseDocumentation(xmlDir string) Documentation {
 	}
 
 	return doc
+}
+
+func copyIncludes(srcDir, dstDir string) error {
+	files, err := ioutil.ReadDir(srcDir)
+	if err != nil {
+		return err
+	}
+	for _, file := range files {
+		srcName := filepath.Join(srcDir, file.Name())
+		dstName := filepath.Join(dstDir, file.Name())
+		switch {
+		case file.IsDir():
+			if err := os.MkdirAll(dstName, 0755); err != nil {
+				return err
+			}
+			err := copyIncludes(srcName, dstName)
+			if err != nil {
+				return err
+			}
+		case file.Size() > 0:
+			err := copyFile(srcName, dstName)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func copyFile(srcFile, dstFile string) error {
+	out, err := os.Create(dstFile)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	in, err := os.Open(srcFile)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+
+	_, err = io.Copy(out, in)
+	return err
 }
 
 // PackageSpec describes a package to be generated.

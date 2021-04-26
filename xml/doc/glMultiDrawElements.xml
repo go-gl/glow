@@ -24,7 +24,7 @@
                 <paramdef>GLenum <parameter>mode</parameter></paramdef>
                 <paramdef>const GLsizei * <parameter>count</parameter></paramdef>
                 <paramdef>GLenum <parameter>type</parameter></paramdef>
-                <paramdef>const GLvoid * const * <parameter>indices</parameter></paramdef>
+                <paramdef>const void * const * <parameter>indices</parameter></paramdef>
                 <paramdef>GLsizei <parameter>drawcount</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
@@ -154,7 +154,7 @@
             Khronos Group.
             This document is licensed under the SGI
             Free Software B License. For details, see
-            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://oss.sgi.com/projects/FreeB/">http://oss.sgi.com/projects/FreeB/</link>.
+            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://khronos.org/registry/OpenGL-Refpages/LICENSES/LicenseRef-FreeB.txt">https://khronos.org/registry/OpenGL-Refpages/LICENSES/LicenseRef-FreeB.txt</link>.
         </para>
     </refsect1>
 </refentry>
