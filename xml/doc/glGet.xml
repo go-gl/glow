@@ -1,4 +1,4 @@
-<!DOCTYPE refentry [ <!ENTITY % mathent SYSTEM "math.ent"> %mathent; ]>
+﻿<!DOCTYPE refentry [ <!ENTITY % mathent SYSTEM "math.ent"> %mathent; ]>
 
 <!-- Converted by db4-upgrade version 1.1 -->
 
@@ -2536,6 +2536,15 @@
                 </listitem>
             </varlistentry>
             <varlistentry>
+                <term><constant>GL_VERTEX_BINDING_BUFFER</constant></term>
+                <listitem>
+                    <para>
+                        Accepted by the indexed forms. <parameter>data</parameter> returns a single integer value representing the name of the buffer
+                        bound to vertex binding <parameter>index</parameter>.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
                 <term><constant>GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET</constant></term>
                 <listitem>
                     <para>
@@ -2697,7 +2706,7 @@
             <constant>GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT</constant> is available only if the GL version is 4.3 or greater.
         </para>
         <para>
-            <constant>GL_VERTEX_BINDING_DIVISOR</constant>, <constant>GL_VERTEX_BINDING_OFFSET</constant>, <constant>GL_VERTEX_BINDING_STRIDE</constant>,
+            <constant>GL_VERTEX_BINDING_DIVISOR</constant>, <constant>GL_VERTEX_BINDING_OFFSET</constant>, <constant>GL_VERTEX_BINDING_STRIDE</constant>, <constant>GL_VERTEX_BINDING_BUFFER</constant>,
             <constant>GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET</constant> and <constant>GL_MAX_VERTEX_ATTRIB_BINDINGS</constant> are available only if
             the GL version is 4.3 or greater.
         </para>
@@ -2794,7 +2803,7 @@
             Copyright <trademark class="copyright"/> 1991-2006 Silicon Graphics, Inc.
             Copyright <trademark class="copyright"/> 2010-2014 Khronos Group.
             This document is licensed under the SGI Free Software B License. For details, see
-            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://oss.sgi.com/projects/FreeB/">http://oss.sgi.com/projects/FreeB/</link>.
+            <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://khronos.org/registry/OpenGL-Refpages/LICENSES/LicenseRef-FreeB.txt">https://khronos.org/registry/OpenGL-Refpages/LICENSES/LicenseRef-FreeB.txt</link>.
         </para>
     </refsect1>
 </refentry>
