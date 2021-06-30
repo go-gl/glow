@@ -15,6 +15,22 @@
             </change>
         </parameterChanges>
     </overload>
+    <overload name="glVertexAttribIPointer" overloadName="VertexAttribIPointerWithOffset">
+        <parameterChanges>
+            <change index="4">
+                <name value="offset" />
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
+    <overload name="glVertexAttribLPointer" overloadName="VertexAttribLPointerWithOffset">
+        <parameterChanges>
+            <change index="4">
+                <name value="offset" />
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
     <overload name="glGetVertexAttribPointerv" overloadName="GetVertexAttribPointerWithOffsetv">
         <parameterChanges>
             <change index="2">
