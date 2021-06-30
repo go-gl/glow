@@ -6,6 +6,13 @@
             </change>
         </parameterChanges>
     </overload>
+    <overload name="glDrawElementsBaseVertex" overloadName="DrawElementsBaseVertexWithOffset">
+        <parameterChanges>
+            <change index="3">
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
 
     <overload name="glVertexAttribPointer" overloadName="VertexAttribPointerWithOffset">
         <parameterChanges>
