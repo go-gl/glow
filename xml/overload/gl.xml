@@ -6,10 +6,33 @@
             </change>
         </parameterChanges>
     </overload>
+    <overload name="glDrawElementsBaseVertex" overloadName="DrawElementsBaseVertexWithOffset">
+        <parameterChanges>
+            <change index="3">
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
 
     <overload name="glVertexAttribPointer" overloadName="VertexAttribPointerWithOffset">
         <parameterChanges>
             <change index="5">
+                <name value="offset" />
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
+    <overload name="glVertexAttribIPointer" overloadName="VertexAttribIPointerWithOffset">
+        <parameterChanges>
+            <change index="4">
+                <name value="offset" />
+                <type signature="uintptr_t" />
+            </change>
+        </parameterChanges>
+    </overload>
+    <overload name="glVertexAttribLPointer" overloadName="VertexAttribLPointerWithOffset">
+        <parameterChanges>
+            <change index="4">
                 <name value="offset" />
                 <type signature="uintptr_t" />
             </change>
