@@ -25,7 +25,7 @@ package {{.Name}}
 {{define "paramsGoCall"}}{{range $i, $p := .}}{{if ne $i 0}}, {{end}}{{$p.Type.ConvertGoToC $p.GoName}}{{end}}{{end}}
 
 // #cgo !gles2,darwin        LDFLAGS: -framework OpenGL
-// #cgo gles2,darwin         LDFLAGS: -lGLESv2
+// #cgo gles2,darwin         LDFLAGS: -framework OpenGLES
 // #cgo !gles2,windows       LDFLAGS: -lopengl32
 // #cgo gles2,windows        LDFLAGS: -lGLESv2
 //
