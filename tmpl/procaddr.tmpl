@@ -24,7 +24,7 @@ package {{.Name}}
 
 #cgo darwin CFLAGS: -DTAG_DARWIN
 #cgo !gles2,darwin LDFLAGS: -framework OpenGL
-#cgo gles2,darwin  LDFLAGS: -lGLESv2
+#cgo gles2,darwin  LDFLAGS: -framework OpenGLES
 
 #cgo linux freebsd openbsd CFLAGS: -DTAG_POSIX
 #cgo !egl,linux !egl,freebsd !egl,openbsd pkg-config: gl
