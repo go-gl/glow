@@ -6,7 +6,6 @@ package {{.Name}}
 import (
 	"fmt"
 	"reflect"
-	"strings"
 	"unsafe"
 )
 
@@ -64,15 +63,15 @@ func PtrOffset(offset int) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(offset))
 }
 
-// Str takes a null-terminated Go string and returns its GL-compatible address.
-// This function reaches into Go string storage in an unsafe way so the caller
-// must ensure the string is not garbage collected.
+// Str takes a Go string and constructs a corresponding null-terminated string
+// compatible with OpenGL.
 func Str(str string) *uint8 {
-	if !strings.HasSuffix(str, "\x00") {
-		panic("str argument missing null terminator: " + str)
-	}
-	header := (*reflect.StringHeader)(unsafe.Pointer(&str))
-	return (*uint8)(unsafe.Pointer(header.Data))
+	// OpenGL functions do not retain pointers after returning,
+	// which means that this string can be safely passed to them
+	// without risk of being garbage collected or moved in memory.
+	// For details, see https://pkg.go.dev/cmd/cgo#:~:text=arguments%20to%20C%20functions
+	b := []byte(str + "\x00")
+	return &b[0]
 }
 
 // GoStr takes a null-terminated string returned by OpenGL and constructs a
@@ -81,8 +80,8 @@ func GoStr(cstr *uint8) string {
 	return C.GoString((*C.char)(unsafe.Pointer(cstr)))
 }
 
-// Strs takes a list of Go strings (with or without null-termination) and
-// returns their C counterpart.
+// Strs takes a list of Go strings and constructs a corresponding list
+// of null-terminated strings compatible with OpenGL.
 //
 // The returned free function must be called once you are done using the strings
 // in order to free the memory.
@@ -96,6 +95,7 @@ func Strs(strs ...string) (cstrs **uint8, free func()) {
 	// Allocate a contiguous array large enough to hold all the strings' contents.
 	n := 0
 	for i := range strs {
+		strs[i] += "\x00"
 		n += len(strs[i])
 	}
 	if n == 0 {
