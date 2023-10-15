@@ -8,6 +8,7 @@ import (
 // A Type describes the C and Go type of a function parameter or return value.
 type Type struct {
 	Name         string // Name of the type without modifiers
+	TypeClass    string // Type class of the resource (e.g. "Program", "Texture", "VertexArray")
 	PointerLevel int    // Number of levels of declared indirection to the type
 	CDefinition  string // Raw C definition
 	Cast         string // Raw C cast in case conversion is necessary
@@ -48,6 +49,10 @@ func (t Type) GoCType() string {
 
 // GoType returns the Go definition of the type.
 func (t Type) GoType() string {
+	if t.TypeClass != "" {
+		return t.pointers() + t.TypeClass
+	}
+
 	switch t.Name {
 	case "GLbyte":
 		return t.pointers() + "int8"
