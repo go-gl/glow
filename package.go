@@ -20,9 +20,10 @@ type Package struct {
 	Profile string
 	TmplDir string
 
-	Typedefs  []*Typedef
-	Enums     map[string]*Enum
-	Functions map[string]*PackageFunction
+	Typedefs    []*Typedef
+	Enums       map[string]*Enum
+	Functions   map[string]*PackageFunction
+	TypeClasses map[string]string
 }
 
 // A PackageFunction is a package-specific Function wrapper.

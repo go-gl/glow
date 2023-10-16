@@ -44,11 +44,13 @@ type xmlCommand struct {
 type xmlSignature []byte
 
 type xmlProto struct {
-	Raw xmlSignature `xml:",innerxml"`
+	TypeClassRaw string       `xml:"class,attr"`
+	Raw          xmlSignature `xml:",innerxml"`
 }
 
 type xmlParam struct {
-	Raw xmlSignature `xml:",innerxml"`
+	TypeClassRaw string       `xml:"class,attr"`
+	Raw          xmlSignature `xml:",innerxml"`
 }
 
 type xmlFeature struct {
@@ -150,10 +152,33 @@ func readSpecFile(file string) (*xmlRegistry, error) {
 	return &registry, nil
 }
 
+func parseTypeClass(t *Type, typeClassRaw string) {
+	if typeClassRaw == "" {
+		return
+	}
+
+	// TODO: Remove this to enable GLsync
+	if t.Name != "GLuint" {
+		return
+	}
+
+	// "vertex array" => "vertex", "array"
+	typeWords := strings.Split(typeClassRaw, " ")
+
+	// "vertex", "array" => "Vertex", "Array"
+	for i := range typeWords {
+		typeWords[i] = strings.ToUpper(typeWords[i][:1]) + typeWords[i][1:]
+	}
+
+	// "Vertex", "Array" => "VertexArray"
+	t.TypeClass = strings.Join(typeWords, "")
+}
+
 func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 	functions := make(specFunctions)
 	for _, cmd := range commands {
 		cmdName, cmdReturnType, err := parseSignature(cmd.Prototype.Raw)
+		parseTypeClass(&cmdReturnType, cmd.Prototype.TypeClassRaw)
 		if err != nil {
 			return functions, err
 		}
@@ -161,6 +186,7 @@ func parseFunctions(commands []xmlCommand) (specFunctions, error) {
 		parameters := make([]Parameter, 0, len(cmd.Params))
 		for _, param := range cmd.Params {
 			paramName, paramType, err := parseSignature(param.Raw)
+			parseTypeClass(&paramType, param.TypeClassRaw)
 			if err != nil {
 				return functions, err
 			}
@@ -570,14 +596,16 @@ func (spec *Specification) HasPackage(pkgSpec *PackageSpec) bool {
 // ToPackage generates a package from the specification.
 func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 	pkg := &Package{
-		API:       pkgSpec.API,
-		Name:      pkgSpec.API,
-		Version:   pkgSpec.Version,
-		Profile:   pkgSpec.Profile,
-		TmplDir:   pkgSpec.TmplDir,
-		Typedefs:  make([]*Typedef, len(spec.Typedefs)),
-		Enums:     make(map[string]*Enum),
-		Functions: make(map[string]*PackageFunction),
+		API:     pkgSpec.API,
+		Name:    pkgSpec.API,
+		Version: pkgSpec.Version,
+		Profile: pkgSpec.Profile,
+		TmplDir: pkgSpec.TmplDir,
+
+		Typedefs:    make([]*Typedef, len(spec.Typedefs)),
+		Enums:       make(map[string]*Enum),
+		Functions:   make(map[string]*PackageFunction),
+		TypeClasses: make(map[string]string),
 	}
 
 	// Select the commands and enums relevant to the specified API version
@@ -636,10 +664,13 @@ func (spec *Specification) ToPackage(pkgSpec *PackageSpec) *Package {
 	// Add the types necessary to declare the functions
 	for _, fn := range pkg.Functions {
 		spec.Typedefs.selectRequired(fn.Function.Return.Name, pkg.API, pkg.Typedefs)
+		pkg.TypeClasses[fn.Function.Return.TypeClass] = Type{Name: fn.Function.Return.Name}.GoType()
 		for _, param := range fn.Function.Parameters {
 			spec.Typedefs.selectRequired(param.Type.Name, pkg.API, pkg.Typedefs)
+			pkg.TypeClasses[param.Type.TypeClass] = Type{Name: param.Type.Name}.GoType()
 		}
 	}
+	delete(pkg.TypeClasses, "")
 	typedefCount := 0
 	for _, typedef := range pkg.Typedefs {
 		if typedef != nil {

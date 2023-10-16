@@ -83,6 +83,12 @@ import (
   "unsafe"
 )
 
+type (
+  {{range $k, $v := .TypeClasses}}
+  {{$k}} {{$v}}
+  {{end}}
+)
+
 const (
   {{range .Enums}}
   {{.GoName}} = {{.Value}}
