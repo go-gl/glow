@@ -158,5 +158,11 @@ func (t Typedef) CTypedef() string {
 	if strings.Contains(t.CDefinition, "GLsync") {
 		return "typedef uintptr_t GLsync;"
 	}
+
+	// Place khrplatform.h side-by-side with the Go source files to prevent
+	// `go mod vendor` from stripping away directories without any Go code.
+	if strings.Contains(t.CDefinition, "#include") {
+		return strings.ReplaceAll(t.CDefinition, "KHR/", "")
+	}
 	return t.CDefinition
 }
