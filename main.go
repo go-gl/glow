@@ -76,7 +76,9 @@ func generate(name string, args []string) {
 			if err := pkg.GeneratePackage(*outDir); err != nil {
 				log.Fatalln("error generating package:", err)
 			}
-			if err := copyIncludes(filepath.Join(*xmlDir, "include"), *outDir); err != nil {
+			// Place khrplatform.h side-by-side with the Go source files to prevent
+			// `go mod vendor` from stripping away directories without any Go code.
+			if err := copyIncludes(filepath.Join(*xmlDir, "include/KHR"), *outDir); err != nil {
 				log.Fatalln("error copying includes:", err)
 			}
 			break
