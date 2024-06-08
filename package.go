@@ -51,6 +51,13 @@ func (f *PackageFunction) Comment() string {
 		lines = append(lines, fmt.Sprintf("// Return value has type %s.", r.GoCType()))
 	}
 
+	if len(lines) > 0 {
+		lines = append(lines, "//glow:keepspace")
+		lines = append(lines, "// ")
+		lines = append(lines, "//glow:rmspace")
+	}
+	lines = append(lines, fmt.Sprintf("// https://registry.khronos.org/OpenGL-Refpages/gl4/html/%s.xhtml", f.Name))
+
 	return strings.Join(lines, "\n")
 }
 
