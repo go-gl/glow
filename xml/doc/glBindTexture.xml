@@ -153,7 +153,7 @@
             <citerefentry><refentrytitle>glGet</refentrytitle></citerefentry> with argument <constant>GL_TEXTURE_BINDING_1D</constant>,
             <constant>GL_TEXTURE_BINDING_2D</constant>, <constant>GL_TEXTURE_BINDING_3D</constant>, <constant>GL_TEXTURE_BINDING_1D_ARRAY</constant>,
             <constant>GL_TEXTURE_BINDING_2D_ARRAY</constant>, <constant>GL_TEXTURE_BINDING_RECTANGLE</constant>,
-            <constant>GL_TEXTURE_BINDING_BUFFER</constant>, <constant>GL_TEXTURE_BINDING_CUBE_MAP</constant>, <constant>GL_TEXTURE_BINDING_CUBE_MAP</constant>,
+            <constant>GL_TEXTURE_BINDING_BUFFER</constant>, <constant>GL_TEXTURE_BINDING_CUBE_MAP</constant>,
             <constant>GL_TEXTURE_BINDING_CUBE_MAP_ARRAY</constant>,
             <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE</constant>,
             or <constant>GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY</constant>.
@@ -161,7 +161,7 @@
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>
-            <tgroup cols="13" align="left">
+            <tgroup cols="14" align="left">
                 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
                 <tbody>
                     <row>

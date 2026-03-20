@@ -106,6 +106,15 @@
       </varlistentry>
 
       <varlistentry>
+        <term><parameter>zoffset</parameter></term>
+
+        <listitem>
+          <para>Specifies a texel offset in the z direction within the texture
+          array.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><parameter>width</parameter></term>
 
         <listitem>
@@ -283,7 +292,7 @@
     </refsect1>
     <refsect1 xml:id="versions"><title>Version Support</title>
         <informaltable>
-            <tgroup cols="13" align="left">
+            <tgroup cols="14" align="left">
                 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="apifunchead.xml" xpointer="xpointer(/*/*)"/>
                 <tbody>
                     <row>
