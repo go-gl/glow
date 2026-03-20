@@ -61,6 +61,7 @@ var docRepoFolders = []string{
 	"es2.0",
 	"es3.0",
 	"es3.1",
+	"es3.2",
 	"es3",
 	"gl2.1",
 	"gl4",
